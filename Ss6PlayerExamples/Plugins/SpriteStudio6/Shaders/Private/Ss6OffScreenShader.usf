@@ -1,0 +1,56 @@
+//
+// Copyright(C) Web Technology Corp.
+//
+// SpriteStudio6 Player for UE4 
+//   オフスクリーンレンダリング用シェーダ 
+//
+
+#include "/Engine/Private/Common.ush"
+
+Texture2D CellTexture;
+SamplerState CellTextureSampler;
+
+struct VertexOut
+{
+	float4 Position : SV_POSITION;
+	float4 Color : COLOR0;
+	float2 TexCoord : TEXCOORD0;
+	float2 ColorBlend : TEXCOORD1;	// [0]:ColorBlendType, [1]:ColorBlendRate
+};
+
+VertexOut MainVS(
+	in float2 InPosition : ATTRIBUTE0,
+	in float4 InColor : ATTRIBUTE1,
+	in float2 InTexCoord : ATTRIBUTE2,
+	in float2 InColorBlend : ATTRIBUTE3
+	)
+{
+	VertexOut VOut;
+	VOut.Position = float4(InPosition.xy, 0, 1);
+	VOut.TexCoord = InTexCoord.xy;
+	VOut.Color = InColor;
+	VOut.ColorBlend = InColorBlend;
+	return VOut;
+}
+
+float4 MainPS(VertexOut In) : SV_Target0
+{
+	float4 TextureColor;
+	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, In.TexCoord);
+
+	float ColorBlendRate = In.ColorBlend.y;
+	float4 BlendColor[7];
+	BlendColor[0] = (TextureColor * (1.0 - ColorBlendRate)) + (In.Color * ColorBlendRate);						// Mix
+	BlendColor[1] = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * In.Color * ColorBlendRate);		// Mul
+	BlendColor[2] = TextureColor + (In.Color * ColorBlendRate);													// Add
+	BlendColor[3] = TextureColor - (In.Color * ColorBlendRate);													// Sub
+	BlendColor[4] = TextureColor * TextureColor.a;																// Invalid
+	BlendColor[5] = TextureColor;																				// Invalid(AlphaBlend=Mix)
+	BlendColor[6] = BlendColor[1] * TextureColor.a;																// Effect
+
+	uint ColorBlendType = uint(In.ColorBlend.x);
+	float4 OutColor = BlendColor[ColorBlendType];
+	OutColor.a = TextureColor.a * In.Color.a;
+
+	return OutColor;
+}
