@@ -1,4 +1,4 @@
-#ifndef __SSPLAYER_TYPES__
+﻿#ifndef __SSPLAYER_TYPES__
 #define __SSPLAYER_TYPES__
 
 #include "../Loader/ssloader.h"

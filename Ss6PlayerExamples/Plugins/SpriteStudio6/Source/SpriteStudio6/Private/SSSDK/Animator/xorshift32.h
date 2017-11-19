@@ -1,4 +1,4 @@
-
+﻿
 #ifndef __XORSHIFT32__
 #define __XORSHIFT32__
 

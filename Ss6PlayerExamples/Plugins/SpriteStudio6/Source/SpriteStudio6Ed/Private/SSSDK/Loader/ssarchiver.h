@@ -1,4 +1,4 @@
-#ifndef  __SSARCHIVER__
+﻿#ifndef  __SSARCHIVER__
 #define  __SSARCHIVER__
 
 #include "./tinyxml2/tinyxml2.h"

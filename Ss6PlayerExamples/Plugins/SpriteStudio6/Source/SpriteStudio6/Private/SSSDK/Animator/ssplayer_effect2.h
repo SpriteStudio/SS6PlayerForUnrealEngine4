@@ -1,10 +1,10 @@
-#ifndef __SSEFFECTRENDER_V3__
+ï»¿#ifndef __SSEFFECTRENDER_V3__
 #define __SSEFFECTRENDER_V3__
 
 
 #include "xorshift32.h"
 
-//SsVector‚È‚Ç
+//SsVectorãªã©
 //#include "SsUtility.h"
 
 //#include "ISSEffectRender.h"
@@ -55,15 +55,15 @@ struct emitPattern
     int   cycle;
 };
 
-//ÅI•`‰æ—pƒf[ƒ^
+//æœ€çµ‚æç”»ç”¨ãƒ‡ãƒ¼ã‚¿
 struct particleDrawData
 {
 	int	id;
 	int	pid;
-	int	stime;		//¶¬‚³‚ê‚½ŠJnŠÔ
+	int	stime;		//ç”Ÿæˆã•ã‚ŒãŸé–‹å§‹æ™‚é–“
 	int lifetime;
 
-	//•`‰æ—pƒ[ƒN
+	//æç”»ç”¨ãƒ¯ãƒ¼ã‚¯
 	float	x;
 	float	y;
 	float	rot;
@@ -75,7 +75,7 @@ struct particleDrawData
 
 
 #if 0
-//ƒŠƒ“ƒOƒoƒbƒtƒ@‚¾‚ªÀ‚Í‚à‚¤‚¢‚ç‚È‚¢‚©‚à
+//ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã ãŒå®Ÿã¯ã‚‚ã†ã„ã‚‰ãªã„ã‹ã‚‚
 template<class mytype>
 class particleRingBuffer
 {
@@ -135,17 +135,17 @@ public:
 #endif
 
 
-//ƒGƒ~ƒbƒ^[‚ª‚Âƒpƒ‰ƒ[ƒ^
-//ƒGƒfƒBƒ^‚âƒtƒ@ƒCƒ‹‚©‚ç“ü—Í‚³‚ê‚é
+//ã‚¨ãƒŸãƒƒã‚¿ãƒ¼ãŒæŒã¤ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+//ã‚¨ãƒ‡ã‚£ã‚¿ã‚„ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å…¥åŠ›ã•ã‚Œã‚‹
 struct emitterParameter
 {
 	int	life;
 	int interval;
-	int	emitnum;		//ˆê“x‚É”ro‚³‚ê‚éŒÂ”
-	int emitmax;		//Å‘å”ro”
-	int	particleLife;	//¶¬‚³‚ê‚éƒp[ƒeƒBƒNƒ‹‚Ìõ–½
-	int particleLife2;	//õ–½Å‘å’l
-    bool Infinite;      //–³ŒÀ”­¶
+	int	emitnum;		//ä¸€åº¦ã«æ’å‡ºã•ã‚Œã‚‹å€‹æ•°
+	int emitmax;		//æœ€å¤§æ’å‡ºæ•°
+	int	particleLife;	//ç”Ÿæˆã•ã‚Œã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®å¯¿å‘½
+	int particleLife2;	//å¯¿å‘½æœ€å¤§å€¤
+    bool Infinite;      //ç„¡é™ç™ºç”Ÿ
 
 	int	loopStart;
 	int loopEnd;
@@ -153,29 +153,29 @@ struct emitterParameter
 	int	loopGen;
 
 
-	//ƒeƒXƒg—pƒfƒtƒHƒ‹ƒg
+	//ãƒ†ã‚¹ãƒˆç”¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
 	emitterParameter() : life(15),interval(1),emitnum(2),emitmax(32),particleLife(15),particleLife2(15),Infinite(false){}
 
 };
 
 
-//ƒp[ƒeƒBƒNƒ‹‚ª‚Âƒpƒ‰ƒ[ƒ^
-//ƒGƒfƒBƒ^‚âƒtƒ@ƒCƒ‹‚©‚ç“ü—Í‚³‚ê‚é
+//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ãŒæŒã¤ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+//ã‚¨ãƒ‡ã‚£ã‚¿ã‚„ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰å…¥åŠ›ã•ã‚Œã‚‹
 struct particleParameter
 {
 
 	SsVector2 	scale;
 
-	SsU8Color   startcolor; //ƒXƒ^[ƒg‚ÌƒJƒ‰[
-	SsU8Color   endcolor;   //I—¹‚ÌƒJƒ‰[
+	SsU8Color   startcolor; //ã‚¹ã‚¿ãƒ¼ãƒˆæ™‚ã®ã‚«ãƒ©ãƒ¼
+	SsU8Color   endcolor;   //çµ‚äº†æ™‚ã®ã‚«ãƒ©ãƒ¼
 
-	//‰‘¬
-	float		speed;		//‰‘¬
-	float		speed2;		//‰‘¬Å‘å’l
+	//åˆé€Ÿ
+	float		speed;		//åˆé€Ÿ
+	float		speed2;		//åˆé€Ÿæœ€å¤§å€¤
 
 
-	float		angle;		  //Œü‚¢‚Ä‚éŠp“x
-	float       angleVariance;//•Ï·
+	float		angle;		  //å‘ã„ã¦ã‚‹è§’åº¦
+	float       angleVariance;//å¤‰å·®
 
 	bool		useGravity;
 	SsVector2	gravity;
@@ -244,7 +244,7 @@ struct particleParameter
 };
 
 
-//ƒGƒ~ƒbƒ^“®ìƒNƒ‰ƒX
+//ã‚¨ãƒŸãƒƒã‚¿å‹•ä½œã‚¯ãƒ©ã‚¹
 class SsEffectEmitter
 {
 public:
@@ -261,14 +261,14 @@ public:
 	int					emitterSeed;
 	int					seedOffset;
 
-	//¶¬—p‚ÌƒŠƒ“ƒOƒoƒbƒtƒ@
+	//ç”Ÿæˆç”¨ã®ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡
 	std::vector<emitPattern>    	_emitpattern;
 	std::vector<int>				_offsetPattern;
 
     particleExistSt*     particleExistList;
 
 
-	//–‘OŒvZƒoƒbƒtƒ@
+	//äº‹å‰è¨ˆç®—ãƒãƒƒãƒ•ã‚¡
 	//particleLifeSt*				particleList;
 	int							particleIdMax;
 
@@ -282,8 +282,8 @@ public:
 
     int							_parentIndex;
 
-	SsCell*						refCell;    //•`‰æ—pƒZƒ‹
-	SsEffectBehavior*           refData;	//ƒf[ƒ^XV—p
+	SsCell*						refCell;    //æç”»ç”¨ã‚»ãƒ«
+	SsEffectBehavior*           refData;	//ãƒ‡ãƒ¼ã‚¿æ›´æ–°ç”¨
 
 	size_t						globaltime;
 	size_t						seedTableLen;
@@ -295,7 +295,7 @@ public:
 //			particleList(0),
 			_parentIndex(-1),
 			seedList(0),
-			particleListBufferSize(180*100),  //¶¬o—ˆ‚éƒp[ƒeƒBƒNƒ‹‚ÌÅ‘å’l
+			particleListBufferSize(180*100),  //ç”Ÿæˆå‡ºæ¥ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®æœ€å¤§å€¤
 			_emitpattern(0),
 			particleExistList(0),
 			globaltime(0),
@@ -332,12 +332,12 @@ public:
 
 	int	getTimeLength() { return emitter.life + ( emitter.particleLife + emitter.particleLife2); }
 
-	//Œ»İŠÔ‚©‚çYo‚³‚ê‚éˆÊ’u‚ğ‹‚ß‚é
-	//time•Ï”‚©‚ç‹‚ß‚ç‚ê‚é®‚Æ‚·‚é
+	//ç¾åœ¨æ™‚é–“ã‹ã‚‰ç”£å‡ºã•ã‚Œã‚‹ä½ç½®ã‚’æ±‚ã‚ã‚‹
+	//timeå¤‰æ•°ã‹ã‚‰æ±‚ã‚ã‚‰ã‚Œã‚‹å¼ã¨ã™ã‚‹
 	void	updateParticle(float time, particleDrawData* p, bool recalc = false );
 
-	//ƒp[ƒeƒBƒNƒ‹‚Ì”­¶ŠÔŠu‚ğ–‘OŒvZ‚·‚é
-	//‚±‚±‚Åo—Í‚ªŠm’è‚·‚é
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®ç™ºç”Ÿé–“éš”ã‚’äº‹å‰è¨ˆç®—ã™ã‚‹
+	//ã“ã“ã§å‡ºåŠ›ãŒç¢ºå®šã™ã‚‹
 
 	void	precalculate2();
 
@@ -348,15 +348,15 @@ class SsEffectRenderV2
 {
 public:
 
-	//ƒGƒtƒFƒNƒg‚Ìƒpƒ‰ƒ[ƒ^ƒf[ƒ^
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ‡ãƒ¼ã‚¿
 	SsEffectModel*		effectData;
 
-	//Model‚É‹LÚ‚³‚ê‚Ä‚¢‚éƒGƒ~ƒbƒ^‚ÌƒŠƒXƒg
+	//Modelã«è¨˜è¼‰ã•ã‚Œã¦ã„ã‚‹ã‚¨ãƒŸãƒƒã‚¿ã®ãƒªã‚¹ãƒˆ
 	std::vector<SsEffectEmitter*>   emmiterList;
 
 	std::vector<SsEffectEmitter*>   updateList;
 
-	//ƒ‰ƒ“ƒ_ƒ€ƒV[ƒh
+	//ãƒ©ãƒ³ãƒ€ãƒ ã‚·ãƒ¼ãƒ‰
 	u32				mySeed;
 
 	SsVector3		layoutPosition;
@@ -368,7 +368,7 @@ public:
 
 	size_t          effectTimeLength;
 
-    bool			Infinite;	//–³ŒÀ‚É”­¶o—ˆ‚é‚©‚Ç‚¤‚©
+    bool			Infinite;	//ç„¡é™ã«ç™ºç”Ÿå‡ºæ¥ã‚‹ã‹ã©ã†ã‹
 
 	SsPartState*	parentState;
 
@@ -380,7 +380,7 @@ public:
 
 	int				seedOffset;
 
-	SsCellMapList*	curCellMapManager;/// ƒZƒ‹ƒ}ƒbƒv‚ÌƒŠƒXƒgiƒAƒjƒƒfƒR[ƒ_[‚©‚ç‚à‚ç‚¤
+	SsCellMapList*	curCellMapManager;/// ã‚»ãƒ«ãƒãƒƒãƒ—ã®ãƒªã‚¹ãƒˆï¼ˆã‚¢ãƒ‹ãƒ¡ãƒ‡ã‚³ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰ã‚‚ã‚‰ã†
 
 	bool		_isWarningData;
 public:

@@ -1,4 +1,4 @@
-#include "SpriteStudio6PrivatePCH.h"
+﻿#include "SpriteStudio6PrivatePCH.h"
 
 #include "ssarchiver.h"
 #include "ssstring_uty.h"

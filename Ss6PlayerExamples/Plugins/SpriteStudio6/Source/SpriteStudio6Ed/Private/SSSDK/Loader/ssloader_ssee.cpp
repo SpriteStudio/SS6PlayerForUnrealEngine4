@@ -1,4 +1,4 @@
-#include "SpriteStudio6EdPrivatePCH.h"
+﻿#include "SpriteStudio6EdPrivatePCH.h"
 
 #include "ssloader_sspj.h"
 #include "ssloader_ssae.h"

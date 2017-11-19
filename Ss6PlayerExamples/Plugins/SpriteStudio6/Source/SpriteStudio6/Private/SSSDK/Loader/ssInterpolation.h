@@ -1,4 +1,4 @@
-#ifndef __SSINTERPOLATION__
+﻿#ifndef __SSINTERPOLATION__
 #define __SSINTERPOLATION__
 
 

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #ifndef __SSPLAYER_MESH__
 #define __SSPLAYER_MESH__
 
@@ -30,24 +30,24 @@ class SsMeshPart
 public:
 
 
-	float			*vertices;			//[3 * 10];///< À•W
-	float			*colors;			//[4 * 10];	///< ƒJƒ‰[
-	float			*weightColors;		//[4 * 10];	///< ƒEƒFƒCƒgF•ª‚¯ƒJƒ‰[
+	float			*vertices;			//[3 * 10];///< åº§æ¨™
+	float			*colors;			//[4 * 10];	///< ã‚«ãƒ©ãƒ¼
+	float			*weightColors;		//[4 * 10];	///< ã‚¦ã‚§ã‚¤ãƒˆè‰²åˆ†ã‘ã‚«ãƒ©ãƒ¼
 	float			*uvs;				//[2 * 10];		///< UV
 	unsigned short	*indices;
 	int				indices_num;
 	int				tri_size;
 	int				ver_size;
-	float			*draw_vertices;		//[3 * 10];///< À•W
+	float			*draw_vertices;		//[3 * 10];///< åº§æ¨™
 
 	std::vector<SsVector3>		calc_world_vertices;
 
-	//ƒc[ƒ‹—pƒeƒ“ƒ|ƒ‰ƒŠƒ[ƒN [editer]
+	//ãƒ„ãƒ¼ãƒ«ç”¨ãƒ†ãƒ³ãƒãƒ©ãƒªãƒ¯ãƒ¼ã‚¯ [editer]
 	SsVector2*					vertices_outer;
 	SsVector2*					update_vertices_outer;
 	size_t						outter_vertexnum;
 
-	std::vector<SsPartState*>   bindCandidateBoneList; //ƒoƒCƒ“ƒhŒó•â[Editer]
+	std::vector<SsPartState*>   bindCandidateBoneList; //ãƒã‚¤ãƒ³ãƒ‰å€™è£œ[Editer]
 
 public:
 	StBoneWeight*   	bindBoneInfo;
@@ -56,7 +56,7 @@ public:
 
 	SsPartState*	   	myPartState;
 
-	//ƒeƒ“ƒ|ƒ‰ƒŠ [editor]
+	//ãƒ†ãƒ³ãƒãƒ©ãƒª [editor]
 	bool				isBind;
 
 
@@ -91,18 +91,18 @@ public:
 		return &bindBoneInfo[index];
 	}
 
-	void    updateTransformMesh();            //Ä¶—p@iƒoƒCƒ“ƒh‚³‚ê‚½ƒ{[ƒ“‚É‰ˆ‚Á‚Ä•ÏŒ`‚ğs‚¤j
+	void    updateTransformMesh();            //å†ç”Ÿæ™‚ç”¨ã€€ï¼ˆãƒã‚¤ãƒ³ãƒ‰ã•ã‚ŒãŸãƒœãƒ¼ãƒ³ã«æ²¿ã£ã¦å¤‰å½¢ã‚’è¡Œã†ï¼‰
 
 /*
 	void	renderVertex();
 	void	renderMesh(float alpha, bool renderTexture);
 	void	renderBoneWeightColor(float alpha, bool renderTexture);
-	void	update_matrix(float * matrix);  //ƒoƒCƒ“ƒh‘OiƒZƒbƒgƒAƒbƒvƒ‚[ƒh—p‚Ìƒ}ƒgƒŠƒNƒXƒAƒbƒvƒf[ƒg)
+	void	update_matrix(float * matrix);  //ãƒã‚¤ãƒ³ãƒ‰å‰ï¼ˆã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãƒ¢ãƒ¼ãƒ‰ç”¨ã®ãƒãƒˆãƒªã‚¯ã‚¹ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ)
 
 	void		calcVerticesPos(SsAnimeState* state);
 	SsVector3   getWorldVertexPoint(int index) { return calc_world_vertices[index]; }
 */
-//	Editer—p
+//	Editerç”¨
 //	void    verticesWeightColorCalc();
 //	void	draw_world_vertices();
 //	void	draw_world_vertices_once(int index, SsFColor c);

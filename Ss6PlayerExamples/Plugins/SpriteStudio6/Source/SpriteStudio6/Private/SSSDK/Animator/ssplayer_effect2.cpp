@@ -1,4 +1,4 @@
-#include "SpriteStudio6PrivatePCH.h"
+ï»¿#include "SpriteStudio6PrivatePCH.h"
 
 
 #include <stdio.h>
@@ -40,26 +40,26 @@ double OutQuad(double t,double totaltime,double max ,double min )
 	return -max*t*(t-2)+min;
 }
 
-//Œ»İŠÔ‚©‚çYo‚³‚ê‚éˆÊ’u‚ğ‹‚ß‚é
-//time•Ï”‚©‚ç‹‚ß‚ç‚ê‚é®‚Æ‚·‚é
-//ƒp[ƒeƒBƒNƒ‹À•WŒvZ‚ÌƒRƒA
+//ç¾åœ¨æ™‚é–“ã‹ã‚‰ç”£å‡ºã•ã‚Œã‚‹ä½ç½®ã‚’æ±‚ã‚ã‚‹
+//timeå¤‰æ•°ã‹ã‚‰æ±‚ã‚ã‚‰ã‚Œã‚‹å¼ã¨ã™ã‚‹
+//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«åº§æ¨™è¨ˆç®—ã®ã‚³ã‚¢
 void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recalc )
 {
 	float _t = (float)(time - p->stime);
 	float _tm = (float)(_t - 1.0f );
-	float _t2 = _t * _t; //(Œo‰ßŠÔ‚Ì“ñæ)
+	float _t2 = _t * _t; //(çµŒéæ™‚é–“ã®äºŒä¹—)
 	float _life = (float)( p->lifetime - p->stime);
 
 	if ( _life == 0 ) return ;
 	float _lifeper = (float)( _t / _life );
 
 
-	//_t = 0“_‚Ì’l‚ğì‚é
-	//ƒV[ƒh’l‚ÅŒÅ’è‰»‚³‚ê‚é‚±‚Æ‚ª‘O’ñ
+	//_t = 0æ™‚ç‚¹ã®å€¤ã‚’ä½œã‚‹
+	//ã‚·ãƒ¼ãƒ‰å€¤ã§å›ºå®šåŒ–ã•ã‚Œã‚‹ã“ã¨ãŒå‰æ
   	unsigned long pseed = seedList[p->id % seedTableLen];
 
 
-	//©g‚ÌƒV[ƒh’lAƒGƒ~ƒbƒ^[‚ÌƒV[ƒh’lAeƒp[ƒeƒBƒNƒ‹‚Ì‚h‚c‚ğƒV[ƒh’l‚Æ‚·‚é
+	//è‡ªèº«ã®ã‚·ãƒ¼ãƒ‰å€¤ã€ã‚¨ãƒŸãƒƒã‚¿ãƒ¼ã®ã‚·ãƒ¼ãƒ‰å€¤ã€è¦ªãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®ï¼©ï¼¤ã‚’ã‚·ãƒ¼ãƒ‰å€¤ã¨ã™ã‚‹
 	rand.init_genrand(( pseed + emitterSeed + p->pid + seedOffset ));
 
 
@@ -69,7 +69,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 
 
-	//Úü‰Á‘¬“x
+	//æ¥ç·šåŠ é€Ÿåº¦
 	float addr = 0;
 	if ( particle.useTanAccel )
 	{
@@ -77,11 +77,11 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 		float _speed = speed;
 		if ( _speed <= 0 )_speed = 0.1f;
-		//•½‹ÏŠp‘¬“x‚ğ‹‚ß‚é
-		float l = _life * _speed * 0.2f; //‰~‚Ì”¼Œa
+		//å¹³å‡è§’é€Ÿåº¦ã‚’æ±‚ã‚ã‚‹
+		float l = _life * _speed * 0.2f; //å††ã®åŠå¾„
 		float c = 3.14 * l;
 
-		//Å‰~ü / ‰Á‘¬“x(pixel)
+		//æœ€å††å‘¨ / åŠ é€Ÿåº¦(pixel)
 		addr = ( accel / c ) * _t;
 	}
 
@@ -110,14 +110,14 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 	}
 
 
-	//d—Í‰Á‘¬“x‚ÌŒvZ
+	//é‡åŠ›åŠ é€Ÿåº¦ã®è¨ˆç®—
 	if ( particle.useGravity )
 	{
 		x += (0.5 * particle.gravity.x * (_t2));
 		y += (0.5 * particle.gravity.y * (_t2));
 	}
 
-	//‰ŠúˆÊ’uƒIƒtƒZƒbƒg
+	//åˆæœŸä½ç½®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 	float ox,oy;
 	ox = oy = 0;
 	if ( particle.useOffset )
@@ -126,17 +126,17 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		oy = (particle.offset.y + (particle.offset2.y * rand.genrand_float32()));
 	}
 
-	//Šp“x‰Šú’l
+	//è§’åº¦åˆæœŸå€¤
 	p->rot = 0;
 	if ( particle.useRotation )
 	{
 		p->rot = particle.rotation + (rand.genrand_float32() * particle.rotation2);
 		float add = particle.rotationAdd + (rand.genrand_float32() * particle.rotationAdd2);
 
-		//Šp“x•Ï‰»
+		//è§’åº¦å¤‰åŒ–
 		if ( particle.useRotationTrans )
 		{
-			//“’B‚Ü‚Å‚Ìâ‘ÎŠÔ
+			//åˆ°é”ã¾ã§ã®çµ¶å¯¾æ™‚é–“
 			float lastt = _life * particle.endLifeTimePer;
 
 			float addf = 0;
@@ -145,22 +145,22 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 			  	float addrf =  (add * particle.rotationFactor) * _t;
 				p->rot+=addrf;
 			}else{
-				//1ƒtƒŒ[ƒ€‚Å‰ÁZ‚³‚ê‚é—Ê
+				//1ãƒ•ãƒ¬ãƒ¼ãƒ ã§åŠ ç®—ã•ã‚Œã‚‹é‡
 				addf = ( add * particle.rotationFactor - add ) / lastt;
 
-				//‚ ‚Ü‚èŠÔ
+				//ã‚ã¾ã‚Šæ™‚é–“
 				float mod_t = _t - lastt;
 				if ( mod_t < 0 ) mod_t = 0;
 
-				//Œ»İŠÔiÅIŠÔ‚ÅƒŠƒ~ƒbƒg
+				//ç¾åœ¨æ™‚é–“ï¼ˆæœ€çµ‚æ™‚é–“ã§ãƒªãƒŸãƒƒãƒˆ
 				float nowt = _t;
 				if ( nowt > lastt ) nowt = lastt;
 
-				//ÅI€ + ‰€ x F / 2
+				//æœ€çµ‚é … + åˆé … x F / 2
 				float final_soul = add + addf * nowt;
 				float addrf = ( final_soul + add ) * (nowt+1.0f) / 2.0f;
 				addrf-=add;
-				addrf+= ( mod_t * ( final_soul ) ); //‚ ‚Ü‚è‚ÆI€‚ÌÏ‚ğ‰ÁZ
+				addrf+= ( mod_t * ( final_soul ) ); //ã‚ã¾ã‚Šã¨çµ‚é …ã®ç©ã‚’åŠ ç®—
 				p->rot+=addrf;
 			}
 		}else{
@@ -168,7 +168,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		}
 	}
 
-	//ƒJƒ‰[‚Ì‰Šú’lAƒJƒ‰[‚Ì•Ï‰»
+	//ã‚«ãƒ©ãƒ¼ã®åˆæœŸå€¤ã€ã‚«ãƒ©ãƒ¼ã®å¤‰åŒ–
 	p->color.a = 0xff;
 	p->color.r = 0xff;
 	p->color.g = 0xff;
@@ -227,7 +227,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 	}
 
 
-	//ƒXƒP[ƒŠƒ“ƒO
+	//ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 	p->scale.x = 1.0f;
 	p->scale.y = 1.0f;
 	float scalefactor = 1.0f;
@@ -260,15 +260,15 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 	p->scale.x*=scalefactor;
 	p->scale.y*=scalefactor;
 
-	p->x = x + ox + position.x;//ƒGƒ~ƒbƒ^‚©‚ç‚ÌƒIƒtƒZƒbƒg‚ğ‰ÁZ
-	p->y = y + oy + position.y;//ƒGƒ~ƒbƒ^‚©‚ç‚ÌƒIƒtƒZƒbƒg‚ğ‰ÁZ
+	p->x = x + ox + position.x;//ã‚¨ãƒŸãƒƒã‚¿ã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’åŠ ç®—
+	p->y = y + oy + position.y;//ã‚¨ãƒŸãƒƒã‚¿ã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’åŠ ç®—
 
 
-  	//w’è‚Ì“_‚Ö‚æ‚¹‚é
+  	//æŒ‡å®šã®ç‚¹ã¸ã‚ˆã›ã‚‹
 	if ( particle.usePGravity )
 	{
 
-		//¶¬’n“_‚©‚ç‚Ì‹——£
+		//ç”Ÿæˆåœ°ç‚¹ã‹ã‚‰ã®è·é›¢
 		SsVector2 v = SsVector2(  particle.gravityPos.x - (ox + position.x) ,
                          particle.gravityPos.y - (oy + position.y) );
 
@@ -279,7 +279,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		float gp = particle.gravityPower;
 		if (gp > 0) {
 			SsVector2 v2 = SsVector2(p->x, p->y);
-			float len = v.length(); // ¶¬ˆÊ’u‚©‚ç‚Ì‹——£
+			float len = v.length(); // ç”Ÿæˆä½ç½®ã‹ã‚‰ã®è·é›¢
 			float et = (len / gp)*0.90f;;
 
 			float _gt = _t;
@@ -303,8 +303,8 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		}
 		else {
 			nv = nv * gp * _t;
-			// ƒpƒ[ƒ}ƒCƒiƒX‚Ìê‡‚Í’Pƒ‚É”½”­‚³‚¹‚é
-			// ‹——£‚É‚æ‚éŒ¸Š‚Í‚È‚¢
+			// ãƒ‘ãƒ¯ãƒ¼ãƒã‚¤ãƒŠã‚¹ã®å ´åˆã¯å˜ç´”ã«åç™ºã•ã›ã‚‹
+			// è·é›¢ã«ã‚ˆã‚‹æ¸›è¡°ã¯ãªã„
 			p->x += nv.x;
 			p->y += nv.y;
 		}
@@ -327,7 +327,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 #endif
 	}
 
-    //‘O‚ÌƒtƒŒ[ƒ€‚©‚ç‚Ì•ûŒü‚ğæ‚é
+    //å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã®æ–¹å‘ã‚’å–ã‚‹
 	p->direc = 0.0f;
 	if ( particle.useTurnDirec && recalc==false )
 	{
@@ -368,7 +368,7 @@ void	SsEffectEmitter::precalculate2()
 
 	if ( particleExistList == 0 )
 	{
-		particleExistList = new particleExistSt[emitter.emitmax]; //‘¶İ‚µ‚Ä‚¢‚éƒp[ƒeƒBƒNƒ‹‚ª“ü‚éŒvZ—pƒoƒbƒtƒ@
+		particleExistList = new particleExistSt[emitter.emitmax]; //å­˜åœ¨ã—ã¦ã„ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ãŒå…¥ã‚‹è¨ˆç®—ç”¨ãƒãƒƒãƒ•ã‚¡
 	}
 
 	memset( particleExistList , 0 , sizeof(particleExistSt) * emitter.emitmax );
@@ -426,7 +426,7 @@ void	SsEffectEmitter::precalculate2()
 
 	seedTableLen = particleListBufferSize * 3;
 	seedList = new unsigned long[seedTableLen];
-	//Šeƒp[ƒeƒBƒNƒ‹‚h‚c‚©‚çQÆ‚·‚éƒV[ƒh’l‚ğƒe[ƒuƒ‹‚Æ‚µ‚Äì¬‚·‚é
+	//å„ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ï¼©ï¼¤ã‹ã‚‰å‚ç…§ã™ã‚‹ã‚·ãƒ¼ãƒ‰å€¤ã‚’ãƒ†ãƒ¼ãƒ–ãƒ«ã¨ã—ã¦ä½œæˆã™ã‚‹
 	for ( size_t i = 0 ; i < seedTableLen ; i++ )
 	{
     	seedList[i] = rand.genrand_uint32();
@@ -477,11 +477,11 @@ void SsEffectEmitter::updateEmitter( double _time , int slide )
 
 			if ( !this->emitter.Infinite )
 			{
-				if ( particleExistList[i].stime >= this->emitter.life ) //ƒGƒ~ƒbƒ^[‚ªI—¹‚µ‚Ä‚¢‚é
+				if ( particleExistList[i].stime >= this->emitter.life ) //ã‚¨ãƒŸãƒƒã‚¿ãƒ¼ãŒçµ‚äº†ã—ã¦ã„ã‚‹
 				{
-					particleExistList[i].exist = false;    //ì‚ç‚ê‚Ä‚È‚¢
+					particleExistList[i].exist = false;    //ä½œã‚‰ã‚Œã¦ãªã„
 
-					//ÅI“I‚È’l‚ÉŒvZ‚µ’¼‚µ <-–‘OŒvZ‚µ‚Ä‚¨‚­‚Æ‚¢‚¢‚©‚àE
+					//æœ€çµ‚çš„ãªå€¤ã«è¨ˆç®—ã—ç›´ã— <-äº‹å‰è¨ˆç®—ã—ã¦ãŠãã¨ã„ã„ã‹ã‚‚ãƒ»
 					int t = this->emitter.life - _offsetPattern[i];
 					int loopnum = t / targetEP->cycle;
 
@@ -541,7 +541,7 @@ void	SsEffectRenderV2::drawSprite(
 	SsCurrentRenderer::getRender()->SetTexture( dispCell );
 
 
-	float		matrix[4 * 4];	///< s—ñ
+	float		matrix[4 * 4];	///< è¡Œåˆ—
 	IdentityMatrix( matrix );
 
 	float parentAlpha = 1.0f;
@@ -625,17 +625,17 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 			if (parent)
 			{
-				//e‚©‚ç•`‰æ‚·‚éƒp[ƒeƒBƒNƒ‹‚Ì‰ŠúˆÊ’u‚ğ’²‚×‚é
+				//è¦ªã‹ã‚‰æç”»ã™ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®åˆæœŸä½ç½®ã‚’èª¿ã¹ã‚‹
 				pp.id = plp->id;
 				pp.stime = plp->stime;
 				pp.lifetime = plp->lifetime;
 				pp.pid = plp->pid;
-				//ƒp[ƒeƒBƒNƒ‹‚ª”­¶‚µ‚½ŠÔ‚Ìe‚ÌˆÊ’u‚ğæ‚é
+				//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ãŒç™ºç”Ÿã—ãŸæ™‚é–“ã®è¦ªã®ä½ç½®ã‚’å–ã‚‹
 
 				int ptime = lp.stime + pp.stime;
 				if ( ptime > lp.lifetime ) ptime = lp.lifetime;
 
-				//‹tZ‚ÍƒfƒoƒbƒO‚µ‚¸‚ç‚¢‚©‚à‚µ‚ê‚È‚¢
+				//é€†ç®—ã¯ãƒ‡ãƒãƒƒã‚°ã—ãšã‚‰ã„ã‹ã‚‚ã—ã‚Œãªã„
 				parent->updateParticle( lp.stime + pp.stime , &pp);
 				e->position.x = pp.x;
 				e->position.y = pp.y;
@@ -665,14 +665,14 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 
 
-//ƒpƒ‰ƒ[ƒ^‚ğƒRƒs[‚·‚é
+//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 {
 
 	e->refData = node->GetMyBehavior();
 	e->refCell = e->refData->refCell;
 
-	//ƒZƒ‹‚Ì‰Šú‰»
+	//ã‚»ãƒ«ã®åˆæœŸåŒ–
 	SsCelMapLinker* link = this->curCellMapManager->getCellMapLink( e->refData->CellMapName );
 
 	if ( link )
@@ -705,7 +705,7 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 		}
 	}
 
-	e->emitter.life+= e->particle.delay;//ƒfƒBƒŒƒC•ª‰ÁZ
+	e->emitter.life+= e->particle.delay;//ãƒ‡ã‚£ãƒ¬ã‚¤åˆ†åŠ ç®—
 }
 
 
@@ -741,7 +741,7 @@ void	SsEffectRenderV2::update()
 
 	if ( !this->Infinite )
 	{
-		if ( this->isloop() ) //©“®ƒ‹[ƒv‚Ìê‡
+		if ( this->isloop() ) //è‡ªå‹•ãƒ«ãƒ¼ãƒ—ã®å ´åˆ
 		{
 			if ( nowFrame > getEffectTimeLength() )
 			{
@@ -773,7 +773,7 @@ void	SsEffectRenderV2::draw()
 
 		if ( e->_parent )
 		{
-			//ƒOƒ[ƒoƒ‹‚ÌŠÔ‚ÅŒ»İe‚ª‚Ç‚ê‚¾‚¯¶¬‚³‚ê‚Ä‚¢‚é‚Ì‚©‚ğƒ`ƒFƒbƒN‚·‚é
+			//ã‚°ãƒ­ãƒ¼ãƒãƒ«ã®æ™‚é–“ã§ç¾åœ¨è¦ªãŒã©ã‚Œã ã‘ç”Ÿæˆã•ã‚Œã¦ã„ã‚‹ã®ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 			e->_parent->updateEmitter(targetFrame , 0);
 
 			int loopnum =  e->_parent->getParticleIDMax();
@@ -819,13 +819,13 @@ void    SsEffectRenderV2::reload()
 {
 	nowFrame = 0;
 
-    //update‚ª•K—v‚©
+    //updateãŒå¿…è¦ã‹
 	stop();
 	clearEmitterList();
 
 	SsEffectNode* root = this->effectData->GetRoot();
 
-    //this->effectData->updateNodeList();//ƒc[ƒ‹‚¶‚á‚È‚¢‚Ì‚Å—v‚ç‚È‚¢
+    //this->effectData->updateNodeList();//ãƒ„ãƒ¼ãƒ«ã˜ã‚ƒãªã„ã®ã§è¦ã‚‰ãªã„
     const std::vector<SsEffectNode*>& list = this->effectData->getNodeList();
 
 	layoutScale.x = (float)(this->effectData->layoutScaleX) / 100.0f;
@@ -835,8 +835,8 @@ void    SsEffectRenderV2::reload()
     memset( cnum , 0 , sizeof(int) * list.size() );
 
 	bool _Infinite = false;
-	//ƒpƒ‰ƒ[ƒ^‚ğæ“¾
-	//ˆÈ‘O‚Ìƒf[ƒ^Œ`®‚©‚ç•ÏŠ·
+	//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’å–å¾—
+	//ä»¥å‰ã®ãƒ‡ãƒ¼ã‚¿å½¢å¼ã‹ã‚‰å¤‰æ›
 	for ( size_t i = 0 ; i < list.size() ; i ++ )
 	{
 		SsEffectNode *node =  list[i];
@@ -844,10 +844,10 @@ void    SsEffectRenderV2::reload()
 		if ( node->GetType() == SsEffectNodeType::emmiter )
 		{
 			SsEffectEmitter* e = new SsEffectEmitter();
-			//ƒpƒ‰ƒ[ƒ^‚ğƒRƒs[
+			//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼
 
 			e->_parentIndex = node->parentIndex;
-			//Œq‚¬æ‚Í‹°‚ç‚­ƒp[ƒeƒBƒNƒ‹‚È‚Ì‚ÅƒGƒ~ƒbƒ^‚É•ÏŠ·
+			//ç¹‹ãå…ˆã¯æã‚‰ããƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ãªã®ã§ã‚¨ãƒŸãƒƒã‚¿ã«å¤‰æ›
 			if ( e->_parentIndex != 0 )
 			{
 				e->_parentIndex = list[e->_parentIndex]->parentIndex;
@@ -858,10 +858,10 @@ void    SsEffectRenderV2::reload()
 			if ( cnum[e->_parentIndex] > 10 )
 			{
 				_isWarningData = true;
-				continue; //q‚P‚Oƒm[ƒh•\¦§ŒÀ
+				continue; //å­ï¼‘ï¼ãƒãƒ¼ãƒ‰è¡¨ç¤ºåˆ¶é™
 			}
 
-			//‘·—}§‘Îô
+			//å­«æŠ‘åˆ¶å¯¾ç­–
 			if ( e->_parentIndex != 0 )
 			{
 				int a = list[e->_parentIndex]->parentIndex;
@@ -879,7 +879,7 @@ void    SsEffectRenderV2::reload()
 			if ( e->emitter.Infinite ) _Infinite = true;
 		}else
 		{
-            //ƒGƒ~ƒbƒ^[“¯m‚ğŒq‚¬‚½‚¢‚Ì‚Å
+            //ã‚¨ãƒŸãƒƒã‚¿ãƒ¼åŒå£«ã‚’ç¹‹ããŸã„ã®ã§
 			this->emmiterList.push_back(0);
 		}
 	}
@@ -888,23 +888,23 @@ void    SsEffectRenderV2::reload()
 	Infinite = _Infinite;
 
 
-    //eqŠÖŒW®—
+    //è¦ªå­é–¢ä¿‚æ•´ç†
 
 
 	effectTimeLength = 0;
-	//–‘OŒvZŒvZ  updateList‚Éƒ‹[ƒg‚Ìq‚ğ”z’u‚µeqŠÖŒW‚ğŒ‹‚Ô
+	//äº‹å‰è¨ˆç®—è¨ˆç®—  updateListã«ãƒ«ãƒ¼ãƒˆã®å­ã‚’é…ç½®ã—è¦ªå­é–¢ä¿‚ã‚’çµã¶
 	for ( size_t i = 0 ; i < this->emmiterList.size(); i++)
 	{
 		if (emmiterList[i] != 0 )
 		{
 			emmiterList[i]->uid = i;
 			//emmiterList[i]->precalculate();
-			emmiterList[i]->precalculate2(); //ƒ‹[ƒv‘Î‰Œ`®
+			emmiterList[i]->precalculate2(); //ãƒ«ãƒ¼ãƒ—å¯¾å¿œå½¢å¼
 
 
 			int  pi =  emmiterList[i]->_parentIndex;
 
-			if ( emmiterList[i]->_parentIndex == 0 )  //ƒ‹[ƒg’¼‰º
+			if ( emmiterList[i]->_parentIndex == 0 )  //ãƒ«ãƒ¼ãƒˆç›´ä¸‹
 			{
 				emmiterList[i]->_parent = 0;
 				emmiterList[i]->globaltime = emmiterList[i]->getTimeLength();
@@ -926,7 +926,7 @@ void    SsEffectRenderV2::reload()
 			}
 		}
 	}
-	//ƒvƒ‰ƒCƒIƒŠƒeƒBƒ\[ƒg
+	//ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£ã‚½ãƒ¼ãƒˆ
 	std::sort( updateList.begin() , updateList.end() , compare_priority );
 
 

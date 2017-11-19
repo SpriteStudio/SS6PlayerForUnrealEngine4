@@ -110,7 +110,7 @@ SsProject*	ssloader_sspj::Load(const std::string& filename )
 			return 0;
 		}
 
-		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒˆã‚’å…ƒã«èª­ã¿è¾¼ã¿ã¾ã™ã€‚
+		//ƒAƒjƒ[ƒVƒ‡ƒ“ƒŠƒXƒg‚ğŒ³‚É“Ç‚İ‚İ‚Ü‚·B
 		for ( size_t i = 0 ;i < proj->getAnimePackNum() ; i++ )
 		{
 
@@ -121,7 +121,7 @@ SsProject*	ssloader_sspj::Load(const std::string& filename )
 			{
 				proj->animeList.push_back( anime );
 			}else{
-				//ã‚¨ãƒ©ãƒ¼
+				//ƒGƒ‰[
 				DEBUG_PRINTF( "Animation load error : %s" , ssaepath.c_str() );
 				DEBUG_PRINTF( "ssae old version" );
 				delete proj;
@@ -129,7 +129,7 @@ SsProject*	ssloader_sspj::Load(const std::string& filename )
 			}
 		}
 
-		//ã‚»ãƒ«ãƒãƒƒãƒ—ãƒªã‚¹ãƒˆã‚’å…ƒã«èª­ã¿è¾¼ã¿ã¾ã™ã€‚
+		//ƒZƒ‹ƒ}ƒbƒvƒŠƒXƒg‚ğŒ³‚É“Ç‚İ‚İ‚Ü‚·B
 		for ( size_t i = 0 ;i < proj->getCellMapNum() ; i++ )
 		{
 			SsString sscepath = proj->getCellMapFilePath(i);
@@ -143,7 +143,7 @@ SsProject*	ssloader_sspj::Load(const std::string& filename )
 				cell->loadFilepath = proj->getCelMapFileOriginalPath(i);
 				proj->cellmapList.push_back( cell );
 			}else{
-				//ã‚¨ãƒ©ãƒ¼
+				//ƒGƒ‰[
 				DEBUG_PRINTF( "Cellmap load error : %s" , sscepath.c_str() );
 				DEBUG_PRINTF( "ssce old version" );
 				delete proj;
@@ -166,7 +166,7 @@ SsProject*	ssloader_sspj::Load(const std::string& filename )
 				proj->effectfileList.push_back( efile );
 				ssloader_ssee::loadPostProcessing( efile , proj );
 			}else{
-				//ã‚¨ãƒ©ãƒ¼
+				//ƒGƒ‰[
 				DEBUG_PRINTF( "effect load error : %s" , sscepath.c_str() );
 				DEBUG_PRINTF( "ssee old version" );
 				delete proj;
@@ -188,7 +188,7 @@ SsCellMap* SsProject::findCellMap( SsString& str )
 	{
 //		SsString _name = (*itr)->name;
 		//_name+=".ssce";
-		//sspjã®å‚ç…§åã¨XMLç„¡ã„ã®nameã‚¿ã‚°ãŒä¸€è‡´ã—ã¦ã„ãªã„ã‚±ãƒ¼ã‚¹ãŒã‚ã£ãŸã®ã§ãƒ•ã‚¡ã‚¤ãƒ«åã§å–å¾—
+		//sspj‚ÌQÆ–¼‚ÆXML–³‚¢‚Ìnameƒ^ƒO‚ªˆê’v‚µ‚Ä‚¢‚È‚¢ƒP[ƒX‚ª‚ ‚Á‚½‚Ì‚Åƒtƒ@ƒCƒ‹–¼‚Åæ“¾
 ///		SsString _name = (*itr)->fname;
 		SsString _name = (*itr)->loadFilepath;
 

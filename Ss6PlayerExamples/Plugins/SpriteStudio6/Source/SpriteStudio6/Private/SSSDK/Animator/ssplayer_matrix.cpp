@@ -1,4 +1,4 @@
-#include "SpriteStudio6PrivatePCH.h"
+﻿#include "SpriteStudio6PrivatePCH.h"
 
 #include "ssplayer_matrix.h"
 #include <stdio.h>

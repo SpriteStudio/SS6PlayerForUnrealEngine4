@@ -1,4 +1,4 @@
-#ifndef __SSPLAYER_EFFECTFUNCTION__
+Ôªø#ifndef __SSPLAYER_EFFECTFUNCTION__
 #define __SSPLAYER_EFFECTFUNCTION__
 
 #include "ssplayer_effect.h"
@@ -16,7 +16,7 @@ public:
 	static void	updateParticle( SsEffectBehavior* beh , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
 
 
-	//êVÉoÅ[ÉWÉáÉì
+	//Êñ∞„Éê„Éº„Ç∏„Éß„É≥
 	static void	initializeEffect( SsEffectBehavior* beh ,  SsEffectEmitter* emmiter);
 
 

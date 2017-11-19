@@ -1,4 +1,4 @@
-#ifndef __SSSTRING_UTY__
+﻿#ifndef __SSSTRING_UTY__
 #define __SSSTRING_UTY__
 
 
