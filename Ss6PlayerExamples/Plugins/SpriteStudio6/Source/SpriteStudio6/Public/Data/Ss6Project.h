@@ -5,7 +5,7 @@
 #include "SsCellMap.h"
 #include "SsEffectFile.h"
 
-#include "SsProject.generated.h"
+#include "Ss6Project.generated.h"
 
 
 

@@ -7,7 +7,7 @@
 
 #include "SsImportSettings.h"
 #include "ReimportSspjFactory.h"
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsCellMap.h"
 #include "SsAnimePack.h"
 #include "SsLoader.h"
@@ -37,7 +37,7 @@ USspjFactory::USspjFactory(const FObjectInitializer& ObjectInitializer)
 {
 	Formats.Add(TEXT("sspj;SpriteStudio Project"));
 
-	SupportedClass = USsProject::StaticClass();
+	SupportedClass = USs6Project::StaticClass();
 	bCreateNew = false;
 	bEditAfterNew = false;
 	bEditorImport = true;
@@ -46,12 +46,12 @@ USspjFactory::USspjFactory(const FObjectInitializer& ObjectInitializer)
 
 bool USspjFactory::DoesSupportClass(UClass * Class)
 {
-	return (Class == USsProject::StaticClass());
+	return (Class == USs6Project::StaticClass());
 }
 
 UClass* USspjFactory::ResolveSupportedClass()
 {
-	return USsProject::StaticClass();
+	return USs6Project::StaticClass();
 }
 
 UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, FName InName, EObjectFlags Flags, UObject* Context, const TCHAR* Type, const uint8*& Buffer, const uint8* InBufferEnd, FFeedbackContext* Warn)
@@ -94,7 +94,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 	FEditorDelegates::OnAssetPreImport.Broadcast(this, InClass, InParent, ProjectName, Type);
 
 	// sspj
-	USsProject* NewProject = FSsLoader::LoadSsProject(InParent, ProjectName, Flags, Buffer, (InBufferEnd - Buffer) + 1);
+	USs6Project* NewProject = FSsLoader::LoadSsProject(InParent, ProjectName, Flags, Buffer, (InBufferEnd - Buffer) + 1);
 	NewProject->SetFilepath( GetCurrentFilename() );
 	if(NewProject)
 	{

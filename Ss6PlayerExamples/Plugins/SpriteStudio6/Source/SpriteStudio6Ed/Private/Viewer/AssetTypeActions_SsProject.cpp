@@ -1,6 +1,6 @@
 ﻿#include "SpriteStudio6EdPrivatePCH.h"
 #include "AssetTypeActions_SsProject.h"
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsProjectViewer.h"
 
 #define LOCTEXT_NAMESPACE "AssetTypeActions"
@@ -8,7 +8,7 @@
 
 UClass* FAssetTypeActions_SsProject::GetSupportedClass() const
 {
-	return USsProject::StaticClass();
+	return USs6Project::StaticClass();
 }
 
 void FAssetTypeActions_SsProject::OpenAssetEditor( const TArray<UObject*>& InObjects, TSharedPtr<class IToolkitHost> EditWithinLevelEditor )
@@ -21,7 +21,7 @@ void FAssetTypeActions_SsProject::OpenAssetEditor( const TArray<UObject*>& InObj
 
 void FAssetTypeActions_SsProject::GetActions(const TArray<UObject*>& InObjects, FMenuBuilder& MenuBuilder)
 {
-	auto SsProjectImports = GetTypedWeakObjectPtrs<USsProject>(InObjects);
+	auto SsProjectImports = GetTypedWeakObjectPtrs<USs6Project>(InObjects);
 
 	MenuBuilder.AddMenuEntry(
 		LOCTEXT("SsProject_Reimport", "Reimport"),
@@ -34,7 +34,7 @@ void FAssetTypeActions_SsProject::GetActions(const TArray<UObject*>& InObjects, 
 	);
 }
 
-void FAssetTypeActions_SsProject::ExecuteReimport(TArray<TWeakObjectPtr<USsProject>> Objects)
+void FAssetTypeActions_SsProject::ExecuteReimport(TArray<TWeakObjectPtr<USs6Project>> Objects)
 {
 	for (auto ObjIt = Objects.CreateConstIterator(); ObjIt; ++ObjIt)
 	{

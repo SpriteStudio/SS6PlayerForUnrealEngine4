@@ -13,6 +13,6 @@ public:
 
 	virtual bool HasActions(const TArray<UObject*>& InObjects) const override { return true; }
 	virtual void GetActions(const TArray<UObject*>& InObjects, FMenuBuilder& MenuBuilder) override;
-	void ExecuteReimport(TArray<TWeakObjectPtr<class USsProject>> Objects);
+	void ExecuteReimport(TArray<TWeakObjectPtr<class USs6Project>> Objects);
 
 };

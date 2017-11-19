@@ -1,6 +1,6 @@
 ﻿#include "SpriteStudio6EdPrivatePCH.h"
 #include "ReimportSspjFactory.h"
-#include "SsProject.h"
+#include "Ss6Project.h"
 
 
 UReimportSspjFactory::UReimportSspjFactory(const FObjectInitializer& ObjectInitializer)
@@ -12,7 +12,7 @@ UReimportSspjFactory::UReimportSspjFactory(const FObjectInitializer& ObjectIniti
 
 bool UReimportSspjFactory::CanReimport(UObject* Obj, TArray<FString>& OutFilenames)
 {
-	USsProject* SsProject = Cast<USsProject>(Obj);
+	USs6Project* SsProject = Cast<USs6Project>(Obj);
 	if(SsProject && SsProject->AssetImportData)
 	{
 		SsProject->AssetImportData->ExtractFilenames(OutFilenames);
@@ -23,7 +23,7 @@ bool UReimportSspjFactory::CanReimport(UObject* Obj, TArray<FString>& OutFilenam
 
 void UReimportSspjFactory::SetReimportPaths(UObject* Obj, const TArray<FString>& NewReimportPaths)
 {
-	USsProject* SsProject = Cast<USsProject>(Obj);
+	USs6Project* SsProject = Cast<USs6Project>(Obj);
 	if(SsProject && ensure(NewReimportPaths.Num() == 1))
 	{
 		SsProject->AssetImportData->UpdateFilenameOnly(NewReimportPaths[0]);
@@ -32,7 +32,7 @@ void UReimportSspjFactory::SetReimportPaths(UObject* Obj, const TArray<FString>&
 
 EReimportResult::Type UReimportSspjFactory::Reimport(UObject* Obj)
 {
-	USsProject* SsProject = Cast<USsProject>(Obj);
+	USs6Project* SsProject = Cast<USs6Project>(Obj);
 	if(!SsProject)
 	{
 		return EReimportResult::Failed;

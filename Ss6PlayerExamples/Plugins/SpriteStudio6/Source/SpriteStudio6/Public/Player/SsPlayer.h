@@ -3,7 +3,7 @@
 #include "SsTypes.h"
 #include "SsPlayerTickResult.h"
 
-class USsProject;
+class USs6Project;
 class FSsCellMapList;
 class FSsAnimeDecoder;
 
@@ -16,8 +16,8 @@ class SPRITESTUDIO6_API FSsPlayer
 public:
 	FSsPlayer();
 
-	void SetSsProject(TWeakObjectPtr<USsProject> InSsProject);
-	const TWeakObjectPtr<USsProject> GetSsProject() const { return SsProject; }
+	void SetSsProject(TWeakObjectPtr<USs6Project> InSsProject);
+	const TWeakObjectPtr<USs6Project> GetSsProject() const { return SsProject; }
 
 	FSsPlayerTickResult Tick(float DeltaSeconds);
 	const TArray<FSsRenderPart>& GetRenderParts() const { return RenderParts; }
@@ -72,7 +72,7 @@ public:
 	const FVector2D GetAnimCanvasSize() const;
 
 private:
-	TWeakObjectPtr<USsProject> SsProject;
+	TWeakObjectPtr<USs6Project> SsProject;
 	TSharedPtr<FSsAnimeDecoder> Decoder;
 	TSharedPtr<FSsCellMapList> CellMapList;
 	bool bPlaying;

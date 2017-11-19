@@ -11,7 +11,7 @@
 #include "SsCellMap.h"
 #include "SsEffectFile.h"
 #include "SsEffectElement.h"
-#include "SsProject.h"
+#include "Ss6Project.h"
 
 
 namespace
@@ -697,7 +697,7 @@ void SerializeSsEffectFile(FSsEffectFile& EffectFile, SsXmlIArchiver* ar)
 	SSAR_STRUCT_DECLARE("effectData", EffectFile.EffectData);
 	EffectFile.EffectData.EffectName = EffectFile.Name;
 }
-void SerializeSsProject(USsProject& Proj, SsXmlIArchiver* ar)
+void SerializeSsProject(USs6Project& Proj, SsXmlIArchiver* ar)
 {
 	SSAR_DECLARE_ATTRIBUTE("version", Proj.Version);
 	SSAR_STRUCT_DECLARE("settings", Proj.Settings);

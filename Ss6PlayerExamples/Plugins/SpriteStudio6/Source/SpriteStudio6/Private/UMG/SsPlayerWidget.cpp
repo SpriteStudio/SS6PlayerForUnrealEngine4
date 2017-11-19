@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsPlayerWidget.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsRenderOffScreen.h"
 
 

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 
-class USsProject;
+class USs6Project;
 
 
 //
@@ -12,7 +12,7 @@ class FSsPlayPropertySync
 protected:
 	FSsPlayPropertySync();
 	FSsPlayPropertySync(
-		USsProject** InSsProject,
+		USs6Project** InSsProject,
 		FName* InAutoPlayAnimPackName,
 		FName* InAutoPlayAnimationName,
 		int32* InAutoPlayAnimPackIndex,
@@ -26,7 +26,7 @@ protected:
 	void SyncAutoPlayAnimation_IndexToName();
 
 private:
-	USsProject** RefSsProject;
+	USs6Project** RefSsProject;
 	FName* RefAutoPlayAnimPackName;
 	FName* RefAutoPlayAnimationName;
 	int32* RefAutoPlayAnimPackIndex;

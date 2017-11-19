@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsPlayPropertySync.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 
 
 // コンストラクタ
@@ -14,7 +14,7 @@ FSsPlayPropertySync::FSsPlayPropertySync()
 {
 }
 FSsPlayPropertySync::FSsPlayPropertySync(
-	USsProject** InSsProject,
+	USs6Project** InSsProject,
 	FName* InAutoPlayAnimPackName,
 	FName* InAutoPlayAnimationName,
 	int32* InAutoPlayAnimPackIndex,

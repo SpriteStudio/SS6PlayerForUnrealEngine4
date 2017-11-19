@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsPlayerCellmap.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsAnimePack.h"
 #include "SsCellMap.h"
 
@@ -54,7 +54,7 @@ void FSsCellMapList::SetCellMapPath(const FName& filepath)
 }
 
 
-void FSsCellMapList::Set(USsProject* proj , FSsAnimePack* animepack)
+void FSsCellMapList::Set(USs6Project* proj , FSsAnimePack* animepack)
 {
 	Clear();
 	SetCellMapPath( FName(*(proj->GetImageBasepath())) );

@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsPlayerAnimedecode.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsCellMap.h"
 #include "SsAnimePack.h"
 #include "SsAttribute.h"
@@ -58,7 +58,7 @@ FSsAnimeDecoder::~FSsAnimeDecoder()
 
 
 
-void FSsAnimeDecoder::SetAnimation(FSsModel* model, FSsAnimation* anime, FSsCellMapList* cellmap, USsProject* sspj)
+void FSsAnimeDecoder::SetAnimation(FSsModel* model, FSsAnimation* anime, FSsCellMapList* cellmap, USs6Project* sspj)
 {
 	//セルマップリストを取得
 	CurCellMapManager = cellmap;

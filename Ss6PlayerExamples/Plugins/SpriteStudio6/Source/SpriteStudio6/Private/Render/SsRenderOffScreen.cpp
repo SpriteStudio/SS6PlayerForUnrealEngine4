@@ -5,7 +5,7 @@
 #include "ClearQuad.h"
 
 #include "SsOffScreenShaders.h"
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsPlayerCellmap.h"
 #include "SsPlayerAnimedecode.h"
 

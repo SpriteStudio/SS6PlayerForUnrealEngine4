@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsStatics.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsPlayerComponent.h"
 #include "SsPlayerActor.h"
 
@@ -15,7 +15,7 @@ USsStatics::USsStatics(const FObjectInitializer& ObjectInitializer)
 // SpriteStudioアニメーションの単発再生 
 ASsPlayerActor* USsStatics::SpawnSsPlayerAtLocation(
 	UObject* WorldContextObject,
-	USsProject* SsProject,
+	USs6Project* SsProject,
 	FName AnimPackName,
 	FName AnimationName,
 	float UUPerPixel,
@@ -53,7 +53,7 @@ ASsPlayerActor* USsStatics::SpawnSsPlayerAtLocation(
 // SpriteStudioアニメーションの単発再生(インデックス指定) 
 ASsPlayerActor* USsStatics::SpawnSsPlayerAtLocationByIndex(
 	UObject* WorldContextObject,
-	USsProject* SsProject,
+	USs6Project* SsProject,
 	int32 AnimPackIndex,
 	int32 AnimationIndex,
 	float UUPerPixel,

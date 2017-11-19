@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 class FSsAnimeDecoder;
-class USsProject;
+class USs6Project;
 class FSsCelMapLinker;
 class FSsCellMapList;
 struct FSsKeyframe;
@@ -85,7 +85,7 @@ public:
 
 	void	SetDeltaForIndependentInstance(float Delta) { FrameDelta = Delta * CurAnimeFPS; }
 
-	void	SetAnimation(struct FSsModel* model, FSsAnimation* anime, FSsCellMapList* cellmap, USsProject* sspj=0);
+	void	SetAnimation(struct FSsModel* model, FSsAnimation* anime, FSsCellMapList* cellmap, USs6Project* sspj=0);
 	bool	IsAnimationValid() const { return (NULL != CurAnimation); }
 
 	void	SetCalcHideParts(bool bInCalcHideParts) { bCalcHideParts = bInCalcHideParts; }

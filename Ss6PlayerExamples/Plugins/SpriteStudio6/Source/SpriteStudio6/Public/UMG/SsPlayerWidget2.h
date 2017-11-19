@@ -8,7 +8,7 @@
 
 #include "SsPlayerWidget2.generated.h"
 
-class USsProject;
+class USs6Project;
 class SSsPlayerWidget;
 
 
@@ -111,7 +111,7 @@ public:
 
 	// 再生するSsProject 
 	UPROPERTY(Category=SpriteStudioAsset, EditAnywhere, BlueprintReadOnly, meta=(DisplayThumbnail="true"))
-	USsProject* SsProject;
+	USs6Project* SsProject;
 
 
 	//

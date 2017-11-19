@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6EdPrivatePCH.h"
 #include "SsPlayerActorFactory.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsPlayerActor.h"
 #include "SsPlayerComponent.h"
 
@@ -18,7 +18,7 @@ USsPlayerActorFactory::USsPlayerActorFactory(const FObjectInitializer& ObjectIni
 
 bool USsPlayerActorFactory::CanCreateActorFrom(const FAssetData& AssetData, FText& OutErrorMsg)
 {
-	if(!AssetData.IsValid() || !AssetData.GetClass()->IsChildOf(USsProject::StaticClass()))
+	if(!AssetData.IsValid() || !AssetData.GetClass()->IsChildOf(USs6Project::StaticClass()))
 	{
 		OutErrorMsg = NSLOCTEXT("CanCreateActor", "NoSsProject", "A valid SsProject must be specified.");
 		return false;
@@ -29,7 +29,7 @@ bool USsPlayerActorFactory::CanCreateActorFrom(const FAssetData& AssetData, FTex
 
 void USsPlayerActorFactory::PostSpawnActor(UObject* Asset, AActor* NewActor)
 {
-	USsProject* SsProject = CastChecked<USsProject>(Asset);
+	USs6Project* SsProject = CastChecked<USs6Project>(Asset);
 	FActorLabelUtilities::SetActorLabelUnique(NewActor, SsProject->GetName());
 
 	ASsPlayerActor* SsPlayerActor = CastChecked<ASsPlayerActor>(NewActor);
@@ -55,7 +55,7 @@ void USsPlayerActorFactory::PostCreateBlueprint(UObject* Asset, AActor* CDO)
 {
 	if(Asset != NULL && CDO != NULL)
 	{
-		USsProject* SsProject = CastChecked<USsProject>(Asset);
+		USs6Project* SsProject = CastChecked<USs6Project>(Asset);
 		ASsPlayerActor* SsPlayerActor = CastChecked<ASsPlayerActor>(CDO);
 		USsPlayerComponent* SsPlayerComponent = SsPlayerActor->GetSsPlayer();
 

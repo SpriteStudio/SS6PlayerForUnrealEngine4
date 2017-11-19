@@ -64,7 +64,7 @@ private:
 private:
 	TSharedPtr<class SSsProjectViewerViewport> Viewport;
 
-	class USsProject* SsProject;
+	class USs6Project* SsProject;
 	struct FSsAnimePack* CurrentAnimePack;
 	FSsPlayer Player;
 	FSsRenderOffScreen* RenderOffScreen;

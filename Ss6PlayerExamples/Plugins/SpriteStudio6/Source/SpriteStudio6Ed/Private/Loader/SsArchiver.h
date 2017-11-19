@@ -236,4 +236,4 @@ void SsArchiverInit();
 void SerializeSsCellMap(struct FSsCellMap& CellMap, SsXmlIArchiver* ar);
 void SerializeSsAnimePack(struct FSsAnimePack& AnimePack, SsXmlIArchiver* ar);
 void SerializeSsEffectFile(struct FSsEffectFile& EffectFile, SsXmlIArchiver* ar);
-void SerializeSsProject(class USsProject& Proj, SsXmlIArchiver* ar);
+void SerializeSsProject(class USs6Project& Proj, SsXmlIArchiver* ar);

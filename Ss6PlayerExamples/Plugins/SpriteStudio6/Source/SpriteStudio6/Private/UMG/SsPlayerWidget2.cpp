@@ -5,7 +5,7 @@
 
 #include "SSsPlayerWidget.h"
 #include "SsPlayerSlot.h"
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsRenderOffScreen.h"
 
 

@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsPlayerComponent.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsAnimePack.h"
 #include "SsPlayer.h"
 #include "SsPlayerAnimedecode.h"

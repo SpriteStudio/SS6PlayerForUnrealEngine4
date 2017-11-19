@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsPlayer.h"
 
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsAnimePack.h"
 #include "SsPlayerCellmap.h"
 #include "SsPlayerAnimedecode.h"
@@ -26,7 +26,7 @@ FSsPlayer::FSsPlayer()
 }
 
 // SsProjectアセットをセット
-void FSsPlayer::SetSsProject(TWeakObjectPtr<USsProject> InSsProject)
+void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 {
 	SsProject = InSsProject;
 	if(!SsProject.IsValid())

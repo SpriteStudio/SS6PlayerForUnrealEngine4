@@ -7,7 +7,7 @@
 #include "Editor/WorkspaceMenuStructure/Public/WorkspaceMenuStructureModule.h"
 
 #include "SsProjectViewerCommands.h"
-#include "SsProject.h"
+#include "Ss6Project.h"
 #include "SsAnimePack.h"
 #include "SsProjectViewerViewport.h"
 #include "SsProjectViewerViewportClient.h"
@@ -114,7 +114,7 @@ void FSsProjectViewer::Tick(float /*DeltaTime*/)
 
 void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, UObject* ObjectToEdit )
 {
-	SsProject = CastChecked<USsProject>( ObjectToEdit );
+	SsProject = CastChecked<USs6Project>( ObjectToEdit );
 
 	FSsProjectViewerCommands::Register();
 	BindCommands();

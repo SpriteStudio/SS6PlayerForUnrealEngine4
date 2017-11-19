@@ -85,7 +85,7 @@ public:
 	//アニメパックのセルリストに登載されている順にセルマップを読み込みインデックス化する
 	//SsProjectを介してセルを検索しているのはセルがそこにアレイで確保されているから
 	//もし既に読み込み済みだったりする場合は、アニメパックのセルＩＤ順にセルマップを登録すればいい
-	void	Set(class USsProject* proj , struct FSsAnimePack* animepack );
+	void	Set(class USs6Project* proj , struct FSsAnimePack* animepack );
 
 	FSsCelMapLinker*	GetCellMapLink( const FName& name );
 	FSsCelMapLinker*	GetCellMapLink( int index )
