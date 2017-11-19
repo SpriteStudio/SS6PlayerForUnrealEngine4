@@ -387,7 +387,7 @@ FString	__EnumToString_( TEnumAsByte<SsMeshDivType::Type> n )
 
 void 	__StringToEnum_( FString n , TEnumAsByte<SsMeshDivType::Type>& out)
 {
-	out =  SsMeshDivType::unknown;
+	out =  SsMeshDivType::Unknown;
 	if ( n == "polyline_base")	out = SsMeshDivType::PolylineBase;
 	if ( n == "boxdiv")			out = SsMeshDivType::Boxdiv;
 }

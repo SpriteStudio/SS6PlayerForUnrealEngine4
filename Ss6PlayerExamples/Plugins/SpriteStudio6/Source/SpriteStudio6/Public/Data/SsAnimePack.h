@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "SsTypes.h"
 #include "SsAttribute.h"
 
 #include "SsAnimePack.generated.h"
@@ -107,7 +108,7 @@ public:
 	int32		IKDepth;		//!< IK深度
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
-	TEnumAsByte<SsIKRotationArrow::Type>	IKRotationArrow;	//!< 回転方向
+	TEnumAsByte<SsIkRotationArrow::Type>	IKRotationArrow;	//!< 回転方向
 
 
 public:
@@ -120,7 +121,7 @@ public:
 		WeightPosition = FVector2D::ZeroVector;
 		WeightImpact = 0.f;
 		IKDepth = 0;
-		IKRotationArrow = SsIKRotationArrow::Arrowfree;
+		IKRotationArrow = SsIkRotationArrow::arrowfree;
 
 		for (int i = 0; i < (int32)SsAttributeKind::Num; ++i)
 		{
@@ -194,7 +195,7 @@ public:
 
 //TODO: Name参照とかで代替する？
 //	UPROPERTY(VisibleAnywhere, Category=SsModel)
-	FSsAnimation*	SetupAnimation;	//< 参照するセットアップアニメ
+	struct FSsAnimation*	SetupAnimation;	//< 参照するセットアップアニメ
 
 	UPROPERTY(VisibleAnywhere, Category=SsModel)
 	TArray<FSsMeshBind>		MeshList;

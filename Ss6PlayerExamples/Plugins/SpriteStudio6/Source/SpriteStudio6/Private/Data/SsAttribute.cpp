@@ -91,40 +91,40 @@ int32 FSsAttribute::GetUpperBoundKeyIndex(int32 Time)
 
 
 //頂点カラーアニメデータの取得
-void	GetSsPartsColorValue( const SsKeyframe* key , SsPartsColorAnime& v )
+void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 {
-	SsColorBlendTarget::_enum target;
-	__StringToEnum_( key->value["target"].get<SsString>() , target );
-	SsBlendType::_enum blendtype;
-	__StringToEnum_( key->value["blendType"].get<SsString>() , blendtype);
+	TEnumAsByte<SsColorBlendTarget::Type> target;
+	__StringToEnum_( key->Value["target"].get<FString>() , target );
+	TEnumAsByte<SsBlendType::Type> blendtype;
+	__StringToEnum_( key->Value["blendType"].get<FString>() , blendtype);
 
 	v.blendType = blendtype;
 	v.target = target;
 
-	if ( target == SsColorBlendTarget::vertex )
+	if ( target == SsColorBlendTarget::Vertex )
 	{
-		SsHash lt = key->value["LT"].get<SsHash>();
-		SsHash rt = key->value["RT"].get<SsHash>();
-		SsHash lb = key->value["LB"].get<SsHash>();
-		SsHash rb = key->value["RB"].get<SsHash>();
+		SsHash lt = key->Value["LT"].get<SsHash>();
+		SsHash rt = key->Value["RT"].get<SsHash>();
+		SsHash lb = key->Value["LB"].get<SsHash>();
+		SsHash rb = key->Value["RB"].get<SsHash>();
 
-		ConvertStringToSsColor( lt["rgba"].get<SsString>() , v.colors[0].rgba);
-		v.colors[0].rate = lt["rate"].get<float>();
+		ConvertStringToSsColor( lt["rgba"].get<FString>() , v.colors[0].Rgba);
+		v.colors[0].Rate = lt["rate"].get<float>();
 
-		ConvertStringToSsColor( rt["rgba"].get<SsString>() , v.colors[1].rgba);
-		v.colors[1].rate = rt["rate"].get<float>();
+		ConvertStringToSsColor( rt["rgba"].get<FString>() , v.colors[1].Rgba);
+		v.colors[1].Rate = rt["rate"].get<float>();
 
-		ConvertStringToSsColor( lb["rgba"].get<SsString>() , v.colors[2].rgba);
-		v.colors[2].rate = lb["rate"].get<float>();
+		ConvertStringToSsColor( lb["rgba"].get<FString>() , v.colors[2].Rgba);
+		v.colors[2].Rate = lb["rate"].get<float>();
 
-		ConvertStringToSsColor( rb["rgba"].get<SsString>() , v.colors[3].rgba);
-		v.colors[3].rate = rb["rate"].get<float>();
+		ConvertStringToSsColor( rb["rgba"].get<FString>() , v.colors[3].Rgba);
+		v.colors[3].Rate = rb["rate"].get<float>();
 
 	}else{
-		SsHash color = key->value["color"].get<SsHash>();
+		SsHash color = key->Value["color"].get<SsHash>();
 
-		ConvertStringToSsColor( color["rgba"].get<SsString>() , v.color.rgba);
-		v.color.rate = color["rate"].get<float>();
+		ConvertStringToSsColor( color["rgba"].get<FString>() , v.color.Rgba);
+		v.color.Rate = color["rate"].get<float>();
 	}
 
 }

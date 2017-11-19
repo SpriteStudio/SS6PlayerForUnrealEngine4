@@ -68,7 +68,7 @@ private:
 
 };
 
-void GetSsPartsColorValue(const FSsKeyframe* key , FSsPartsColorAnime& v);
+void GetSsPartsColorValue(const FSsKeyframe* key , SsPartsColorAnime& v);
 void GetSsColorValue(const FSsKeyframe* key , FSsColorAnime& v);
 void GetFSsVertexAnime(const FSsKeyframe* key , FSsVertexAnime& v);
 void GetFSsRefCell(const FSsKeyframe* key , FSsRefCell& v);
