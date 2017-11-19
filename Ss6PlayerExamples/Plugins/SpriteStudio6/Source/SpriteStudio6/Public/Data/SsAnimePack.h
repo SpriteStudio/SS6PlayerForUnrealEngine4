@@ -192,8 +192,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category=SsModel)
 	TArray<FSsPart>	PartList;	//!<格納されているパーツのリスト
 
-	UPROPERTY(VisibleAnywhere, Category=SsModel)
-	TWeakPtr<FSsAnimation>	SetupAnimation;	//< 参照するセットアップアニメ
+//TODO: Name参照とかで代替する？
+//	UPROPERTY(VisibleAnywhere, Category=SsModel)
+	FSsAnimation*	SetupAnimation;	//< 参照するセットアップアニメ
 
 	UPROPERTY(VisibleAnywhere, Category=SsModel)
 	TArray<FSsMeshBind>		MeshList;

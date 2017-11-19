@@ -550,6 +550,7 @@ void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsRenderBlendType
 TEnumAsByte<SsBlendType::Type> SsRenderBlendTypeToBlendType(TEnumAsByte<SsRenderBlendType::Type> n);
 
 
+UENUM()
 namespace SsIkRotationArrow
 {
 	enum Type
@@ -561,7 +562,7 @@ namespace SsIkRotationArrow
 
 		unknown = 254,
 	};
-};
+}
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsIkRotationArrow::Type> n);
 void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsIkRotationArrow::Type>& out);
 
@@ -684,24 +685,34 @@ namespace SsEffectLoopFlag
 }
 
 //メッシュの分割タイプ
+UENUM()
 namespace SsMeshDivType
 {
 	enum Type
 	{
-		unknown,
-		polyline_base,
-		boxdiv,
-		num
+		PolylineBase,
+		Boxdiv,
+		Num,
+
+		Unknown,
 	};
-};
+}
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsMeshDivType::Type> n);
 void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsMeshDivType::Type>& out);
 
-struct SsTriangle
+USTRUCT()
+struct FSsTriangle
 {
-	int	idxPo1;
-	int	idxPo2;
-	int	idxPo3;
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(VisibleAnywhere, Category=SsTriangle)
+	int32	IdxPo1;
+
+	UPROPERTY(VisibleAnywhere, Category=SsTriangle)
+	int32	IdxPo2;
+
+	UPROPERTY(VisibleAnywhere, Category=SsTriangle)
+	int32	IdxPo3;
 
 };
 

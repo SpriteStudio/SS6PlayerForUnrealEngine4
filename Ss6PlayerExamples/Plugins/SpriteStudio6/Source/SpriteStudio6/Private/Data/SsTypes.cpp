@@ -379,8 +379,8 @@ void 	__StringToEnum_( FString n , TEnumAsByte<SsIkRotationArrow::Type>& out)
 //相互変換 SsMeshDivType
 FString	__EnumToString_( TEnumAsByte<SsMeshDivType::Type> n )
 {
-	if ( n == SsMeshDivType::polyline_base)	return "polyline_base";
-	if ( n == SsMeshDivType::boxdiv)		return "boxdiv";
+	if ( n == SsMeshDivType::PolylineBase)	return "polyline_base";
+	if ( n == SsMeshDivType::Boxdiv)		return "boxdiv";
 
 	return "unknown";
 }
@@ -388,6 +388,6 @@ FString	__EnumToString_( TEnumAsByte<SsMeshDivType::Type> n )
 void 	__StringToEnum_( FString n , TEnumAsByte<SsMeshDivType::Type>& out)
 {
 	out =  SsMeshDivType::unknown;
-	if ( n == "polyline_base")	out = SsMeshDivType::polyline_base;
-	if ( n == "boxdiv")			out = SsMeshDivType::boxdiv;
+	if ( n == "polyline_base")	out = SsMeshDivType::PolylineBase;
+	if ( n == "boxdiv")			out = SsMeshDivType::Boxdiv;
 }
