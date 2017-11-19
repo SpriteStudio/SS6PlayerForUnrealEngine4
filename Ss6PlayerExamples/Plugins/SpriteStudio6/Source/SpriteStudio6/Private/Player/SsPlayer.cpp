@@ -4,9 +4,10 @@
 #include "Ss6Project.h"
 #include "SsAnimePack.h"
 #include "SsPlayerCellmap.h"
-#include "SsPlayerAnimedecode.h"
 #include "SsString_uty.h"
 #include "SsPlayerPartState.h"
+
+#include "ssplayer_animedecode.h"
 
 // コンストラクタ
 FSsPlayer::FSsPlayer()
@@ -22,7 +23,15 @@ FSsPlayer::FSsPlayer()
 	, PlayingAnimPackIndex(-1)
 	, PlayingAnimationIndex(-1)
 	, bCalcHideParts(false)
+{}
+
+// デストラクタ
+FSsPlayer::~FSsPlayer()
 {
+	if(nullptr != Decoder)
+	{
+		delete Decoder;
+	}
 }
 
 // SsProjectアセットをセット
@@ -34,7 +43,8 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 		return;
 	}
 
-	Decoder = MakeShareable(new FSsAnimeDecoder());
+	//Decoder = MakeShareable(new FSsAnimeDecoder());
+	Decoder = new SsAnimeDecoder();
 	CellMapList = MakeShareable(new FSsCellMapList());
 
 	PlayingAnimPackIndex = -1;

@@ -128,7 +128,7 @@ static float hermite_(float start, float end, float time, const SsCurve * c)
 	タイプを指定して補間する
 */
 //----------------------------------------------------------------------------
-float	SsInterpolate(SsInterpolationType::_enum type, float time, float start, float end, const SsCurve * curve)
+float	SsInterpolate(SsInterpolationType::Type type, float time, float start, float end, const FSsCurve * curve)
 {
 	float r;
 	switch (type)

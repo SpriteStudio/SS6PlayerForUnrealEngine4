@@ -1,8 +1,8 @@
 ﻿#ifndef __SSPLAYER_ANIMEDECODE__
 #define __SSPLAYER_ANIMEDECODE__
 
-#include "../Loader/ssloader.h"
-#include "../Helper/ssHelper.h"
+//#include "../Loader/ssloader.h"
+//#include "../Helper/ssHelper.h"
 
 
 #include "ssplayer_types.h"
@@ -10,7 +10,7 @@
 #include "ssplayer_PartState.h"
 #include "ssplayer_macro.h"
 
-
+#include "Ss6Project.h"
 
 
 class SsAnimeDecoder;
@@ -19,7 +19,7 @@ class SsMeshAnimator;
 
 
 //パーツとアニメを関連付ける
-typedef std::pair<SsPart*,SsPartAnime*>	SsPartAndAnime;
+typedef TPair<FSsPart*, FSsPartAnime*> SsPartAndAnime;
 
 
 //パーツのソート順
@@ -43,19 +43,19 @@ public:
 private:
 
 	///パーツ情報とパーツアニメーションを結びつけアレイにしたもの
-	std::vector<SsPartAndAnime>		partAnime;
-	std::vector<SsPartAndAnime>		setupPartAnime;		///セットアップデータ
+	TArray<SsPartAndAnime>		partAnime;
+	TArray<SsPartAndAnime>		setupPartAnime;		///セットアップデータ
 
 	///パーツ名からアニメ情報をとるために使うもし、そういった用途が無い場合はローカル変数でも機能する
-	std::map<SsString,SsPartAnime*> partAnimeDic;
-	std::map<SsString, SsPartAnime*>setupPartAnimeDic;	///セットアップデータ
+	TMap<FName,FSsPartAnime*> partAnimeDic;
+	TMap<FName, FSsPartAnime*>setupPartAnimeDic;	///セットアップデータ
 
 	SsCellMapList*					curCellMapManager;///アニメに関連付けられているセルマップ
 
 	SsPartState*					partState;			///パーツの現在の状態が格納されています。
-	std::list<SsPartState*>			sortList;			///ソート状態
-	std::list<SsPartState*>			partStatesMask_;	///マスクテンポラリ
-	std::vector<SsPartState*>		maskIndexList;
+	TArray<SsPartState*>			sortList;			///ソート状態
+	TArray<SsPartState*>			partStatesMask_;	///マスクテンポラリ
+	TArray<SsPartState*>		maskIndexList;
 
 
 	int				seedOffset;							//エフェクトのシードへ影響
@@ -66,7 +66,7 @@ private:
 	int				curAnimeEndFrame;
 	int				curAnimeTotalFrame;
 	int				curAnimeFPS;
-	SsAnimation*	curAnimation;
+	FSsAnimation*	curAnimation;
 	bool			instancePartsHide;
 	bool			maskFuncFlag;						//マスク機能（初期化、描画）を有効にするか？インスタンスパーツ内のマスク対応
 	bool			maskParentSetting;					//親のマスク対象
@@ -74,21 +74,21 @@ private:
 	size_t			stateNum;
 
 	SsMeshAnimator*	meshAnimator;
-	SsModel*		myModel;
+	FSsModel*		myModel;
 
 private:
-	void	updateState( int nowTime , SsPart* part , SsPartAnime* part_anime , SsPartState* state );
-	void	updateInstance( int nowTime , SsPart* part , SsPartAnime* part_anime , SsPartState* state );
-	void	updateEffect( float frameDelta , int nowTime , SsPart* part , SsPartAnime* part_anime , SsPartState* state );
+	void	updateState( int nowTime , FSsPart* part , FSsPartAnime* part_anime , SsPartState* state );
+	void	updateInstance( int nowTime , FSsPart* part , FSsPartAnime* part_anime , SsPartState* state );
+	void	updateEffect( float frameDelta , int nowTime , FSsPart* part , FSsPartAnime* part_anime , SsPartState* state );
 
 
-	void	updateMatrix(SsPart* part , SsPartAnime* anime , SsPartState* state);
+	void	updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartState* state);
 
-	void	updateVertices(SsPart* part , SsPartAnime* anime , SsPartState* state);
+	void	updateVertices(FSsPart* part , FSsPartAnime* anime , SsPartState* state);
 
-    int		CalcAnimeLabel2Frame(const SsString& str, int offset, SsAnimation* Animation  );
-	int		findAnimetionLabel(const SsString& str, SsAnimation* Animation);
-	bool	getFirstCell(SsPart* part, SsCellValue& out);
+    int		CalcAnimeLabel2Frame(const FName& str, int offset, FSsAnimation* Animation  );
+	int		findAnimetionLabel(const FName& str, FSsAnimation* Animation);
+	bool	getFirstCell(FSsPart* part, SsCellValue& out);
 
 
 public:
@@ -105,7 +105,7 @@ public:
 	virtual void	update( float frameDelta = 1.0f );
 	virtual void	draw();
 
-	void	setAnimation( SsModel*	model , SsAnimation* anime , SsCellMapList* cellmap , SsProject* sspj=0 );
+	void	setAnimation( FSsModel*	model , FSsAnimation* anime , SsCellMapList* cellmap , USs6Project* sspj=0 );
 //	void	setAnimation(SsModel*	model, SsAnimation* anime, SsAnimePack *animepack , SsCellMapList* cellmap, SsProject* sspj = 0);
 
 	void	setPlayFrame( float time ) { nowPlatTime = time; }
@@ -117,19 +117,19 @@ public:
 
 	size_t	getStateNum() { return stateNum; }
 	SsPartState*  getPartState() { return partState; }
-	SsModel*	getMyModel(){return myModel;}
+	FSsModel*	getMyModel(){return myModel;}
 
-	std::list<SsPartState*>&		getPartSortList(){return sortList;}
-	std::vector<SsPartAndAnime>&	getPartAnime(){ return	partAnime; }
+	TArray<SsPartState*>&		getPartSortList(){return sortList;}
+	TArray<SsPartAndAnime>&	getPartAnime(){ return	partAnime; }
 	
 	template<typename mytype> int	SsGetKeyValue( int time , SsAttribute* attr , mytype&  value );
-	template<typename mytype> void	SsInterpolationValue( int time , const SsKeyframe* leftkey , const SsKeyframe* rightkey , mytype& v );
-	void	SsInterpolationValue( int time , const SsKeyframe* leftkey , const SsKeyframe* rightkey , SsCellValue& v );
-	void	SsInterpolationValue( int time , const SsKeyframe* leftkey , const SsKeyframe* rightkey , SsPartsColorAnime& v );
-	void	SsInterpolationValue( int time , const SsKeyframe* leftkey , const SsKeyframe* rightkey , SsColorAnime& v );
-	void	SsInterpolationValue( int time , const SsKeyframe* leftkey , const SsKeyframe* rightkey , SsVertexAnime& v );
-	void	SsInterpolationValue( int time , const SsKeyframe* leftkey , const SsKeyframe* rightkey , SsInstanceAttr& v );
-	void	SsInterpolationValue( int time , const SsKeyframe* leftkey , const SsKeyframe* rightkey , SsEffectAttr& v );
+	template<typename mytype> void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , mytype& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsCellValue& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsPartsColorAnime& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsColorAnime& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsVertexAnime& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsInstanceAttr& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsEffectAttr& v );
 
 
 	void	setInstancePartsHide(bool hide){

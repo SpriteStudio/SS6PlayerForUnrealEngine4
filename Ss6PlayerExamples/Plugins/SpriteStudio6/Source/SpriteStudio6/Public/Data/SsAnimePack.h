@@ -294,4 +294,7 @@ public:
 
 	// アニメーション名からインデックスを取得する
 	int32 FindAnimationIndex(const FName& Name) const;
+
+	// 名前からアニメーションを取得する
+	const FSsAnimation* FindAnimation(const FName& Name) const;
 };

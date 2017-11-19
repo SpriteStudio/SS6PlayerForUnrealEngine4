@@ -119,8 +119,17 @@ public:
 	// インデックスからアニメーションを取得する
 	const FSsAnimation* FindAnimation(int32 AnimPackIndex, int32 AnimationIndex) const;
 
+	// アニメパック名とアニメ名からアニメーションを取得する
+	const FSsAnimation* FindAnimation(const FName& InAnimPackName, const FName& InAnimationName) const;
+
+	// 名前からアニメパックを取得する
+	const FSsAnimePack* FindAnimationPack(const FName& InAnimePackName) const;
+
 	// エフェクト名からインデックスを取得する
 	int32 FindEffectIndex(const FName& EffectName) const;
+
+	// 名前からエフェクトを取得する
+	const FSsEffectFile* FindEffect(const FName& EffectName) const;
 
 
 	

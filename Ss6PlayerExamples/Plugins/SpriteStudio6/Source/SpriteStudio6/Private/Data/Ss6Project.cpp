@@ -77,6 +77,34 @@ const FSsAnimation* USs6Project::FindAnimation(int32 AnimPackIndex, int32 Animat
 	return NULL;
 }
 
+const FSsAnimation* USs6Project::FindAnimation(const FName& InAnimPackName, const FName& InAnimationName) const
+{
+	const FSsAnimePack* AnimePack = FindAnimationPack(InAnimPackName);
+	if(nullptr != AnimePack)
+	{
+		for(auto It = AnimePack->AnimeList.CreateConstIterator(); It; ++It)
+		{
+			if(InAnimationName == It->AnimationName)
+			{
+				return &(*It);
+			}
+		}
+	}
+	return nullptr;
+}
+
+const FSsAnimePack* USs6Project::FindAnimationPack(const FName& InAnimePackName) const
+{
+	for(auto It = AnimeList.CreateConstIterator(); It; ++It)
+	{
+		if(InAnimePackName == It->AnimePackName)
+		{
+			return &(*It);
+		}
+	}
+	return nullptr;
+}
+
 int32 USs6Project::FindEffectIndex(const FName& EffectName) const
 {
 	for(int32 i = 0; i < EffectList.Num(); ++i)
@@ -87,6 +115,18 @@ int32 USs6Project::FindEffectIndex(const FName& EffectName) const
 		}
 	}
 	return -1;
+}
+
+const FSsEffectFile* USs6Project::FindEffect(const FName& EffectName) const
+{
+	for(auto It = EffectList.CreateConstIterator(); It; ++It)
+	{
+		if(EffectName == It->Name)
+		{
+			return &(*It);
+		}
+	}
+	return nullptr;
 }
 
 

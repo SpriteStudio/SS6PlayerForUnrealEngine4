@@ -15,6 +15,7 @@ class SPRITESTUDIO6_API FSsPlayer
 {
 public:
 	FSsPlayer();
+	virtual ~FSsPlayer();
 
 	void SetSsProject(TWeakObjectPtr<USs6Project> InSsProject);
 	const TWeakObjectPtr<USs6Project> GetSsProject() const { return SsProject; }
@@ -73,7 +74,8 @@ public:
 
 private:
 	TWeakObjectPtr<USs6Project> SsProject;
-	TSharedPtr<FSsAnimeDecoder> Decoder;
+//	TSharedPtr<FSsAnimeDecoder> Decoder;
+	SsAnimeDecoder* Decoder;
 	TSharedPtr<FSsCellMapList> CellMapList;
 	bool bPlaying;
 	bool bFirstTick;

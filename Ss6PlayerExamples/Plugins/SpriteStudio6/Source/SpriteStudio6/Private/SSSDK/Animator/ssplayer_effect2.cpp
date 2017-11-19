@@ -723,7 +723,7 @@ void	SsEffectRenderV2::clearEmitterList()
 
 
 
-void	SsEffectRenderV2::setEffectData(SsEffectModel* data)
+void	SsEffectRenderV2::setEffectData(FSsEffectModel* data)
 {
 	effectData = data;
 

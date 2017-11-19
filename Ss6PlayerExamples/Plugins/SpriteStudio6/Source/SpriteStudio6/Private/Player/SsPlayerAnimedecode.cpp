@@ -258,12 +258,12 @@ void FSsAnimeDecoder::SsInterpolationValue(int time , const FSsKeyframe* leftkey
 
 	if ( rightkey == 0 ) //右側が０出会った場合
 	{
-		GetFSsVertexAnime( leftkey , v );
+		GetSsVertexAnime( leftkey , v );
 		return ;
 	}
 
-	GetFSsVertexAnime(leftkey,lv);
-	GetFSsVertexAnime(rightkey,rv);
+	GetSsVertexAnime(leftkey,lv);
+	GetSsVertexAnime(rightkey,rv);
 
 	int range = rightkey->Time - leftkey->Time;
 	float now = (float)(time - leftkey->Time) / range;
@@ -387,7 +387,7 @@ void	FSsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftke
 void	FSsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsCellValue& v )
 {
 	FSsRefCell cell;
-	GetFSsRefCell( leftkey , cell );
+	GetSsRefCell( leftkey , cell );
 
 	FSsCelMapLinker* l = this->CurCellMapManager->GetCellMapLink( cell.Mapid );
 	v.Cell = l->FindCell( cell.Name );

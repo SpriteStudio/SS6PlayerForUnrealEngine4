@@ -5,7 +5,7 @@
 class SsCurve;
 
 ///補間でカーブパラメータが必要なタイプか判定する
-inline bool SsNeedsCurveParams(SsInterpolationType::_enum type)
+inline bool SsNeedsCurveParams(SsInterpolationType::Type type)
 {
 	switch (type)
 	{
@@ -17,6 +17,6 @@ inline bool SsNeedsCurveParams(SsInterpolationType::_enum type)
 }
 
 ///カーブパラメータ、補完方法により保管された値を生成する
-float	SsInterpolate(SsInterpolationType::_enum type, float time, float start, float end, const SsCurve * curve);
+float	SsInterpolate(SsInterpolationType::Type type, float time, float start, float end, const FSsCurve * curve);
 
 #endif

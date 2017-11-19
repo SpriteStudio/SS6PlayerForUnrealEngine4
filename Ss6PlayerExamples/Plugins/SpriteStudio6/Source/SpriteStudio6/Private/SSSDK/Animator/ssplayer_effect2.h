@@ -11,7 +11,7 @@
 
 
 
-class SsEffectModel;
+class FSsEffectModel;
 class SsRenderEffectBase;
 class SsEffectNode;
 class SsPartState;
@@ -349,7 +349,7 @@ class SsEffectRenderV2
 public:
 
 	//エフェクトのパラメータデータ
-	SsEffectModel*		effectData;
+	FSsEffectModel*		effectData;
 
 	//Modelに記載されているエミッタのリスト
 	std::vector<SsEffectEmitter*>   emmiterList;
@@ -407,7 +407,7 @@ public:
 	virtual bool	ispause(){return m_isPause;}
 	virtual bool	isloop(){return m_isLoop;}
 
-	virtual void	setEffectData(SsEffectModel* data);
+	virtual void	setEffectData(FSsEffectModel* data);
 
 
 	virtual void	setSeed( u32 seed )

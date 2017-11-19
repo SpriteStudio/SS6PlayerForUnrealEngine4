@@ -167,7 +167,7 @@ void	GetSsColorValue( const FSsKeyframe* key , FSsColorAnime& v )
 
 }
 
-void	GetFSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
+void	GetSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
 {
 	const FString& sLT = key->Value["LT"].get<FString>();
 	const FString& sRT = key->Value["RT"].get<FString>();
@@ -182,7 +182,7 @@ void	GetFSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
 }
 
 
-void GetFSsRefCell( const FSsKeyframe* key , FSsRefCell& v )
+void GetSsRefCell( const FSsKeyframe* key , FSsRefCell& v )
 {
 	int id = key->Value["mapId"].get<int>();
 	FName name = FName( *(key->Value["name"].get<FString>()) );
