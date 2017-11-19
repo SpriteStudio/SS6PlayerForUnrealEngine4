@@ -1,4 +1,7 @@
 #include "SpriteStudio6EdPrivatePCH.h"
+#pragma warning ( disable : 4309 )
+#pragma warning ( disable : 4065 )
+#pragma warning ( disable : 4101 )
 
 /******************************************************************************
 	バベル -babel-
@@ -78,9 +81,9 @@ inline const unsigned char unsignize(const char X) {
 	return (const unsigned char)X;
 }
 #else
-inline const unsigned char & unsignize(const char & X) {
-	return (const unsigned char &)X;
-}
+//inline const unsigned char & unsignize(const char & X) {
+//	return (const unsigned char &)X;
+//}
 #endif
 //inline unsigned int & unsignize(int & X) {
 //	return (unsigned int &)X;
@@ -90,9 +93,9 @@ inline const unsigned int unsignize(const int X) {
 	return (const unsigned int)X;
 }
 #else
-inline const unsigned int & unsignize(const int & X) {
-	return (const unsigned int &)X;
-}
+//inline const unsigned int & unsignize(const int & X) {
+//	return (const unsigned int &)X;
+//}
 #endif
 //inline wchar_t & unsignize(wchar_t & X) {
 //	return (wchar_t &)X;
@@ -1477,35 +1480,35 @@ void unicode_to_utf8_engine::translate() {
 				++i;
 			} else if (current_wchar < 0x800) {
 				utf8[j++] = 0xC0 | (current_wchar >> 6);
-				utf8[j++] = 0x80 | 0x3F & current_wchar;
+				utf8[j++] = 0x80 | (0x3F & current_wchar);
 				++i;
 			} else if (current_wchar < 0x10000) {
 				utf8[j++] = 0xE0 | (current_wchar >> 12);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 6);
-				utf8[j++] = 0x80 | 0x3F & current_wchar;
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 6));
+				utf8[j++] = 0x80 | (0x3F & current_wchar);
 				++i;
 			} else if (current_wchar < 0x200000) {
 				utf8[j++] = 0xF0 | (current_wchar >> 18);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 12);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 6);
-				utf8[j++] = 0x80 | 0x3F & current_wchar;
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 12));
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 6));
+				utf8[j++] = 0x80 | (0x3F & current_wchar);
 				++i;
 			} else if (current_wchar < 0x400000) {
 				assert(false);	//	多分どっかがバグってるか、文字が壊れている。
 				utf8[j++] = 0xF8 | (current_wchar >> 24);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 18);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 12);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 6);
-				utf8[j++] = 0x80 | 0x3F & current_wchar;
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 18));
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 12));
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 6));
+				utf8[j++] = 0x80 | (0x3F & current_wchar);
 				++i;
 			} else {
 				assert(false);	//	多分どっかがバグってるか、文字が壊れている。
 				utf8[j++] = 0xFC | (current_wchar >> 30);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 24);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 18);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 12);
-				utf8[j++] = 0x80 | 0x3F & (current_wchar >> 6);
-				utf8[j++] = 0x80 | 0x3F & current_wchar;
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 24));
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 18));
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 12));
+				utf8[j++] = 0x80 | (0x3F & (current_wchar >> 6));
+				utf8[j++] = 0x80 | (0x3F & current_wchar);
 				++i;
 			}
 		}
@@ -1557,9 +1560,9 @@ void utf8_to_unicode_engine::translate() {
 					unicode[j++] = (wchar_t)current_code;
 				} else {
 					if (current_code <= 0x10FFFF) {
-						const bbl_code lead_char = (current_code /0x400) |0xD800;
+						const bbl_code lead_char2 = (current_code /0x400) |0xD800;
 						const bbl_code trail_char = (current_code &0x3FF) |0xDC00;
-						unicode[j++] = (wchar_t)lead_char;
+						unicode[j++] = (wchar_t)lead_char2;
 						unicode[j++] = (wchar_t)trail_char;
 					} else {
 						append_broken_char(&j, unicode);
@@ -2120,8 +2123,8 @@ void jis_to_sjis_engine::translate() {
 					if (untranslated_length <= i +3 && '\x1B' == next_char && '$' == next_char && '(' == next_char) {
 						break;
 					}
-					const bbl_string status_mark = untranslated_buffer.substr(i, 4);
-					if (jis_KI_3byte_aux == status_mark) {
+					const bbl_string status_mark2 = untranslated_buffer.substr(i, 4);
+					if (jis_KI_3byte_aux == status_mark2) {
 						status = jis_K3_aux;
 						i += 4;
 					} else {
@@ -2262,8 +2265,8 @@ void jis_to_euc_engine::translate() {
 					if (untranslated_length <= i +3 && '\x1B' == next_char && '$' == next_char && '(' == next_char) {
 						break;
 					}
-					const bbl_string status_mark = untranslated_buffer.substr(i, 4);
-					if (jis_KI_3byte_aux == status_mark) {
+					const bbl_string status_mark2 = untranslated_buffer.substr(i, 4);
+					if (jis_KI_3byte_aux == status_mark2) {
 						status = jis_K3_aux;
 						i += 4;
 					} else {
@@ -3948,24 +3951,24 @@ analyze_base_encoding(const bbl_binary &org_X, const unsigned int max_scan_size)
 		};
 		class sjis_scorer :public encode_scorer {
 		  public:
-			void scan_char(const bbl_char &X) {
+			void scan_char(const bbl_char &X2) {
 				babel::bbl_score_map &score_map = babel::bbl_scoremap::sjis_score;
-				if (0x00 == X || 0xFD <= X) {
+				if (0x00 == X2 || 0xFD <= X2) {
 					on_error();
 					return;
 				}
 				if (encode_scorer::neutral == mode) {
-					current_code = X;
-					if (babel::is_sjis_lead_byte(X)) {
+					current_code = X2;
+					if (babel::is_sjis_lead_byte(X2)) {
 						mode = encode_scorer::first_byte;
 					} else {
 						up_point += (int)score_map[current_code];
 					}
 				} else {
 					assert(encode_scorer::first_byte == mode);
-					if (babel::is_sjis_trail_byte(X)) {
+					if (babel::is_sjis_trail_byte(X2)) {
 						current_code *= 0x100;
-						current_code += X;
+						current_code += X2;
 						up_point += score_map[current_code];
 						mode = encode_scorer::neutral;
 					} else {
@@ -3976,18 +3979,18 @@ analyze_base_encoding(const bbl_binary &org_X, const unsigned int max_scan_size)
 		};
 		class euc_scorer :public encode_scorer {
 		  public:
-			void scan_char(const bbl_char &X) {
+			void scan_char(const bbl_char &X2) {
 				babel::bbl_score_map &score_map = babel::bbl_scoremap::euc_score;
-				if (0x00 == X) {
+				if (0x00 == X2) {
 					on_error();
 					return;
 				}
 				if (encode_scorer::neutral == mode) {
-					current_code = X;
-					if (babel::is_euc_lead_byte(X)) {
+					current_code = X2;
+					if (babel::is_euc_lead_byte(X2)) {
 					//	漢字(全角文字) or 半角カナの１バイト目・・・
 						mode = encode_scorer::first_byte;
-					} else if (babel::is_euc_aux_lead_byte(X)) {
+					} else if (babel::is_euc_aux_lead_byte(X2)) {
 					//	補助漢字・・・
 						mode = -2;
 					} else {
@@ -3996,10 +3999,10 @@ analyze_base_encoding(const bbl_binary &org_X, const unsigned int max_scan_size)
 					}
 				} else {
 					if (encode_scorer::first_byte == mode) {
-						if (babel::is_euc_trail_byte(X)) {
+						if (babel::is_euc_trail_byte(X2)) {
 						//	漢字(全角文字) or 半角カナの２バイト目・・・
 							current_code *= 0x100;
-							current_code += X;
+							current_code += X2;
 							up_point += score_map[current_code];
 							mode = encode_scorer::neutral;
 						} else {
@@ -4020,28 +4023,28 @@ analyze_base_encoding(const bbl_binary &org_X, const unsigned int max_scan_size)
 //			std::string current_char;
 //#	endif	//	defined(__BBL_USING_STATIC_TABLE__)
 		  public:
-			void scan_char(const bbl_char &X) {
+			void scan_char(const bbl_char &X2) {
 #	if defined(__BBL_USING_STDMAP_TABLE__)
 				babel::bbl_score_map &score_map = babel::bbl_scoremap::utf8_score;
 #	endif	//	defined(__BBL_USING_STDMAP_TABLE__)
 #	if defined(__BBL_USING_STATIC_TABLE__)
 				babel::bbl_score_map &score_map = babel::bbl_scoremap::unicode_score;
 #	endif	//	defined(__BBL_USING_STATIC_TABLE__)
-				if (0x00 == X) {
+				if (0x00 == X2) {
 					on_error();
 					return;
 				}
 				if (encode_scorer::neutral == mode) {
-					int char_length = babel::get_utf8_char_length(X);
+					int char_length = babel::get_utf8_char_length(X2);
 					if (0 == char_length) {
 						on_error();
 					} else {
 #	if defined(__BBL_USING_STDMAP_TABLE__)
-						current_code = X;
+						current_code = X2;
 #	endif	//	defined(__BBL_USING_STDMAP_TABLE__)
 #	if defined(__BBL_USING_STATIC_TABLE__)
-//						current_char = X;
-						current_code = babel::utf8_lead_mask[char_length] & X;
+//						current_char = X2;
+						current_code = babel::utf8_lead_mask[char_length] & X2;
 #	endif	//	defined(__BBL_USING_STATIC_TABLE__)
 						mode = 1 -char_length;
 						if (encode_scorer::neutral == mode) {
@@ -4051,14 +4054,14 @@ analyze_base_encoding(const bbl_binary &org_X, const unsigned int max_scan_size)
 					}
 				} else {
 					assert(mode < 0);
-					if (0x80 == (0xC0 & X)) {
+					if (0x80 == (0xC0 & X2)) {
 #	if defined(__BBL_USING_STDMAP_TABLE__)
 						current_code *= 0x100;
-						current_code += X;
+						current_code += X2;
 #	endif	//	defined(__BBL_USING_STDMAP_TABLE__)
 #	if defined(__BBL_USING_STATIC_TABLE__)
 						current_code <<= 6;
-						current_code |= (0x3F & X);
+						current_code |= (0x3F & X2);
 #	endif	//	defined(__BBL_USING_STATIC_TABLE__)
 						++mode;
 						if (encode_scorer::neutral == mode) {

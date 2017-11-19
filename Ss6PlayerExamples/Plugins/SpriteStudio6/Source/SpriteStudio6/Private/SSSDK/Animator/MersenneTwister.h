@@ -42,13 +42,13 @@ using namespace std;
 
 class CMersenneTwister {
 private:
-	const int             m_iN          ;
-	const int             m_iM          ;
-	const int             m_ulMATRIX_A  ;
-	const unsigned long   m_ulUPPER_MASK;
-	const unsigned long   m_ulLOWER_MASK;
-	vector<unsigned long> m_veculMT     ;
-	int                   m_iMTI        ;
+	const int32             m_iN          ;
+	const int32             m_iM          ;
+	const int32             m_ulMATRIX_A  ;
+	const uint32            m_ulUPPER_MASK;
+	const uint32            m_ulLOWER_MASK;
+	vector<uint32>          m_veculMT     ;
+	int32                   m_iMTI        ;
 public:
 	CMersenneTwister()
 	: m_iN          (624)
@@ -59,7 +59,7 @@ public:
 	{
 		m_veculMT.resize(m_iN);
 		m_iMTI = m_iN + 1;			// mti==N+1 means mt[N] is not initialized
-		unsigned long aulInit[4] = { 0x123, 0x234, 0x345, 0x456 };	// use default seed
+		uint32 aulInit[4] = { 0x123, 0x234, 0x345, 0x456 };	// use default seed
 		init_by_array(aulInit, sizeof aulInit / sizeof aulInit[0]);
 	}
 
@@ -69,7 +69,7 @@ public:
 
 
 	// initializes mt[N] with a seed
-	void init_genrand(unsigned long ulSeed) {
+	void init_genrand(uint32 ulSeed) {
 		m_veculMT[0] = ulSeed & 0xffffffffUL;
 		{for (m_iMTI = 1; m_iMTI < m_iN; m_iMTI++) {
 			m_veculMT[m_iMTI] = (1812433253UL * (m_veculMT[m_iMTI - 1] ^ (m_veculMT[m_iMTI - 1] >> 30)) + m_iMTI); 
@@ -83,11 +83,11 @@ public:
 	// initialize by an array with array-length
 	// init_key is the array for initializing keys
 	// key_length is its length
-	void init_by_array(unsigned long aulInitKey[], int iKeyLength) {
+	void init_by_array(uint32 aulInitKey[], int32 iKeyLength) {
 		init_genrand(19650218UL);
-		int iI = 1;
-		int iJ = 0;
-		{for (int k = m_iN > iKeyLength ? m_iN : iKeyLength; k; k--) {
+		int32 iI = 1;
+		int32 iJ = 0;
+		{for (int32 k = m_iN > iKeyLength ? m_iN : iKeyLength; k; k--) {
 			m_veculMT[iI] = (m_veculMT[iI] ^ ((m_veculMT[iI - 1] ^ (m_veculMT[iI - 1] >> 30)) * 1664525UL))
 			  + aulInitKey[iJ] + iJ; /* non linear */
 			m_veculMT[iI] &= 0xffffffffUL; /* for WORDSIZE > 32 machines */
@@ -95,7 +95,7 @@ public:
 			if (iI >= m_iN) { m_veculMT[0] = m_veculMT[m_iN - 1]; iI = 1; }
 			if (iJ >= iKeyLength) { iJ = 0; }
 		}}
-		{for (int k = m_iN - 1; k; k--) {
+		{for (int32 k = m_iN - 1; k; k--) {
 			m_veculMT[iI] = (m_veculMT[iI] ^ ((m_veculMT[iI - 1] ^ (m_veculMT[iI - 1] >> 30)) * 1566083941UL)) - iI; // non linear
 			m_veculMT[iI] &= 0xffffffffUL;	// for WORDSIZE > 32 machines
 			iI++;
@@ -104,8 +104,8 @@ public:
 		m_veculMT[0] = 0x80000000UL; /* MSB is 1; assuring non-zero initial array */ 
 	}
 	// generates a random number on [0,0xffffffff]-interval
-	unsigned long genrand_uint32() {
-		unsigned long aulMag01[2] = { 0x0UL, m_ulMATRIX_A };
+	uint32 genrand_uint32() {
+		uint32 aulMag01[2] = { 0x0UL, (uint32)m_ulMATRIX_A };
 		// mag01[x] = x * MATRIX_A  for x=0,1
 		if (m_iMTI >= m_iN) {
 			// generate N words at one time
@@ -113,20 +113,20 @@ public:
 				/* if init_genrand() has not been called, */
 				init_genrand(5489UL); /* a default initial seed is used */
 			}
-			int iKK = 0;
+			int32 iKK = 0;
 			{for (; iKK < m_iN - m_iM; iKK++) {
-				unsigned long ulY = (m_veculMT[iKK] & m_ulUPPER_MASK) | (m_veculMT[iKK + 1] & m_ulLOWER_MASK);
+				uint32 ulY = (m_veculMT[iKK] & m_ulUPPER_MASK) | (m_veculMT[iKK + 1] & m_ulLOWER_MASK);
 				m_veculMT[iKK] = m_veculMT[iKK + m_iM] ^ (ulY >> 1) ^ aulMag01[ulY & 0x1UL];
 			}}
 			{for (; iKK < m_iN - 1; iKK++) {
-				unsigned long ulY = (m_veculMT[iKK] & m_ulUPPER_MASK) | (m_veculMT[iKK + 1] & m_ulLOWER_MASK);
+				uint32 ulY = (m_veculMT[iKK] & m_ulUPPER_MASK) | (m_veculMT[iKK + 1] & m_ulLOWER_MASK);
 				m_veculMT[iKK] = m_veculMT[iKK + (m_iM - m_iN)] ^ (ulY >> 1) ^ aulMag01[ulY & 0x1UL];
 			}}
-			unsigned long ulY = (m_veculMT[m_iN - 1] & m_ulUPPER_MASK) | (m_veculMT[0] & m_ulLOWER_MASK);
+			uint32 ulY = (m_veculMT[m_iN - 1] & m_ulUPPER_MASK) | (m_veculMT[0] & m_ulLOWER_MASK);
 			m_veculMT[m_iN - 1] = m_veculMT[m_iM - 1] ^ (ulY >> 1) ^ aulMag01[ulY & 0x1UL];
 			m_iMTI = 0;
 		}
-		unsigned long ulY = m_veculMT[m_iMTI++];
+		uint32 ulY = m_veculMT[m_iMTI++];
 		// Tempering
 		ulY ^= (ulY >> 11)               ;
 		ulY ^= (ulY <<  7) & 0x9d2c5680UL;
@@ -143,8 +143,8 @@ public:
 		return genrand_uint32() * (1.0 / 4294967296.0);	// divided by 2^32
 	}
 	// generates a random integer number from 0 to N-1
-	int genrand_N(int iN) {
-		return (int)(genrand_uint32() * (iN / 4294967296.0));
+	int32 genrand_N(int32 iN) {
+		return (int32)(genrand_uint32() * (iN / 4294967296.0));
 	}
 };
 

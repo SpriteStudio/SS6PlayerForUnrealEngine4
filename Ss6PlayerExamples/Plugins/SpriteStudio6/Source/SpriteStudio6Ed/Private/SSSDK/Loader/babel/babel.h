@@ -420,7 +420,7 @@ void init_babel();
 //	ステートメントハックＯＮ！
 //
 #define __BUG_STATEMENT_HACK__	//	ステートメントハックの指定
-#include "..\bugbeard\bug.h"
+#include "../bugbeard/bug.h"
 #endif	//	defined(__BABEL_WITH_BUG__)
 
 namespace babel {
@@ -456,6 +456,7 @@ namespace bbl_term {
 //	const bbl_wstring unicode_bom = L"\uFEFF";	//	g++ のヽ(｀Д´)ノボケェ！
 	const bbl_wstring unicode_bom((bbl_wstring::size_type)1, (bbl_wstring::value_type)0xFEFF);
 #endif	//	defined(__BBL_USE_UNICODE__)
+#if 0
 	const bbl_string babel_version = "information>\n"
 											"\tmodule>\tid=babel\n"
 											"\t\tname=バベル  -babel- \n"
@@ -465,7 +466,7 @@ namespace bbl_term {
 											"\t\tname=道化師\n"
 											"\t\turl=http://www.trickpalace.net/\n"
 											"\t\tmail=wraith@trickpalace.net\n";
-
+#endif //0
 	struct get_broken_char {
 		operator const bbl_string &() const { return broken_char; }
 #if	defined(__BBL_USE_UNICODE__)
@@ -663,6 +664,7 @@ namespace profile_for_UI {
 	//	return get_array_item(index, ansi, sjis, jis, euc, iso2022jp, utf8,
 	//						utf16be, utf16le, utf32be, utf32le);
 	}
+#if 0
 	inline const bbl_string get_name_for_UI(unsigned int index) {
 		assert(index < get_list_size_for_UI());
 		const char * name_for_UI[] = {
@@ -686,7 +688,9 @@ namespace profile_for_UI {
 	//						("ISO-2022-JP")("UTF-8")("UTF-16")
 	//						("UTF-16le")("UTF-32")("UTF-32le")[index];
 	}
+#endif //0
 
+#if 0
 	//	get_base_encoding_name()はエンコードのIDから表示用の文字列を取得する為
 	//	の関数ですが、get_name_for_UI()と混同しないように気をつけてください。
 	inline const bbl_string get_base_encoding_name(unsigned int index) {
@@ -708,6 +712,7 @@ namespace profile_for_UI {
 		};
 		return base_encoding_name[index];
 	}
+#endif //0
 }
 
 
@@ -726,6 +731,7 @@ inline const int get_base_encoding() {
 	return utf8;
 #endif
 #ifdef	__USING_UNKNOWN__
+#if 0
 	const int fingerprint = ((unsigned char*)("漢字"))[0];
 	if (0x8A == fingerprint) {
 		return sjis;
@@ -737,6 +743,9 @@ inline const int get_base_encoding() {
 		return utf8;
 	}
 	return ansi;
+#else
+	return sjis;
+#endif //0
 #endif
 }
 
@@ -923,8 +932,8 @@ class bbl_translater {
 	bbl_smart_shell<engine_type> engine;
   public:
 	bbl_translater(engine_type *X_engine)	:engine(X_engine) { }
-	bbl_translater(const bbl_translater &X = dull_engine_type::create())
-										:engine(X.engine) { }
+//	bbl_translater(const bbl_translater &X = dull_engine_type::create())
+//										:engine(X.engine) { }
 	~bbl_translater() { }
 
 	bbl_translater & operator = (engine_type *X_engine) {
