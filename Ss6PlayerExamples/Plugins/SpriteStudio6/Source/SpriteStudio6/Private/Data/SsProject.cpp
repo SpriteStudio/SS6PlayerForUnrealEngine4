@@ -6,12 +6,12 @@
 #include "SsString_uty.h"
 
 
-USsProject::USsProject(const FObjectInitializer& ObjectInitializer)
+USs6Project::USs6Project(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 }
 
-void USsProject::Serialize(FArchive& Ar)
+void USs6Project::Serialize(FArchive& Ar)
 {
 	Super::Serialize(Ar);
 
@@ -30,7 +30,7 @@ void USsProject::Serialize(FArchive& Ar)
 	}
 }
 
-int32 USsProject::FindAnimePackIndex(const FName& AnimePackName) const
+int32 USs6Project::FindAnimePackIndex(const FName& AnimePackName) const
 {
 	for(int32 i = 0; i < AnimeList.Num(); ++i)
 	{
@@ -42,7 +42,7 @@ int32 USsProject::FindAnimePackIndex(const FName& AnimePackName) const
 	return -1;
 }
 
-int32 USsProject::FindCellMapIndex(const FName& CellmapName) const
+int32 USs6Project::FindCellMapIndex(const FName& CellmapName) const
 {
 	for(int32 i = 0; i < CellmapList.Num(); ++i)
 	{
@@ -54,7 +54,7 @@ int32 USsProject::FindCellMapIndex(const FName& CellmapName) const
 	return -1;
 }
 
-bool USsProject::FindAnimationIndex(const FName& InAnimPackName, const FName& InAnimationName, int32& OutAnimPackIndex, int32& OutAnimationIndex) const
+bool USs6Project::FindAnimationIndex(const FName& InAnimPackName, const FName& InAnimationName, int32& OutAnimPackIndex, int32& OutAnimationIndex) const
 {
 	OutAnimPackIndex = FindAnimePackIndex(InAnimPackName);
 	if(OutAnimPackIndex < 0){ return false; }
@@ -65,7 +65,7 @@ bool USsProject::FindAnimationIndex(const FName& InAnimPackName, const FName& In
 	return true;
 }
 
-const FSsAnimation* USsProject::FindAnimation(int32 AnimPackIndex, int32 AnimationIndex) const
+const FSsAnimation* USs6Project::FindAnimation(int32 AnimPackIndex, int32 AnimationIndex) const
 {
 	if((0 <= AnimPackIndex) && (AnimPackIndex < AnimeList.Num()))
 	{
@@ -77,7 +77,7 @@ const FSsAnimation* USsProject::FindAnimation(int32 AnimPackIndex, int32 Animati
 	return NULL;
 }
 
-int32 USsProject::FindEffectIndex(const FName& EffectName) const
+int32 USs6Project::FindEffectIndex(const FName& EffectName) const
 {
 	for(int32 i = 0; i < EffectList.Num(); ++i)
 	{
@@ -90,15 +90,15 @@ int32 USsProject::FindEffectIndex(const FName& EffectName) const
 }
 
 
-FString USsProject::GetSsceBasepath() const
+FString USs6Project::GetSsceBasepath() const
 {
 	return getFullPath(ProjFilepath, Settings.CellMapBaseDirectory);
 }
-FString USsProject::GetSsaeBasepath() const
+FString USs6Project::GetSsaeBasepath() const
 {
 	return getFullPath(ProjFilepath, Settings.AnimeBaseDirectory);
 }
-FString USsProject::GetImageBasepath() const
+FString USs6Project::GetImageBasepath() const
 {
 	return getFullPath(ProjFilepath, Settings.ImageBaseDirectory);
 }
@@ -145,7 +145,7 @@ namespace
 
 		return Result;
 	}
-	uint32 CalcMaxRenderPartsNum_Recursive(const USsProject& Proj, const FSsAnimePack& AnimePack)
+	uint32 CalcMaxRenderPartsNum_Recursive(const USs6Project& Proj, const FSsAnimePack& AnimePack)
 	{
 		uint32 Result = AnimePack.Model.PartList.Num();
 		for(int32 i = 0; i < AnimePack.Model.PartList.Num(); ++i)
@@ -165,7 +165,7 @@ namespace
 	}
 }
 
-uint32 USsProject::CalcMaxRenderPartsNum() const
+uint32 USs6Project::CalcMaxRenderPartsNum() const
 {
 	uint32 Result = 0;
 

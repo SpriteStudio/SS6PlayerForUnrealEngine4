@@ -91,6 +91,45 @@ int32 FSsAttribute::GetUpperBoundKeyIndex(int32 Time)
 
 
 //頂点カラーアニメデータの取得
+void	GetSsPartsColorValue( const SsKeyframe* key , SsPartsColorAnime& v )
+{
+	SsColorBlendTarget::_enum target;
+	__StringToEnum_( key->value["target"].get<SsString>() , target );
+	SsBlendType::_enum blendtype;
+	__StringToEnum_( key->value["blendType"].get<SsString>() , blendtype);
+
+	v.blendType = blendtype;
+	v.target = target;
+
+	if ( target == SsColorBlendTarget::vertex )
+	{
+		SsHash lt = key->value["LT"].get<SsHash>();
+		SsHash rt = key->value["RT"].get<SsHash>();
+		SsHash lb = key->value["LB"].get<SsHash>();
+		SsHash rb = key->value["RB"].get<SsHash>();
+
+		ConvertStringToSsColor( lt["rgba"].get<SsString>() , v.colors[0].rgba);
+		v.colors[0].rate = lt["rate"].get<float>();
+
+		ConvertStringToSsColor( rt["rgba"].get<SsString>() , v.colors[1].rgba);
+		v.colors[1].rate = rt["rate"].get<float>();
+
+		ConvertStringToSsColor( lb["rgba"].get<SsString>() , v.colors[2].rgba);
+		v.colors[2].rate = lb["rate"].get<float>();
+
+		ConvertStringToSsColor( rb["rgba"].get<SsString>() , v.colors[3].rgba);
+		v.colors[3].rate = rb["rate"].get<float>();
+
+	}else{
+		SsHash color = key->value["color"].get<SsHash>();
+
+		ConvertStringToSsColor( color["rgba"].get<SsString>() , v.color.rgba);
+		v.color.rate = color["rate"].get<float>();
+	}
+
+}
+
+//頂点カラーアニメデータの取得
 void	GetSsColorValue( const FSsKeyframe* key , FSsColorAnime& v )
 {
 	TEnumAsByte<SsColorBlendTarget::Type> target;

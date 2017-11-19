@@ -10,6 +10,12 @@ FString	__EnumToString_( TEnumAsByte<SsPartType::Type> n )
 	if ( SsPartType::Text ) return "text";
 	if ( SsPartType::Instance ) return "instance";
 	if ( SsPartType::Effect ) return "effect";
+	if ( SsPartType::Mesh ) return "mesh";
+	if ( SsPartType::MoveNode ) return "movenode";
+	if ( SsPartType::Constraint ) return "constraint";
+	if ( SsPartType::Mask ) return "mask";
+	if ( SsPartType::Joint ) return "joint";
+	if ( SsPartType::BonePoint ) return "bonepoint";
 	return "invalid";	
 }
 
@@ -22,6 +28,12 @@ void 	__StringToEnum_( FString n , TEnumAsByte<SsPartType::Type>& out)
 	if ( n == "text") out = SsPartType::Text;
 	if ( n == "instance") out = SsPartType::Instance;
 	if ( n == "effect") out = SsPartType::Effect;
+	if ( n == "mesh") out = SsPartType::Mesh;
+	if ( n == "movenode") out = SsPartType::MoveNode;
+	if ( n == "constraint") out = SsPartType::Constraint;
+	if ( n == "mask") out = SsPartType::Mask;
+	if ( n == "joint") out = SsPartType::Joint;
+	if ( n == "bonepoint") out = SsPartType::BonePoint;
 }
 
 //---------------------------------------------------------------
@@ -97,6 +109,10 @@ FString	__EnumToString_( TEnumAsByte<SsBlendType::Type> n )
 	if ( SsBlendType::Mul ) return "mul";
 	if ( SsBlendType::Add ) return "add";
 	if ( SsBlendType::Sub ) return "sub";
+	if ( SsBlendType::MulAlpha ) return "mulalpha";
+	if ( SsBlendType::Screen ) return "screen";
+	if ( SsBlendType::Exclusion ) return "exclusion";
+	if ( SsBlendType::Invert ) return "invert";
 
 	return "invalid";	
 }
@@ -109,6 +125,10 @@ void	__StringToEnum_( FString n , TEnumAsByte<SsBlendType::Type> &out )
 	if ( n == "mul") out = SsBlendType::Mul;
 	if ( n == "add") out = SsBlendType::Add;
 	if ( n == "sub") out = SsBlendType::Sub;
+	if ( n == "mulalpha") out = SsBlendType::MulAlpha;
+	if ( n == "screen") out = SsBlendType::Screen;
+	if ( n == "exclusion") out = SsBlendType::Exclusion;
+	if ( n == "invert") out = SsBlendType::Invert;
 }
 
 
@@ -334,4 +354,40 @@ TEnumAsByte<SsBlendType::Type> SsRenderBlendTypeToBlendType(TEnumAsByte<SsRender
 	case SsRenderBlendType::Add: return SsBlendType::Add;
 	}
 	return SsBlendType::Mix;
+}
+
+//---------------------------------------------------------------
+//相互変換 SsIkRotationArrow
+FString	__EnumToString_( TEnumAsByte<SsIkRotationArrow::Type> n )
+{
+	if ( n == SsIkRotationArrow::arrowfree)		return "arrowfree";
+	if ( n == SsIkRotationArrow::clockwise)		return "clockwise";
+	if ( n == SsIkRotationArrow::anticlockwise)	return "anticlockwise";
+
+	return "unknown";
+}
+
+void 	__StringToEnum_( FString n , TEnumAsByte<SsIkRotationArrow::Type>& out)
+{
+	out =  SsIkRotationArrow::unknown;
+	if ( n == "arrowfree")		out = SsIkRotationArrow::arrowfree;
+	if ( n == "clockwise")		out = SsIkRotationArrow::clockwise;
+	if ( n == "anticlockwise")	out = SsIkRotationArrow::anticlockwise;
+}
+
+//---------------------------------------------------------------
+//相互変換 SsMeshDivType
+FString	__EnumToString_( TEnumAsByte<SsMeshDivType::Type> n )
+{
+	if ( n == SsMeshDivType::polyline_base)	return "polyline_base";
+	if ( n == SsMeshDivType::boxdiv)		return "boxdiv";
+
+	return "unknown";
+}
+
+void 	__StringToEnum_( FString n , TEnumAsByte<SsMeshDivType::Type>& out)
+{
+	out =  SsMeshDivType::unknown;
+	if ( n == "polyline_base")	out = SsMeshDivType::polyline_base;
+	if ( n == "boxdiv")			out = SsMeshDivType::boxdiv;
 }

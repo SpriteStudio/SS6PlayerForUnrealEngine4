@@ -344,6 +344,15 @@ void SerializeStruct(FSsCell& Value, SsXmlIArchiver* ar)
 	SSAR_DECLARE("size", Value.Size);
 	SSAR_DECLARE("pivot", Value.Pivot);
 	SSAR_DECLARE("rotated", Value.Rotated);
+
+	SSAR_DECLARE("ismesh", Value.IsMesh);
+	SSAR_DECLARE_LIST("innerPoint", Value.InnerPoint);
+	SSAR_DECLARE_LIST("outerPoint", Value.OuterPoint);
+	SSAR_DECLARE_LIST("meshPointList", Value.MeshPointList);
+	SSAR_DECLARE_LIST("meshTriList", Value.MeshTriList);
+	SSAR_DECLARE_ENUM("divtype", Value.DivType);
+	SSAR_DECLARE("divw", Value.DivW);
+	SSAR_DECLARE("divh", Value.DivH);
 }
 void SerializeStruct(FSsAnimationSettings& Value, SsXmlIArchiver* ar)
 {
@@ -351,6 +360,8 @@ void SerializeStruct(FSsAnimationSettings& Value, SsXmlIArchiver* ar)
 	SSAR_DECLARE("frameCount", Value.FrameCount);
 	SSAR_DECLARE("canvasSize", Value.CanvasSize);
 	SSAR_DECLARE("pivot", Value.Pivot);
+	SSAR_DECLARE("startFreame", Value.StartFrame);
+	SSAR_DECLARE("endFrame", Value.EndFrame);
 }
 void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
 {
@@ -364,29 +375,21 @@ void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
 	SSAR_DECLARE_ENUM("alphaBlendType", Value.AlphaBlendType);
 	SSAR_DECLARE("show", Value.Show);
 	SSAR_DECLARE("locked", Value.Locked);
+	SSAR_DECLARE("colorLabel", Value.ColorLabel);
+	SSAR_DECLARE("maskInfluence", Value.MaskInfluence);
+
 	SSAR_DECLARE("refAnimePack", Value.RefAnimePack);
 	SSAR_DECLARE("refAnime", Value.RefAnime);
 
-	if(SsPartType::Effect == Value.Type)
-	{
-		SSAR_DECLARE("refEffectName", Value.RefEffectName);
-	}
+	SSAR_DECLARE("refEffectName", Value.RefEffectName);
 
-	SSAR_DECLARE("colorLabel", Value.ColorLabel);
-
-	// 未対応のパーツタイプに対する警告 
-	if(SsPartType::Invalid == Value.Type)
-	{
-		Value.Type = SsPartType::Null;
-
-		FMessageLog Message("SSPJ Import Log");
-		FString WarningMessage = FString::Printf(TEXT(
-			"\"%s\"'s Part Type is Invalid. Replace it with a NULL."),
-			*(Value.PartName.ToString())
-			);
-		Message.Warning(FText::FromString(WarningMessage));
-		Message.Open();
-	}
+	SSAR_DECLARE("boneLength", Value.BoneLength);
+	SSAR_DECLARE("bonePosition", Value.BonePosition);
+	SSAR_DECLARE("boneRotation", Value.BoneRotation);
+	SSAR_DECLARE("weightPosition", Value.WeightPosition);
+	SSAR_DECLARE("weightImpact", Value.WeightImpact);
+	SSAR_DECLARE("IKDepth", Value.IKDepth);
+	SSAR_DECLARE("IKRotationArrow", Value.IKRotationArrow);
 
 	//継承率後に改良を実施
 	if (ar->getType() == EnumSsArchiver::in)
@@ -407,9 +410,18 @@ void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
 		}
 	}
 }
+void SerializeStruct(FSsMeshBind& Value, SsXmlIArchiver* ar)
+{
+	//TODO
+	//ssloader_ssae.cpp
+	//SsMeshBind::loader(ISsXmlArchiver* ar)
+}
 void SerializeStruct(FSsModel& Value, SsXmlIArchiver* ar)
 {
 	SSAR_DECLARE_LIST("partList", Value.PartList);
+	SSAR_DECLARE_LIST("meshList", Value.MeshList);
+	SSAR_DECLARE("boneList", Value.BoneList);
+	Value.SetupAnimation = nullptr;
 }
 void SerializeStruct(FSsPartAnime& Value, SsXmlIArchiver* ar)
 {
@@ -425,8 +437,9 @@ void SerializeStruct(FSsAnimation& Value, SsXmlIArchiver* ar)
 {
 	SSAR_DECLARE("name", Value.AnimationName);
 	SSAR_STRUCT_DECLARE("settings", Value.Settings);
-	SSAR_DECLARE_LISTEX("labels", Value.Labels, "value");
 	SSAR_DECLARE_LISTEX("partAnimes", Value.PartAnimes, "partAnime");
+	SSAR_DECLARE_LISTEX("labels", Value.Labels, "value");
+	SSAR_DECLARE("isSetup", Value.IsSetup);
 }
 void SerializeStruct(FSsVarianceValueFloat& Value, SsXmlIArchiver* ar)
 {

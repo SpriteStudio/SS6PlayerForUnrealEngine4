@@ -234,6 +234,12 @@ namespace SsPartType
 		Text,			///< テキスト(予約　未実装）
 		Instance,		///< インスタンス。他アニメ、パーツへの参照。シーン編集モードの代替になるもの
 		Effect,			///< エフェクト
+		Mesh,			///< メッシュパーツ
+		MoveNode,		///< 動作起点
+		Constraint,		///<コンストレイント
+		Mask,			///< マスク
+		Joint,			///< メッシュとボーンの関連付けパーツ
+		BonePoint,		///< ボーンポイント
 		Num,
 
 		Invalid = 254
@@ -293,7 +299,10 @@ namespace SsBlendType
 		Mul,			///< 1 乗算
 		Add,			///< 2 加算
 		Sub,			///< 3 減算
-		Effect,			///    エフェクト用カラーブレンドタイプ
+		MulAlpha,		///< 4 α乗算
+		Screen,			///< 5 スクリーン
+		Exclusion,		///< 6 除外
+		Invert,			///< 7 反転
 		Num,
 
 		Invalid = 254
@@ -386,11 +395,15 @@ namespace SsAttributeKind
 		Rotz,		///< [ROTZ]回転.Z
 		Sclx,		///< [SCLX]スケール.X
 		Scly,		///< [SCLY]スケール.Y
+		Losclx,		///< [LSCX]ローカルスケール.X
+		Loscly,		///< [LSCY]ローカルスケール.Y
 		Alpha,		///< [ALPH]不透明度
+		Loalpha,	///< [LALP]ローカル不透明度
 		Prio,		///< [PRIO]優先度
 		Fliph,		///< [FLPH]左右反転(セルの原点を軸にする)
 		Flipv,		///< [FLPV]上下反転(セルの原点を軸にする)
 		Hide,		///< [HIDE]非表示
+		Partscolor,	///< [PCOL]パーツカラー
 		Color,		///< [VCOL]カラーブレンド
 		Vertex,		///< [VERT]頂点変形
 		Pivotx,		///< [PVTX]原点オフセット.X
@@ -407,6 +420,7 @@ namespace SsAttributeKind
 		Uvsx,		///< [UVSX]UVアニメ.スケール.X
 		Uvsy,		///< [UVSY]UVアニメ.スケール.Y
 		Boundr,		///< [BNDR]当たり判定用の半径
+		Mask,		///< [MASK]マスク閾値
 		User,		///< [USER]ユーザーデータ
 		Instance,	///< [IPRM]インスタンスパーツパラメータ
 		Effect,		///< [EFCT]エフェクトパラメータ
@@ -444,6 +458,39 @@ struct FSsColorBlendValue
 	float	Rate;	///反映率
 
 	FSsColorBlendValue(): Rate(0){}
+
+};
+
+///頂点変形キーの４頂点変形値
+struct FSsVertexAnime
+{
+	FVector2D	Offsets[4];	///< 各頂点の移動オフセット値
+	FVector2D&	GetOffsets(int index){ return Offsets[index];}
+
+	FSsVertexAnime()
+	{
+		for(int i = 0; i < 4; ++i)
+		{
+			Offsets[i] = FVector2D(0.f, 0.f);
+		}
+	}
+};
+
+
+///パーツカラー使用時のブレンドタイプとカラー値
+struct SsPartsColorAnime
+{
+	SsColorBlendTarget::Type	target;		//ブレンドの適用方法  単色(全体) , 頂点単位 
+	SsBlendType::Type			blendType;	//ブレンド種別 (mix　乗算　加算　減算）
+	FSsColorBlendValue			color;		//単色。全体の場合に使用されるカラー値
+	FSsColorBlendValue			colors[4];	//頂点単位の場合使用されるカラー値
+
+	FSsColorBlendValue&			getColors(int index) { return colors[index]; }
+	int							getTargetToInt() { return (int)target; }
+	int							getBlendTypeToInt() { return (int)blendType; }
+	SsPartsColorAnime() :
+		target(SsColorBlendTarget::Invalid),
+		blendType(SsBlendType::Invalid) {}
 
 };
 
@@ -503,6 +550,21 @@ void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsRenderBlendType
 TEnumAsByte<SsBlendType::Type> SsRenderBlendTypeToBlendType(TEnumAsByte<SsRenderBlendType::Type> n);
 
 
+namespace SsIkRotationArrow
+{
+	enum Type
+	{
+		arrowfree,
+		clockwise,
+		anticlockwise,
+		num,
+
+		unknown = 254,
+	};
+};
+FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsIkRotationArrow::Type> n);
+void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsIkRotationArrow::Type>& out);
+
 class FSsEffectAttr
 {
 public:
@@ -530,22 +592,6 @@ public:
 		LoopFlag = 0;
 		AttrInitialized = false;
 		CurKeyframe = 0;
-	}
-};
-
-
-///頂点変形キーの４頂点変形値
-struct FSsVertexAnime
-{
-	FVector2D	Offsets[4];	///< 各頂点の移動オフセット値
-	FVector2D&	GetOffsets(int index){ return Offsets[index];}
-
-	FSsVertexAnime()
-	{
-		for(int i = 0; i < 4; ++i)
-		{
-			Offsets[i] = FVector2D(0.f, 0.f);
-		}
 	}
 };
 
@@ -636,6 +682,36 @@ namespace SsEffectLoopFlag
 		EFFECT_LOOP_FLAG_INFINITY = 1 << 0,
 	};
 }
+
+//メッシュの分割タイプ
+namespace SsMeshDivType
+{
+	enum Type
+	{
+		unknown,
+		polyline_base,
+		boxdiv,
+		num
+	};
+};
+FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsMeshDivType::Type> n);
+void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsMeshDivType::Type>& out);
+
+struct SsTriangle
+{
+	int	idxPo1;
+	int	idxPo2;
+	int	idxPo3;
+
+};
+
+struct SsBoneBind
+{
+	int		boneIndex;               //暫定でパーツIDを使用する
+	float   blend;
+};
+
+
 
 //---------------------------------------------------------------
 // 描画用の頂点情報

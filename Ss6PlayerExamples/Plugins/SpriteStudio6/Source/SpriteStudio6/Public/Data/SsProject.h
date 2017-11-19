@@ -24,7 +24,7 @@
 //	<availableAttributes>				//!< 使用するアトリビュート
 //	<defaultSetAttributes>				//!< 新規キー作成でデフォルトでキーが打たれるアトリビュート
 USTRUCT()
-struct SPRITESTUDIO6_API FSsProjectSetting
+struct SPRITESTUDIO6_API FSs6ProjectSetting
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -63,7 +63,7 @@ public:
 /// animeSettings   デフォルトのアニメーション設定 
 /// texPackSettings デフォルトのテクスチャパッキング設定
 UCLASS()
-class SPRITESTUDIO6_API USsProject : public UObject
+class SPRITESTUDIO6_API USs6Project : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
@@ -74,7 +74,7 @@ public:
 	FString				Version;
 
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
-	FSsProjectSetting	Settings;			//!< プロジェクト設定
+	FSs6ProjectSetting	Settings;			//!< プロジェクト設定
 
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
 	TArray<FName>		CellmapNames;		//!< セルマップファイルのリスト
@@ -86,13 +86,13 @@ public:
 	TArray<FName>		EffectFileNames;	//!< エフェクトファイルのリスト
 
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
+	TArray<FSsAnimePack>	AnimeList;		//!< アニメーションのリスト
+
+	UPROPERTY(VisibleAnywhere, Category=SsProject)
 	TArray<FSsCellMap>		CellmapList;	//!< セルマップリスト
 
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
-	TArray<FSsAnimePack>	AnimeList;		//!< アニメーションのリスト	
-
-	UPROPERTY(VisibleAnywhere, Category=SsProject)
-	TArray<FSsEffectFile>	EffectList;		//!< エフェクトリスト	
+	TArray<FSsEffectFile>	EffectList;		//!< エフェクトリスト
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Instanced, Category = Reimport)
@@ -105,7 +105,7 @@ public:
 
 public:	
 	///プロジェクトの設定情報の取得
-	const FSsProjectSetting& GetProjectSetting(){ return Settings; }
+	const FSs6ProjectSetting& GetProjectSetting(){ return Settings; }
 
 	// アニメパック名からアニメーションインデックスを取得する
 	int32 FindAnimePackIndex(const FName& AnimePackName) const;

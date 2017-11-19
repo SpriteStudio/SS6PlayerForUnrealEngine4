@@ -13,20 +13,48 @@ struct SPRITESTUDIO6_API FSsCell
 
 public:
 	//--------- ランタイム用データとして保存すべきもの
-	UPROPERTY(VisibleAnywhere, Category=FSsCell)
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	FName		CellName;		///< セル名称
 
-	UPROPERTY(VisibleAnywhere, Category=FSsCell)
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	FVector2D	Pos;			///< 左上の座標
 
-	UPROPERTY(VisibleAnywhere, Category=FSsCell)
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	FVector2D	Size;			///< WHピクセルサイズ
 
-	UPROPERTY(VisibleAnywhere, Category=FSsCell)
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	FVector2D	Pivot;			///< 原点。size /2 が中央=0,0になる。
 
-	UPROPERTY(VisibleAnywhere, Category=FSsCell)
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	bool		Rotated;		///< 左方向に９０度回転されている。uvs の割り当てが変わる。
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	FVector2D	ParentSize;		//親テクスチャのサイズ
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	bool		IsMesh;
+
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	TArray<FVector2D>	InnerPoint;
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	TArray<FVector2D>	OuterPoint;
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	TArray<FVector2D>	MeshPointList;		//ポイントリスト
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	TArray<FSsTriangle>	MeshTriList;		//トライアングルリスト
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	TEnumAsByte<SsMeshDivType::Type>	DivType;
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	int32	DivW;
+
+	UPROPERTY(VisibleAnywhere, Category=SsCell)
+	int32	DivH;
 };
 
 

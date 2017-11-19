@@ -18,14 +18,17 @@ public:
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
 	int32	FrameCount;		//!< フレーム数
 
-//	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
-//	TEnumAsByte<SsPartsSortMode::Type>	SortMode;		//!< パーツのソートモード
-
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
 	FVector2D	CanvasSize;				//!< キャンバスサイズ(元基準枠)。ビューポートのサイズとイコールではない。
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
 	FVector2D	Pivot;					//!< キャンバスの原点。0,0 が中央。-0.5, +0.5 が左上
+
+	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
+	int32	StartFrame;		//!< アニメーションの開始フレーム
+
+	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
+	int32 EndFrame;			//!< アニメーションの終了フレーム
 };
 
 
@@ -65,7 +68,13 @@ public:
 	int32	Locked;			//!< [編集用データ] パーツのロック状態
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
-	float InheritRates[(int)SsAttributeKind::Num];	///< 親の値の継承率。SS4との互換性のため残されているが0 or 1
+	FName	ColorLabel;		//!< カラーラベル
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	bool	MaskInfluence;	//!< マスクの影響を受けるかどうか
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	float InheritRates[(int32)SsAttributeKind::Num];	///< 親の値の継承率。SS4との互換性のため残されているが0 or 1
 
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
@@ -77,21 +86,99 @@ public:
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
 	FName	RefEffectName;	///< 割り当てたパーティクル名
 
+
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
-	FName	ColorLabel;
+	int32		BoneLength;		//!< ボーンの長さ
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	FVector2D	BonePosition;	//!< ボーンの座標
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	float		BoneRotation;	//!< ボーンの角度
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	FVector2D	WeightPosition;	//!< ウェイトの位置
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	float		WeightImpact;	//!< ウェイトの強さ
+
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	int32		IKDepth;		//!< IK深度
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	TEnumAsByte<SsIKRotationArrow::Type>	IKRotationArrow;	//!< 回転方向
+
 
 public:
 	FSsPart()
-		: PartName(TEXT("")), ArrayIndex(0), ParentIndex(0), Show(0), Locked(0)
+		: PartName(TEXT("")), ArrayIndex(0), ParentIndex(0), Show(0), Locked(0), MaskInfluence(true)
 	{
-		for (int i = 0; i < (int)SsAttributeKind::Num; ++i)
+		BoneLength = 0;
+		BonePosition = FVector2D::ZeroVector;
+		BoneRotation = 0.f;
+		WeightPosition = FVector2D::ZeroVector;
+		WeightImpact = 0.f;
+		IKDepth = 0;
+		IKRotationArrow = SsIKRotationArrow::Arrowfree;
+
+		for (int i = 0; i < (int32)SsAttributeKind::Num; ++i)
 		{
 			InheritRates[i] = 1.f;
 		}
+
 		// イメージ反転は継承しない
-		InheritRates[(int)SsAttributeKind::Imgfliph] = 0.f;
-		InheritRates[(int)SsAttributeKind::Imgflipv] = 0.f;
+		InheritRates[(int32)SsAttributeKind::Imgfliph] = 0.f;
+		InheritRates[(int32)SsAttributeKind::Imgflipv] = 0.f;
 	}
+};
+
+
+#define SSMESHPART_BONEMAX	(128)
+
+USTRUCT()
+struct SPRITESTUDIO6_API FSsMeshBindInfo
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	int32	Weight[SSMESHPART_BONEMAX];
+
+	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	FName	BoneName[SSMESHPART_BONEMAX];
+
+	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	int32	BoneIndex[SSMESHPART_BONEMAX];
+
+	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	FVector	Offset[SSMESHPART_BONEMAX];
+
+	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	int32	BindBoneNum;
+
+	FSsMeshBindInfo()
+	{
+		for(int32 i = 0; i < SSMESHPART_BONEMAX; ++i)
+		{
+			Weight[i] = 0;
+			BoneIndex[i] = 0;
+			Offset[i] = FVector::ZeroVector;
+		}
+		BindBoneNum = 0;
+	}
+};
+
+//メッシュ1枚毎の情報
+USTRUCT()
+struct SPRITESTUDIO6_API FSsMeshBind
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(VisibleAnywhere, Category=SsMeshBind)
+	FString	MeshName;
+
+	UPROPERTY(VisibleAnywhere, Category=SsMeshBind)
+	TArray<FSsMeshBindInfo>	MeshVerticesBindArray;
 };
 
 
@@ -104,10 +191,17 @@ struct SPRITESTUDIO6_API FSsModel
 public:
 	UPROPERTY(VisibleAnywhere, Category=SsModel)
 	TArray<FSsPart>	PartList;	//!<格納されているパーツのリスト
+
+	UPROPERTY(VisibleAnywhere, Category=SsModel)
+	TWeakPtr<FSsAnimation>	SetupAnimation;	//< 参照するセットアップアニメ
+
+	UPROPERTY(VisibleAnywhere, Category=SsModel)
+	TArray<FSsMeshBind>		MeshList;
+
+	UPROPERTY(VisibleAnywhere, Category=SsModel)
+	TMap<FName, int32>		BoneList;
 };
 
-
-//typedef std::vector<SsAttribute*>	SsAttributeList;
 
 USTRUCT()
 struct SPRITESTUDIO6_API FSsPartAnime
@@ -159,7 +253,10 @@ public:
 	TArray<FSsPartAnime>	PartAnimes;		///	パーツ毎のアニメーションキーフレームが格納されるリスト
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimation)
-	TArray<FSsLabel>		Labels;
+	TArray<FSsLabel>		Labels;			/// アニメーションが持つラベルのリストです。
+
+	UPROPERTY(VisibleAnywhere, Category=SsAnimation)
+	bool	IsSetup;						///< セットアップアニメか？
 };
 
 /**
