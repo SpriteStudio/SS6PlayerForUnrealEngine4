@@ -9,7 +9,7 @@ class SsCelMapLinker;
 ///パーツが使用するセルの情報
 struct SsCellValue
 {
-	SsCell*						cell;		///参照しているセル
+	FSsCell*						cell;		///参照しているセル
 	ISSTexture*					texture;	///テクスチャ
 	SsVector2					uvs[5];		///使用するUV座標
 	SsTexWrapMode::_enum		wrapMode;	///< テクスチャのラップモード

@@ -403,7 +403,7 @@ namespace SsAttributeKind
 		Fliph,		///< [FLPH]左右反転(セルの原点を軸にする)
 		Flipv,		///< [FLPV]上下反転(セルの原点を軸にする)
 		Hide,		///< [HIDE]非表示
-		Partscolor,	///< [PCOL]パーツカラー
+		PartsColor,	///< [PCOL]パーツカラー
 		Color,		///< [VCOL]カラーブレンド
 		Vertex,		///< [VERT]頂点変形
 		Pivotx,		///< [PVTX]原点オフセット.X
