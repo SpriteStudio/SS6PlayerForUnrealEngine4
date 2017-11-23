@@ -103,7 +103,7 @@ public:
 	}
 
 	virtual void	update( float frameDelta = 1.0f );
-	virtual void	draw();
+//	virtual void	draw();
 
 	void	setAnimation( FSsModel*	model , FSsAnimation* anime , SsCellMapList* cellmap , USs6Project* sspj=0 );
 //	void	setAnimation(SsModel*	model, SsAnimation* anime, SsAnimePack *animepack , SsCellMapList* cellmap, SsProject* sspj = 0);

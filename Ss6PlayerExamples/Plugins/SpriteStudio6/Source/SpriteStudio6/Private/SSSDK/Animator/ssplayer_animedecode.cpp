@@ -1021,40 +1021,40 @@ void	SsAnimeDecoder::updateMatrix(SsPart* part , FSsPartAnime* anime , SsPartSta
 }
 
 
-void	SsAnimeDecoder::updateVertices(SsPart* part , SsPartAnime* anime , SsPartState* state)
+void	SsAnimeDecoder::updateVertices(SsPart* part , FSsPartAnime* anime , SsPartState* state)
 {
 
-	SsCell * cell = state->cellValue.cell;
+	FSsCell * cell = state->cellValue.cell;
 
-	SsVector2 pivot;
+	FVector2D pivot;
 
 	if (cell)
 	{
 		// セルに設定された原点オフセットを適用する
 		// ※セルの原点は中央が0,0で＋が右上方向になっている
-		float cpx = cell->pivot.x + 0.5f;
+		float cpx = cell->Pivot.X + 0.5f;
 		if (state->hFlip) cpx = 1 - cpx;	// 水平フリップによって原点を入れ替える
-		pivot.x = cpx * state->size.x;
+		pivot.X = cpx * state->size.X;
 		// 上が＋で入っているのでここで反転する。
-		float cpy = -cell->pivot.y + 0.5f;
+		float cpy = -cell->Pivot.Y + 0.5f;
 		if (state->vFlip) cpy = 1 - cpy;	// 垂直フリップによって原点を入れ替える
-		pivot.y = cpy * state->size.y;
+		pivot.Y = cpy * state->size.Y;
 	}
 	else
 	{
 		// セルが無いパーツでも原点が中央に来るようにする。
-		pivot.x = 0.5f * state->size.x;
-		pivot.y = 0.5f * state->size.y;
+		pivot.X = 0.5f * state->size.X;
+		pivot.Y = 0.5f * state->size.Y;
 	}
 
 	// 次に原点オフセットアニメの値を足す
-	pivot.x += state->pivotOffset.x * state->size.x;
-	pivot.y += -state->pivotOffset.y * state->size.y;
+	pivot.X += state->pivotOffset.X * state->size.X;
+	pivot.Y += -state->pivotOffset.Y * state->size.Y;
 
-	float sx = -pivot.x;
-	float ex = sx + state->size.x;
-	float sy = +pivot.y;
-	float ey = sy - state->size.y;
+	float sx = -pivot.X;
+	float ex = sx + state->size.X;
+	float sy = +pivot.Y;
+	float ey = sy - state->size.Y;
 
 	// Z順
 	/*
@@ -1064,7 +1064,7 @@ void	SsAnimeDecoder::updateVertices(SsPart* part , SsPartAnime* anime , SsPartSt
 	float vtxPosX[4] = {sx, ex, sx, ex};
 	float vtxPosY[4] = {sy, sy, ey, ey};
 
-	SsPoint2 * vtxOfs = state->vertexValue.offsets;
+	FVector2D * vtxOfs = state->vertexValue.offsets;
 
 	//きれいな頂点変形に対応
 #if USE_TRIANGLE_FIN
@@ -1112,8 +1112,8 @@ void	SsAnimeDecoder::updateVertices(SsPart* part , SsPartAnime* anime , SsPartSt
 	//SsPoint2 * vtxOfs = vertexValue.offsets;
 	for (int i = 0; i < 4; ++i)
 	{
-		state->vertices[i * 3]		= vtxPosX[i] + (float)vtxOfs->x;
-		state->vertices[i * 3 + 1]	= vtxPosY[i] + (float)vtxOfs->y;
+		state->vertices[i * 3]		= vtxPosX[i] + (float)vtxOfs->X;
+		state->vertices[i * 3 + 1]	= vtxPosY[i] + (float)vtxOfs->Y;
 		state->vertices[i * 3 + 2]	= 0;
 
 		++vtxOfs;
@@ -1128,45 +1128,45 @@ void	SsAnimeDecoder::updateVertices(SsPart* part , SsPartAnime* anime , SsPartSt
 
 
 
-void	SsAnimeDecoder::updateInstance( int nowTime , SsPart* part , SsPartAnime* partanime , SsPartState* state )
+void	SsAnimeDecoder::updateInstance( int nowTime , SsPart* part , FSsPartAnime* partanime , SsPartState* state )
 {
 	if ( state->refAnime == 0 ) return ;
 	//state->refAnime->setPlayFrame( nowTime );
 	//state->refAnime->update();
 
-	SsAnimation* anime = state->refAnime->curAnimation;
-	const SsInstanceAttr& instanceValue = state->instanceValue;
+	FSsAnimation* anime = state->refAnime->curAnimation;
+	const FSsInstanceAttr& instanceValue = state->instanceValue;
 
     //プレイヤー等では再生開始時にいったん計算してしまって値にしてしまった方がいい。
     //エディター側のロジックなのでそのまま検索する
     //インスタンスアニメ内のスタート位置
-    int	startframe = CalcAnimeLabel2Frame( instanceValue.startLabel , instanceValue.startOffset, anime);
-    int	endframe = CalcAnimeLabel2Frame( instanceValue.endLabel , instanceValue.endOffset, anime);
+    int	startframe = CalcAnimeLabel2Frame( instanceValue.StartLabel , instanceValue.StartOffset, anime);
+    int	endframe = CalcAnimeLabel2Frame( instanceValue.EndLabel , instanceValue.EndOffset, anime);
 
-    state->instanceValue.startFrame = startframe;		//ラベル位置とオフセット位置を加えた実際のフレーム数
-    state->instanceValue.endFrame = endframe;			//ラベル位置とオフセット位置を加えた実際のフレーム数
+    state->instanceValue.StartFrame = startframe;		//ラベル位置とオフセット位置を加えた実際のフレーム数
+    state->instanceValue.EndFrame = endframe;			//ラベル位置とオフセット位置を加えた実際のフレーム数
 
 
     //タイムライン上の時間 （絶対時間）
 	int time = nowTime;
 
 	//独立動作の場合
-	if ( instanceValue.independent )
+	if ( instanceValue.Independent )
 	{
 		//float delta = animeState->frame - parentBackTime;
 		float delta = this->frameDelta;
 
-		state->instanceValue.liveFrame+= ( delta * instanceValue.speed );
+		state->instanceValue.liveFrame+= ( delta * instanceValue.Speed );
 		//parentBackTime = animeState->frame;
-		time = (int)instanceValue.liveFrame;
+		time = (int)instanceValue.LiveFrame;
 
 	}
 
     //このインスタンスが配置されたキーフレーム（絶対時間）
-    int	selfTopKeyframe = instanceValue.curKeyframe;
+    int	selfTopKeyframe = instanceValue.CurKeyframe;
 
 
-    int reftime = ( time - selfTopKeyframe) * instanceValue.speed;
+    int reftime = ( time - selfTopKeyframe) * instanceValue.Speed;
     //int	reftime = (time*instanceValue.speed) - selfTopKeyframe; //開始から現在の経過時間
 	if ( reftime < 0 ) return ; //そもそも生存時間に存在していない
 	if ( selfTopKeyframe > time ) return ;
@@ -1179,13 +1179,13 @@ void	SsAnimeDecoder::updateInstance( int nowTime , SsPart* part , SsPartAnime* p
 
 	int	nowloop =  (reftime / inst_scale);	//現在までのループ数
 
-    int checkloopnum = instanceValue.loopNum;
+    int checkloopnum = instanceValue.LoopNum;
 
 	//pingpongの場合では２倍にする
-    if ( instanceValue.pingpong ) checkloopnum = checkloopnum * 2;
+    if ( instanceValue.Pingpong ) checkloopnum = checkloopnum * 2;
 
 	//無限ループで無い時にループ数をチェック
-    if ( !instanceValue.infinity )   //無限フラグが有効な場合はチェックせず
+    if ( !instanceValue.Infinity )   //無限フラグが有効な場合はチェックせず
 	{
         if ( nowloop >= checkloopnum )
 		{
@@ -1199,8 +1199,8 @@ void	SsAnimeDecoder::updateInstance( int nowTime , SsPart* part , SsPartAnime* p
     //参照位置を決める
     //現在の再生フレームの計算
     int _time = 0;
-	bool	reverse = instanceValue.reverse;
-	if ( instanceValue.pingpong && (nowloop % 2 == 1) )
+	bool	reverse = instanceValue.Reverse;
+	if ( instanceValue.Pingpong && (nowloop % 2 == 1) )
 	{
 		if (reverse)
 		{
@@ -1248,27 +1248,26 @@ void	SsAnimeDecoder::updateInstance( int nowTime , SsPart* part , SsPartAnime* p
 
 }
 
-int		SsAnimeDecoder::findAnimetionLabel(const SsString& str, SsAnimation* Animation)
+int		SsAnimeDecoder::findAnimetionLabel(const FName& str, FSsAnimation* Animation)
 {
-	for ( std::vector<SsLabel*>::iterator itr = Animation->labels.begin() ; 
-		itr != Animation->labels.end() ; itr ++ )
+	for(auto itr = Animation->Labels.CreateConstIterator(); itr; ++itr)
 	{
-		if ( str == (*itr)->name )
+		if ( str == (*itr).LabelName )
 		{
-			return (*itr)->time;
+			return (*itr).Time;
 		}
 	}
 
 	return 0;
 }
 
-int		SsAnimeDecoder::CalcAnimeLabel2Frame(const SsString& str, int offset, SsAnimation* Animation )
+int		SsAnimeDecoder::CalcAnimeLabel2Frame(const FName& str, int offset, FSsAnimation* Animation )
 {
 
 	//10フレームのアニメだと11が入ってるため計算がずれるため-1する
-	int maxframe = Animation->settings.frameCount - 1;
-	int startframe = Animation->settings.startFrame;	//Ver6.0対応
-	int endframe = Animation->settings.endFrame;		//Ver6.0対応
+	int maxframe = Animation->Settings.FrameCount - 1;
+	int startframe = Animation->Settings.StartFrame;	//Ver6.0対応
+	int endframe = Animation->Settings.EndFrame;		//Ver6.0対応
 	int ret2 = offset;
 
     if (  str == "_start" )
@@ -1329,22 +1328,22 @@ void	SsAnimeDecoder::update(float frameDelta)
 	this->frameDelta = frameDelta;
 
 	int cnt = 0;
-	foreach( std::vector<SsPartAndAnime> , partAnime , e )
+	for(auto e = partAnime.CreateConstIterator(); e; ++e)
 	{
-		SsPart* part = e->first;
-		SsPartAnime* anime = e->second;
+		FSsPart* part = e->Key;
+		FSsPartAnime* anime = e->Value;
 
 		updateState( time , part , anime , &partState[cnt] );
 
 		updateMatrix( part , anime , &partState[cnt]);
 
-		if ( part->type == SsPartType::instance )
+		if ( part->Type == SsPartType::Instance )
 		{
 			updateInstance( time , part , anime , &partState[cnt] );
 			updateVertices( part , anime , &partState[cnt] );
 		}
 
-		if ( part->type == SsPartType::effect)
+		if ( part->Type == SsPartType::Effect)
 		{
 			updateMatrix( part , anime , &partState[cnt]);
 			updateEffect(frameDelta, time, part, anime, &partState[cnt]);
@@ -1358,14 +1357,14 @@ void	SsAnimeDecoder::update(float frameDelta)
 		meshAnimator->update();
 
 
-	sortList.sort(_ssPartStateLess);
-	partStatesMask_.sort(_ssPartStateLess);
+	sortList.Sort(_ssPartStateLess);
+	partStatesMask_.Sort(_ssPartStateLess);
 
-	maskIndexList.clear();
-	for ( auto it = partStatesMask_.begin(); it != partStatesMask_.end(); ++it)
+	maskIndexList.Empty();
+	for(auto it = partStatesMask_.CreateConstIterator(); it; ++it)
 	{
 		SsPartState * ps = (*it);
-		maskIndexList.push_back(ps);
+		maskIndexList.Add(ps);
 	}
 
 	//今回再生した時間を保存しておく
@@ -1374,7 +1373,7 @@ void	SsAnimeDecoder::update(float frameDelta)
 }
 
 
-void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , SsPart* part , SsPartAnime* part_anime , SsPartState* state )
+void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , SsPart* part , FSsPartAnime* part_anime , SsPartState* state )
 {
 	if ( state->hide ) return ;
 
@@ -1410,6 +1409,7 @@ void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , SsPart* part
 
 
 }
+#if 0
 //描画
 void	SsAnimeDecoder::draw()
 {
@@ -1495,4 +1495,4 @@ void	SsAnimeDecoder::draw()
 
 	SsCurrentRenderer::getRender()->enableMask(false);
 }
-
+#endif
