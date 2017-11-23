@@ -16,7 +16,8 @@ FSsPlayer::FSsPlayer()
 	, bRoundTrip(false)
 	, bFlipH(false)
 	, bFlipV(false)
-	, SsProject(NULL)
+	, SsProject(nullptr)
+	, Decoder(nullptr)
 	, bPlaying(false)
 	, bFirstTick(false)
 	, AnimPivot(0.f,0.f)
@@ -43,14 +44,18 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 		return;
 	}
 
-	//Decoder = MakeShareable(new FSsAnimeDecoder());
+	if(nullptr != Decoder)
+	{
+		delete Decoder;
+	}
 	Decoder = new SsAnimeDecoder();
 	CellMapList = MakeShareable(new FSsCellMapList());
 
 	PlayingAnimPackIndex = -1;
 	PlayingAnimationIndex = -1;
 
-	Decoder->SetCalcHideParts(bCalcHideParts);
+	//TODO: 旧DecoderのCreateRenderPart()を移植する際に考慮するコト 
+//	Decoder->SetCalcHideParts(bCalcHideParts);
 }
 
 // 更新
@@ -69,14 +74,14 @@ FSsPlayerTickResult FSsPlayer::Tick(float DeltaSeconds)
 // アニメーションの更新
 void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 {
-	if(!Decoder.IsValid())
+	if(nullptr == Decoder)
 	{
 		return;
 	}
 
 	// 更新後のフレーム
-	float BkAnimeFrame = Decoder->GetPlayFrame();
-	float AnimeFrame = BkAnimeFrame + (PlayRate * DeltaSeconds * Decoder->GetAnimeFPS());
+	float BkAnimeFrame = Decoder->nowPlatTime;
+	float AnimeFrame = BkAnimeFrame + (PlayRate * DeltaSeconds * Decoder->getAnimeFPS());
 
 	// 再生開始フレームと同フレームに設定されたユーザーデータを拾うため、初回更新時のみBkAnimeFrameを誤魔化す
 	if(bFirstTick)
@@ -88,7 +93,7 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 	bool bBeyondZeroFrame = false;
 
 	// 最終フレーム以降で順方向再生
-	if((Decoder->GetAnimeEndFrame() <= AnimeFrame) && (0.f < PlayRate))
+	if((Decoder->getAnimeEndFrame() <= AnimeFrame) && (0.f < PlayRate))
 	{
 		if(0 < LoopCount)
 		{
@@ -98,22 +103,22 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 			// ループ回数の終了
 			if(0 == LoopCount)
 			{
-				AnimeFrame = (float)Decoder->GetAnimeEndFrame();
+				AnimeFrame = (float)Decoder->getAnimeEndFrame();
 				Pause();
 				Result.bEndPlay = true;
 			}
 		}
-		FindUserDataInInterval(Result, BkAnimeFrame, (float)Decoder->GetAnimeEndFrame());
+		FindUserDataInInterval(Result, BkAnimeFrame, (float)Decoder->getAnimeEndFrame());
 
 		if(bPlaying)
 		{
-			float AnimeFrameSurplus = AnimeFrame - Decoder->GetAnimeEndFrame();		// 極端に大きなDeltaSecondsは考慮しない
+			float AnimeFrameSurplus = AnimeFrame - Decoder->getAnimeEndFrame();		// 極端に大きなDeltaSecondsは考慮しない
 			// 往復
 			if(bRoundTrip)
 			{
-				AnimeFrame = Decoder->GetAnimeEndFrame() - AnimeFrameSurplus;
+				AnimeFrame = Decoder->getAnimeEndFrame() - AnimeFrameSurplus;
 				PlayRate *= -1.f;
-				FindUserDataInInterval(Result, (float)Decoder->GetAnimeEndFrame(), AnimeFrame);
+				FindUserDataInInterval(Result, (float)Decoder->getAnimeEndFrame(), AnimeFrame);
 			}
 			// ループ
 			else
@@ -154,8 +159,8 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 			// ループ
 			else
 			{
-				AnimeFrame = Decoder->GetAnimeEndFrame() + AnimeFrame;
-				FindUserDataInInterval(Result, (float)Decoder->GetAnimeEndFrame()+.1f, AnimeFrame);
+				AnimeFrame = Decoder->getAnimeEndFrame() + AnimeFrame;
+				FindUserDataInInterval(Result, (float)Decoder->getAnimeEndFrame()+.1f, AnimeFrame);
 			}
 		}
 		bBeyondZeroFrame = true;
@@ -165,16 +170,22 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 		FindUserDataInInterval(Result, BkAnimeFrame, AnimeFrame);
 	}
 
-	Decoder->SetPlayFrame( AnimeFrame );
+	Decoder->setPlayFrame( AnimeFrame );
+
+/*
 	Decoder->SetDeltaForIndependentInstance( DeltaSeconds );
 	if(bBeyondZeroFrame)
 	{
-		Decoder->ReloadEffects();
+		Decoder->ReloadEffects();	// コレは中身が #if 0 で消されてるので削除でOK 
 	}
 	Decoder->Update();
 
 	RenderParts.Empty();
 	Decoder->CreateRenderParts(RenderParts);
+*/
+	//TODO:	更新手順を再確認 
+	//		CreateRenderParts相当の処理はPlayer側で実装する 
+	Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
 
 	// 水平反転 
 	if(bFlipH)
@@ -224,7 +235,7 @@ void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start,
 	float IntervalMin = FMath::Min(Start, End);
 	float IntervalMax = FMath::Max(Start, End);
 
-	const TArray<FSsPartAndAnime>& PartAnime = Decoder->GetPartAnime();
+	const TArray<SsPartAndAnime>& PartAnime = Decoder->getPartAnime();
 	for(int32 i = 0; i < PartAnime.Num(); ++i)
 	{
 		FSsPart* Part = PartAnime[i].Key;
@@ -309,7 +320,7 @@ void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start,
 
 const FVector2D FSsPlayer::GetAnimCanvasSize() const
 {
-	return Decoder.IsValid() ? Decoder->GetAnimeCanvasSize() : FVector2D(0,0);
+	return (nullptr != Decoder) && (nullptr != Decoder->curAnimation) ? Decoder->curAnimation->Settings.CanvasSize : FVector2D(0,0);
 }
 
 // 再生
@@ -323,9 +334,9 @@ bool FSsPlayer::Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 StartF
 	FSsAnimation* Animation = (InAnimationIndex < AnimPack->AnimeList.Num()) ? &(AnimPack->AnimeList[InAnimationIndex]) : NULL;
 	if(NULL == Animation){ return false; }
 
-	CellMapList->Set(SsProject.Get(), AnimPack);
-	Decoder->SetAnimation(&AnimPack->Model, Animation, CellMapList.Get(), SsProject.Get());
-	Decoder->SetPlayFrame( (float)StartFrame );
+	CellMapList->set(SsProject.Get(), AnimPack);
+	Decoder->setAnimation(&AnimPack->Model, Animation, CellMapList.Get(), SsProject.Get());
+	Decoder->setPlayFrame( (float)StartFrame );
 
 	bPlaying = true;
 	bFirstTick = true;
@@ -342,7 +353,7 @@ bool FSsPlayer::Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 StartF
 // 再開
 bool FSsPlayer::Resume()
 {
-	if(Decoder.IsValid() && Decoder->IsAnimationValid())
+	if((nullptr != Decoder) && (nullptr != Decoder->curAnimation))
 	{
 		bPlaying = true;
 		return true;
@@ -363,18 +374,18 @@ bool FSsPlayer::GetAnimationIndex(const FName& InAnimPackName, const FName& InAn
 // 指定フレーム送り
 void FSsPlayer::SetPlayFrame(float Frame)
 {
-	if(Decoder.IsValid())
+	if(nullptr != Decoder)
 	{
-		Decoder->SetPlayFrame( Frame );
+		Decoder->setPlayFrame( Frame );
 	}
 }
 
 // 現在フレーム取得
 float FSsPlayer::GetPlayFrame() const
 {
-	if(Decoder.IsValid())
+	if(nullptr != Decoder)
 	{
-		return Decoder->GetPlayFrame();
+		return Decoder->nowPlatTime;
 	}
 	return 0.f;
 }
@@ -382,9 +393,9 @@ float FSsPlayer::GetPlayFrame() const
 // 最終フレーム取得
 float FSsPlayer::GetAnimeEndFrame() const
 {
-	if(Decoder.IsValid())
+	if(nullptr != Decoder)
 	{
-		return Decoder->GetAnimeEndFrame();
+		return Decoder->getAnimeEndFrame();
 	}
 	return 0.f;
 }
@@ -392,9 +403,15 @@ float FSsPlayer::GetAnimeEndFrame() const
 // パーツ名からインデックスを取得
 int32 FSsPlayer::GetPartIndexFromName(FName PartName) const
 {
-	if(Decoder.IsValid())
+	if(nullptr != Decoder)
 	{
-		return Decoder->GetPartIndexFromName(PartName);
+		for(auto It = Decoder->partAnime.CreateConstIterator(); It; ++It)
+		{
+			if(It->Key == PartName)
+			{
+				return It.GetIndex();
+			}
+		}
 	}
 	return -1;
 }
@@ -402,9 +419,10 @@ int32 FSsPlayer::GetPartIndexFromName(FName PartName) const
 // パーツのTransformを取得
 bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector2D& OutPosition, float& OutRotate, FVector2D& OutScale) const
 {
-	if(Decoder.IsValid())
+	if(nullptr != Decoder)
 	{
-		return Decoder->GetPartTransform(PartIndex, OutPosition, OutRotate, OutScale);
+		//TODO: 再実装 
+		//return Decoder->GetPartTransform(PartIndex, OutPosition, OutRotate, OutScale);
 	}
 	return false;
 }
@@ -412,9 +430,9 @@ bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector2D& OutPosition, float&
 // パーツのColorLabelを取得 
 FName FSsPlayer::GetPartColorLabel(int32 PartIndex)
 {
-	if(Decoder.IsValid())
+	if((nullptr != Decoder) && (0 <= PartIndex) && (PartIndex < Decoder->partAnime.Num()))
 	{
-		return Decoder->GetPartColorLabel(PartIndex);
+		return Decoder->partAnime[PartIndex].Key->ColorLabel;
 	}
 	return FName();
 }
@@ -423,8 +441,4 @@ FName FSsPlayer::GetPartColorLabel(int32 PartIndex)
 void FSsPlayer::SetCalcHideParts(bool bInCalcHideParts)
 {
 	bCalcHideParts = bInCalcHideParts;
-	if(Decoder.IsValid())
-	{
-		Decoder->SetCalcHideParts(bInCalcHideParts);
-	}
 }

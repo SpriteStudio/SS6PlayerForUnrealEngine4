@@ -40,7 +40,7 @@ class SsAnimeDecoder
 {
 public:
 
-private:
+//private:
 
 	///パーツ情報とパーツアニメーションを結びつけアレイにしたもの
 	TArray<SsPartAndAnime>		partAnime;

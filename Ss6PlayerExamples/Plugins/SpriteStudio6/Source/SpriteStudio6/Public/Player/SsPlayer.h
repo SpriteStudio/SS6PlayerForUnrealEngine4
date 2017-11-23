@@ -4,9 +4,6 @@
 #include "SsPlayerTickResult.h"
 
 class USs6Project;
-class FSsCellMapList;
-class FSsAnimeDecoder;
-
 
 //
 // SpriteStudioデータの再生制御 
@@ -74,9 +71,8 @@ public:
 
 private:
 	TWeakObjectPtr<USs6Project> SsProject;
-//	TSharedPtr<FSsAnimeDecoder> Decoder;
-	SsAnimeDecoder* Decoder;
-	TSharedPtr<FSsCellMapList> CellMapList;
+	class SsAnimeDecoder* Decoder;
+	TSharedPtr<class SsCellMapList> CellMapList;
 	bool bPlaying;
 	bool bFirstTick;
 	FVector2D AnimPivot;
