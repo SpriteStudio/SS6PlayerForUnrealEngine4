@@ -3,11 +3,10 @@
 
 #include "Ss6Project.h"
 #include "SsAnimePack.h"
-#include "SsPlayerCellmap.h"
 #include "SsString_uty.h"
-#include "SsPlayerPartState.h"
 
 #include "ssplayer_animedecode.h"
+#include "SsPlayer_PartState.h"
 
 // コンストラクタ
 FSsPlayer::FSsPlayer()

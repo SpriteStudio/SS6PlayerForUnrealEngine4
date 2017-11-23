@@ -5,7 +5,7 @@
 //#include "../Helper/ssHelper.h"
 
 
-#include "ssplayer_types.h"
+//#include "ssplayer_types.h"
 #include "ssplayer_cellmap.h"
 #include "ssplayer_PartState.h"
 #include "ssplayer_macro.h"

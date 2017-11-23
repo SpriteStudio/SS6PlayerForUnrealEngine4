@@ -6,7 +6,6 @@
 
 #include "SsOffScreenShaders.h"
 #include "Ss6Project.h"
-#include "SsPlayerCellmap.h"
 
 
 //
@@ -301,11 +300,13 @@ namespace
 									Vert.ColorBlend.X = 4.01f;
 								}
 							} break;
-						case SsBlendType::Effect:
+						//TODO: 要確認. ココってSS6ではどうなってる？ 
+/*						case SsBlendType::Effect:
 							{
 								// Effect
 								Vert.ColorBlend.X = 6.01f;
 							} break;
+*/
 						default:
 							{
 								// 0～3: Mix/Mul/Add/Sub 
