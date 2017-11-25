@@ -78,3 +78,4 @@ void GetSsEffectParamAnime(const FSsKeyframe* key , FSsEffectAttr& v);
 
 bool SPRITESTUDIO6_API StringToPoint2(const FString& str , FVector2D& point);
 bool SPRITESTUDIO6_API StringToIRect(const FString& str , SsIRect& rect);
+bool SPRITESTUDIO6_API StringToTriangle(const FString& str, FSsTriangle& tri);

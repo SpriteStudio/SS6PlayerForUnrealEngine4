@@ -329,3 +329,21 @@ bool StringToIRect( const FString& str, SsIRect& rect )
 
 	return true;
 }
+
+bool StringToTriangle(const FString& str, FSsTriangle& tri)
+{
+	TArray<FString>	str_list;
+	split_string(str, ' ', str_list);
+	if (str_list.Num() < 3)
+	{
+		return false;
+	}
+	else {
+		tri.IdxPo1 = FCString::Atoi(*str_list[0]);
+		tri.IdxPo2 = FCString::Atoi(*str_list[1]);
+		tri.IdxPo3 = FCString::Atoi(*str_list[2]);
+
+		return true;
+	}
+	return true;
+}

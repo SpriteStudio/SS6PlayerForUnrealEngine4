@@ -71,6 +71,10 @@ bool SsXmlIArchiver::dc(const char* name, int& member)
 	FString str;
 	dc(name , str);
 	member = FCString::Atoi(*str);
+	if (str.IsEmpty())
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -81,6 +85,10 @@ bool SsXmlIArchiver::dc(const char* name, float& member)
 	FString str;
 	dc(name , str);
 	member = FCString::Atof(*str);
+	if (str.IsEmpty())
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -177,12 +185,55 @@ bool SsXmlIArchiver::dc(const char* name, TArray<FName>& list)
 	return false;
 }
 
+bool SsXmlIArchiver::dc(const char* name, TArray<FVector2D>& list)
+{
+	AR_SELF_CHECK();
+	list.Empty();
+	XMLElement* e = getxml()->FirstChildElement(name);
+	if(e)
+	{
+		e = e->FirstChildElement("value");
+		while(e)
+		{
+			FString str( e->GetText() );
+			FVector2D vec;
+			StringToPoint2( str , vec );
+
+			list.Add( vec );
+			e = e->NextSiblingElement();
+		}
+		return true;
+	}
+	return false;
+}
+
+bool SsXmlIArchiver::dc(const char* name, TArray<FSsTriangle>& list)
+{
+	AR_SELF_CHECK();
+	list.Empty();
+	XMLElement* e = getxml()->FirstChildElement(name);
+	if(e)
+	{
+		e = e->FirstChildElement("value");
+		while (e)
+		{
+			FString txt( e->GetText() );
+			FSsTriangle tri;
+			StringToTriangle(txt, tri);
+
+			list.Add(tri);
+			e = e->NextSiblingElement();
+		}
+		return true;
+	}
+	return false;
+}
+
 bool SsXmlIArchiver::dc(const char* name, FVector2D& member)
 {
 	AR_SELF_CHECK();
 
 	XMLElement* e = getxml()->FirstChildElement(name);
-
 	if(e)
 	{
 		FString str( e->GetText() );
@@ -213,6 +264,40 @@ bool SsXmlIArchiver::dc(const char* name, FSsCurve& member)
 	}
 	return false;
 }
+
+bool SsXmlIArchiver::dc(const char* name, FSsTriangle& member)
+{
+	AR_SELF_CHECK();
+
+	XMLElement* e = getxml()->FirstChildElement(name);
+	if(e)
+	{
+		StringToTriangle(e->GetText(), member);
+	}
+	return false;
+}
+
+bool SsXmlIArchiver::dc(const char* name, TMap<FName, int32>& map)
+{
+	AR_SELF_CHECK();
+	map.Empty();
+	XMLElement* e = getxml()->FirstChildElement(name);
+	if(e)
+	{
+		e = e->FirstChildElement("item");
+		while (e)
+		{
+			FString key(babel::utf8_to_sjis( e->Attribute("key") ).c_str());
+			FString val(babel::utf8_to_sjis( e->GetText() ).c_str());
+
+			map.Add(FName(*key), FCString::Atoi(*val));
+			e = e->NextSiblingElement();
+		}
+	}
+
+	return false;
+}
+
 
 void SsArchiverInit()
 {
@@ -346,10 +431,10 @@ void SerializeStruct(FSsCell& Value, SsXmlIArchiver* ar)
 	SSAR_DECLARE("rotated", Value.Rotated);
 
 	SSAR_DECLARE("ismesh", Value.IsMesh);
-	SSAR_DECLARE_LIST("innerPoint", Value.InnerPoint);
-	SSAR_DECLARE_LIST("outerPoint", Value.OuterPoint);
-	SSAR_DECLARE_LIST("meshPointList", Value.MeshPointList);
-	SSAR_DECLARE_LIST("meshTriList", Value.MeshTriList);
+	SSAR_DECLARE("innerPoint", Value.InnerPoint);
+	SSAR_DECLARE("outerPoint", Value.OuterPoint);
+	SSAR_DECLARE("meshPointList", Value.MeshPointList);
+	SSAR_DECLARE("meshTriList", Value.MeshTriList);
 	SSAR_DECLARE_ENUM("divtype", Value.DivType);
 	SSAR_DECLARE("divw", Value.DivW);
 	SSAR_DECLARE("divh", Value.DivH);
@@ -657,7 +742,7 @@ void SerializeStruct(FSsEffectModel& Value, SsXmlIArchiver* ar)
 
 	Value.BuildTree();
 }
-void SerializeStruct(FSsProjectSetting& Value, SsXmlIArchiver* ar)
+void SerializeStruct(FSs6ProjectSetting& Value, SsXmlIArchiver* ar)
 {
 	SSAR_DECLARE("animeBaseDirectory", Value.AnimeBaseDirectory);
 	SSAR_DECLARE("cellMapBaseDirectory", Value.CellMapBaseDirectory);
