@@ -49,9 +49,9 @@ struct SsPartState
 
 	SsCellValue		cellValue;		///< セルアニメの値
 	SsPartsColorAnime partsColorValue;///< カラーアニメの値
-	SsColorAnime	colorValue;		///< カラーアニメの値
-	SsVertexAnime	vertexValue;	///< 頂点アニメの値
-	SsEffectAttr	effectValue;	///< エフェクトの値
+	FSsColorAnime	colorValue;		///< カラーアニメの値
+	FSsVertexAnime	vertexValue;	///< 頂点アニメの値
+	FSsEffectAttr	effectValue;	///< エフェクトの値
 	int				effectTime;
 	float			effectTimeTotal;
 	int				effectseed;
@@ -62,19 +62,19 @@ struct SsPartState
 	bool			is_vertex_transform;	/// 頂点変形が使用される (描画コストが高いシェーダが使われるためフラグ化)
 	bool			is_localAlpha;			/// ローカル不透明度を使用している
 
-	SsInstanceAttr	instanceValue;
+	FSsInstanceAttr	instanceValue;
 
-	SsBlendType::_enum	alphaBlendType;
+	SsBlendType::Type	alphaBlendType;
 		
 	SsAnimeDecoder*		refAnime;
 	SsEffectRenderV2*	refEffect;
 
 	//V4互換計算用
-	SsVector3		_temp_position;
-	SsVector3		_temp_rotation;
-	SsVector2		_temp_scale;
+	FVector			_temp_position;
+	FVector			_temp_rotation;
+	FVector2D		_temp_scale;
 
-	SsPartType::_enum partType;
+	SsPartType::Type partType;
 
 	int				masklimen;
 	bool			maskInfluence;
@@ -88,7 +88,7 @@ struct SsPartState
 	virtual ~SsPartState();
 	void	destroy();
 	void	init();
-	bool	inherits_(SsAttributeKind::_enum kind) const {return inheritRates[(int)kind] != 0.f;}
+	bool	inherits_(SsAttributeKind::Type kind) const {return inheritRates[(int)kind] != 0.f;}
 	void	reset();
 };
 

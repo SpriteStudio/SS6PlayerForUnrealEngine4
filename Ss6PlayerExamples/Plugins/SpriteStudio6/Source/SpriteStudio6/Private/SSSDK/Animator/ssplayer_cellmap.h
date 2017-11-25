@@ -1,6 +1,7 @@
 ﻿#ifndef __SSPLAYER_CELLMAP__
 #define __SSPLAYER_CELLMAP__
 
+#include "Ss6Project.h"
 
 
 class SsAnimeDecoder;

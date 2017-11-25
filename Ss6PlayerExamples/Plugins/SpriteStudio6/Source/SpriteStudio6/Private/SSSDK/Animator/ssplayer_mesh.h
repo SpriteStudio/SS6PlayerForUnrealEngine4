@@ -14,7 +14,7 @@ struct StBoneWeight
 	float		   	weight_f[SSMESHPART_BONEMAX];
 
 	SsPartState*    bone[SSMESHPART_BONEMAX];
-	SsVector3		offset[SSMESHPART_BONEMAX];
+	FVector			offset[SSMESHPART_BONEMAX];
 
 	int				bindBoneNum;
 
@@ -40,19 +40,19 @@ public:
 	int				ver_size;
 	float			*draw_vertices;		//[3 * 10];///< 座標
 
-	std::vector<SsVector3>		calc_world_vertices;
+	TArray<FVector>		calc_world_vertices;
 
 	//ツール用テンポラリワーク [editer]
-	SsVector2*					vertices_outer;
-	SsVector2*					update_vertices_outer;
+	FVector2D*					vertices_outer;
+	FVector2D*					update_vertices_outer;
 	size_t						outter_vertexnum;
 
-	std::vector<SsPartState*>   bindCandidateBoneList; //バインド候補[Editer]
+	TArray<SsPartState*>   bindCandidateBoneList; //バインド候補[Editer]
 
 public:
 	StBoneWeight*   	bindBoneInfo;
-	SsCell*  			targetCell;
-	ISSTexture*			targetTexture;
+	FSsCell*  			targetCell;
+	UTexture*			targetTexture;
 
 	SsPartState*	   	myPartState;
 
@@ -126,9 +126,9 @@ private:
 public:
 	SsAnimeDecoder* bindAnime;
 
-	std::vector<SsPartState*>    	meshList;
-	std::vector<SsPartState*>    	boneList;
-	std::vector<SsPartState*>    	jointList;
+	TArray<SsPartState*>    	meshList;
+	TArray<SsPartState*>    	boneList;
+	TArray<SsPartState*>    	jointList;
 
 public:
 	SsMeshAnimator();

@@ -48,7 +48,7 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 		delete Decoder;
 	}
 	Decoder = new SsAnimeDecoder();
-	CellMapList = MakeShareable(new FSsCellMapList());
+	CellMapList = MakeShareable(new SsCellMapList());
 
 	PlayingAnimPackIndex = -1;
 	PlayingAnimationIndex = -1;

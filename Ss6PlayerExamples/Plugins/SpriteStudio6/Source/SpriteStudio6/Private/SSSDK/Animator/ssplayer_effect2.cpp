@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#include "../Loader/ssloader.h"
+//#include "../Loader/ssloader.h"
 
 #include "ssplayer_animedecode.h"
 #include "ssplayer_effect2.h"
 #include "ssplayer_macro.h"
 #include "ssplayer_matrix.h"
-#include "ssplayer_render.h"
+//#include "ssplayer_render.h"
 #include "ssplayer_effectfunction.h"
 
 

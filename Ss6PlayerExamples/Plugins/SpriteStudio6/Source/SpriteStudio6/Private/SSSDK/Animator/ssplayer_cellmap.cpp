@@ -4,63 +4,62 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#include "../Loader/ssloader.h"
+//#include "../Loader/ssloader.h"
 
 #include "ssplayer_animedecode.h"
 #include "ssplayer_matrix.h"
-#include "ssplayer_render.h"
+//#include "ssplayer_render.h"
 
-#include "../Helper/DebugPrint.h"
+//#include "../Helper/DebugPrint.h"
 
 
 void	SsCellMapList::clear()
 {
-	if (CellMapDic.size() > 0)
+	if (CellMapDic.Num() > 0)
 	{
-		for (CellMapDicItr itr = CellMapDic.begin(); itr != CellMapDic.end();)
+		for(auto itr = CellMapDic.CreateIterator(); itr; ++itr)
 		{
-			if (itr->second != NULL)
+			if (itr->Value != NULL)
 			{
-				delete itr->second;
-				itr->second = NULL;
+				delete itr->Value;
+				itr->Value = NULL;
 				continue;
 			}
-			itr++;
 		}
 	}
 
-	CellMapDic.clear();
-	CellMapList.clear();
+	CellMapDic.Empty();
+	CellMapList.Empty();
 }
 
 
-void	SsCellMapList::setCellMapPath(  const SsString& filepath )
+void	SsCellMapList::setCellMapPath(  const FString& filepath )
 {
 	CellMapPath = filepath;
 }
 
-void	SsCellMapList::set(SsProject* proj , SsAnimePack* animepack )
+void	SsCellMapList::set(USs6Project* proj , FSsAnimePack* animepack )
 {
 	clear();
-	setCellMapPath( proj->getImageBasepath() );
+	setCellMapPath( proj->GetImageBasepath() );
 
-	for ( size_t i = 0 ; i < animepack->cellmapNames.size() ; i++ )
+	for ( size_t i = 0 ; i < animepack->CellmapNames.Num() ; i++ )
 	{
-		SsCellMap* cell = proj->findCellMap( animepack->cellmapNames[i] );
+		FSsCellMap* cell = const_cast<FSsCellMap*>(proj->FindCellMap( animepack->CellmapNames[i] ));
 		if ( cell==0 )
 		{
-			DEBUG_PRINTF( " Not found cellmap = %s" , animepack->cellmapNames[i].c_str() );
+			UE_LOG(LogSpriteStudio, Warning, TEXT(" Not found cellmap = %s"), *(animepack->CellmapNames[i].ToString()));
 		}else{
 			addIndex( cell );
 		}
 	}
 
-	for ( size_t i = 0 ; i < proj->cellmapNames.size() ; i++ )
+	for ( size_t i = 0 ; i < proj->CellmapNames.Num() ; i++ )
 	{
-		SsCellMap* cell = proj->findCellMap( proj->cellmapNames[i] );
+		FSsCellMap* cell = const_cast<FSsCellMap*>(proj->FindCellMap( proj->CellmapNames[i] ));
 		if ( cell==0 )
 		{
-			DEBUG_PRINTF( " Not found cellmap = %s" , animepack->cellmapNames[i].c_str() );
+			UE_LOG(LogSpriteStudio, Warning, TEXT(" Not found cellmap = %s"), *(animepack->CellmapNames[i].ToString()));
 		}else{
 			addMap( cell );
 		}
@@ -68,27 +67,27 @@ void	SsCellMapList::set(SsProject* proj , SsAnimePack* animepack )
 
 
 }
-void	SsCellMapList::addMap(SsCellMap* cellmap)
+void	SsCellMapList::addMap(FSsCellMap* cellmap)
 {
 	SsCelMapLinker* linker = new SsCelMapLinker(cellmap , this->CellMapPath );
-	CellMapDic[ cellmap->name+".ssce" ] = linker ;
+	CellMapDic[ FName(*(cellmap->CellMapName.ToString()+TEXT(".ssce"))) ] = linker ;
 
 }
 
-void	SsCellMapList::addIndex(SsCellMap* cellmap)
+void	SsCellMapList::addIndex(FSsCellMap* cellmap)
 {
 	SsCelMapLinker* linker = new SsCelMapLinker(cellmap , this->CellMapPath );
-	CellMapList.push_back( linker );
+	CellMapList.Add( linker );
 
 }
 
-SsCelMapLinker*	SsCellMapList::getCellMapLink( const SsString& name )
+SsCelMapLinker*	SsCellMapList::getCellMapLink( const FName& name )
 {
 
-	std::map<SsString,SsCelMapLinker*>::iterator itr = CellMapDic.find(name);
-	if ( itr != CellMapDic.end() )
+	SsCelMapLinker** linker = CellMapDic.Find(name);
+	if ( nullptr != linker )
 	{
-		return itr->second;
+		return *linker;
 	}else{
 
 #if 0
@@ -103,14 +102,15 @@ SsCelMapLinker*	SsCellMapList::getCellMapLink( const SsString& name )
 			DEBUG_PRINTF( "CellMapName not found : %s " , name.c_str() );
 		}
 #endif
-		for ( std::map<SsString,SsCelMapLinker*>::iterator itr=CellMapDic.begin() ; itr != CellMapDic.end() ; itr++)
+		//TODO: ココは無視しても大丈夫？ 要確認 
+/*		for ( auto itr = CellMapDic.CreateConstIterator(); itr; ++itr)
 		{
-			if ( itr->second->cellMap->loadFilepath == name )
+			if ( itr->Value->cellMap->loadFilepath == name )
 			{
 				return itr->second;
 			}
 		}
-
+*/
 
 	}
 
@@ -119,12 +119,12 @@ SsCelMapLinker*	SsCellMapList::getCellMapLink( const SsString& name )
 }
 
 
-void getCellValue( SsCelMapLinker* l, SsString& cellName , SsCellValue& v )
+void getCellValue( SsCelMapLinker* l, FName& cellName , SsCellValue& v )
 {
 	v.cell = l->findCell( cellName );
 
-	v.filterMode = l->cellMap->filterMode;
-	v.wrapMode = l->cellMap->wrapMode;
+	v.filterMode = l->cellMap->FilterMode;
+	v.wrapMode = l->cellMap->WrapMode;
 
 	if ( l->tex )
 	{
@@ -138,7 +138,7 @@ void getCellValue( SsCelMapLinker* l, SsString& cellName , SsCellValue& v )
 	calcUvs( &v );
 }
 
-void getCellValue( SsCellMapList* cellList, SsString& cellMapName , SsString& cellName , SsCellValue& v )
+void getCellValue( SsCellMapList* cellList, FName& cellMapName , FName& cellName , SsCellValue& v )
 {
 	SsCelMapLinker* l = cellList->getCellMapLink( cellMapName );
 	getCellValue( l , cellName , v );
@@ -146,7 +146,7 @@ void getCellValue( SsCellMapList* cellList, SsString& cellMapName , SsString& ce
 
 }
 
-void getCellValue( SsCellMapList* cellList, int cellMapid , SsString& cellName , SsCellValue& v )
+void getCellValue( SsCellMapList* cellList, int cellMapid , FName& cellName , SsCellValue& v )
 {
 	SsCelMapLinker* l = cellList->getCellMapLink( cellMapid );
 	getCellValue( l , cellName , v );
@@ -157,53 +157,53 @@ void getCellValue( SsCellMapList* cellList, int cellMapid , SsString& cellName ,
 void calcUvs( SsCellValue* cellv )
 {
 	//SsCellMap* map = cellv->cellmapl->cellMap;
-	SsCell* cell = cellv->cell;
+	FSsCell* cell = cellv->cell;
 	if ( cellv->texture == 0 ) return ;
 
 //	if ( cell == 0 || map == 0)
 	if ( cell == 0 )
 //	if ( ( cell == 0 ) || ( cellv->texture == 0 ) )	//koizumi change
 	{
-		cellv->uvs[0].x = cellv->uvs[0].y = 0;
-		cellv->uvs[1].x = cellv->uvs[1].y = 0;
-		cellv->uvs[2].x = cellv->uvs[2].y = 0;
-		cellv->uvs[3].x = cellv->uvs[3].y = 0;
+		cellv->uvs[0].X = cellv->uvs[0].Y = 0;
+		cellv->uvs[1].X = cellv->uvs[1].Y = 0;
+		cellv->uvs[2].X = cellv->uvs[2].Y = 0;
+		cellv->uvs[3].X = cellv->uvs[3].Y = 0;
 		return;
 	}
 
-	SsVector2 wh;
-	wh.x = (float)cellv->texture->getWidth();
-	wh.y = (float)cellv->texture->getHeight();
+	FVector2D wh;
+	wh.X = (float)cellv->texture->GetSurfaceWidth();
+	wh.Y = (float)cellv->texture->GetSurfaceHeight();
 
 //	SsVector2 wh = map->pixelSize;
 	// 右上に向かって＋になる
-	float left = cell->pos.x / wh.x;
-	float right = (cell->pos.x + cell->size.x) / wh.x;
+	float left = cell->Pos.X / wh.X;
+	float right = (cell->Pos.X + cell->Size.X) / wh.X;
 
 
 	// LB->RB->LT->RT 順
 	// 頂点をZ順にしている都合上UV値は上下逆転させている
-	float top = cell->pos.y / wh.y;
-	float bottom = ( cell->pos.y + cell->size.y) / wh.y;
+	float top = cell->Pos.Y / wh.Y;
+	float bottom = ( cell->Pos.Y + cell->Size.Y) / wh.Y;
 
-	if (cell->rotated)
+	if (cell->Rotated)
 	{
 		// 反時計回りに９０度回転されているため起こして描画されるようにしてやる。
 		// 13
 		// 02
-		cellv->uvs[0].x = cellv->uvs[1].x = left;
-		cellv->uvs[2].x = cellv->uvs[3].x = right;
-		cellv->uvs[1].y = cellv->uvs[3].y = top;
-		cellv->uvs[0].y = cellv->uvs[2].y = bottom;
+		cellv->uvs[0].X = cellv->uvs[1].X = left;
+		cellv->uvs[2].X = cellv->uvs[3].X = right;
+		cellv->uvs[1].Y = cellv->uvs[3].Y = top;
+		cellv->uvs[0].Y = cellv->uvs[2].Y = bottom;
 	}
 	else
 	{
 		// そのまま。頂点の順番は下記の通り
 		// 01
 		// 23
-		cellv->uvs[0].x = cellv->uvs[2].x = left;
-		cellv->uvs[1].x = cellv->uvs[3].x = right;
-		cellv->uvs[0].y = cellv->uvs[1].y = top;
-		cellv->uvs[2].y = cellv->uvs[3].y = bottom;
+		cellv->uvs[0].X = cellv->uvs[2].X = left;
+		cellv->uvs[1].X = cellv->uvs[3].X = right;
+		cellv->uvs[0].Y = cellv->uvs[1].Y = top;
+		cellv->uvs[2].Y = cellv->uvs[3].Y = bottom;
 	}
 }

@@ -11,10 +11,10 @@
 
 
 
-class FSsEffectModel;
+//class FSsEffectModel;
 class SsRenderEffectBase;
 class SsEffectNode;
-class SsPartState;
+//class SsPartState;
 class SsEffectRenderAtom;
 class SsCell;
 
@@ -69,8 +69,8 @@ struct particleDrawData
 	float	rot;
 	float	direc;
 
-    SsU8Color color;
-    SsVector2 scale;
+    FSsU8Color color;
+    FVector2D scale;
 };
 
 
@@ -164,10 +164,10 @@ struct emitterParameter
 struct particleParameter
 {
 
-	SsVector2 	scale;
+	FVector2D 	scale;
 
-	SsU8Color   startcolor; //スタート時のカラー
-	SsU8Color   endcolor;   //終了時のカラー
+	FSsU8Color   startcolor; //スタート時のカラー
+	FSsU8Color   endcolor;   //終了時のカラー
 
 	//初速
 	float		speed;		//初速
@@ -178,12 +178,12 @@ struct particleParameter
 	float       angleVariance;//変差
 
 	bool		useGravity;
-	SsVector2	gravity;
+	FVector2D	gravity;
 
 
 	bool		useOffset;
-	SsVector2   offset;
-	SsVector2   offset2;
+	FVector2D   offset;
+	FVector2D   offset2;
 
 	bool        useRotation;
 	float		rotation;
@@ -201,28 +201,28 @@ struct particleParameter
 	float		tangentialAccel2;
 
 	bool        useColor;
-	SsU8Color   initColor;
-	SsU8Color   initColor2;
+	FSsU8Color   initColor;
+	FSsU8Color   initColor2;
 
 	bool		useTransColor;
-	SsU8Color   transColor;
-	SsU8Color   transColor2;
+	FSsU8Color   transColor;
+	FSsU8Color   transColor2;
 
 	bool        useInitScale;
-	SsVector2   scaleRange;
+	FVector2D   scaleRange;
 	float		scaleFactor;
 	float		scaleFactor2;
 
 	bool        useTransScale;
-	SsVector2   transscale;
-	SsVector2   transscaleRange;
+	FVector2D   transscale;
+	FVector2D   transscaleRange;
 	float		transscaleFactor;
 	float		transscaleFactor2;
 
 	float		delay;
 
 	bool		usePGravity;
-	SsVector2	gravityPos;
+	FVector2D	gravityPos;
 	float		gravityPower;
 
 	bool		useAlphaFade;
@@ -262,8 +262,8 @@ public:
 	int					seedOffset;
 
 	//生成用のリングバッファ
-	std::vector<emitPattern>    	_emitpattern;
-	std::vector<int>				_offsetPattern;
+	TArray<emitPattern>    	_emitpattern;
+	TArray<int>				_offsetPattern;
 
     particleExistSt*     particleExistList;
 
@@ -276,14 +276,14 @@ public:
     unsigned long*              seedList;
 
 
-	SsVector2   				position;
+	FVector2D   				position;
 //	SsEffectEmitter*			_child;
 	SsEffectEmitter*			_parent;
 
     int							_parentIndex;
 
 	SsCell*						refCell;    //描画用セル
-	SsEffectBehavior*           refData;	//データ更新用
+	FSsEffectBehavior*           refData;	//データ更新用
 
 	size_t						globaltime;
 	size_t						seedTableLen;
@@ -296,7 +296,7 @@ public:
 			_parentIndex(-1),
 			seedList(0),
 			particleListBufferSize(180*100),  //生成出来るパーティクルの最大値
-			_emitpattern(0),
+//			_emitpattern(0),
 			particleExistList(0),
 			globaltime(0),
 			seedOffset(0)
@@ -318,7 +318,7 @@ public:
 
 #if  LOOP_TYPE3
 
-	int	getParticleIDMax() { return _offsetPattern.size(); }
+	int	getParticleIDMax() { return _offsetPattern.Num(); }
 
 	const 	particleExistSt*	getParticleDataFromID(int id);
 	void	updateEmitter( double time  , int slide );
@@ -352,15 +352,15 @@ public:
 	FSsEffectModel*		effectData;
 
 	//Modelに記載されているエミッタのリスト
-	std::vector<SsEffectEmitter*>   emmiterList;
+	TArray<SsEffectEmitter*>   emmiterList;
 
-	std::vector<SsEffectEmitter*>   updateList;
+	TArray<SsEffectEmitter*>   updateList;
 
 	//ランダムシード
-	u32				mySeed;
+	uint32			mySeed;
 
-	SsVector3		layoutPosition;
-	SsVector2		layoutScale;
+	FVector			layoutPosition;
+	FVector2D		layoutScale;
 
 	float			nowFrame;
 	float			targetFrame;
@@ -410,7 +410,7 @@ public:
 	virtual void	setEffectData(FSsEffectModel* data);
 
 
-	virtual void	setSeed( u32 seed )
+	virtual void	setSeed( uint32 seed )
 	{
    		mySeed = seed * SEED_MAGIC;
 	}
@@ -444,17 +444,17 @@ public:
 
 	void	drawSprite(
 			SsCellValue*		dispCell,
-			SsVector2	_position,
-			SsVector2 _size,
+			FVector2D	_position,
+			FVector2D _size,
 			float     _rotation,
 			float	  direction,
 			SsFColor	_color,
-			SsRenderBlendType::_enum blendType
+			SsRenderBlendType::Type blendType
 		);
 	
 	
 	void	setSeedOffset( int offset ) { 
-		if ( effectData->isLockRandSeed )
+		if ( effectData->IsLockRandSeed )
 		{
 			seedOffset = 0;
 		}else{

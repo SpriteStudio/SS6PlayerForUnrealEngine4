@@ -85,18 +85,15 @@ bool	SsAnimeDecoder::getFirstCell(FSsPart* part , SsCellValue& out)
 {
 	bool	retFlag = false;
 
-	FSsPartAnime* setupAnime = setupPartAnimeDic[part->name];
-	if (setupAnime && !setupAnime->attributes.empty())
+	FSsPartAnime* setupAnime = setupPartAnimeDic[part->PartName];
+	if (setupAnime && !(0 == setupAnime->Attributes.Num()))
 	{
-		SsAttributeList attList;
-		attList = setupAnime->attributes;
-
-		foreach(SsAttributeList, attList, e)
+		for(auto e = setupAnime->Attributes.CreateIterator(); e; ++e)
 		{
-			SsAttribute* attr = (*e);
-			switch (attr->tag)
+			FSsAttribute* attr = &(*e);
+			switch (attr->Tag)
 			{
-				case SsAttributeKind::cell:		///< 参照セル
+				case SsAttributeKind::Cell:		///< 参照セル
 				{
 					SsGetKeyValue(0, attr, out);
 					retFlag = true;
@@ -373,10 +370,10 @@ void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, 
 			for (int i = 0; i < 4; i++)
 			{
 				v.colors[i].Rate = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rate, rightv.colors[i].Rate, &curve), 0.0f, 1.0f);
-				v.colors[i].Rgba.a = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.A, rightv.colors[i].Rgba.A, &curve), 0.0f, 255.0f);
-				v.colors[i].Rgba.r = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.R, rightv.colors[i].Rgba.R, &curve), 0.0f, 255.0f);
-				v.colors[i].Rgba.g = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.G, rightv.colors[i].Rgba.G, &curve), 0.0f, 255.0f);
-				v.colors[i].Rgba.b = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.B, rightv.colors[i].Rgba.B, &curve), 0.0f, 255.0f);
+				v.colors[i].Rgba.A = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.A, rightv.colors[i].Rgba.A, &curve), 0.0f, 255.0f);
+				v.colors[i].Rgba.R = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.R, rightv.colors[i].Rgba.R, &curve), 0.0f, 255.0f);
+				v.colors[i].Rgba.G = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.G, rightv.colors[i].Rgba.G, &curve), 0.0f, 255.0f);
+				v.colors[i].Rgba.B = clamp(SsInterpolate(SsInterpolationType::Linear, now, leftv.colors[i].Rgba.B, rightv.colors[i].Rgba.B, &curve), 0.0f, 255.0f);
 			}
 		}
 		else
@@ -520,7 +517,7 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 	GetSsRefCell( leftkey , cell );
 
 	getCellValue(	this->curCellMapManager ,
-					cell.mapid , cell.name , v );
+					cell.Mapid , cell.Name , v );
 
 
 }
@@ -589,7 +586,7 @@ template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue( int time , FSsAttri
 	//無い場合は、最初のキーを採用する
 	if ( lkey == 0 )
 	{
-		lkey =  attr->firstKey();
+		lkey =  attr->FirstKey();
 		SsInterpolationValue( time , lkey , 0 , value );
 
 		useTime = lkey->Time;
@@ -602,7 +599,7 @@ template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue( int time , FSsAttri
 		return useTime;
 	}else{
 		//補間計算をする
-		const FSsKeyframe* rkey = attr->findRightKey( time );
+		const FSsKeyframe* rkey = attr->FindRightKey( time );
 		if (rkey == NULL)
 		{
 			// 次のキーが無いので補間できない。よって始点キーの値をそのまま返す
@@ -750,34 +747,34 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 					}
 					break;
 				case SsAttributeKind::Posx:		///< 位置.X
-					SsGetKeyValue( nowTime , attr , state->position.x );
+					SsGetKeyValue( nowTime , attr , state->position.X );
 					break;
 				case SsAttributeKind::Posy:		///< 位置.Y
-					SsGetKeyValue( nowTime , attr , state->position.y );
+					SsGetKeyValue( nowTime , attr , state->position.Y );
 					break;
 				case SsAttributeKind::Posz:		///< 位置.Z
-					SsGetKeyValue( nowTime , attr , state->position.z );
+					SsGetKeyValue( nowTime , attr , state->position.Z );
 					break;
 				case SsAttributeKind::Rotx:		///< 回転.X
-					SsGetKeyValue( nowTime , attr , state->rotation.x );
+					SsGetKeyValue( nowTime , attr , state->rotation.X );
 					break;
 				case SsAttributeKind::Roty:		///< 回転.Y
-					SsGetKeyValue( nowTime , attr , state->rotation.y );
+					SsGetKeyValue( nowTime , attr , state->rotation.Y );
 					break;
 				case SsAttributeKind::Rotz:		///< 回転.Z
-					SsGetKeyValue( nowTime , attr , state->rotation.z );
+					SsGetKeyValue( nowTime , attr , state->rotation.Z );
 					break;
 				case SsAttributeKind::Sclx:		///< スケール.X
-					SsGetKeyValue( nowTime , attr , state->scale.x );
+					SsGetKeyValue( nowTime , attr , state->scale.X );
 					break;
 				case SsAttributeKind::Scly:		///< スケール.Y
-					SsGetKeyValue( nowTime , attr , state->scale.y );
+					SsGetKeyValue( nowTime , attr , state->scale.Y );
 					break;
 				case SsAttributeKind::Losclx:	///< ローカルスケール.X
-					SsGetKeyValue( nowTime , attr , state->localscale.x);
+					SsGetKeyValue( nowTime , attr , state->localscale.X);
 					break;
 				case SsAttributeKind::Loscly:	///< ローカルスケール.X
-					SsGetKeyValue( nowTime , attr , state->localscale.y);
+					SsGetKeyValue( nowTime , attr , state->localscale.Y);
 					break;
 				case SsAttributeKind::Alpha:	///< 不透明度
 					SsGetKeyValue( nowTime , attr , state->alpha);
@@ -824,10 +821,10 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 					state->is_vertex_transform = true;
 					break;
 				case SsAttributeKind::Pivotx:	///< 原点オフセット.X
-					SsGetKeyValue( nowTime , attr , state->pivotOffset.x );
+					SsGetKeyValue( nowTime , attr , state->pivotOffset.X );
 					break;
 				case SsAttributeKind::Pivoty:	///< 原点オフセット.Y
-					SsGetKeyValue( nowTime , attr , state->pivotOffset.y );
+					SsGetKeyValue( nowTime , attr , state->pivotOffset.Y );
 					break;
 //				case SsAttributeKind::anchorx:	///< アンカーポイント.X Ver6非対応
 //					SsGetKeyValue( nowTime , attr , state->anchor.x );
@@ -836,11 +833,11 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 //					SsGetKeyValue( nowTime , attr , state->anchor.y );
 //					break;
 				case SsAttributeKind::Sizex:	///< 表示サイズ.X
-					SsGetKeyValue( nowTime , attr , state->size.x );
+					SsGetKeyValue( nowTime , attr , state->size.X );
 					size_x_key_find = true;
 					break;
 				case SsAttributeKind::Sizey:	///< 表示サイズ.Y
-					SsGetKeyValue( nowTime , attr , state->size.y );
+					SsGetKeyValue( nowTime , attr , state->size.Y );
 					size_y_key_find = true;
 					break;
 				case SsAttributeKind::Imgfliph:	///< イメージ左右反転(常にイメージの中央を原点とする)
@@ -850,19 +847,19 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 					SsGetKeyValue( nowTime , attr , state->imageFlipV );
 					break;
 				case SsAttributeKind::Uvtx:		///< UVアニメ.移動.X
-					SsGetKeyValue( nowTime , attr , state->uvTranslate.x );
+					SsGetKeyValue( nowTime , attr , state->uvTranslate.X );
 					break;
 				case SsAttributeKind::Uvty:		///< UVアニメ.移動.Y
-					SsGetKeyValue( nowTime , attr , state->uvTranslate.y );
+					SsGetKeyValue( nowTime , attr , state->uvTranslate.Y );
 					break;
 				case SsAttributeKind::Uvrz:		///< UVアニメ.回転
 					SsGetKeyValue( nowTime , attr , state->uvRotation );
 					break;
 				case SsAttributeKind::Uvsx:		///< UVアニメ.スケール.X
-					SsGetKeyValue( nowTime , attr , state->uvScale.x );
+					SsGetKeyValue( nowTime , attr , state->uvScale.X );
 					break;
 				case SsAttributeKind::Uvsy:		///< UVアニメ.スケール.Y
-					SsGetKeyValue( nowTime , attr , state->uvScale.y );
+					SsGetKeyValue( nowTime , attr , state->uvScale.Y );
 					break;
 				case SsAttributeKind::Boundr:	///< 当たり判定用の半径
 					SsGetKeyValue( nowTime , attr , state->boundingRadius );
@@ -892,10 +889,10 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 							state->effectValue = d;
 						}else{
 							state->effectTime = t;
-							if ( !state->effectValue.attrInitialized )
+							if ( !state->effectValue.AttrInitialized )
 							{
-								state->effectValue.attrInitialized  = true;
-								state->effectTimeTotal = state->effectValue.startTime;
+								state->effectValue.AttrInitialized  = true;
+								state->effectTimeTotal = state->effectValue.StartTime;
 								state->effectTime = t;//state->effectValue.startTime;
 							}
 						}
@@ -956,8 +953,8 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 		if (cell && ( anime || setupAnime ) )
 		{
 			//サイズアトリビュートが指定されていない場合、セルのサイズを設定する
-			if ( !size_x_key_find ) state->size.x = cell->Size.X;
-			if ( !size_y_key_find ) state->size.y = cell->Size.Y;
+			if ( !size_x_key_find ) state->size.X = cell->Size.X;
+			if ( !size_y_key_find ) state->size.Y = cell->Size.Y;
 		}
 
 		updateVertices(part , anime , state);
@@ -967,10 +964,10 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 
 }
 
-void	SsAnimeDecoder::updateMatrix(SsPart* part , FSsPartAnime* anime , SsPartState* state)
+void	SsAnimeDecoder::updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartState* state)
 {
 	int num = 1;
-	if ((state->localscale.x != 1.0f) || (state->localscale.y != 1.0f))
+	if ((state->localscale.X != 1.0f) || (state->localscale.Y != 1.0f))
 	{
 		//ローカルスケール適用マトリクスを作成する
 		num = 2;
@@ -1021,7 +1018,7 @@ void	SsAnimeDecoder::updateMatrix(SsPart* part , FSsPartAnime* anime , SsPartSta
 }
 
 
-void	SsAnimeDecoder::updateVertices(SsPart* part , FSsPartAnime* anime , SsPartState* state)
+void	SsAnimeDecoder::updateVertices(FSsPart* part , FSsPartAnime* anime , SsPartState* state)
 {
 
 	FSsCell * cell = state->cellValue.cell;
@@ -1064,7 +1061,7 @@ void	SsAnimeDecoder::updateVertices(SsPart* part , FSsPartAnime* anime , SsPartS
 	float vtxPosX[4] = {sx, ex, sx, ex};
 	float vtxPosY[4] = {sy, sy, ey, ey};
 
-	FVector2D * vtxOfs = state->vertexValue.offsets;
+	FVector2D * vtxOfs = state->vertexValue.Offsets;
 
 	//きれいな頂点変形に対応
 #if USE_TRIANGLE_FIN
@@ -1128,7 +1125,7 @@ void	SsAnimeDecoder::updateVertices(SsPart* part , FSsPartAnime* anime , SsPartS
 
 
 
-void	SsAnimeDecoder::updateInstance( int nowTime , SsPart* part , FSsPartAnime* partanime , SsPartState* state )
+void	SsAnimeDecoder::updateInstance( int nowTime , FSsPart* part , FSsPartAnime* partanime , SsPartState* state )
 {
 	if ( state->refAnime == 0 ) return ;
 	//state->refAnime->setPlayFrame( nowTime );
@@ -1156,7 +1153,7 @@ void	SsAnimeDecoder::updateInstance( int nowTime , SsPart* part , FSsPartAnime* 
 		//float delta = animeState->frame - parentBackTime;
 		float delta = this->frameDelta;
 
-		state->instanceValue.liveFrame+= ( delta * instanceValue.Speed );
+		state->instanceValue.LiveFrame+= ( delta * instanceValue.Speed );
 		//parentBackTime = animeState->frame;
 		time = (int)instanceValue.LiveFrame;
 
@@ -1373,15 +1370,15 @@ void	SsAnimeDecoder::update(float frameDelta)
 }
 
 
-void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , SsPart* part , FSsPartAnime* part_anime , SsPartState* state )
+void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , FSsPart* part , FSsPartAnime* part_anime , SsPartState* state )
 {
 	if ( state->hide ) return ;
 
-	if ( state->effectValue.independent )
+	if ( state->effectValue.Independent )
 	{
-		if (state && state->refEffect && state->effectValue.attrInitialized )
+		if (state && state->refEffect && state->effectValue.AttrInitialized )
 		{
-			state->effectTimeTotal += frameDelta* state->effectValue.speed;
+			state->effectTimeTotal += frameDelta* state->effectValue.Speed;
 			state->refEffect->setLoop(true);
 			state->refEffect->setFrame( state->effectTimeTotal );
 			state->refEffect->play();
@@ -1396,8 +1393,8 @@ void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , SsPart* part
 				return ;
 			}
 
-			_time*= state->effectValue.speed;
-			_time += state->effectValue.startTime;
+			_time*= state->effectValue.Speed;
+			_time += state->effectValue.StartTime;
 
 			state->refEffect->setSeedOffset( seedOffset );
 			state->refEffect->setFrame( _time );

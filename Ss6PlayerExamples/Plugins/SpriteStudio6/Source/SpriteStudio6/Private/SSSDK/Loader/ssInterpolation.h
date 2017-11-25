@@ -2,15 +2,15 @@
 #define __SSINTERPOLATION__
 
 
-class SsCurve;
+struct FSsCurve;
 
 ///補間でカーブパラメータが必要なタイプか判定する
 inline bool SsNeedsCurveParams(SsInterpolationType::Type type)
 {
 	switch (type)
 	{
-	case SsInterpolationType::bezier:
-	case SsInterpolationType::hermite:
+	case SsInterpolationType::Bezier:
+	case SsInterpolationType::Hermite:
 		return true;
 	}
 	return false;

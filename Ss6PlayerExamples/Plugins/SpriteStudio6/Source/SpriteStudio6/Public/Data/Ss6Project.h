@@ -122,6 +122,9 @@ public:
 	// アニメパック名とアニメ名からアニメーションを取得する
 	const FSsAnimation* FindAnimation(const FName& InAnimPackName, const FName& InAnimationName) const;
 
+	// 名前からセルマップを取得する
+	const FSsCellMap* FindCellMap(const FName& InCellMapName) const;
+
 	// 名前からアニメパックを取得する
 	const FSsAnimePack* FindAnimationPack(const FName& InAnimePackName) const;
 
