@@ -9,11 +9,11 @@ class SsCelMapLinker;
 ///パーツが使用するセルの情報
 struct SsCellValue
 {
-	FSsCell*						cell;		///参照しているセル
-	ISSTexture*					texture;	///テクスチャ
-	SsVector2					uvs[5];		///使用するUV座標
-	SsTexWrapMode::_enum		wrapMode;	///< テクスチャのラップモード
-	SsTexFilterMode::_enum		filterMode;	///< テクスチャのフィルタモード
+	FSsCell*					cell;		///参照しているセル
+	UTexture*					texture;	///テクスチャ
+	FVector2D					uvs[5];		///使用するUV座標
+	SsTexWrapMode::Type			wrapMode;	///< テクスチャのラップモード
+	SsTexFilterMode::Type		filterMode;	///< テクスチャのフィルタモード
 
 	SsCellValue() :  
 		cell(0) ,  
@@ -24,26 +24,26 @@ struct SsCellValue
 class SsCelMapLinker
 {
 public:
-	SsCellMap*			cellMap;
-	ISSTexture*	tex;
+	FSsCellMap*			cellMap;
+	UTexture*	tex;
 
-	std::map<SsString,SsCell*>	CellDic;
+	TMap<FName,FSsCell*>	CellDic;
 
 public:
 	SsCelMapLinker()
 		: cellMap(0) , tex(0)
 	{}
 
-	SsCelMapLinker(SsCellMap* cellmap ,SsString filePath )
+	SsCelMapLinker(FSsCellMap* cellmap ,FString filePath )
 	{
 
 		cellMap = cellmap;
-		size_t num = cellMap->cells.size();
+		size_t num = cellMap->Cells.Num();
 		for ( size_t i = 0 ; i < num ; i++ )
 		{
-			CellDic[cellMap->cells[i]->name] = cellMap->cells[i];
+			CellDic[cellMap->Cells[i].CellName] = &cellMap->Cells[i];
 		}
-
+/*
 		if (!SSTextureFactory::isExist() )
 		{
 			puts( "SSTextureFactory not created yet." );
@@ -63,18 +63,23 @@ public:
 			delete tex;
 			tex = 0;
 		}
-
+*/
+		tex = cellmap->Texture;
+		if(nullptr == tex->Resource)
+		{
+			tex->UpdateResource();
+		}
 	}
 
 	virtual ~SsCelMapLinker()
 	{
-		CellDic.clear();
+		CellDic.Empty();
 
-		if ( tex )
-			delete tex;
+//		if ( tex )
+//			delete tex;
 	}
 
-	SsCell*	findCell( const SsString& name ){ return CellDic[name]; }
+	FSsCell*	findCell( const FName& name ){ return CellDic[name]; }
 	
 };
 
@@ -84,45 +89,45 @@ class	SsCellMapList
 {
 private:
 	//同名セルマップは上書き
-	std::map<SsString,SsCelMapLinker*>		CellMapDic;
-	std::vector<SsCelMapLinker*>			CellMapList;//添え字参照用
+	TMap<FName,SsCelMapLinker*>		CellMapDic;
+	TArray<SsCelMapLinker*>			CellMapList;//添え字参照用
 
-	typedef std::map<SsString,SsCelMapLinker*>::iterator CellMapDicItr;
-	SsString	CellMapPath;
+///	typedef std::map<SsString,SsCelMapLinker*>::iterator CellMapDicItr;
+	FString	CellMapPath;
 
 private:
-	void	addIndex(SsCellMap* cellmap);
-	void	addMap(SsCellMap* cellmap);
+	void	addIndex(FSsCellMap* cellmap);
+	void	addMap(FSsCellMap* cellmap);
 
 public:
 	SsCellMapList(){}
 	virtual ~SsCellMapList()
 	{
-		for ( CellMapDicItr itr = CellMapDic.begin() ; itr != CellMapDic.end() ; itr ++)
+		for(auto itr = CellMapDic.CreateIterator(); itr; ++itr)
 		{
-			delete itr->second;
+			delete itr.Value();
 		}
 
-		for ( size_t i = 0 ; i < CellMapList.size(); i++ )
+		for ( size_t i = 0 ; i < CellMapList.Num(); i++ )
 		{
 			delete CellMapList[i];
 		}
-		CellMapList.clear();
-		CellMapDic.clear();
+		CellMapList.Empty();
+		CellMapDic.Empty();
 	}
 
 	void	clear();
-	size_t	size(){ return CellMapList.size(); }
+	size_t	size(){ return CellMapList.Num(); }
 
-	void	setCellMapPath(  const SsString& filepath );
+	void	setCellMapPath(  const FString& filepath );
 
 	//projectとanimepackからアニメーションの再生に必要なセルマップのリストを作成する
 	//アニメパックのセルリストに登載されている順にセルマップを読み込みインデックス化する
 	//SsProjectを介してセルを検索しているのはセルがそこにアレイで確保されているから
 	//もし既に読み込み済みだったりする場合は、アニメパックのセルＩＤ順にセルマップを登録すればいい
-	void	set(SsProject* proj , SsAnimePack* animepack );
+	void	set(USs6Project* proj , FSsAnimePack* animepack );
 
-	SsCelMapLinker*	getCellMapLink( const SsString& name );
+	SsCelMapLinker*	getCellMapLink( const FName& name );
 	SsCelMapLinker*	getCellMapLink( int index )
 	{	
 		return CellMapList[index];
@@ -134,8 +139,8 @@ public:
 
 
 //void getCellValue( int cellMapid , SsString& cellName , SsCellValue& v );
-void getCellValue( SsCellMapList* cellList, int cellMapid , SsString& cellName , SsCellValue& v );
-void getCellValue( SsCellMapList* cellList, SsString& cellMapName , SsString& cellName , SsCellValue& v );
+void getCellValue( SsCellMapList* cellList, int cellMapid , FName& cellName , SsCellValue& v );
+void getCellValue( SsCellMapList* cellList, FName& cellMapName , FName& cellName , SsCellValue& v );
 
 void calcUvs( SsCellValue* cellv );
 
