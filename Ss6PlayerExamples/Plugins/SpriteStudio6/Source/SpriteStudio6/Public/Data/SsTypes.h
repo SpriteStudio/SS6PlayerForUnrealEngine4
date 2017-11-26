@@ -584,24 +584,25 @@ struct SsRefCell
 	int		mapid;
 	FName	name;
 };
-class FSsUserDataAnime
+class SsUserDataAnime
 {
 public:
-	bool			UseInteger;	///<整数が使用されているか
-	bool			UsePoint;	///<座標データが使用されているか
-	bool			UseRect;	///<矩形データが使用されているか
-	bool			UseString;	///<文字列データが使用されているか 
+	bool			useInteger;	///<整数が使用されているか
+	bool			usePoint;	///<座標データが使用されているか
+	bool			useRect;	///<矩形データが使用されているか
+	bool			useString;	///<文字列データが使用されているか 
 
-	int				Integer;	///< 整数
-	FVector2D		Point;		///< 座標
-	SsIRect			Rect;		///< 矩形
-	FString			String;		///< 文字列
+	int				integer;	///< 整数
+	FVector2D		point;		///< 座標
+	SsIRect			rect;		///< 矩形
+	FString			string;		///< 文字列
 
-	FSsUserDataAnime() : 
-		UseInteger(false),
-		UsePoint(false),
-		UseRect(false),
-		UseString(false){}
+	SsUserDataAnime() : 
+		useInteger(false),
+		usePoint(false),
+		useRect(false),
+		useString(false)
+	{}
 };
 
 class FSsInstanceAttr

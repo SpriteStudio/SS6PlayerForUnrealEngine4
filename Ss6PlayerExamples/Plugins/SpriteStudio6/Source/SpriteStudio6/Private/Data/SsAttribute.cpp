@@ -192,38 +192,38 @@ void GetSsRefCell( const FSsKeyframe* key , SsRefCell& v )
 }
 
 
-void	GetSsUserDataAnime( const FSsKeyframe* key , FSsUserDataAnime& v )
+void	GetSsUserDataAnime( const FSsKeyframe* key , SsUserDataAnime& v )
 {
-	v.Integer = 0;
-	v.Point.X = v.Point.Y = 0;
-	v.Rect.x = v.Rect.y = v.Rect.w = v.Rect.h = 0; 
-	v.String = FString(TEXT(""));
-	v.UseInteger = key->Value.IsExistHashkey("integer");
-	v.UsePoint = key->Value.IsExistHashkey("point");
-	v.UseRect = key->Value.IsExistHashkey("rect");
-	v.UseString = key->Value.IsExistHashkey("string");
+	v.integer = 0;
+	v.point.X = v.point.Y = 0;
+	v.rect.x = v.rect.y = v.rect.w = v.rect.h = 0; 
+	v.string = FString(TEXT(""));
+	v.useInteger = key->Value.IsExistHashkey("integer");
+	v.usePoint = key->Value.IsExistHashkey("point");
+	v.useRect = key->Value.IsExistHashkey("rect");
+	v.useString = key->Value.IsExistHashkey("string");
 
-	if ( v.UseInteger )
+	if ( v.useInteger )
 	{
-		v.Integer = key->Value["integer"].get<int>();
+		v.integer = key->Value["integer"].get<int>();
 	}
 
-	if ( v.UsePoint )
+	if ( v.usePoint )
 	{
 		const FString& str = key->Value["point"].get<FString>();
-		StringToPoint2( str , v.Point );
+		StringToPoint2( str , v.point );
 	}
 	
-	if ( v.UseRect )
+	if ( v.useRect )
 	{
 		const FString& str = key->Value["rect"].get<FString>();
-		StringToIRect( str , v.Rect );
+		StringToIRect( str , v.rect );
 	}
 
-	if ( v.UseString )
+	if ( v.useString )
 	{
 		const FString& str = key->Value["string"].get<FString>();
-		v.String = str;
+		v.string = str;
 	}
 
 }
