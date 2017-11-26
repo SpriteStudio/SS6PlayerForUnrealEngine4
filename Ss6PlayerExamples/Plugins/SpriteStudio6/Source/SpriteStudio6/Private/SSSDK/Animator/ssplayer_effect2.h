@@ -341,6 +341,12 @@ public:
 
 	void	precalculate2();
 
+
+	// UE4 TArray::Sort() 用 
+	bool operator < (const SsEffectEmitter& Other) const
+	{
+		return (priority != Other.priority) ? (priority < Other.priority) : (uid < Other.uid);
+	}
 };
 
 

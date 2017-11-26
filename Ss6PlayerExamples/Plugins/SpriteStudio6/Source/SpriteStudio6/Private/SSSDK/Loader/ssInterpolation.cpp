@@ -1,6 +1,6 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 
-#include "ssloader.h"
+//#include "ssloader.h"
 #include "ssInterpolation.h"
 
 
@@ -51,16 +51,16 @@ decelerating_(
 }
 
 
-static float bezier_(float start, float end, float time, const SsCurve * c)
+static float bezier_(float start, float end, float time, const FSsCurve * c)
 {
 	//値が変化しない場合は左キーを補間値とする
-	if ((start == end) && (c->startValue == 0.0f) && (c->endValue == 0.0f))
+	if ((start == end) && (c->StartValue == 0.0f) && (c->EndValue == 0.0f))
 	{
 		return start;
 	}
 
 
-	float fCurrentPos = (c->endKeyTime - c->startKeyTime) * time + c->startKeyTime;
+	float fCurrentPos = (c->EndKeyTime - c->StartKeyTime) * time + c->StartKeyTime;
 
 	float fRet = end;
 	float fCurrentCalc = 0.5f;
@@ -77,10 +77,10 @@ static float bezier_(float start, float end, float time, const SsCurve * c)
 		fTemp1 = 1.0f - fCurrentCalc;
 		fTemp2 = fTemp1 * fTemp1;
 		fTemp3 = fTemp2 * fTemp1;
-		fCurrentX = ( fTemp3 * c->startKeyTime ) +
-					( 3 * fTemp2 * fCurrentCalc * (c->startTime + c->startKeyTime) ) +
-					( 3 * fTemp1 * fCurrentCalc * fCurrentCalc * (c->endTime + c->endKeyTime) ) +
-					( fCurrentCalc * fCurrentCalc * fCurrentCalc * c->endKeyTime);
+		fCurrentX = ( fTemp3 * c->StartKeyTime ) +
+					( 3 * fTemp2 * fCurrentCalc * (c->StartTime + c->StartKeyTime) ) +
+					( 3 * fTemp1 * fCurrentCalc * fCurrentCalc * (c->EndTime + c->EndKeyTime) ) +
+					( fCurrentCalc * fCurrentCalc * fCurrentCalc * c->EndKeyTime);
 
 		fCalcRange /= 2.0f;
 		if( fCurrentX > fCurrentPos )
@@ -98,8 +98,8 @@ static float bezier_(float start, float end, float time, const SsCurve * c)
 	fTemp2 = fTemp1 * fTemp1;
 	fTemp3 = fTemp2 * fTemp1;
 	fRet = ( fTemp3 * start ) +
-				( 3 * fTemp2 * fCurrentCalc * (c->startValue + start) ) +
-				( 3 * fTemp1 * fCurrentCalc * fCurrentCalc * (c->endValue + end) ) +
+				( 3 * fTemp2 * fCurrentCalc * (c->StartValue + start) ) +
+				( 3 * fTemp1 * fCurrentCalc * fCurrentCalc * (c->EndValue + end) ) +
 				( fCurrentCalc * fCurrentCalc * fCurrentCalc * end );
 
 	return fRet;
@@ -111,15 +111,15 @@ static float bezier_(float start, float end, float time, const SsCurve * c)
 	スロープ値を事前計算しておけばカーブ計算用パラメータは１つになる
 	が、ベジェと共用するためこのままの形にしておく。
 */
-static float hermite_(float start, float end, float time, const SsCurve * c)
+static float hermite_(float start, float end, float time, const FSsCurve * c)
 {
 	float t2 = time * time;
 	float t3 = t2 * time;
 	float result =
 		(2 * t3 - 3 * t2 + 1) * start +
 		(-2 * t3 + 3 * t2) * end +
-		(t3 - 2 * t2 + time) * (c->startValue - start) +
-		(t3 - t2) * (c->endValue - end);
+		(t3 - 2 * t2 + time) * (c->StartValue - start) +
+		(t3 - t2) * (c->EndValue - end);
 	return result;
 }
 
@@ -130,25 +130,25 @@ static float hermite_(float start, float end, float time, const SsCurve * c)
 //----------------------------------------------------------------------------
 float	SsInterpolate(SsInterpolationType::Type type, float time, float start, float end, const FSsCurve * curve)
 {
-	float r;
+	float r(0.f);
 	switch (type)
 	{
-	case SsInterpolationType::none:
+	case SsInterpolationType::None:
 		r = start;
 		break;
-	case SsInterpolationType::linear:
+	case SsInterpolationType::Linear:
 		r = linear_(start, end, time);
 		break;
-	case SsInterpolationType::acceleration:
+	case SsInterpolationType::Acceleration:
 		r = accelerating_(start, end, time);
 		break;
-	case SsInterpolationType::deceleration:
+	case SsInterpolationType::Deceleration:
 		r = decelerating_(start, end, time);
 		break;
-	case SsInterpolationType::bezier:
+	case SsInterpolationType::Bezier:
 		r = bezier_(start, end, time, curve);
 		break;
-	case SsInterpolationType::hermite:
+	case SsInterpolationType::Hermite:
 		r = hermite_(start, end, time, curve);
 		break;
 	default:

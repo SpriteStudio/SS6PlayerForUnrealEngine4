@@ -236,9 +236,9 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 				partState[i].meshPart = mesh;
 				mesh->myPartState = &partState[i];
 				//使用するセルを調査する
-				bool ret;
 				SsCellValue cellv;
-				if (ret = getFirstCell(p, cellv))
+				bool ret = getFirstCell(p, cellv);
+				if (ret)
 				{
 					mesh->targetCell = cellv.cell;
 					mesh->targetTexture = cellv.texture;
@@ -544,7 +544,7 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 {
 	if ( rightkey == 0 )
 	{
-		v = leftkey->value.get<mytype>();
+		v = leftkey->Value.get<mytype>();
 		return ;
 	}
 	
@@ -554,17 +554,45 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 	int range = rightkey->Time - leftkey->Time;
 	float now = (float)(time - leftkey->Time) / range;
 
-	if (leftkey->ipType == SsInterpolationType::bezier)
+	if (leftkey->IpType == SsInterpolationType::Bezier)
 	{
 		// ベジェのみキーの開始・終了時間が必要
 		FSsCurve curve;
 		curve = leftkey->Curve;
-		curve.startKeyTime = leftkey->Time;
-		curve.endKeyTime = (float)rightkey->Time;
+		curve.StartKeyTime = leftkey->Time;
+		curve.EndKeyTime = (float)rightkey->Time;
 		v = SsInterpolate( leftkey->IpType , now , v1 , v2 , &curve );
 	}
 	else{
 		v = SsInterpolate( leftkey->IpType , now , v1 , v2 , &leftkey->Curve );
+	}
+
+}
+void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , bool& v )
+{
+	if ( rightkey == 0 )
+	{
+		v = leftkey->Value.get<bool>();
+		return ;
+	}
+
+	float v1 = (float)leftkey->Value.get<bool>();
+	float v2 = (float)rightkey->Value.get<bool>();
+
+	int range = rightkey->Time - leftkey->Time;
+	float now = (float)(time - leftkey->Time) / range;
+
+	if (leftkey->IpType == SsInterpolationType::Bezier)
+	{
+		// ベジェのみキーの開始・終了時間が必要
+		FSsCurve curve;
+		curve = leftkey->Curve;
+		curve.StartKeyTime = leftkey->Time;
+		curve.EndKeyTime = (float)rightkey->Time;
+		v = 0.f != SsInterpolate( leftkey->IpType , now , v1 , v2 , &curve );
+	}
+	else{
+		v = 0.f != SsInterpolate( leftkey->IpType , now , v1 , v2 , &leftkey->Curve );
 	}
 
 }
@@ -1314,7 +1342,7 @@ void	SsAnimeDecoder::setMaskParentSetting(bool flg)
 	maskParentSetting = flg;
 }
 
-static SsPartStateLess _ssPartStateLess;
+//static SsPartStateLess _ssPartStateLess;
 
 ///SS5の場合  SsPartのarrayIndexは、親子順　（子は親より先にいない）と
 ///なっているためそのまま木構造を作らずUpdateを行う
@@ -1354,8 +1382,8 @@ void	SsAnimeDecoder::update(float frameDelta)
 		meshAnimator->update();
 
 
-	sortList.Sort(_ssPartStateLess);
-	partStatesMask_.Sort(_ssPartStateLess);
+	sortList.Sort();
+	partStatesMask_.Sort();
 
 	maskIndexList.Empty();
 	for(auto it = partStatesMask_.CreateConstIterator(); it; ++it)

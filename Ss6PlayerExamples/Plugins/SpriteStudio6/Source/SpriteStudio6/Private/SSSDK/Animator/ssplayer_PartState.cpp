@@ -1,12 +1,13 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 
-#include "../Loader/ssloader.h"
+//#include "../Loader/ssloader.h"
 #include "ssplayer_animedecode.h"
 #include "ssplayer_PartState.h"
+#include "ssplayer_effect2.h"
 
-SsPartState::SsPartState() : refAnime(0), index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::invalid),	refEffect(0) {
+SsPartState::SsPartState() : refAnime(0), index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::Invalid),	refEffect(0) {
 	init();
-	effectValue.attrInitialized = false;
+	effectValue.AttrInitialized = false;
 	meshPart = 0;
 
 }
@@ -37,10 +38,10 @@ void	SsPartState::init()
 	memset( uvs , 0 , sizeof( uvs ) );
 	memset( matrix , 0 , sizeof( matrix ) );
 	//cell = 0;
-	position = SsVector3( 0.0f , 0.0f, 0.0f );
-	rotation = SsVector3( 0.0f , 0.0f , 0.0f );
-	scale = SsVector2( 1.0f , 1.0f );
-	localscale = SsVector2(1.0f, 1.0f);
+	position = FVector( 0.0f , 0.0f, 0.0f );
+	rotation = FVector( 0.0f , 0.0f , 0.0f );
+	scale = FVector2D( 1.0f , 1.0f );
+	localscale = FVector2D(1.0f, 1.0f);
 
 	alpha = 1.0f;
 	localalpha = 1.0f;
@@ -49,15 +50,15 @@ void	SsPartState::init()
 	vFlip = false;
 	hide = false;
 
-	pivotOffset = SsVector2(0, 0);
-	anchor = SsVector2( 0 , 0 );
-	size = SsVector2( 1 , 1 );
+	pivotOffset = FVector2D(0, 0);
+	anchor = FVector2D( 0 , 0 );
+	size = FVector2D( 1 , 1 );
 
 	imageFlipH = false;
 	imageFlipV = false;
-	uvTranslate = SsVector2(0, 0);
+	uvTranslate = FVector2D(0, 0);
 	uvRotation = 0;
-	uvScale = SsVector2( 1 , 1 );
+	uvScale = FVector2D( 1 , 1 );
 
 	boundingRadius = 0;
 
@@ -68,29 +69,29 @@ void	SsPartState::init()
 
 	is_localAlpha = false;
 	
-	effectValue.independent = false;
-	effectValue.loopflag = 0;
-	effectValue.speed = 1.0f;
-	effectValue.startTime = 0;
-	effectValue.curKeyframe = 0;
+	effectValue.Independent = false;
+	effectValue.LoopFlag = 0;
+	effectValue.Speed = 1.0f;
+	effectValue.StartTime = 0;
+	effectValue.CurKeyframe = 0;
 
 	effectseed = 0;
 	effectTime = 0;
 
-	instanceValue.infinity = false;
-	instanceValue.reverse = false;
-	instanceValue.pingpong = false;
-	instanceValue.independent = false;
-	instanceValue.loopflag = 0;
-	instanceValue.loopNum = 1;
-	instanceValue.startLabel = "_start";
-	instanceValue.startOffset = 0;
-	instanceValue.endLabel = "_end";
-	instanceValue.endOffset = 0;
-	instanceValue.curKeyframe = 0;
-	instanceValue.speed = 1.0f;
-	instanceValue.startFrame = 0;
-	instanceValue.endFrame = 0;
+	instanceValue.Infinity = false;
+	instanceValue.Reverse = false;
+	instanceValue.Pingpong = false;
+	instanceValue.Independent = false;
+	instanceValue.LoopFlag = 0;
+	instanceValue.LoopNum = 1;
+	instanceValue.StartLabel = "_start";
+	instanceValue.StartOffset = 0;
+	instanceValue.EndLabel = "_end";
+	instanceValue.EndOffset = 0;
+	instanceValue.CurKeyframe = 0;
+	instanceValue.Speed = 1.0f;
+	instanceValue.StartFrame = 0;
+	instanceValue.EndFrame = 0;
 //	instanceValue.liveFrame = 0.0f;	//加算値なので初期化してはいけない
 	
 	masklimen = 0;
@@ -103,9 +104,9 @@ void	SsPartState::init()
 
 void	SsPartState::reset()
 {
-	effectValue.independent = false;
-	effectValue.attrInitialized = false;
-	effectValue.speed = 1.0f;
-	effectValue.startTime = 0;
+	effectValue.Independent = false;
+	effectValue.AttrInitialized = false;
+	effectValue.Speed = 1.0f;
+	effectValue.StartTime = 0;
 
 }

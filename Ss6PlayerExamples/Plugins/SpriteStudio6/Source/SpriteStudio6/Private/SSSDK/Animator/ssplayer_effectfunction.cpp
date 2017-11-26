@@ -68,6 +68,8 @@ static float VarianceCalcFin( SsEffectRenderEmitter* e ,  float base , float var
 }
 
 
+#ifndef SS_BLEND_NUMBER	// UE4のUnityビルド対策 
+#define SS_BLEND_NUMBER
 static uint8 blendNumber( uint8 a , uint8 b , float rate )
 {
 	return ( a + ( b - a ) * rate );
@@ -78,6 +80,7 @@ static float blendFloat( float a,float b , float rate )
 {
 	return   ( a + ( b - a ) * rate );
 }
+#endif
 
 
 class EffectFuncBase

@@ -90,8 +90,13 @@ struct SsPartState
 	void	init();
 	bool	inherits_(SsAttributeKind::Type kind) const {return inheritRates[(int)kind] != 0.f;}
 	void	reset();
-};
 
+	// UE4 TArray::Sort() 用 
+	bool operator < (const SsPartState& Other) const
+	{
+		return (prio != Other.prio) ? (prio < Other.prio) : (index < Other.index);
+	}
+};
 
 
 #endif

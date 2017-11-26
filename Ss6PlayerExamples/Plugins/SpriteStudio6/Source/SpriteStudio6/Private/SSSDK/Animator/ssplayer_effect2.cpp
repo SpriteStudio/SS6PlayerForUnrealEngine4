@@ -19,7 +19,8 @@
 #define BUILD_ERROR_0418 (0)
 
 
-
+#ifndef SS_BLEND_NUMBER	// UE4のUnityビルド対策 
+#define SS_BLEND_NUMBER
 static uint8 blendNumber( uint8 a , uint8 b , float rate )
 {
 	return ( a + ( b - a ) * rate );
@@ -29,6 +30,7 @@ static float blendFloat( float a,float b , float rate )
 {
 	return   ( a + ( b - a ) * rate );
 }
+#endif
 
 #ifndef SS_GET_ANGLE_360	// UE4のUnityビルド対策 
 #define SS_GET_ANGLE_360

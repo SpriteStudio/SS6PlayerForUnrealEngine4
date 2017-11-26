@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#include "../Loader/ssloader.h"
+//#include "../Loader/ssloader.h"
 
 #include "ssplayer_animedecode.h"
 #include "ssplayer_mesh.h"
@@ -15,7 +15,7 @@ void	SsMeshPart::makeMesh()
 {
 	//パーツステートの初期化の際にターゲットセルが作られる、その際にマップもコピーする？
 
-	size_t psize = targetCell->meshPointList.size();
+	size_t psize = targetCell->MeshPointList.Num();
 
 	if (vertices) delete[] vertices;
 	if (colors) delete[] colors;
@@ -30,8 +30,8 @@ void	SsMeshPart::makeMesh()
 
 	draw_vertices = new float[3 * psize];
 
-	vertices_outer = new SsVector2[3 * psize];// //ツール用
-	update_vertices_outer = new SsVector2[3 * psize];// //ツール用
+	vertices_outer = new FVector2D[3 * psize];// //ツール用
+	update_vertices_outer = new FVector2D[3 * psize];// //ツール用
 
 
 	vertices = new float[3 * psize];
@@ -44,27 +44,27 @@ void	SsMeshPart::makeMesh()
 	memset(bindBoneInfo, 0, sizeof(StBoneWeight) * psize);
 
 
-	SsVector2 offs; //中央
-	offs.x = (-targetCell->size.x / 2.0f);
-	offs.y = (targetCell->size.y / 2.0f);
+	FVector2D offs; //中央
+	offs.X = (-targetCell->Size.X / 2.0f);
+	offs.Y = (targetCell->Size.Y / 2.0f);
 
-	offs.x -= targetCell->pivot.x * targetCell->size.x;
-	offs.y -= targetCell->pivot.y * targetCell->size.y;
+	offs.X -= targetCell->Pivot.X * targetCell->Size.X;
+	offs.Y -= targetCell->Pivot.Y * targetCell->Size.Y;
 
-	ver_size = targetCell->meshPointList.size();
+	ver_size = targetCell->MeshPointList.Num();
 
-	float txsizew = this->targetTexture->getWidth();
-	float txsizeh = this->targetTexture->getHeight();
+	float txsizew = this->targetTexture->GetSurfaceWidth();
+	float txsizeh = this->targetTexture->GetSurfaceHeight();
 
 	float uvpixel_x = 1.0f / txsizew;
 	float uvpixel_y = 1.0f / txsizeh;
 
 
-	for (size_t i = 0; i < targetCell->meshPointList.size(); i++)
+	for (size_t i = 0; i < targetCell->MeshPointList.Num(); i++)
 	{
-		SsVector2& v = targetCell->meshPointList[i];
-		vertices[i * 3 + 0] = v.x + offs.x;
-		vertices[i * 3 + 1] = -v.y + offs.y;
+		FVector2D& v = targetCell->MeshPointList[i];
+		vertices[i * 3 + 0] = v.X + offs.X;
+		vertices[i * 3 + 1] = -v.Y + offs.Y;
 		vertices[i * 3 + 2] = 0;
 
 
@@ -72,29 +72,29 @@ void	SsMeshPart::makeMesh()
 		colors[i * 4 + 1] = 1.0f;
 		colors[i * 4 + 2] = 1.0f;
 		colors[i * 4 + 3] = 1.0f;
-		uvs[i * 2 + 0] = (targetCell->pos.x + v.x) * uvpixel_x;
-		uvs[i * 2 + 1] = (targetCell->pos.y + v.y) * uvpixel_y;
+		uvs[i * 2 + 0] = (targetCell->Pos.X + v.X) * uvpixel_x;
+		uvs[i * 2 + 1] = (targetCell->Pos.Y + v.Y) * uvpixel_y;
 	}
 
-	outter_vertexnum = targetCell->outerPoint.size();
+	outter_vertexnum = targetCell->OuterPoint.Num();
 	for (size_t i = 0; i < outter_vertexnum; i++)
 	{
-		SsVector2& v = targetCell->outerPoint[i];
+		FVector2D& v = targetCell->OuterPoint[i];
 
-		vertices_outer[i].x = v.x + offs.x;
-		vertices_outer[i].y = -v.y + offs.y;
+		vertices_outer[i].X = v.X + offs.X;
+		vertices_outer[i].Y = -v.Y + offs.Y;
 	}
 
 
-	tri_size = targetCell->meshTriList.size();
+	tri_size = targetCell->MeshTriList.Num();
 
 	indices = new unsigned short[tri_size * 3];
-	for (size_t i = 0; i < targetCell->meshTriList.size(); i++)
+	for (size_t i = 0; i < targetCell->MeshTriList.Num(); i++)
 	{
-		SsTriangle& t = targetCell->meshTriList[i];
-		indices[i * 3 + 0] = t.idxPo1;
-		indices[i * 3 + 1] = t.idxPo2;
-		indices[i * 3 + 2] = t.idxPo3;
+		FSsTriangle& t = targetCell->MeshTriList[i];
+		indices[i * 3 + 0] = t.IdxPo1;
+		indices[i * 3 + 1] = t.IdxPo2;
+		indices[i * 3 + 2] = t.IdxPo3;
 	}
 }
 
@@ -134,25 +134,25 @@ void	SsMeshPart::Cleanup()
 
 void    SsMeshPart::updateTransformMesh()
 {
-	float matrix[16];
+//	float matrix[16];
 
 	for (int i = 0; i < ver_size; i++)
 	{
 		StBoneWeight& info = bindBoneInfo[i];
 
-		SsVector3 out;
-		SsVector3 outtotal;
+		FVector out;
+		FVector outtotal;
 
-		draw_vertices[i * 3 + 0] = outtotal.x;
-		draw_vertices[i * 3 + 1] = outtotal.y;
+		draw_vertices[i * 3 + 0] = outtotal.X;
+		draw_vertices[i * 3 + 1] = outtotal.Y;
 		draw_vertices[i * 3 + 2] = 0;
 
 		if (info.bindBoneNum > 0 )
 		{
 			for (int n = 0; n < info.bindBoneNum; n++)
 			{
-				//outtotal.x = info.offset[n].x;
-				//outtotal.y = info.offset[n].y;
+				//outtotal.X = info.offset[n].X;
+				//outtotal.Y = info.offset[n].Y;
 				//outtotal.z = info.offset[n].z;
 
 #if 1
@@ -160,21 +160,21 @@ void    SsMeshPart::updateTransformMesh()
 				{
 					float w = info.weight[n] / 100.0f;
 					MatrixTransformVector3(info.bone[n]->matrix, info.offset[n], out);
-					out.x *= w;
-					out.y *= w;
+					out.X *= w;
+					out.Y *= w;
 					//out.z *= w;
 
-					outtotal.x += out.x;
-					outtotal.y += out.y;
-					outtotal.z = 0;
+					outtotal.X += out.X;
+					outtotal.Y += out.Y;
+					outtotal.Z = 0;
 					//outtotal.z += out.z;
 				}
 #endif
 
 			}
 
-			draw_vertices[i * 3 + 0] = outtotal.x * 1.0f;
-			draw_vertices[i * 3 + 1] = outtotal.y * 1.0f;
+			draw_vertices[i * 3 + 0] = outtotal.X * 1.0f;
+			draw_vertices[i * 3 + 1] = outtotal.Y * 1.0f;
 			draw_vertices[i * 3 + 2] = 0;
 		}
 	}
@@ -196,26 +196,26 @@ void	SsMeshAnimator::setAnimeDecoder(SsAnimeDecoder* s)
 void	SsMeshAnimator::makeMeshBoneList()
 {
 	if (bindAnime == 0)return;
-	meshList.clear();
-	boneList.clear();
-	jointList.clear();
+	meshList.Empty();
+	boneList.Empty();
+	jointList.Empty();
 
 
 	size_t num = bindAnime->getStateNum();
 	SsPartState* indexState = bindAnime->getPartState();
 	for (int i = 0; i < num; i++)
 	{
-		if (indexState[i].partType == SsPartType::mesh)
+		if (indexState[i].partType == SsPartType::Mesh)
 		{
-			meshList.push_back(&indexState[i]);
+			meshList.Add(&indexState[i]);
 		}
-		if (indexState[i].partType == SsPartType::armature)
+		if (indexState[i].partType == SsPartType::Armature)
 		{
-			boneList.push_back(&indexState[i]);
+			boneList.Add(&indexState[i]);
 		}
-		if (indexState[i].partType == SsPartType::joint)
+		if (indexState[i].partType == SsPartType::Joint)
 		{
-			jointList.push_back(&indexState[i]);
+			jointList.Add(&indexState[i]);
 		}
 	}
 
@@ -228,7 +228,7 @@ void	SsMeshAnimator::update()
 {
 	if (bindAnime == 0)return;
 
-	foreach(std::vector<SsPartState*>, meshList, it)
+	for(auto it = meshList.CreateConstIterator(); it; ++it)
 	{
 		SsPartState* state = (*it);
 
@@ -243,28 +243,28 @@ void	SsMeshAnimator::modelLoad()
 {
 	if (bindAnime == 0)return;
 
-	SsModel* model = bindAnime->getMyModel();
+	FSsModel* model = bindAnime->getMyModel();
 
 
-	for (size_t i = 0; i < model->meshList.size(); i++)
+	for (size_t i = 0; i < model->MeshList.Num(); i++)
 	{
-		std::vector<SsMeshBindInfo>& mvb = model->meshList[i]->meshVerticesBindArray;
+		TArray<FSsMeshBindInfo>& mvb = model->MeshList[i].MeshVerticesBindArray;
 
 		{
 			SsPartState* target = this->meshList[i];
 			SsMeshPart*		meshPart = target->meshPart;
-			SsPart* pt = model->partList[target->index];	//fordebug
-			size_t psize = meshPart->targetCell->meshPointList.size();
+			FSsPart* pt = &(model->PartList[target->index]);	//fordebug
+			size_t psize = meshPart->targetCell->MeshPointList.Num();
 			//bindBoneInfo は　psiz分だけ生成されているので、mvb.size()が超えたら間違いがあると思われる
-			if (meshPart->ver_size < (int)mvb.size())
+			if (meshPart->ver_size < (int)mvb.Num())
 			{
-				DEBUG_PRINTF("ver_sizeを超えている : %s ver_size:%d mvb.size:%d \n", pt->name.c_str(), meshPart->ver_size, (int)mvb.size());
+				UE_LOG(LogSpriteStudio, Warning, TEXT("ver_sizeを超えている : %s ver_size:%d mvb.size:%d \n"), *(pt->PartName.ToString()), meshPart->ver_size, (int)mvb.Num());
 			}
 		}
 
-		for (size_t n = 0; n < mvb.size(); n++)
+		for (size_t n = 0; n < mvb.Num(); n++)
 		{
-			int bonenum = mvb[n].bindBoneNum;
+			int bonenum = mvb[n].BindBoneNum;
 			SsPartState* target = this->meshList[i];
 			SsMeshPart*		meshPart = target->meshPart;
 
@@ -275,9 +275,9 @@ void	SsMeshAnimator::modelLoad()
 
 			for (int l = 0; l < bonenum; l++)
 			{
-				meshPart->bindBoneInfo[n].weight[l] = mvb[n].weight[l];
-				meshPart->bindBoneInfo[n].offset[l] = mvb[n].offset[l];
-				int bi = mvb[n].boneIndex[l];
+				meshPart->bindBoneInfo[n].weight[l] = mvb[n].Weight[l];
+				meshPart->bindBoneInfo[n].offset[l] = mvb[n].Offset[l];
+				int bi = mvb[n].BoneIndex[l];
 				meshPart->bindBoneInfo[n].bone[l] = this->boneList[bi];
 			}
 			meshPart->bindBoneInfo[n].bindBoneNum = bonenum;

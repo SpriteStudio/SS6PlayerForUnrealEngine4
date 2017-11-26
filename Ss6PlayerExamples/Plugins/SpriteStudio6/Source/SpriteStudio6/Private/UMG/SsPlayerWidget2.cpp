@@ -31,7 +31,7 @@ namespace
 				return 4;
 			}
 		}
-		case SsBlendType::Effect: { return 6; }
+		//case SsBlendType::Effect: { return 6; }	//TODO
 		}
 		check(false);
 		return 0;

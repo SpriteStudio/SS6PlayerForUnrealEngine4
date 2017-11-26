@@ -233,6 +233,7 @@ namespace SsPartType
 		Normal,			///< 通常パーツ。領域を持つ。画像は無くてもいい。
 		Text,			///< テキスト(予約　未実装）
 		Instance,		///< インスタンス。他アニメ、パーツへの参照。シーン編集モードの代替になるもの
+		Armature,		///< ボーンパーツ
 		Effect,			///< エフェクト
 		Mesh,			///< メッシュパーツ
 		MoveNode,		///< 動作起点
