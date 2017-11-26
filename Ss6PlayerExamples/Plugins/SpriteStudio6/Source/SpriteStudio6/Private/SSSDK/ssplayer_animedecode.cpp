@@ -529,7 +529,7 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 	GetSsInstparamAnime( leftkey , v );
 }
 
-void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsEffectAttr& v )
+void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsEffectAttr& v )
 {
 	//補間は行わないので、常に左のキーを出力する
 	GetSsEffectParamAnime( leftkey , v );
@@ -913,14 +913,14 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 						//先頭にキーが無い場合
 						if ( t > nowTime )
 						{
-							FSsEffectAttr d;
+							SsEffectAttr d;
 							state->effectValue = d;
 						}else{
 							state->effectTime = t;
-							if ( !state->effectValue.AttrInitialized )
+							if ( !state->effectValue.attrInitialized )
 							{
-								state->effectValue.AttrInitialized  = true;
-								state->effectTimeTotal = state->effectValue.StartTime;
+								state->effectValue.attrInitialized  = true;
+								state->effectTimeTotal = state->effectValue.startTime;
 								state->effectTime = t;//state->effectValue.startTime;
 							}
 						}
@@ -1402,11 +1402,11 @@ void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , FSsPart* par
 {
 	if ( state->hide ) return ;
 
-	if ( state->effectValue.Independent )
+	if ( state->effectValue.independent )
 	{
-		if (state && state->refEffect && state->effectValue.AttrInitialized )
+		if (state && state->refEffect && state->effectValue.attrInitialized )
 		{
-			state->effectTimeTotal += frameDelta* state->effectValue.Speed;
+			state->effectTimeTotal += frameDelta* state->effectValue.speed;
 			state->refEffect->setLoop(true);
 			state->refEffect->setFrame( state->effectTimeTotal );
 			state->refEffect->play();
@@ -1421,8 +1421,8 @@ void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , FSsPart* par
 				return ;
 			}
 
-			_time*= state->effectValue.Speed;
-			_time += state->effectValue.StartTime;
+			_time*= state->effectValue.speed;
+			_time += state->effectValue.startTime;
 
 			state->refEffect->setSeedOffset( seedOffset );
 			state->refEffect->setFrame( _time );

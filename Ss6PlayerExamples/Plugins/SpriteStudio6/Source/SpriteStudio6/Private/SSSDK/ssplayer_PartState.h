@@ -51,7 +51,7 @@ struct SsPartState
 	SsPartsColorAnime partsColorValue;///< カラーアニメの値
 	SsColorAnime	colorValue;		///< カラーアニメの値
 	FSsVertexAnime	vertexValue;	///< 頂点アニメの値
-	FSsEffectAttr	effectValue;	///< エフェクトの値
+	SsEffectAttr	effectValue;	///< エフェクトの値
 	int				effectTime;
 	float			effectTimeTotal;
 	int				effectseed;

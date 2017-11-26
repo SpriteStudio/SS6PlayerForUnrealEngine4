@@ -549,33 +549,32 @@ namespace SsIkRotationArrow
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsIkRotationArrow::Type> n);
 void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsIkRotationArrow::Type>& out);
 
-class FSsEffectAttr
+class SsEffectAttr
 {
 public:
-	int32	StartTime;		///<開始フレーム
-	float	Speed;			///<再生速度
-	bool	Independent;	///<独立動作
-	int32	LoopFlag;		///<ループ時の動作フラグをビット対応でまとめたもの
-	bool	AttrInitialized;
-	int32	CurKeyframe;	///<キーが配置されたフレーム
-
-	FSsEffectAttr()
-		: StartTime(0)
-		, Speed(1.f)
-		, Independent(false)
-		, LoopFlag(0)
-		, AttrInitialized(false)
-		, CurKeyframe(0)
+	int					startTime;				///< 開始フレーム
+	float				speed;					///< 再生速度
+	bool				independent;			///< 独立動作
+	int					loopflag;				///< ループ時の動作フラグをビット対応でまとめたもの
+	bool				attrInitialized;
+	int					curKeyframe;			///< キーが配置されたフレーム 
+	SsEffectAttr() :
+		startTime(0),
+		speed(1.0f),
+		independent(false),
+		loopflag(0),
+		attrInitialized(false),
+		curKeyframe(0)
 	{}
 
-	void Init()
+	void init()
 	{
-		StartTime = 0;
-		Speed = 1.f;
-		Independent = false;
-		LoopFlag = 0;
-		AttrInitialized = false;
-		CurKeyframe = 0;
+		startTime = 0;
+		speed = 1.0f;
+		independent = false;
+		loopflag = 0;
+		attrInitialized = false;
+		curKeyframe = 0;
 	}
 };
 

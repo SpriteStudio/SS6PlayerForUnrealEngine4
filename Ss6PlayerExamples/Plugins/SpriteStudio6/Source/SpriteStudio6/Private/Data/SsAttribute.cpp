@@ -228,19 +228,19 @@ void	GetSsUserDataAnime( const FSsKeyframe* key , FSsUserDataAnime& v )
 
 }
 
-void	GetSsEffectParamAnime( const FSsKeyframe* key, FSsEffectAttr& v )
+void	GetSsEffectParamAnime( const FSsKeyframe* key, SsEffectAttr& v )
 {
-	v.StartTime = key->Value["startTime"].get<int>();
-	v.Speed = key->Value["speed"].get<float>();
-	v.Independent = key->Value["independent"].get<bool>();
-	v.CurKeyframe = key->Time;
+	v.startTime = key->Value["startTime"].get<int>();
+	v.speed = key->Value["speed"].get<float>();
+	v.independent = key->Value["independent"].get<bool>();
+	v.curKeyframe = key->Time;
 
 	int iflags = 0;
-	if (v.Independent)
+	if (v.independent)
 	{
 		iflags = iflags | SsEffectLoopFlag::EFFECT_LOOP_FLAG_INFINITY;
 	}
-	v.LoopFlag = iflags;
+	v.loopflag = iflags;
 }
 
 void	GetSsInstparamAnime( const FSsKeyframe* key , FSsInstanceAttr& v )

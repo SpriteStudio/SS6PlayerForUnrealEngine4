@@ -7,7 +7,7 @@
 
 SsPartState::SsPartState() : refAnime(0), index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::Invalid),	refEffect(0) {
 	init();
-	effectValue.AttrInitialized = false;
+	effectValue.attrInitialized = false;
 	meshPart = 0;
 
 }
@@ -69,11 +69,11 @@ void	SsPartState::init()
 
 	is_localAlpha = false;
 	
-	effectValue.Independent = false;
-	effectValue.LoopFlag = 0;
-	effectValue.Speed = 1.0f;
-	effectValue.StartTime = 0;
-	effectValue.CurKeyframe = 0;
+	effectValue.independent = false;
+	effectValue.loopflag = 0;
+	effectValue.speed = 1.0f;
+	effectValue.startTime = 0;
+	effectValue.curKeyframe = 0;
 
 	effectseed = 0;
 	effectTime = 0;
@@ -104,9 +104,9 @@ void	SsPartState::init()
 
 void	SsPartState::reset()
 {
-	effectValue.Independent = false;
-	effectValue.AttrInitialized = false;
-	effectValue.Speed = 1.0f;
-	effectValue.StartTime = 0;
+	effectValue.independent = false;
+	effectValue.attrInitialized = false;
+	effectValue.speed = 1.0f;
+	effectValue.startTime = 0;
 
 }
