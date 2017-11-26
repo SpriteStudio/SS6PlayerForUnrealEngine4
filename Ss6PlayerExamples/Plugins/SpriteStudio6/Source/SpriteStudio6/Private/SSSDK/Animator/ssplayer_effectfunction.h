@@ -10,10 +10,10 @@ public:
 	SsEffectFunctionExecuter(){}
 	virtual ~SsEffectFunctionExecuter(){}
 
-	static void	initalize( FSsEffectBehavior* beh , SsEffectRenderEmitter* emmiter);
-	static void	updateEmmiter( FSsEffectBehavior* beh , SsEffectRenderEmitter* emmiter);
-	static void	initializeParticle( FSsEffectBehavior* beh , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-	static void	updateParticle( FSsEffectBehavior* beh , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
+//	static void	initalize( FSsEffectBehavior* beh , SsEffectRenderEmitter* emmiter);
+//	static void	updateEmmiter( FSsEffectBehavior* beh , SsEffectRenderEmitter* emmiter);
+//	static void	initializeParticle( FSsEffectBehavior* beh , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
+//	static void	updateParticle( FSsEffectBehavior* beh , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
 
 
 	//新バージョン

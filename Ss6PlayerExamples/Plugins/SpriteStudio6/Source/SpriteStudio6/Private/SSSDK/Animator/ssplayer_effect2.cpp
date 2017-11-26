@@ -19,8 +19,7 @@
 #define BUILD_ERROR_0418 (0)
 
 
-#ifndef SS_BLEND_NUMBER	// UE4のUnityビルド対策 
-#define SS_BLEND_NUMBER
+
 static uint8 blendNumber( uint8 a , uint8 b , float rate )
 {
 	return ( a + ( b - a ) * rate );
@@ -30,10 +29,7 @@ static float blendFloat( float a,float b , float rate )
 {
 	return   ( a + ( b - a ) * rate );
 }
-#endif
 
-#ifndef SS_GET_ANGLE_360	// UE4のUnityビルド対策 
-#define SS_GET_ANGLE_360
 static float get_angle_360(const FVector2D& v0, const FVector2D& v1)
 {
 	FVector2D uv0(v0), uv1(v1);
@@ -56,7 +52,6 @@ static float get_angle_360(const FVector2D& v0, const FVector2D& v1)
 	}
 	return ang;
 }
-#endif
 
 
 double OutQuad(double t,double totaltime,double max ,double min )
@@ -304,7 +299,6 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 		FVector2D nv = v;
 		nv.Normalize();
-
 
 		float gp = particle.gravityPower;
 		if (gp > 0) {
