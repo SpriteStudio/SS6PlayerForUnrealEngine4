@@ -497,9 +497,32 @@ void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
 }
 void SerializeStruct(FSsMeshBind& Value, SsXmlIArchiver* ar)
 {
-	//TODO
-	//ssloader_ssae.cpp
-	//SsMeshBind::loader(ISsXmlArchiver* ar)
+	FString Str(babel::utf8_to_sjis( ar->getxml()->GetText() ).c_str());
+
+	TArray<FString> MeshBindInfoStrs;
+	Str.ParseIntoArray(MeshBindInfoStrs, TEXT(","));
+	
+	for(auto It = MeshBindInfoStrs.CreateConstIterator(); It; ++It)
+	{
+		FSsMeshBindInfo Info;
+		{
+			TArray<FString> Tok;
+			(*It).ParseIntoArray(Tok, TEXT(" "));
+
+			FMemory::Memset(Info.Weight,    0, SSMESHPART_BONEMAX * sizeof(float));
+			FMemory::Memset(Info.BoneIndex, 0, SSMESHPART_BONEMAX * sizeof(int32));
+
+			Info.BindBoneNum = FCString::Atoi(*Tok[0]);
+			for(int32 i = 0; i < Info.BindBoneNum; ++i)
+			{
+				Info.BoneIndex[i] = FCString::Atoi(*Tok[1 + (i*4) + 0]);
+				Info.Weight[i]    = FCString::Atoi(*Tok[1 + (i*4) + 1]);
+				Info.Offset[i].X  = FCString::Atof(*Tok[1 + (i*4) + 2]);
+				Info.Offset[i].Y  = FCString::Atof(*Tok[1 + (i*4) + 3]);
+			}
+		}
+		Value.MeshVerticesBindArray.Add(Info);
+	}
 }
 void SerializeStruct(FSsModel& Value, SsXmlIArchiver* ar)
 {
