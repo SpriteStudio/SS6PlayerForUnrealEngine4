@@ -430,7 +430,7 @@ public:
     virtual float	getFrame(){ return nowFrame; }
 
 	virtual void	update();
-	virtual void	draw();
+//	virtual void	draw();
 
 	virtual void    reload();
 

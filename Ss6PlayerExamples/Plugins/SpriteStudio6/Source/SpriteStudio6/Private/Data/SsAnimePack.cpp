@@ -40,3 +40,12 @@ int32 FSsAnimePack::FindAnimationIndex(const FName& Name) const
 	}
 	return -1;
 }
+const FSsAnimation* FSsAnimePack::FindAnimation(const FName& Name) const
+{
+	int32 Index = FindAnimationIndex(Name);
+	if(0 <= Index)
+	{
+		return &AnimeList[Index];
+	}
+	return nullptr;
+}
