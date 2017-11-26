@@ -513,11 +513,11 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 
 void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsCellValue& v )
 {
-	FSsRefCell cell;
+	SsRefCell cell;
 	GetSsRefCell( leftkey , cell );
 
 	getCellValue(	this->curCellMapManager ,
-					cell.Mapid , cell.Name , v );
+					cell.mapid , cell.name , v );
 
 
 }

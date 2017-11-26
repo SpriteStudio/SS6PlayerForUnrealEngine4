@@ -579,10 +579,10 @@ public:
 };
 
 //参照セル値
-struct FSsRefCell
+struct SsRefCell
 {
-	int		Mapid;
-	FName	Name;
+	int		mapid;
+	FName	name;
 };
 class FSsUserDataAnime
 {

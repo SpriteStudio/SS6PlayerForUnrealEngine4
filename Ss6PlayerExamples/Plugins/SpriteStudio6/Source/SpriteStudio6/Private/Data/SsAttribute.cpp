@@ -182,13 +182,13 @@ void	GetSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
 }
 
 
-void GetSsRefCell( const FSsKeyframe* key , FSsRefCell& v )
+void GetSsRefCell( const FSsKeyframe* key , SsRefCell& v )
 {
 	int id = key->Value["mapId"].get<int>();
 	FName name = FName( *(key->Value["name"].get<FString>()) );
 
-	v.Mapid = id;
-	v.Name = name;
+	v.mapid = id;
+	v.name = name;
 }
 
 

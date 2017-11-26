@@ -71,7 +71,7 @@ private:
 void GetSsPartsColorValue(const FSsKeyframe* key , SsPartsColorAnime& v);
 void GetSsColorValue(const FSsKeyframe* key , SsColorAnime& v);
 void GetSsVertexAnime(const FSsKeyframe* key , FSsVertexAnime& v);
-void GetSsRefCell(const FSsKeyframe* key , FSsRefCell& v);
+void GetSsRefCell(const FSsKeyframe* key , SsRefCell& v);
 void GetSsUserDataAnime(const FSsKeyframe* key , FSsUserDataAnime& v);
 void GetSsInstparamAnime(const FSsKeyframe* key , FSsInstanceAttr& v);
 void GetSsEffectParamAnime(const FSsKeyframe* key , SsEffectAttr& v);
