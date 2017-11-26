@@ -8,19 +8,19 @@
 //===============================================================
 /// 矩形
 template <typename T>
-class TSsRect
+class SsTRect
 {
 public:
-	T X, Y, W, H;
+	T	x, y, w, h;
 
-	TSsRect(): X(0), Y(0), W(0), H(0)  {}
-	TSsRect(T ax, T ay, T aw, T ah): X(ax), Y(ay), W(aw), H(ah) {}
-	TSsRect(const TSsRect& r): X(r.X), Y(r.Y), W(r.W), H(r.H) {}
+	SsTRect(): x(0), y(0), w(0), h(0)  {}
+	SsTRect(T ax, T ay, T aw, T ah): x(ax), y(ay), w(aw), h(ah) {}
+	SsTRect(const SsTRect& r): x(r.x), y(r.y), w(r.w), h(r.h) {}
 
-	bool operator ==(const TSsRect& r) const {return X == r.x && Y == r.y && W == r.w && H == r.h;}
-	bool operator !=(const TSsRect& r) const {return !(*this == r);}
+	bool	operator ==(const SsTRect& r) const {return x == r.x && y == r.y && w == r.w && h == r.h;}
+	bool	operator !=(const SsTRect& r) const {return !(*this == r);}
 };
-typedef TSsRect<int> SsIRect;
+typedef SsTRect<int> SsIRect;
 
 
 /// カラー

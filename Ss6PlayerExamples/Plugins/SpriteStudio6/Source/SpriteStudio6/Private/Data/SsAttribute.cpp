@@ -196,7 +196,7 @@ void	GetSsUserDataAnime( const FSsKeyframe* key , FSsUserDataAnime& v )
 {
 	v.Integer = 0;
 	v.Point.X = v.Point.Y = 0;
-	v.Rect.X = v.Rect.Y = v.Rect.W = v.Rect.H = 0; 
+	v.Rect.x = v.Rect.y = v.Rect.w = v.Rect.h = 0; 
 	v.String = FString(TEXT(""));
 	v.UseInteger = key->Value.IsExistHashkey("integer");
 	v.UsePoint = key->Value.IsExistHashkey("point");
@@ -315,16 +315,16 @@ bool StringToIRect( const FString& str, SsIRect& rect )
 	split_string( str , ' ' , str_list );
 	if ( str_list.Num() < 4 )
 	{
-		rect.X = 0;
-		rect.Y = 0;
-		rect.W = 0;
-		rect.H = 0;
+		rect.x = 0;
+		rect.y = 0;
+		rect.w = 0;
+		rect.h = 0;
 		return false;
 	}else{
-		rect.X = FCString::Atof(*(str_list[0]));
-		rect.Y = FCString::Atof(*(str_list[1]));
-		rect.W = FCString::Atof(*(str_list[2]));
-		rect.H = FCString::Atof(*(str_list[3]));
+		rect.x = FCString::Atof(*(str_list[0]));
+		rect.y = FCString::Atof(*(str_list[1]));
+		rect.w = FCString::Atof(*(str_list[2]));
+		rect.h = FCString::Atof(*(str_list[3]));
 	}
 
 	return true;
