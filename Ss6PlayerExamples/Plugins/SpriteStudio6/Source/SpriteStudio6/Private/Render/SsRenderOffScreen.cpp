@@ -300,13 +300,11 @@ namespace
 									Vert.ColorBlend.X = 4.01f;
 								}
 							} break;
-						//TODO: 要確認. ココってSS6ではどうなってる？ 
-/*						case SsBlendType::Effect:
+						case SsBlendType::Effect:
 							{
 								// Effect
 								Vert.ColorBlend.X = 6.01f;
 							} break;
-*/
 						default:
 							{
 								// 0～3: Mix/Mul/Add/Sub 

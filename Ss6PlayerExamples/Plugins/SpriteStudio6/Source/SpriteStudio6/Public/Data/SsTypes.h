@@ -304,6 +304,7 @@ namespace SsBlendType
 		Screen,			///< 5 スクリーン
 		Exclusion,		///< 6 除外
 		Invert,			///< 7 反転
+		Effect,			///    エフェクト用カラーブレンドタイプ
 		Num,
 
 		Invalid = 254
