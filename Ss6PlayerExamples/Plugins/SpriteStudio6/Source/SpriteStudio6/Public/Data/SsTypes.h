@@ -25,104 +25,106 @@ typedef SsTRect<int> SsIRect;
 
 /// カラー
 template <typename T>
-class TSsColor
+class SsTColor
 {
 public:
-	T R, G, B, A;
+	T	r, g, b, a;
 
-	TSsColor(): R(0), G(0), B(0), A(0) {}
-	TSsColor(T ar, T ag, T ab, T aa): R(ar), G(ag), B(ab), A(aa) {}
-	TSsColor(const TSsColor& s): R(s.R), G(s.G), B(s.B), A(s.A) {}
+	SsTColor(): r(0), g(0), b(0), a(0) {}
+	SsTColor(T ar, T ag, T ab, T aa): r(ar), g(ag), b(ab), a(aa) {}
+	SsTColor(const SsTColor& s): r(s.r), g(s.g), b(s.b), a(s.a) {}
 
-	void FromARGB(uint32 c);
-	void FromBGRA(uint32 c);
+	void	fromARGB(uint32 c);
+	void	fromBGRA(uint32 c);
 
-	uint32 ToARGB() const;
+	uint32		toARGB() const;
 
-	bool operator ==(const TSsColor& rhs) const
+	bool	operator ==(const SsTColor& rhs) const
 	{
-		return R == rhs.r
-			&& G == rhs.g
-			&& B == rhs.b
-			&& A == rhs.a;
+		return r == rhs.r
+			&& g == rhs.g
+			&& b == rhs.b
+			&& a == rhs.a;
 	}
+
+private:
 };
 
 
 /// rgba 小数版
-template<> inline TSsColor<float>::TSsColor(): R(0.5f), G(0.5f), B(0.5f), A(1.f) {}
-template<> inline void TSsColor<float>::FromARGB(uint32 c)
+template<> inline SsTColor<float>::SsTColor(): r(0.5f), g(0.5f), b(0.5f), a(1.f) {}
+template<> inline void SsTColor<float>::fromARGB(uint32 c)
 {
-	A = (float)(c >> 24) / 255.f;
-	R = (float)((c >> 16) & 0xff) / 255.f;
-	G = (float)((c >> 8) & 0xff) / 255.f;
-	B = (float)(c & 0xff) / 255.f;
+	a = (float)(c >> 24) / 255.f;
+	r = (float)((c >> 16) & 0xff) / 255.f;
+	g = (float)((c >> 8) & 0xff) / 255.f;
+	b = (float)(c & 0xff) / 255.f;
 }
-template<> inline void TSsColor<float>::FromBGRA(uint32 c)
+template<> inline void SsTColor<float>::fromBGRA(uint32 c)
 {
-	B = (float)(c >> 24) / 255.f;
-	G = (float)((c >> 16) & 0xff) / 255.f;
-	R = (float)((c >> 8) & 0xff) / 255.f;
-	A = (float)(c & 0xff) / 255.f;
+	b = (float)(c >> 24) / 255.f;
+	g = (float)((c >> 16) & 0xff) / 255.f;
+	r = (float)((c >> 8) & 0xff) / 255.f;
+	a = (float)(c & 0xff) / 255.f;
 }
-template<> inline uint32 TSsColor<float>::ToARGB() const
+template<> inline uint32 SsTColor<float>::toARGB() const
 {
-	uint32 c = (uint8)(A * 255) << 24 | (uint8)(R * 255) << 16 | (uint8)(G * 255) << 8 | (uint8)(B * 255);
+	uint32 c = (uint8)(a * 255) << 24 | (uint8)(r * 255) << 16 | (uint8)(g * 255) << 8 | (uint8)(b * 255);
 	return c;
 }
 
 
-template<> inline TSsColor<uint32>::TSsColor(): R(255), G(255), B(255), A(255) {}
-template<> inline void TSsColor<uint32>::FromARGB(uint32 c)
+template<> inline SsTColor<uint32>::SsTColor(): r(255), g(255), b(255), a(255) {}
+template<> inline void SsTColor<uint32>::fromARGB(uint32 c)
 {
-	A = (c >> 24);
-	R = ((c >> 16) & 0xff);
-	G = ((c >> 8) & 0xff);
-	B = (c & 0xff);
+	a = (c >> 24);
+	r = ((c >> 16) & 0xff);
+	g = ((c >> 8) & 0xff);
+	b = (c & 0xff);
 }
-template<> inline void TSsColor<uint32>::FromBGRA(uint32 c)
+template<> inline void SsTColor<uint32>::fromBGRA(uint32 c)
 {
-	B = (c >> 24) ;
-	G = ((c >> 16) & 0xff) ;
-	R = ((c >> 8) & 0xff) ;
-	A = (c & 0xff) ;
+	b = (c >> 24) ;
+	g = ((c >> 16) & 0xff) ;
+	r = ((c >> 8) & 0xff) ;
+	a = (c & 0xff) ;
 }
-template<> inline uint32 TSsColor<uint32>::ToARGB() const
+template<> inline uint32 SsTColor<uint32>::toARGB() const
 {
-	uint32 c = (uint8)(A) << 24 | (uint8)(R) << 16 | (uint8)(G) << 8 | (uint8)(B);
+	uint32 c = (uint8)(a) << 24 | (uint8)(r) << 16 | (uint8)(g) << 8 | (uint8)(b);
 	return c;
 }
 
 
-template<> inline TSsColor<uint8>::TSsColor(): R(255), G(255), B(255), A(255) {}
-template<> inline void TSsColor<uint8>::FromARGB(uint32 c)
+template<> inline SsTColor<uint8>::SsTColor(): r(255), g(255), b(255), a(255) {}
+template<> inline void SsTColor<uint8>::fromARGB(uint32 c)
 {
-	A = (c >> 24);
-	R = ((c >> 16) & 0xff);
-	G = ((c >> 8) & 0xff);
-	B = (c & 0xff);
+	a = (c >> 24);
+	r = ((c >> 16) & 0xff);
+	g = ((c >> 8) & 0xff);
+	b = (c & 0xff);
 }
-template<> inline void TSsColor<uint8>::FromBGRA(uint32 c)
+template<> inline void SsTColor<uint8>::fromBGRA(uint32 c)
 {
-	B = (c >> 24) ;
-	G = ((c >> 16) & 0xff) ;
-	R = ((c >> 8) & 0xff) ;
-	A = (c & 0xff) ;
+	b = (c >> 24) ;
+	g = ((c >> 16) & 0xff) ;
+	r = ((c >> 8) & 0xff) ;
+	a = (c & 0xff) ;
 }
-template<> inline uint32 TSsColor<uint8>::ToARGB() const
+template<> inline uint32 SsTColor<uint8>::toARGB() const
 {
-	uint32 c = (uint8)(A) << 24 | (uint8)(R) << 16 | (uint8)(G) << 8 | (uint8)(B);
+	uint32 c = (uint8)(a) << 24 | (uint8)(r) << 16 | (uint8)(g) << 8 | (uint8)(b);
 	return c;
 }
 
 /// floatでのカラー値定義
-typedef TSsColor<float> SsFColor;
+typedef SsTColor<float> SsFColor;
 
 /// unsigned intでのカラー値定義
-typedef TSsColor<uint32> SsColor;
+typedef SsTColor<uint32> SsColor;
 
 /// uisigned charでのカラー値定義
-//typedef TSsColor<uint8> SsU8Color;
+//typedef SsTColor<uint8> SsU8Color;
 USTRUCT()
 struct FSsU8Color
 {
@@ -162,10 +164,10 @@ struct FToLower
 /// 与えられた文字列をカラー値に変換するための関数
 inline void ConvertStringToSsColor(const FString& str , SsColor& out)
 {
-	out.A = FParse::HexDigit(str[0]) * 16 + FParse::HexDigit(str[1]);
-	out.R = FParse::HexDigit(str[2]) * 16 + FParse::HexDigit(str[3]);
-	out.G = FParse::HexDigit(str[4]) * 16 + FParse::HexDigit(str[5]);
-	out.B = FParse::HexDigit(str[6]) * 16 + FParse::HexDigit(str[7]);
+	out.a = FParse::HexDigit(str[0]) * 16 + FParse::HexDigit(str[1]);
+	out.r = FParse::HexDigit(str[2]) * 16 + FParse::HexDigit(str[3]);
+	out.g = FParse::HexDigit(str[4]) * 16 + FParse::HexDigit(str[5]);
+	out.b = FParse::HexDigit(str[6]) * 16 + FParse::HexDigit(str[7]);
 }
 
 

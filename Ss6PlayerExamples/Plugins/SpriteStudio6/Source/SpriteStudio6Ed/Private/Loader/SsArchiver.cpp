@@ -569,20 +569,20 @@ void SerializeStruct(FSsVarianceValueColor& Value, SsXmlIArchiver* ar)
 		SsColor ValueCol;
 		ConvertStringToSsColor(ValueStr, ValueCol);
 
-		Value.Value.R = (uint8)ValueCol.R;
-		Value.Value.G = (uint8)ValueCol.G;
-		Value.Value.B = (uint8)ValueCol.B;
-		Value.Value.A = (uint8)ValueCol.A;
+		Value.Value.R = (uint8)ValueCol.r;
+		Value.Value.G = (uint8)ValueCol.g;
+		Value.Value.B = (uint8)ValueCol.b;
+		Value.Value.A = (uint8)ValueCol.a;
 	}
 	if(0 < SubValueStr.Len())
 	{
 		SsColor SubValueCol;
 		ConvertStringToSsColor(SubValueStr, SubValueCol);
 
-		Value.SubValue.R = (uint8)SubValueCol.R;
-		Value.SubValue.G = (uint8)SubValueCol.G;
-		Value.SubValue.B = (uint8)SubValueCol.B;
-		Value.SubValue.A = (uint8)SubValueCol.A;
+		Value.SubValue.R = (uint8)SubValueCol.r;
+		Value.SubValue.G = (uint8)SubValueCol.g;
+		Value.SubValue.B = (uint8)SubValueCol.b;
+		Value.SubValue.A = (uint8)SubValueCol.a;
 	}
 }
 void SerializeStruct(FSsParticleElementBasic& Value, SsXmlIArchiver* ar)
