@@ -11,16 +11,18 @@
 //#include "ssplayer_render.h"
 #include "ssplayer_effectfunction.h"
 
+#include "SsEffectElement.h"
+
 
 
 
 //二つの値の範囲から値をランダムで得る
-static u8 GetRandamNumberRange( SsEffectRenderEmitter* e , u8 a , u8 b )
+static uint8 GetRandamNumberRange( SsEffectRenderEmitter* e , uint8 a , uint8 b )
 {
-	u8 min = a < b ? a : b;
-	u8 max = a < b ? b : a;
+	uint8 min = a < b ? a : b;
+	uint8 max = a < b ? b : a;
 
-	u8 diff = ( max - min );
+	uint8 diff = ( max - min );
 
 
     if ( diff == 0 ) return min;
@@ -28,13 +30,13 @@ static u8 GetRandamNumberRange( SsEffectRenderEmitter* e , u8 a , u8 b )
 
 }
 
-static void VarianceCalcColor( SsEffectRenderEmitter* e ,  SsU8Color& out , SsU8Color  color1 , SsU8Color color2 )
+static void VarianceCalcColor( SsEffectRenderEmitter* e ,  FSsU8Color& out , FSsU8Color  color1 , FSsU8Color color2 )
 {
 
-	out.r = GetRandamNumberRange( e , color1.r , color2.r );
-	out.g = GetRandamNumberRange( e ,  color1.g , color2.g );
-	out.b = GetRandamNumberRange( e ,  color1.b , color2.b );
-	out.a = GetRandamNumberRange( e ,  color1.a , color2.a );
+	out.R = GetRandamNumberRange( e , color1.R , color2.R );
+	out.G = GetRandamNumberRange( e ,  color1.G , color2.G );
+	out.B = GetRandamNumberRange( e ,  color1.B , color2.B );
+	out.A = GetRandamNumberRange( e ,  color1.A , color2.A );
 
 }
 
@@ -66,7 +68,7 @@ static float VarianceCalcFin( SsEffectRenderEmitter* e ,  float base , float var
 }
 
 
-static u8 blendNumber( u8 a , u8 b , float rate )
+static uint8 blendNumber( uint8 a , uint8 b , float rate )
 {
 	return ( a + ( b - a ) * rate );
 }
@@ -84,13 +86,13 @@ public:
 	EffectFuncBase(){}
 	virtual ~EffectFuncBase(){}
 
-	virtual void	initalizeEmmiter ( SsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
-	virtual void	updateEmmiter( SsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
+	virtual void	initalizeEmmiter ( FSsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
+	virtual void	updateEmmiter( FSsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
 
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* emmiter){}
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* emmiter){}
 };
 
 
@@ -99,63 +101,63 @@ public:
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementBasic : public EffectFuncBase
+class FuncFSsParticleElementBasic : public EffectFuncBase
 {
 public:
-	FuncParticleElementBasic(){}
-	virtual ~FuncParticleElementBasic(){}
+	FuncFSsParticleElementBasic(){}
+	virtual ~FuncFSsParticleElementBasic(){}
 
-	virtual void	initalizeEmmiter ( SsEffectElementBase* ele , SsEffectRenderEmitter* e)
+	virtual void	initalizeEmmiter ( FSsEffectElementBase* ele , SsEffectRenderEmitter* e)
 	{
-		ParticleElementBasic* source = static_cast<ParticleElementBasic*>(ele);
+		FSsParticleElementBasic* source = static_cast<FSsParticleElementBasic*>(ele);
 
-		e->maxParticle = source->maximumParticle;
-		e->interval = source->interval;
-		e->_lifetime = source->lifetime;
-		e->_life = source->lifetime;
-		e->burst = source->attimeCreate;
+		e->maxParticle = source->MaximumParticle;
+		e->interval = source->Interval;
+		e->_lifetime = source->Lifetime;
+		e->_life = source->Lifetime;
+		e->burst = source->AttimeCreate;
 
 		e->undead = false;
-		e->drawPriority = source->priority;
+		e->drawPriority = source->Priority;
 
 		if ( e->_lifetime == 0 ) e->undead = true;
 		
 	
 	}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementBasic* source = static_cast<ParticleElementBasic*>(ele);
-		SsVector3 eVec = e->getPosition();
+		FSsParticleElementBasic* source = static_cast<FSsParticleElementBasic*>(ele);
+		FVector eVec = e->getPosition();
 		float eAngle = 0;
 
-		p->_baseEmiterPosition.x = eVec.x;
-		p->_baseEmiterPosition.y = eVec.y;
-		p->_position.x = p->_baseEmiterPosition.x;
-		p->_position.y = p->_baseEmiterPosition.y;
-		p->_size = SsVector2( 1.0f , 1.0f );
+		p->_baseEmiterPosition.X = eVec.X;
+		p->_baseEmiterPosition.Y = eVec.Y;
+		p->_position.X = p->_baseEmiterPosition.X;
+		p->_position.Y = p->_baseEmiterPosition.Y;
+		p->_size = FVector2D( 1.0f , 1.0f );
 
 
-		p->_color = SsU8Color(255,255,255,255) ;
-		p->_startcolor = SsU8Color(255,255,255,255) ;
+		p->_color = FSsU8Color(255,255,255,255) ;
+		p->_startcolor = FSsU8Color(255,255,255,255) ;
 		p->_endcolor = p->_startcolor;
 
 
 		p->_backposition = p->_position;
 
-		p->_lifetime   = VarianceCalc( e , source->lifespan.getMinValue() , source->lifespan.getMaxValue() );
-		p->_life = source->lifetime;
-		float temp_angle = VarianceCalcFin( e ,  source->angle+eAngle , source->angleVariance/2.0f);
+		p->_lifetime   = VarianceCalc( e , source->Lifespan.GetMinValue() , source->Lifespan.GetMaxValue() );
+		p->_life = source->Lifetime;
+		float temp_angle = VarianceCalcFin( e ,  source->Angle+eAngle , source->AngleVariance/2.0f);
 
 		float angle_rad = DegreeToRadian( (temp_angle+90.0f) );
-		float lspeed = VarianceCalc(  e , source->speed.getMinValue() , source->speed.getMaxValue() );
+		float lspeed = VarianceCalc(  e , source->Speed.GetMinValue() , source->Speed.GetMaxValue() );
 
 		p->speed = lspeed;
 		p->firstspeed = lspeed;
-		p->vector.x =  cos( angle_rad );
-		p->vector.y =  sin( angle_rad );
+		p->vector.X =  cos( angle_rad );
+		p->vector.Y =  sin( angle_rad );
 
-		p->_force = SsVector2(0,0);//p->vector * p->speed;
+		p->_force = FVector2D(0,0);//p->vector * p->speed;
 		p->direction = 0;
 		p->isTurnDirection = false;
 
@@ -167,45 +169,45 @@ public:
 		p->_rotation = 0;
 	}
 	
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementBasic* source = static_cast<ParticleElementBasic*>(ele);
-		e->priority = source->priority;
+		FSsParticleElementBasic* source = static_cast<FSsParticleElementBasic*>(ele);
+		e->priority = source->Priority;
 
 		//エミッターパラメータ
-		e->emitter.emitmax = source->maximumParticle;
-		e->emitter.interval = source->interval;
-		e->emitter.life = source->lifetime;
-		e->emitter.emitnum = source->attimeCreate;
+		e->emitter.emitmax = source->MaximumParticle;
+		e->emitter.interval = source->Interval;
+		e->emitter.life = source->Lifetime;
+		e->emitter.emitnum = source->AttimeCreate;
 		e->emitter.particleLife = 10;//
 		e->emitter.Infinite = false;
 		e->emitter.loopGen = 0;
 
 
 		//パーティクルパラメータ
-		e->emitter.particleLife = source->lifespan.getMinValue();
-		e->emitter.particleLife2 = source->lifespan.getMaxValue() - source->lifespan.getMinValue();
+		e->emitter.particleLife = source->Lifespan.GetMinValue();
+		e->emitter.particleLife2 = source->Lifespan.GetMaxValue() - source->Lifespan.GetMinValue();
 
-		e->particle.scale = SsVector2( 1.0f , 1.0f );
-		e->particle.startcolor = SsU8Color(255,255,255,255) ;
-		e->particle.endcolor = SsU8Color(255,255,255,255) ;
+		e->particle.scale = FVector2D( 1.0f , 1.0f );
+		e->particle.startcolor = FSsU8Color(255,255,255,255) ;
+		e->particle.endcolor = FSsU8Color(255,255,255,255) ;
 
-		e->particle.speed = source->speed.getMinValue();
-		e->particle.speed2 = source->speed.getMaxValue() - source->speed.getMinValue();
+		e->particle.speed = source->Speed.GetMinValue();
+		e->particle.speed2 = source->Speed.GetMaxValue() - source->Speed.GetMinValue();
 
-		e->particle.angle = DegreeToRadian( (source->angle+90.0f) );
-		e->particle.angleVariance = DegreeToRadian( source->angleVariance );
+		e->particle.angle = DegreeToRadian( (source->Angle+90.0f) );
+		e->particle.angleVariance = DegreeToRadian( source->AngleVariance );
 
 		e->particle.useTanAccel = false;
 
 		//重力
 		e->particle.useGravity = false;
-		e->particle.gravity = SsVector2(0,0);
+		e->particle.gravity = FVector2D(0,0);
 
 		//オフセット
 		e->particle.useOffset = false;
-		e->particle.offset = SsVector2(0,0);
-		e->particle.offset2 = SsVector2(0,0);
+		e->particle.offset = FVector2D(0,0);
+		e->particle.offset2 = FVector2D(0,0);
 
 
 		//回転
@@ -234,26 +236,26 @@ public:
 	}
 
 };
-static FuncParticleElementBasic		funcBasic;
+static FuncFSsParticleElementBasic		funcBasic;
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementRndSeedChange : public EffectFuncBase
+class FuncFSsParticleElementRndSeedChange : public EffectFuncBase
 {
 public:
-	FuncParticleElementRndSeedChange(){}
-	virtual ~FuncParticleElementRndSeedChange(){}
+	FuncFSsParticleElementRndSeedChange(){}
+	virtual ~FuncFSsParticleElementRndSeedChange(){}
 
-	virtual void	initalizeEmmiter ( SsEffectElementBase* ele , SsEffectRenderEmitter* emmiter)	
+	virtual void	initalizeEmmiter ( FSsEffectElementBase* ele , SsEffectRenderEmitter* emmiter)	
 	{
-		ParticleElementRndSeedChange* source = static_cast<ParticleElementRndSeedChange*>(ele);
+		FSsParticleElementRndSeedChange* source = static_cast<FSsParticleElementRndSeedChange*>(ele);
 		emmiter->setMySeed( source->Seed );
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementRndSeedChange* source = static_cast<ParticleElementRndSeedChange*>(ele);
+		FSsParticleElementRndSeedChange* source = static_cast<FSsParticleElementRndSeedChange*>(ele);
 		e->particle.userOverrideRSeed = true;
 
 		e->particle.overrideRSeed  =  source->Seed + SEED_MAGIC;
@@ -261,30 +263,30 @@ public:
 	}
 	
 };
-static FuncParticleElementRndSeedChange		funcRndSeedChange;
+static FuncFSsParticleElementRndSeedChange		funcRndSeedChange;
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementDelay : public EffectFuncBase
+class FuncFSsParticleElementDelay : public EffectFuncBase
 {
 public:
-	FuncParticleElementDelay(){}
-	virtual ~FuncParticleElementDelay(){}
+	FuncFSsParticleElementDelay(){}
+	virtual ~FuncFSsParticleElementDelay(){}
 
-	virtual void	initalizeEmmiter ( SsEffectElementBase* ele , SsEffectRenderEmitter* emmiter)
+	virtual void	initalizeEmmiter ( FSsEffectElementBase* ele , SsEffectRenderEmitter* emmiter)
 	{
-		ParticleElementDelay* source = static_cast<ParticleElementDelay*>(ele);
+		FSsParticleElementDelay* source = static_cast<FSsParticleElementDelay*>(ele);
 		emmiter->delay = source->DelayTime;
 		emmiter->_lifetime = emmiter->_lifetime + source->DelayTime;
 		emmiter->_life = emmiter->_lifetime;
 		emmiter->generate_ok = false;	
 	}
 
-	virtual void	updateEmmiter( SsEffectElementBase* ele , SsEffectRenderEmitter* emmiter)
+	virtual void	updateEmmiter( FSsEffectElementBase* ele , SsEffectRenderEmitter* emmiter)
 	{
-		ParticleElementDelay* source = static_cast<ParticleElementDelay*>(ele);
+		FSsParticleElementDelay* source = static_cast<FSsParticleElementDelay*>(ele);
 		//既定の時間までストップ？
 		if ( emmiter->_exsitTime >= source->DelayTime )
 		{
@@ -292,137 +294,137 @@ public:
 		}	
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementDelay* source = static_cast<ParticleElementDelay*>(ele);
+		FSsParticleElementDelay* source = static_cast<FSsParticleElementDelay*>(ele);
 		e->particle.delay = source->DelayTime;
 
 	}
 	
 };
-static FuncParticleElementDelay		funcDelay;
+static FuncFSsParticleElementDelay		funcDelay;
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementGravity : public EffectFuncBase
+class FuncFSsParticleElementGravity : public EffectFuncBase
 {
 public:
-	FuncParticleElementGravity(){}
-	virtual ~FuncParticleElementGravity(){}
+	FuncFSsParticleElementGravity(){}
+	virtual ~FuncFSsParticleElementGravity(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementGravity* source = static_cast<ParticleElementGravity*>(ele);
+		FSsParticleElementGravity* source = static_cast<FSsParticleElementGravity*>(ele);
 		p->_gravity = source->Gravity;
 	}
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
 	{
-		ParticleElementGravity* source = static_cast<ParticleElementGravity*>(ele);
+		FSsParticleElementGravity* source = static_cast<FSsParticleElementGravity*>(ele);
 		particle->_gravity = source->Gravity * particle->_exsitTime;	
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementGravity* source = static_cast<ParticleElementGravity*>(ele);
+		FSsParticleElementGravity* source = static_cast<FSsParticleElementGravity*>(ele);
 		e->particle.useGravity = true;
 		e->particle.gravity = source->Gravity;
 
 	}
 };
-static FuncParticleElementGravity		funcGravity;
+static FuncFSsParticleElementGravity		funcGravity;
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementPosition : public EffectFuncBase
+class FuncFSsParticleElementPosition : public EffectFuncBase
 {
 public:
-	FuncParticleElementPosition(){}
-	virtual ~FuncParticleElementPosition(){}
+	FuncFSsParticleElementPosition(){}
+	virtual ~FuncFSsParticleElementPosition(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementPosition* source = static_cast<ParticleElementPosition*>(ele);
-		p->_position.x = p->_baseEmiterPosition.x + VarianceCalc( e , source->OffsetX.getMinValue() , source->OffsetX.getMaxValue() );
-		p->_position.y = p->_baseEmiterPosition.y + VarianceCalc( e , source->OffsetY.getMinValue() , source->OffsetY.getMaxValue() );
+		FSsParticleElementPosition* source = static_cast<FSsParticleElementPosition*>(ele);
+		p->_position.X = p->_baseEmiterPosition.X + VarianceCalc( e , source->OffsetX.GetMinValue() , source->OffsetX.GetMaxValue() );
+		p->_position.Y = p->_baseEmiterPosition.Y + VarianceCalc( e , source->OffsetY.GetMinValue() , source->OffsetY.GetMaxValue() );
 	}
 
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementPosition* source = static_cast<ParticleElementPosition*>(ele);
+		FSsParticleElementPosition* source = static_cast<FSsParticleElementPosition*>(ele);
 		e->particle.useOffset = true;
-		e->particle.offset = SsVector2(source->OffsetX.getMinValue(), source->OffsetY.getMinValue());
-		e->particle.offset2 = SsVector2( source->OffsetX.getMaxValue() - source->OffsetX.getMinValue() , source->OffsetY.getMaxValue() - source->OffsetY.getMinValue() );
+		e->particle.offset = FVector2D(source->OffsetX.GetMinValue(), source->OffsetY.GetMinValue());
+		e->particle.offset2 = FVector2D( source->OffsetX.GetMaxValue() - source->OffsetX.GetMinValue() , source->OffsetY.GetMaxValue() - source->OffsetY.GetMinValue() );
 	}
 };
-static FuncParticleElementPosition		funcPosition;
+static FuncFSsParticleElementPosition		funcPosition;
 
 
 #if 0		//オミット
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementTransPosition: public EffectFuncBase
+class FuncFSsParticleElementTransPosition: public EffectFuncBase
 {
 public:
-	FuncParticleElementTransPosition(){}
-	virtual ~FuncParticleElementTransPosition(){}
+	FuncFSsParticleElementTransPosition(){}
+	virtual ~FuncFSsParticleElementTransPosition(){}
 	
 };
-static FuncParticleElementPosition		funcTransPosition;
+static FuncFSsParticleElementPosition		funcTransPosition;
 #endif
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementRotation: public EffectFuncBase
+class FuncFSsParticleElementRotation: public EffectFuncBase
 {
 public:
-	FuncParticleElementRotation(){}
-	virtual ~FuncParticleElementRotation(){}
+	FuncFSsParticleElementRotation(){}
+	virtual ~FuncFSsParticleElementRotation(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementRotation* source = static_cast<ParticleElementRotation*>(ele);
+		FSsParticleElementRotation* source = static_cast<FSsParticleElementRotation*>(ele);
 
-		p->_rotation = VarianceCalc( e , source->Rotation.getMinValue() , source->Rotation.getMaxValue() ) ;
-		p->_rotationAdd =  VarianceCalc( e , source->RotationAdd.getMinValue() , source->RotationAdd.getMaxValue() );
+		p->_rotation = VarianceCalc( e , source->Rotation.GetMinValue() , source->Rotation.GetMaxValue() ) ;
+		p->_rotationAdd =  VarianceCalc( e , source->RotationAdd.GetMinValue() , source->RotationAdd.GetMaxValue() );
 		p->_rotationAddDst = p->_rotationAdd;
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementRotation* source = static_cast<ParticleElementRotation*>(ele);
+		FSsParticleElementRotation* source = static_cast<FSsParticleElementRotation*>(ele);
 		e->particle.useRotation = true;
-		e->particle.rotation = source->Rotation.getMinValue();
-		e->particle.rotation2 = source->Rotation.getMaxValue() - source->Rotation.getMinValue();
+		e->particle.rotation = source->Rotation.GetMinValue();
+		e->particle.rotation2 = source->Rotation.GetMaxValue() - source->Rotation.GetMinValue();
 
-		e->particle.rotationAdd = source->RotationAdd.getMinValue();
-		e->particle.rotationAdd2 = source->RotationAdd.getMaxValue() - source->RotationAdd.getMinValue();
+		e->particle.rotationAdd = source->RotationAdd.GetMinValue();
+		e->particle.rotationAdd2 = source->RotationAdd.GetMaxValue() - source->RotationAdd.GetMinValue();
 
 	}
 };
-static FuncParticleElementRotation		funcRotation ;
+static FuncFSsParticleElementRotation		funcRotation ;
 
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementRotationTrans : public EffectFuncBase
+class FuncFSsParticleElementRotationTrans : public EffectFuncBase
 {
 public:
-	FuncParticleElementRotationTrans(){}
-	virtual ~FuncParticleElementRotationTrans(){}
+	FuncFSsParticleElementRotationTrans(){}
+	virtual ~FuncFSsParticleElementRotationTrans(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementRotationTrans* source = static_cast<ParticleElementRotationTrans*>(ele);
+		FSsParticleElementRotationTrans* source = static_cast<FSsParticleElementRotationTrans*>(ele);
 		if ( p->_lifetime == 0 ) return ;
 		if ( source->EndLifeTimePer == 0 )
 		{
@@ -433,9 +435,9 @@ public:
 		p->_rotationAddDst = p->_rotationAdd * source->RotationFactor;
 		p->_rotationAddOrg = p->_rotationAdd;
 	}
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementRotationTrans* source = static_cast<ParticleElementRotationTrans*>(ele);
+		FSsParticleElementRotationTrans* source = static_cast<FSsParticleElementRotationTrans*>(ele);
 
 		if ( (p->_lifetime*source->EndLifeTimePer) == 0 )
 		{
@@ -449,80 +451,80 @@ public:
 		p->_rotationAdd = blendFloat( p->_rotationAddOrg  , p->_rotationAddDst , per );
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementRotationTrans* source = static_cast<ParticleElementRotationTrans*>(ele);
+		FSsParticleElementRotationTrans* source = static_cast<FSsParticleElementRotationTrans*>(ele);
 		e->particle.useRotationTrans = true;
 		e->particle.rotationFactor = source->RotationFactor;
 		e->particle.endLifeTimePer = source->EndLifeTimePer / 100.0f;
 	}
 };
-static FuncParticleElementRotationTrans		funcRotationTrans ;
+static FuncFSsParticleElementRotationTrans		funcRotationTrans ;
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementTransSpeed : public EffectFuncBase
+class FuncFSsParticleElementTransSpeed : public EffectFuncBase
 {
 public:
-	FuncParticleElementTransSpeed(){}
-	virtual ~FuncParticleElementTransSpeed(){}
+	FuncFSsParticleElementTransSpeed(){}
+	virtual ~FuncFSsParticleElementTransSpeed(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementTransSpeed* source = static_cast<ParticleElementTransSpeed*>(ele);
-		p->lastspeed = VarianceCalc( e, source->Speed.getMinValue() , source->Speed.getMaxValue() );
+		FSsParticleElementTransSpeed* source = static_cast<FSsParticleElementTransSpeed*>(ele);
+		p->lastspeed = VarianceCalc( e, source->Speed.GetMinValue() , source->Speed.GetMaxValue() );
 	}
 
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		//ParticleElementTransSpeed* source = static_cast<ParticleElementTransSpeed*>(ele);
+		//FSsParticleElementTransSpeed* source = static_cast<FSsParticleElementTransSpeed*>(ele);
 		float per = ( (float)p->_exsitTime / (float)p->_lifetime );
 		p->speed = ( p->firstspeed + ( p->lastspeed - p->firstspeed ) * per );
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementTransSpeed* source = static_cast<ParticleElementTransSpeed*>(ele);
+		FSsParticleElementTransSpeed* source = static_cast<FSsParticleElementTransSpeed*>(ele);
 		e->particle.useTransSpeed = true;
-		e->particle.transSpeed = source->Speed.getMinValue();
-		e->particle.transSpeed2 = source->Speed.getMaxValue() - source->Speed.getMinValue();
+		e->particle.transSpeed = source->Speed.GetMinValue();
+		e->particle.transSpeed2 = source->Speed.GetMaxValue() - source->Speed.GetMinValue();
 	}
 
 };
-static FuncParticleElementTransSpeed		funcTransSpeed ;
+static FuncFSsParticleElementTransSpeed		funcTransSpeed ;
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementTangentialAcceleration : public EffectFuncBase
+class FuncFSsParticleElementTangentialAcceleration : public EffectFuncBase
 {
 public:
-	FuncParticleElementTangentialAcceleration(){}
-	virtual ~FuncParticleElementTangentialAcceleration(){}
+	FuncFSsParticleElementTangentialAcceleration(){}
+	virtual ~FuncFSsParticleElementTangentialAcceleration(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementTangentialAcceleration* source = static_cast<ParticleElementTangentialAcceleration*>(ele);
-		p->_tangentialAccel = VarianceCalc( e , source->Acceleration.getMinValue() , source->Acceleration.getMaxValue() );
+		FSsParticleElementTangentialAcceleration* source = static_cast<FSsParticleElementTangentialAcceleration*>(ele);
+		p->_tangentialAccel = VarianceCalc( e , source->Acceleration.GetMinValue() , source->Acceleration.GetMaxValue() );
 	}
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementTangentialAcceleration* source = static_cast<ParticleElementTangentialAcceleration*>(ele);
+		FSsParticleElementTangentialAcceleration* source = static_cast<FSsParticleElementTangentialAcceleration*>(ele);
 		e->particle.useTanAccel = true;
-		e->particle.tangentialAccel = source->Acceleration.getMinValue();
-		e->particle.tangentialAccel2 = ( source->Acceleration.getMaxValue() - source->Acceleration.getMinValue());
+		e->particle.tangentialAccel = source->Acceleration.GetMinValue();
+		e->particle.tangentialAccel2 = ( source->Acceleration.GetMaxValue() - source->Acceleration.GetMinValue());
 
 	}
 };
-static FuncParticleElementTangentialAcceleration		funcTangentialAcceleration ;
+static FuncFSsParticleElementTangentialAcceleration		funcTangentialAcceleration ;
 
-static void getRange( u8 a , u8 b , u8& min, u8& diff)
+static void getRange( uint8 a , uint8 b , uint8& min, uint8& diff)
 {
 	min = a < b ? a : b;
-	u8 max = a < b ? b : a;
+	uint8 max = a < b ? b : a;
 
 	diff = ( max - min );
 }
@@ -530,107 +532,107 @@ static void getRange( u8 a , u8 b , u8& min, u8& diff)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementInitColor : public EffectFuncBase
+class FuncFSsParticleElementInitColor : public EffectFuncBase
 {
 public:
-	FuncParticleElementInitColor(){}
-	virtual ~FuncParticleElementInitColor(){}
+	FuncFSsParticleElementInitColor(){}
+	virtual ~FuncFSsParticleElementInitColor(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementInitColor* source = static_cast<ParticleElementInitColor*>(ele);
-		VarianceCalcColor( e , p->_startcolor , source->Color.getMinValue() , source->Color.getMaxValue() );
+		FSsParticleElementInitColor* source = static_cast<FSsParticleElementInitColor*>(ele);
+		VarianceCalcColor( e , p->_startcolor , source->Color.GetMinValue() , source->Color.GetMaxValue() );
 		p->_color = p->_startcolor;
 	
 	}
 
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementInitColor* source = static_cast<ParticleElementInitColor*>(ele);
+		FSsParticleElementInitColor* source = static_cast<FSsParticleElementInitColor*>(ele);
 		e->particle.useColor = true;
 
-		SsU8Color color1 = source->Color.getMinValue();
-		SsU8Color color2 = source->Color.getMaxValue();
+		FSsU8Color color1 = source->Color.GetMinValue();
+		FSsU8Color color2 = source->Color.GetMaxValue();
 
-		getRange( color1.a , color2.a , e->particle.initColor.a , e->particle.initColor2.a );
-		getRange( color1.r , color2.r , e->particle.initColor.r , e->particle.initColor2.r );
-		getRange( color1.g , color2.g , e->particle.initColor.g , e->particle.initColor2.g );
-		getRange( color1.b , color2.b , e->particle.initColor.b , e->particle.initColor2.b );
+		getRange( color1.A , color2.A , e->particle.initColor.A , e->particle.initColor2.A );
+		getRange( color1.R , color2.R , e->particle.initColor.R , e->particle.initColor2.R );
+		getRange( color1.G , color2.G , e->particle.initColor.G , e->particle.initColor2.G );
+		getRange( color1.B , color2.B , e->particle.initColor.B , e->particle.initColor2.B );
 
 	}
 };
-static FuncParticleElementInitColor		funcInitColor;
+static FuncFSsParticleElementInitColor		funcInitColor;
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementTransColor : public EffectFuncBase
+class FuncFSsParticleElementTransColor : public EffectFuncBase
 {
 public:
-	FuncParticleElementTransColor(){}
-	virtual ~FuncParticleElementTransColor(){}
+	FuncFSsParticleElementTransColor(){}
+	virtual ~FuncFSsParticleElementTransColor(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementTransColor* source = static_cast<ParticleElementTransColor*>(ele);
-		VarianceCalcColor( e , p->_endcolor , source->Color.getMinValue() , source->Color.getMaxValue() );
+		FSsParticleElementTransColor* source = static_cast<FSsParticleElementTransColor*>(ele);
+		VarianceCalcColor( e , p->_endcolor , source->Color.GetMinValue() , source->Color.GetMaxValue() );
 	}
 
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
 		float per = ( (float)p->_exsitTime / (float)p->_lifetime );
 
 		if ( per > 1.0f )per = 1.0f;
 
-		p->_color.a = blendNumber( p->_startcolor.a , p->_endcolor.a , per );
-		p->_color.r = blendNumber( p->_startcolor.r , p->_endcolor.r , per  );
-		p->_color.g = blendNumber( p->_startcolor.g , p->_endcolor.g , per  );
-		p->_color.b = blendNumber( p->_startcolor.b , p->_endcolor.b , per  );
+		p->_color.A = blendNumber( p->_startcolor.A , p->_endcolor.A , per );
+		p->_color.R = blendNumber( p->_startcolor.R , p->_endcolor.R , per  );
+		p->_color.G = blendNumber( p->_startcolor.G , p->_endcolor.G , per  );
+		p->_color.B = blendNumber( p->_startcolor.B , p->_endcolor.B , per  );
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementTransColor* source = static_cast<ParticleElementTransColor*>(ele);
+		FSsParticleElementTransColor* source = static_cast<FSsParticleElementTransColor*>(ele);
 
 		e->particle.useTransColor = true;
 
-		SsU8Color color1 = source->Color.getMinValue();
-		SsU8Color color2 = source->Color.getMaxValue();
+		FSsU8Color color1 = source->Color.GetMinValue();
+		FSsU8Color color2 = source->Color.GetMaxValue();
 
-		getRange( color1.a , color2.a , e->particle.transColor.a , e->particle.transColor2.a );
-		getRange( color1.r , color2.r , e->particle.transColor.r , e->particle.transColor2.r );
-		getRange( color1.g , color2.g , e->particle.transColor.g , e->particle.transColor2.g );
-		getRange( color1.b , color2.b , e->particle.transColor.b , e->particle.transColor2.b );
+		getRange( color1.A , color2.A , e->particle.transColor.A , e->particle.transColor2.A );
+		getRange( color1.R , color2.R , e->particle.transColor.R , e->particle.transColor2.R );
+		getRange( color1.G , color2.G , e->particle.transColor.G , e->particle.transColor2.G );
+		getRange( color1.B , color2.B , e->particle.transColor.B , e->particle.transColor2.B );
 	}
 };
-static FuncParticleElementTransColor		funcTransColor;
+static FuncFSsParticleElementTransColor		funcTransColor;
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementAlphaFade : public EffectFuncBase
+class FuncFSsParticleElementAlphaFade : public EffectFuncBase
 {
 public:
-	FuncParticleElementAlphaFade(){}
-	virtual ~FuncParticleElementAlphaFade(){}
+	FuncFSsParticleElementAlphaFade(){}
+	virtual ~FuncFSsParticleElementAlphaFade(){}
 
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
 	{
-		ParticleElementAlphaFade* source = static_cast<ParticleElementAlphaFade*>(ele);
+		FSsParticleElementAlphaFade* source = static_cast<FSsParticleElementAlphaFade*>(ele);
 	
 		if ( particle->_lifetime == 0 ) return ;
 
 		float per = ( (float)particle->_exsitTime / (float)particle->_lifetime ) * 100.0f;
 
-		float start = source->disprange.getMinValue();
-		float end = source->disprange.getMaxValue();
+		float start = source->Disprange.GetMinValue();
+		float end = source->Disprange.GetMaxValue();
 
 		if ( per < start )
 		{
 			float alpha = (start - per) / start;
-			particle->_color.a*= 1.0f - alpha;
+			particle->_color.A*= 1.0f - alpha;
 			return;
 		}
 
@@ -639,117 +641,117 @@ public:
 
 			if (end>=100.0f)
 			{
-				particle->_color.a = 0;
+				particle->_color.A = 0;
 				return;
 			}
 			float alpha = (per-end) / (100.0f-end);
-			particle->_color.a*= 1.0f - alpha;
+			particle->_color.A*= 1.0f - alpha;
 			return;
 		}
 
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementAlphaFade* source = static_cast<ParticleElementAlphaFade*>(ele);
+		FSsParticleElementAlphaFade* source = static_cast<FSsParticleElementAlphaFade*>(ele);
 		e->particle.useAlphaFade = true;
-		e->particle.alphaFade = source->disprange.getMinValue();
-		e->particle.alphaFade2 = source->disprange.getMaxValue();
+		e->particle.alphaFade = source->Disprange.GetMinValue();
+		e->particle.alphaFade2 = source->Disprange.GetMaxValue();
 
 	}
 
 };
-static FuncParticleElementAlphaFade		funcAlphaFade;
+static FuncFSsParticleElementAlphaFade		funcAlphaFade;
 
 
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementSize : public EffectFuncBase
+class FuncFSsParticleElementSize : public EffectFuncBase
 {
 public:
-	FuncParticleElementSize(){}
-	virtual ~FuncParticleElementSize(){}
+	FuncFSsParticleElementSize(){}
+	virtual ~FuncFSsParticleElementSize(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
 
-		ParticleElementSize* source = static_cast<ParticleElementSize*>(ele);
+		FSsParticleElementSize* source = static_cast<FSsParticleElementSize*>(ele);
 
-		p->_size.x = VarianceCalc( e, source->SizeX.getMinValue() , source->SizeX.getMaxValue() );
-		p->_size.y = VarianceCalc( e, source->SizeY.getMinValue() , source->SizeY.getMaxValue() );
-		float sf   = VarianceCalc( e, source->ScaleFactor.getMinValue() , source->ScaleFactor.getMaxValue() );
+		p->_size.X = VarianceCalc( e, source->SizeX.GetMinValue() , source->SizeX.GetMaxValue() );
+		p->_size.Y = VarianceCalc( e, source->SizeY.GetMinValue() , source->SizeY.GetMaxValue() );
+		float sf   = VarianceCalc( e, source->ScaleFactor.GetMinValue() , source->ScaleFactor.GetMaxValue() );
 
 		p->_size = p->_size * sf;
 		p->_startsize = p->_size;	
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementSize* source = static_cast<ParticleElementSize*>(ele);
+		FSsParticleElementSize* source = static_cast<FSsParticleElementSize*>(ele);
 
 		e->particle.useInitScale = true;
 
-		e->particle.scale.x = source->SizeX.getMinValue();
-		e->particle.scaleRange.x = source->SizeX.getMaxValue() - source->SizeX.getMinValue();
+		e->particle.scale.X = source->SizeX.GetMinValue();
+		e->particle.scaleRange.X = source->SizeX.GetMaxValue() - source->SizeX.GetMinValue();
 
-		e->particle.scale.y = source->SizeY.getMinValue();
-		e->particle.scaleRange.y = source->SizeY.getMaxValue() - source->SizeY.getMinValue();
+		e->particle.scale.Y = source->SizeY.GetMinValue();
+		e->particle.scaleRange.Y = source->SizeY.GetMaxValue() - source->SizeY.GetMinValue();
 
-		e->particle.scaleFactor = source->ScaleFactor.getMinValue();
-		e->particle.scaleFactor2 = source->ScaleFactor.getMaxValue() - source->ScaleFactor.getMinValue();
+		e->particle.scaleFactor = source->ScaleFactor.GetMinValue();
+		e->particle.scaleFactor2 = source->ScaleFactor.GetMaxValue() - source->ScaleFactor.GetMinValue();
 	}
 
 };
-static FuncParticleElementSize		funcSize;
+static FuncFSsParticleElementSize		funcSize;
 
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
-class FuncParticleElementTransSize : public EffectFuncBase
+class FuncFSsParticleElementTransSize : public EffectFuncBase
 {
 public:
-	FuncParticleElementTransSize(){}
-	virtual ~FuncParticleElementTransSize(){}
+	FuncFSsParticleElementTransSize(){}
+	virtual ~FuncFSsParticleElementTransSize(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticleElementTransSize* source = static_cast<ParticleElementTransSize*>(ele);
-		SsVector2 endsize;
-		endsize.x = VarianceCalc( e, source->SizeX.getMinValue() , source->SizeX.getMaxValue() );
-		endsize.y = VarianceCalc( e, source->SizeY.getMinValue() , source->SizeY.getMaxValue() );
+		FSsParticleElementTransSize* source = static_cast<FSsParticleElementTransSize*>(ele);
+		FVector2D endsize;
+		endsize.X = VarianceCalc( e, source->SizeX.GetMinValue() , source->SizeX.GetMaxValue() );
+		endsize.Y = VarianceCalc( e, source->SizeY.GetMinValue() , source->SizeY.GetMaxValue() );
 
-		float sf = VarianceCalc( e, source->ScaleFactor.getMinValue() , source->ScaleFactor.getMaxValue() );
+		float sf = VarianceCalc( e, source->ScaleFactor.GetMinValue() , source->ScaleFactor.GetMaxValue() );
 
 		endsize = endsize * sf;
 
 		p->_divsize = ( endsize - p->_startsize ) / p->_lifetime;	
 	}
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
 	
 		p->_size = p->_startsize + ( p->_divsize * ( p->_exsitTime ) );
 	
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleElementTransSize* source = static_cast<ParticleElementTransSize*>(ele);
+		FSsParticleElementTransSize* source = static_cast<FSsParticleElementTransSize*>(ele);
 		e->particle.useTransScale = true;
 
-		e->particle.transscale.x = source->SizeX.getMinValue();
-		e->particle.transscaleRange.x = source->SizeX.getMaxValue() - source->SizeX.getMinValue();
+		e->particle.transscale.X = source->SizeX.GetMinValue();
+		e->particle.transscaleRange.X = source->SizeX.GetMaxValue() - source->SizeX.GetMinValue();
 
-		e->particle.transscale.y = source->SizeY.getMinValue();
-		e->particle.transscaleRange.y = source->SizeY.getMaxValue() - source->SizeY.getMinValue();
+		e->particle.transscale.Y = source->SizeY.GetMinValue();
+		e->particle.transscaleRange.Y = source->SizeY.GetMaxValue() - source->SizeY.GetMinValue();
 
-		e->particle.transscaleFactor = source->ScaleFactor.getMinValue();
-		e->particle.transscaleFactor2 = source->ScaleFactor.getMaxValue() - source->ScaleFactor.getMinValue();
+		e->particle.transscaleFactor = source->ScaleFactor.GetMinValue();
+		e->particle.transscaleFactor2 = source->ScaleFactor.GetMaxValue() - source->ScaleFactor.GetMinValue();
 
 	}
 };
-static FuncParticleElementTransSize		funcTransSize;
+static FuncFSsParticleElementTransSize		funcTransSize;
 
 
 //-----------------------------------------------------------------
@@ -761,34 +763,34 @@ public:
 	FuncParticlePointGravity(){}
 	virtual ~FuncParticlePointGravity(){}
 
-	virtual void	initalizeEmmiter ( SsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
-	virtual void	updateEmmiter( SsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	initalizeEmmiter ( FSsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
+	virtual void	updateEmmiter( FSsEffectElementBase* ele , SsEffectRenderEmitter* emmiter){}
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
 		//p->_orggravity = p->_gravity;	
 	}
-	virtual void	updateParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
+	virtual void	updateParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
-		ParticlePointGravity* source = static_cast<ParticlePointGravity*>(ele);
+		FSsParticlePointGravity* source = static_cast<FSsParticlePointGravity*>(ele);
 
-		SsVector2 Target;
-		Target.x = source->Position.x + p->parentEmitter->position.x;
-		Target.y = source->Position.y + p->parentEmitter->position.y;
+		FVector2D Target;
+		Target.X = source->Position.X + p->parentEmitter->position.X;
+		Target.Y = source->Position.Y + p->parentEmitter->position.Y;
 
 		//現在地点から指定された点に対してのベクトル*パワーを与える
-		SsVector2 v2 = Target - p->_position;
-		SsVector2 v2_temp = v2;
+		FVector2D v2 = Target - p->_position;
+		FVector2D v2_temp = v2;
 
-		SsVector2::normalize( v2 , &v2 );
+		v2.Normalize();
 		v2 = v2 * source->Power;
 
 		p->_gravity = p->_gravity + v2;
 
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticlePointGravity* source = static_cast<ParticlePointGravity*>(ele);
+		FSsParticlePointGravity* source = static_cast<FSsParticlePointGravity*>(ele);
 	   e->particle.usePGravity = true;
 	   e->particle.gravityPos = source->Position;
 //	   e->particle.gravityPower = source->Power / 100.0f;
@@ -807,14 +809,14 @@ public:
 	FuncParticleTurnToDirectionEnabled(){}
 	virtual ~FuncParticleTurnToDirectionEnabled(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
 	{
 		particle->isTurnDirection = true;
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
-		ParticleTurnToDirectionEnabled* source = static_cast<ParticleTurnToDirectionEnabled*>(ele);
+		FSsParticleTurnToDirectionEnabled* source = static_cast<FSsParticleTurnToDirectionEnabled*>(ele);
 		e->particle.useTurnDirec = true;
 		e->particle.direcRotAdd = source->Rotation;
 	}
@@ -832,11 +834,11 @@ public:
 	FuncParticleInfiniteEmitEnabled(){}
 	virtual ~FuncParticleInfiniteEmitEnabled(){}
 
-	virtual void	initializeParticle( SsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
+	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle )
 	{
 	}
 
-	virtual void	initalizeEffect ( SsEffectElementBase* ele , SsEffectEmitter* e)
+	virtual void	initalizeEffect ( FSsEffectElementBase* ele , SsEffectEmitter* e)
 	{
 		e->emitter.Infinite = true;
 	}
@@ -879,49 +881,49 @@ static EffectFuncBase* callTable[] =
 ///----------------------------------------------------------------------------------------------------
 //
 ///----------------------------------------------------------------------------------------------------
-void	SsEffectFunctionExecuter::initalize( SsEffectBehavior* beh ,  SsEffectRenderEmitter* emmiter)
+void	SsEffectFunctionExecuter::initalize( FSsEffectBehavior* beh ,  SsEffectRenderEmitter* emmiter)
 {
-	foreach( std::vector<SsEffectElementBase* > , beh->plist , e )
+	for(auto e = beh->PList.CreateIterator(); e; ++e)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->initalizeEmmiter( (*e) , emmiter );
+		EffectFuncBase* cf = callTable[(*e)->MyType];
+		cf->initalizeEmmiter( (*e).Get() , emmiter );
 	}
 }
 
-void	SsEffectFunctionExecuter::updateEmmiter( SsEffectBehavior* beh , SsEffectRenderEmitter* emmiter)
+void	SsEffectFunctionExecuter::updateEmmiter( FSsEffectBehavior* beh , SsEffectRenderEmitter* emmiter)
 {
-	foreach( std::vector<SsEffectElementBase* > , beh->plist , e )
+	for(auto e = beh->PList.CreateIterator(); e; ++e)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->updateEmmiter( (*e) , emmiter );
+		EffectFuncBase* cf = callTable[(*e)->MyType];
+		cf->updateEmmiter( (*e).Get() , emmiter );
 	}
 }
 
-void	SsEffectFunctionExecuter::initializeParticle( SsEffectBehavior* beh ,  SsEffectRenderEmitter* emmiter , SsEffectRenderParticle* particle )
+void	SsEffectFunctionExecuter::initializeParticle( FSsEffectBehavior* beh ,  SsEffectRenderEmitter* emmiter , SsEffectRenderParticle* particle )
 {
-	foreach( std::vector<SsEffectElementBase* > , beh->plist , e )
+	for(auto e = beh->PList.CreateIterator(); e; ++e)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->initializeParticle( (*e) , emmiter , particle );
+		EffectFuncBase* cf = callTable[(*e)->MyType];
+		cf->initializeParticle( (*e).Get() , emmiter , particle );
 	}
 }
 
-void	SsEffectFunctionExecuter::updateParticle(  SsEffectBehavior* beh , SsEffectRenderEmitter* emmiter , SsEffectRenderParticle* particle )
+void	SsEffectFunctionExecuter::updateParticle(  FSsEffectBehavior* beh , SsEffectRenderEmitter* emmiter , SsEffectRenderParticle* particle )
 {
-	foreach( std::vector<SsEffectElementBase* > , beh->plist , e )
+	for(auto e = beh->PList.CreateIterator(); e; ++e)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->updateParticle( (*e) , emmiter , particle );
+		EffectFuncBase* cf = callTable[(*e)->MyType];
+		cf->updateParticle( (*e).Get() , emmiter , particle );
 	}
 }
 
 
-void	SsEffectFunctionExecuter::initializeEffect( SsEffectBehavior* beh ,  SsEffectEmitter* emmiter)
+void	SsEffectFunctionExecuter::initializeEffect( FSsEffectBehavior* beh ,  SsEffectEmitter* emmiter)
 {
-	foreach( std::vector<SsEffectElementBase* > , beh->plist , e )
+	for(auto e = beh->PList.CreateIterator(); e; ++e)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->initalizeEffect( (*e) , emmiter );
+		EffectFuncBase* cf = callTable[(*e)->MyType];
+		cf->initalizeEffect( (*e).Get() , emmiter );
 	}
 }
 

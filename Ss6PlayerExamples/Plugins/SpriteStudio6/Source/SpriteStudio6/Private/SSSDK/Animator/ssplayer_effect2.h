@@ -13,10 +13,10 @@
 
 //class FSsEffectModel;
 class SsRenderEffectBase;
-class SsEffectNode;
+struct FSsEffectNode;
 //class SsPartState;
 class SsEffectRenderAtom;
-class SsCell;
+struct FSsCell;
 
 
 #define SEED_MAGIC (7573)
@@ -282,7 +282,7 @@ public:
 
     int							_parentIndex;
 
-	SsCell*						refCell;    //描画用セル
+	FSsCell*					refCell;    //描画用セル
 	FSsEffectBehavior*           refData;	//データ更新用
 
 	size_t						globaltime;
@@ -387,8 +387,8 @@ public:
 
 
 protected:
-	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent = 0 , particleDrawData* plp = 0 );
-	void	initEmitter( SsEffectEmitter* e , SsEffectNode* node);
+//	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent = 0 , particleDrawData* plp = 0 );
+	void	initEmitter( SsEffectEmitter* e , FSsEffectNode* node);
 
 	void	clearEmitterList();
 
@@ -442,7 +442,7 @@ public:
 		return(m_isPlay);
 	}
 
-	void	drawSprite(
+/*	void	drawSprite(
 			SsCellValue*		dispCell,
 			FVector2D	_position,
 			FVector2D _size,
@@ -451,7 +451,7 @@ public:
 			SsFColor	_color,
 			SsRenderBlendType::Type blendType
 		);
-	
+*/
 	
 	void	setSeedOffset( int offset ) { 
 		if ( effectData->IsLockRandSeed )

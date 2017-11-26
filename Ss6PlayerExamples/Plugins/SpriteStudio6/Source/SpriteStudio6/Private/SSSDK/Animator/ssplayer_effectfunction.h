@@ -17,7 +17,7 @@ public:
 
 
 	//新バージョン
-	static void	initializeEffect( SsEffectBehavior* beh ,  SsEffectEmitter* emmiter);
+	static void	initializeEffect( FSsEffectBehavior* beh ,  SsEffectEmitter* emmiter);
 
 
 };

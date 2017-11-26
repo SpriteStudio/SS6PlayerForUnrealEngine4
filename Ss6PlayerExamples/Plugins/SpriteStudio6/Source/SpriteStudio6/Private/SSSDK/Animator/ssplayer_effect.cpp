@@ -13,6 +13,31 @@
 #include "ssplayer_effectfunction.h"
 
 
+#ifndef SS_GET_ANGLE_360	// UE4のUnityビルド対策 
+#define SS_GET_ANGLE_360
+static float get_angle_360(const FVector2D& v0, const FVector2D& v1)
+{
+	FVector2D uv0(v0), uv1(v1);
+	uv0.Normalize();
+	uv1.Normalize();
+
+	float ang;
+	{
+		float ip = FVector2D::DotProduct(uv0, uv1);
+		if (ip > 1.0f) { ip = 1.0f; }
+		if (ip < -1.0f) { ip = -1.0f; }
+		ang = FMath::Acos(ip);
+	}
+
+	float c = FVector2D::CrossProduct(uv0, uv1);
+
+	if (c < 0)
+	{
+		ang = (3.1415926535897932385f)*2.0f - ang;
+	}
+	return ang;
+}
+#endif
 
 class SsEffectRenderParticle;
 
@@ -63,10 +88,10 @@ static  int seed_table[] =
 //------------------------------------------------------------------------------
 //	ユーティリティ
 //------------------------------------------------------------------------------
-SsEffectDrawBatch*	SsEffectRenderer::findBatchListSub(SsEffectNode* n)
+SsEffectDrawBatch*	SsEffectRenderer::findBatchListSub(FSsEffectNode* n)
 {
 	SsEffectDrawBatch* bl = 0;
-	foreach( std::list<SsEffectDrawBatch*> , drawBatchList , e )
+	for(auto e = drawBatchList.CreateIterator(); e; ++e)
 	{
 		if ( (*e)->targetNode == n )
 		{
@@ -79,7 +104,7 @@ SsEffectDrawBatch*	SsEffectRenderer::findBatchListSub(SsEffectNode* n)
 }
 
 
-SsEffectDrawBatch*	SsEffectRenderer::findBatchList(SsEffectNode* n)
+SsEffectDrawBatch*	SsEffectRenderer::findBatchList(FSsEffectNode* n)
 {
 
 	SsEffectDrawBatch* bl = 0;//findBatchListSub(n);
@@ -102,13 +127,13 @@ SsEffectDrawBatch*	SsEffectRenderer::findBatchList(SsEffectNode* n)
 //------------------------------------------------------------------------------
 //要素生成関数
 //------------------------------------------------------------------------------
-SsEffectRenderAtom* SsEffectRenderer::CreateAtom( unsigned int seed , SsEffectRenderAtom* parent , SsEffectNode* node )
+SsEffectRenderAtom* SsEffectRenderer::CreateAtom( unsigned int seed , SsEffectRenderAtom* parent , FSsEffectNode* node )
 {
 	SsEffectRenderAtom* ret = 0;
-	SsEffectNodeType::_enum type = node->GetType(); 
+	SsEffectNodeType::Type type = node->GetType(); 
 
 
-	if ( type == SsEffectNodeType::particle )
+	if ( type == SsEffectNodeType::Particle )
 	{
 #if PFMEM_TEST
 		if ( SSEFFECTRENDER_PARTICLE_MAX <= pa_pool_count )
@@ -126,16 +151,16 @@ SsEffectRenderAtom* SsEffectRenderer::CreateAtom( unsigned int seed , SsEffectRe
 		SsEffectRenderParticle* p = new SsEffectRenderParticle( node , parent );
 #endif
 
-		updatelist.push_back( p );
-		createlist.push_back( p );
+		updatelist.Add( p );
+		createlist.Add( p );
 		SsEffectRenderEmitter*	em = (SsEffectRenderEmitter*)parent;
-        em->myBatchList->drawlist.push_back( p );
+        em->myBatchList->drawlist.Add( p );
 	
 		ret = p;
 	}
 
 
-	if ( type == SsEffectNodeType::emmiter )
+	if ( type == SsEffectNodeType::Emmiter )
 	{
 
 #if PFMEM_TEST
@@ -163,35 +188,35 @@ SsEffectRenderAtom* SsEffectRenderer::CreateAtom( unsigned int seed , SsEffectRe
 		p->setMySeed( seed );
 		p->TrushRandom( em_pool_count%9 );
 
-		SsEffectFunctionExecuter::initalize( &p->data->behavior , p );
+		SsEffectFunctionExecuter::initalize( &p->data->Behavior , p );
 
 		//セルデータの検索とセット
 		//オリジナルでは上記initializeでやっているがクラス階層の関係からこちらでやる
-		SsCelMapLinker* link = this->curCellMapManager->getCellMapLink( p->data->behavior.CellMapName );
+		SsCelMapLinker* link = this->curCellMapManager->getCellMapLink( p->data->Behavior.CellMapName );
 		if ( link )
 		{
-			SsCell * cell = link->findCell( p->data->behavior.CellName );
+			FSsCell * cell = link->findCell( p->data->Behavior.CellName );
 		
 			getCellValue(	this->curCellMapManager , 
-				p->data->behavior.CellMapName ,
-				p->data->behavior.CellName , 
+				p->data->Behavior.CellMapName ,
+				p->data->Behavior.CellName , 
 				p->dispCell ); 
 		}else{
-			DEBUG_PRINTF( "cell not found : %s , %s\n" , 
-				p->data->behavior.CellMapName.c_str(), 
-				p->data->behavior.CellName.c_str()
+			UE_LOG(LogSpriteStudio, Warning, TEXT( "cell not found : %s , %s\n" ), 
+				*(p->data->Behavior.CellMapName.ToString()), 
+				*(p->data->Behavior.CellName.ToString())
 				);
 		}
 
-		updatelist.push_back( p );
-		createlist.push_back( p );
+		updatelist.Add( p );
+		createlist.Add( p );
 
 
 		//バッチリストを調べる
 		SsEffectDrawBatch* bl = findBatchList(node);
 
 		p->myBatchList = bl;
-		drawBatchList.push_back( bl );
+		drawBatchList.Add( bl );
 
 		ret = p;
 	}
@@ -254,18 +279,18 @@ void	SsEffectRenderEmitter::Initialize()
 {
 
 
-	SsEffectNode* n = static_cast<SsEffectNode*>(this->data->ctop);
+	FSsEffectNode* n = static_cast<FSsEffectNode*>(this->data->Ctop);
 
 	if ( !m_isInit )
 	{                                                                                                                                                 		//子要素を解析(一度だけ）
 		while ( n )
 		{
-			if ( n->GetType() ==  SsEffectNodeType::particle )
+			if ( n->GetType() ==  SsEffectNodeType::Particle )
 			{
 				param_particle = n;
 			}
 
-			n = static_cast<SsEffectNode*>(n->next);
+			n = static_cast<FSsEffectNode*>(n->Next);
 		}
 
 		if (this->data->GetMyBehavior())
@@ -371,7 +396,7 @@ void	SsEffectRenderParticle::Initialize()
 
 	if ( !m_isInit )
 	{
-		SsEffectNode* n = static_cast<SsEffectNode*>(this->data->ctop);
+		FSsEffectNode* n = static_cast<FSsEffectNode*>(this->data->Ctop);
 
 		//子要素を解析  基本的にエミッターのみの生成のはず　（Ｐではエラーでいい）
 		//処理を省いてエミッター生成のつもりで作成する
@@ -405,7 +430,7 @@ void	SsEffectRenderParticle::Initialize()
 //------------------------------------------------------------------------------
 bool	SsEffectRenderParticle::genarate( SsEffectRenderer* render )
 {
-	SsEffectNode* n = static_cast<SsEffectNode*>(this->data->ctop);
+	FSsEffectNode* n = static_cast<FSsEffectNode*>(this->data->Ctop);
 	if ( m_isInit && !m_isCreateChild)
 	{
 		if ( parentEmitter )
@@ -416,7 +441,7 @@ bool	SsEffectRenderParticle::genarate( SsEffectRenderer* render )
 				SsEffectRenderAtom* r = render->CreateAtom( parentEmitter->myseed , this , n );
 				if ( r )
 				{
-					n = static_cast<SsEffectNode*>(n->next);
+					n = static_cast<FSsEffectNode*>(n->Next);
 					r->Initialize();
 					r->update( render->frameDelta );
 					r->genarate( render );
@@ -442,8 +467,8 @@ void	SsEffectRenderParticle::update(float delta)
 
 	 //_rotation = 0;
      if ( !this->isInit() )return ;
-	 this->position.x = this->_position.x;
-	 this->position.y = this->_position.y;
+	 this->position.X = this->_position.X;
+	 this->position.Y = this->_position.Y;
 	 this->scale = this->parent->scale;
 	 this->alpha = this->parent->alpha;
 
@@ -466,8 +491,8 @@ void	SsEffectRenderParticle::update(float delta)
 		{
 		}else{
 			//仮
-			this->position.x = this->_position.x;
-			this->position.y = this->_position.y;
+			this->position.X = this->_position.X;
+			this->position.Y = this->_position.Y;
 		}
 
 	}
@@ -484,23 +509,23 @@ void	SsEffectRenderParticle::updateDelta(float delta)
 	_exsitTime+=delta;
 	_life = _lifetime - _exsitTime;
 
-	SsVector2	tangential = SsVector2( 0 , 0 );
+	FVector2D	tangential = FVector2D( 0 , 0 );
 
 	//接線加速度の計算
-	SsVector2  radial = SsVector2(this->_position.x,this->_position.y);
+	FVector2D  radial = FVector2D(this->_position.X,this->_position.Y);
 
-    SsVector2::normalize( radial , &radial );
+	radial.Normalize();
 	tangential = radial;
 
     radial = radial * _radialAccel;
 
-	float newY = tangential.x;
-	tangential.x = -tangential.y;
-	tangential.y = newY;
+	float newY = tangential.X;
+	tangential.X = -tangential.Y;
+	tangential.Y = newY;
 
 	tangential = tangential* _tangentialAccel;
 
-	SsVector2 tmp = radial + tangential;
+	FVector2D tmp = radial + tangential;
 
 	this->_execforce = tmp;
 
@@ -516,25 +541,26 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 	this->_backposition = this->_position;
 
 	this->_force = _gravity;
-	SsVector2 ff = (this->vector * this->speed) + this->_execforce + this->_force;
+	FVector2D ff = (this->vector * this->speed) + this->_execforce + this->_force;
 
 
 	if ( isTurnDirection )
 	{
-		this->direction =  SsPoint2::get_angle_360( SsVector2( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
+		this->direction =  get_angle_360( FVector2D( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
 	}else{
         this->direction = 0;
 	}
 
 	//フォースを加算
-	this->_position.x+= (ff.x * delta );
-	this->_position.y+= (ff.y * delta );
+	this->_position.X+= (ff.X * delta );
+	this->_position.Y+= (ff.Y * delta );
 
 }
 
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+/*
 void	SsEffectRenderParticle::draw(SsEffectRenderer* render)
 {
 
@@ -553,35 +579,35 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render)
 		this->alpha = render->render_root->alpha;
 	}
 
-	TranslationMatrixM( matrix , _position.x, _position.y, 0.0f );
+	TranslationMatrixM( matrix , _position.X, _position.Y, 0.0f );
 
 	RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction );
 
-    ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
+    ScaleMatrixM(  matrix , _size.X, _size.Y, 1.0f );
 
 	SsFColor fcolor;
-	fcolor.fromARGB( _color.toARGB() );
-	fcolor.a = fcolor.a * this->alpha;
+	fcolor.FromARGB( _color.ToARGB() );
+	fcolor.A = fcolor.A * this->alpha;
 
-	if ( ( dispCell->cell ) && ( fcolor.a != 0.0f ) )
+	if ( ( dispCell->cell ) && ( fcolor.A != 0.0f ) )
 	{
 
-		SsVector2 pivot = SsVector2( dispCell->cell->pivot.x ,dispCell->cell->pivot.y);
+		FVector2D pivot = FVector2D( dispCell->cell->Pivot.X ,dispCell->cell->Pivot.Y);
 
-		pivot.x = pivot.x * dispCell->cell->size.x;
-		pivot.y = pivot.y * dispCell->cell->size.y;
+		pivot.X = pivot.X * dispCell->cell->Size.X;
+		pivot.Y = pivot.Y * dispCell->cell->Size.Y;
 
-		SsVector2 dispscale = dispCell->cell->size;
+		FVector2D dispscale = dispCell->cell->Size;
 
 
 		SsCurrentRenderer::getRender()->renderSpriteSimple(
 			matrix,
-			dispscale.x , dispscale.y ,  pivot,
+			dispscale.X , dispscale.Y ,  pivot,
 					dispCell->uvs[0],
 					dispCell->uvs[3], fcolor );
 	}
 }
-
+*/
 
 //--------------------------------------------------------------------------------------
 //
@@ -608,7 +634,7 @@ void	SsEffectRenderer::update(float delta)
 	if ( parentState )
 	{
 		
-		SsVector3 pos = SsVector3( parentState->matrix[3*4] ,
+		FVector pos = FVector( parentState->matrix[3*4] ,
 								   parentState->matrix[3*4+1] ,
 								   parentState->matrix[3*4+2] );
 
@@ -617,11 +643,11 @@ void	SsEffectRenderer::update(float delta)
 		this->render_root->setPosistion( 0 , 0 , 0 );
 
 		this->render_root->rotation = 0;
-		this->render_root->scale = SsVector2(1.0f,1.0f);
+		this->render_root->scale = FVector2D(1.0f,1.0f);
 		this->render_root->alpha = parentState->alpha;
 	}
 
-	size_t loopnum = updatelist.size();
+	size_t loopnum = updatelist.Num();
 	for ( size_t i = 0 ; i < loopnum ; i++ )
 	{
 		SsEffectRenderAtom* re = updatelist[i];
@@ -629,7 +655,7 @@ void	SsEffectRenderer::update(float delta)
 		re->count();
 	}
 
-	loopnum = updatelist.size();
+	loopnum = updatelist.Num();
 	size_t updatecount = 0;
 	for ( size_t i = 0 ; i < loopnum ; i++ )
 	{
@@ -650,10 +676,12 @@ void	SsEffectRenderer::update(float delta)
 //	g_particle_num = updatecount;
 	//後処理  寿命で削除
 	//死亡検出、削除の2段階
-	std::vector<SsEffectRenderAtom*>::iterator endi = remove_if( updatelist.begin(), updatelist.end(), particleDelete );
-    updatelist.erase( endi, updatelist.end() );
 
-	drawBatchList.sort(compare_priority);
+	//TODO: 旧エフェクトをコードごと消せるなら直さなくてもよいか 
+//	std::vector<SsEffectRenderAtom*>::iterator endi = remove_if( updatelist.begin(), updatelist.end(), particleDelete );
+//    updatelist.erase( endi, updatelist.end() );
+
+//	drawBatchList.sort(compare_priority);
 
 
 	if ( m_isLoop )
@@ -673,6 +701,7 @@ void	SsEffectRenderer::update(float delta)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+/*
 void	SsEffectRenderer::draw()
 {
 	SsCurrentRenderer::getRender()->renderSetup();					
@@ -713,7 +742,7 @@ void	SsEffectRenderer::draw()
 
 
 }
-
+*/
 
 
 //------------------------------------------------------------------------------
@@ -736,8 +765,8 @@ void	SsEffectRenderer::clearUpdateList()
 {
 
 
-	size_t s = createlist.size();
-	size_t s2 = updatelist.size();
+	size_t s = createlist.Num();
+	size_t s2 = updatelist.Num();
 
 
 #if PFMEM_TEST
@@ -752,15 +781,15 @@ void	SsEffectRenderer::clearUpdateList()
 	}
 #endif
 
-	updatelist.clear();
-	createlist.clear();
+	updatelist.Empty();
+	createlist.Empty();
 
-	foreach( std::list<SsEffectDrawBatch*> , drawBatchList , e )
+	for(auto e = drawBatchList.CreateIterator(); e; ++e)
 	{
-		(*e)->drawlist.clear();
+		(*e)->drawlist.Empty();
 	}
 
-	drawBatchList.clear();
+	drawBatchList.Empty();
 
 }
 
@@ -779,26 +808,26 @@ void    SsEffectRenderer::reload()
 	}
 
 	//ルートの子要素を調査して作成する
-	SsEffectNode* root = this->effectData->GetRoot();
+	FSsEffectNode* root = this->effectData->Root;
 
 	//シード値の決定
-	u32 seed = 0;
+	uint32 seed = 0;
 
-	if ( this->effectData->isLockRandSeed )
+	if ( this->effectData->IsLockRandSeed )
 	{
-    	seed = this->effectData->lockRandSeed;
+    	seed = this->effectData->LockRandSeed;
 	}else{
         seed = mySeed;
 	}
 
-	SimpleTree* n = root->ctop;
+	FSsSimpleTree* n = root->Ctop;
 	//子要素だけつくってこれを種にする
 	while( n )
 	{
-		SsEffectNode* enode = static_cast<SsEffectNode*>(n);
+		FSsEffectNode* enode = static_cast<FSsEffectNode*>(n);
 		SsEffectRenderAtom* effectr = CreateAtom( seed , render_root , enode );
 
-		n = n->next;
+		n = n->Next;
 	}
 
 }

@@ -6,9 +6,9 @@
 #include "ssplayer_cellmap.h"
 
 
-class SsEffectModel;
+struct FSsEffectModel;
 class SsRenderEffectBase;
-class SsEffectNode;
+struct FSsEffectNode;
 
 struct SsPartState;
 class SsEffectRenderAtom;
@@ -48,12 +48,12 @@ namespace EmmiterType
 class SsEffectRenderAtom
 {
 public:
-	SsVector3  			position;
+	FVector  			position;
 	float				rotation;
-	SsVector2	  		scale;
+	FVector2D	  		scale;
 
 	SsEffectRenderAtom*	parent;
-	SsEffectNode*		data;
+	FSsEffectNode*		data;
     bool				m_isLive;
 	bool				m_isInit;
     bool				m_isCreateChild;
@@ -81,13 +81,13 @@ public:
 		{
 		}
 
-	SsEffectRenderAtom( SsEffectNode* refdata , SsEffectRenderAtom* _p){
+	SsEffectRenderAtom( FSsEffectNode* refdata , SsEffectRenderAtom* _p){
         data = refdata;
 		setParent(_p);
 
 		_lifetime = 0;
-		position = SsVector3(0,0,0);
-		scale = SsVector2(0,0);
+		position = FVector(0,0,0);
+		scale = FVector2D(0,0);
 		rotation = 0.0f;
 	}
 
@@ -106,8 +106,8 @@ public:
 		_lifetime = 10.0f;
 		_life = 1.0f;
 		rotation = 0;
-		position = SsVector3(0,0,0);
-		scale = SsVector2(1,1);
+		position = FVector(0,0,0);
+		scale = FVector2D(1,1);
 		m_isCreateChild = false;
 		m_isInit = false;
 	}
@@ -115,26 +115,26 @@ public:
 
 
     virtual void	update(float delta){}
-	virtual void	draw(SsEffectRenderer* render){}
+//	virtual void	draw(SsEffectRenderer* render){}
 
 	virtual void	debugdraw(){}
 
-	SsVector3	getPosition() const
+	FVector	getPosition() const
 	{
 		return position;
 	}
 
 	void	setPosistion( float x , float y , float z )
 	{
-		position.x = x;
-		position.y = y;
-		position.z = z;
+		position.X = x;
+		position.Y = y;
+		position.Z = z;
 	}
 
 	void	setScale( float x , float y )
 	{
-		scale.x = x;
-		scale.y = y;
+		scale.X = x;
+		scale.Y = y;
 	}
 	void	setRotation( float z  )
 	{
@@ -149,7 +149,7 @@ public:
 	}
 
 	float		getRotation() const { return rotation; }
-	SsVector2	getScale() const { return scale; }
+	FVector2D	getScale() const { return scale; }
  	virtual void	count(){}
 
 };
@@ -160,10 +160,10 @@ class SsEffectDrawBatch
 public:
 	int	priority;
 	SsCellValue*			dispCell;
-	SsEffectNode*			targetNode;
+	FSsEffectNode*			targetNode;
 
-	SsRenderBlendType::_enum       blendType;
-	std::list<SsEffectRenderAtom*> drawlist;
+	SsRenderBlendType::Type       blendType;
+	TArray<SsEffectRenderAtom*> drawlist;
 
 
 	SsEffectDrawBatch() : priority(0) , dispCell(0),targetNode(0) {}
@@ -186,7 +186,7 @@ public:
 	//エミッターパラメータ
 
 	//パーティクルパラメータ
-    SsEffectNode*		param_particle;
+    FSsEffectNode*		param_particle;
 
 	CMersenneTwister*	     MT;
 
@@ -201,7 +201,7 @@ public:
 
 	EmmiterType::_enum		type;
 
-	SsString		MyName;
+	FName			MyName;
     size_t 			particleCount;
 
 
@@ -236,7 +236,7 @@ public:
 	}
 
 	SsEffectRenderEmitter() : MT(0){}
-	SsEffectRenderEmitter( SsEffectNode* refdata , SsEffectRenderAtom* _p){
+	SsEffectRenderEmitter( FSsEffectNode* refdata , SsEffectRenderAtom* _p){
 		data = refdata;
 		parent = _p;
 		InitParameter();
@@ -279,41 +279,41 @@ public:
 
 	float   				size;
 	SsEffectRenderEmitter*  parentEmitter;
-    SsEffectBehavior*		refBehavior;
+    FSsEffectBehavior*		refBehavior;
 
-	SsVector2   _baseEmiterPosition;   //もしかしてもう使ってないかも
-	SsVector2   _backposition;         //force計算前のポジション
-	SsVector2   _position;             //描画用ポジション
+	FVector2D   _baseEmiterPosition;   //もしかしてもう使ってないかも
+	FVector2D   _backposition;         //force計算前のポジション
+	FVector2D   _position;             //描画用ポジション
 
 	float		_rotation;
 	float		_rotationAdd;
 	float		_rotationAddDst;
 	float		_rotationAddOrg;
 
-	SsVector2   _size;
-	SsVector2  	_startsize;
-	SsVector2   _divsize;
+	FVector2D   _size;
+	FVector2D  	_startsize;
+	FVector2D   _divsize;
 
-	SsU8Color	_color;
-	SsU8Color	_startcolor;
-	SsU8Color	_endcolor;
+	FSsU8Color	_color;
+	FSsU8Color	_startcolor;
+	FSsU8Color	_endcolor;
 
 
 	float		speed;		//現在持っている速度
 	float		firstspeed;
     float		lastspeed;
-	SsVector2   vector;
+	FVector2D   vector;
 
-	SsVector2   _force;
-	SsVector2   _gravity;
-//	SsVector2   _orggravity;
+	FVector2D   _force;
+	FVector2D   _gravity;
+//	FVector2D   _orggravity;
 
 	float 		_radialAccel;
 	float 		_tangentialAccel;
 	float		direction;
 	bool		isTurnDirection;
 
-	SsVector2   _execforce;				//処理中の力 最終的には単位当たりの力に変換
+	FVector2D   _execforce;				//処理中の力 最終的には単位当たりの力に変換
 
 
 
@@ -324,21 +324,21 @@ public:
 
 		SsEffectRenderAtom::Initialize();
 
-		_position = SsVector2(0,0);
-		_baseEmiterPosition = SsVector2(0,0);
-		_backposition = SsVector2(0,0);
+		_position = FVector2D(0,0);
+		_baseEmiterPosition = FVector2D(0,0);
+		_backposition = FVector2D(0,0);
 		_rotation = 0;
-		_size = SsVector2( 1.0f , 1.0f );
-		_startsize = SsVector2( 1.0f , 1.0f );
-		_divsize = SsVector2( 0.0f , 0.0f );
-		_force = SsVector2(0,0);
-		_gravity = SsVector2(0,0);
+		_size = FVector2D( 1.0f , 1.0f );
+		_startsize = FVector2D( 1.0f , 1.0f );
+		_divsize = FVector2D( 0.0f , 0.0f );
+		_force = FVector2D(0,0);
+		_gravity = FVector2D(0,0);
 		_radialAccel = 0;
 		_tangentialAccel = 0;
-		_color = SsU8Color(255,255,255,255) ;
+		_color = FSsU8Color(255,255,255,255) ;
         _startcolor = _color;
         _exsitTime = 0;
-		_execforce = SsVector2(0,0);
+		_execforce = FVector2D(0,0);
 		parentEmitter = 0;
 		dispCell = 0;
 	}
@@ -346,7 +346,7 @@ public:
 
 
 	SsEffectRenderParticle(): parentEmitter(0){}
-	SsEffectRenderParticle( SsEffectNode* refdata , SsEffectRenderAtom* _p){
+	SsEffectRenderParticle( FSsEffectNode* refdata , SsEffectRenderAtom* _p){
 		data = refdata;
 		parent = _p;
         InitParameter();
@@ -361,7 +361,7 @@ public:
 	virtual bool	genarate( SsEffectRenderer* render );
 
     virtual void	update(float delta);
-	virtual void	draw(SsEffectRenderer* render);
+//	virtual void	draw(SsEffectRenderer* render);
 
 
 	virtual void	count()
@@ -406,16 +406,16 @@ public:
 class SsEffectRenderer
 {
 private:
-	SsEffectModel*		effectData;
+	FSsEffectModel*		effectData;
 
 
 	bool			m_isPlay;
 	bool			m_isPause;
 	bool			m_isLoop;
-	u32				mySeed;
+	uint32			mySeed;
 
 
-	SsVector3		layoutPosition;
+	FVector		layoutPosition;
 
 	SsCellMapList*	curCellMapManager;/// セルマップのリスト（アニメデコーダーからもらう
 
@@ -437,16 +437,16 @@ public:
 	SsEffectRenderAtom* render_root;
 
 	bool			usePreMultiTexture;
-	u32				parentAnimeStartFrame;
+	uint32			parentAnimeStartFrame;
 	bool			renderTexture;
 	float           frameDelta;
 	SsPartState*		parentState;
 
 
- 	std::vector<SsEffectRenderAtom*> updatelist;
-	std::vector<SsEffectRenderAtom*> createlist;
+ 	TArray<SsEffectRenderAtom*> updatelist;
+	TArray<SsEffectRenderAtom*> createlist;
 
-    std::list<SsEffectDrawBatch*>  drawBatchList;
+    TArray<SsEffectDrawBatch*>  drawBatchList;
 
 
 public:
@@ -470,9 +470,9 @@ public:
 public:
 
 
-	void	setSeed( u32 seed ){  mySeed = seed; }
+	void	setSeed( uint32 seed ){  mySeed = seed; }
 	virtual void	update(float delta);
-    virtual void	draw();
+//    virtual void	draw();
 	virtual void    reload();
 
     //操作
@@ -485,33 +485,33 @@ public:
 	int	getCurrentFPS(){
 		if (effectData)
 		{
-        	if ( effectData->fps == 0 ) return 30;
+        	if ( effectData->FPS == 0 ) return 30;
 
-        	return effectData->fps;
+        	return effectData->FPS;
 		}
 		return 30;
 	}
 
-	SsEffectModel* getEffectData()
+	FSsEffectModel* getEffectData()
 	{
 		return effectData;
 	}
 
 	//データセット
-	void	setEffectData(SsEffectModel* data){
+	void	setEffectData(FSsEffectModel* data){
 					stop();
                     clearUpdateList();
 					effectData = data;
 			}
 	void	setParentAnimeState( SsPartState* state ){ parentState = state; }
 
-	SsEffectRenderAtom* CreateAtom( unsigned int seed , SsEffectRenderAtom* parent , SsEffectNode* node );
+	SsEffectRenderAtom* CreateAtom( unsigned int seed , SsEffectRenderAtom* parent , FSsEffectNode* node );
 
 	void	setCellmapManager( SsCellMapList* plist ) { curCellMapManager = plist; }
 
-	SsEffectDrawBatch*	findBatchList(SsEffectNode* n);
+	SsEffectDrawBatch*	findBatchList(FSsEffectNode* n);
 
-	SsEffectDrawBatch*	findBatchListSub(SsEffectNode* n);
+	SsEffectDrawBatch*	findBatchListSub(FSsEffectNode* n);
 
 
 };

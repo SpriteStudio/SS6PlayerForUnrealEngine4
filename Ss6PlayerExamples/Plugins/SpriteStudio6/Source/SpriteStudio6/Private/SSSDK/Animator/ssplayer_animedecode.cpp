@@ -8,7 +8,7 @@
 #include "ssplayer_animedecode.h"
 #include "ssplayer_matrix.h"
 //#include "ssplayer_render.h"
-//#include "ssplayer_effect.h"
+#include "ssplayer_effect.h"
 #include "ssplayer_effect2.h"
 #include "ssplayer_mesh.h"
 #include "ssInterpolation.h"

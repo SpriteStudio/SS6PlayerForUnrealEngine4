@@ -406,7 +406,7 @@ int32 FSsPlayer::GetPartIndexFromName(FName PartName) const
 	{
 		for(auto It = Decoder->partAnime.CreateConstIterator(); It; ++It)
 		{
-			if(It->Key == PartName)
+			if(It->Key->PartName == PartName)
 			{
 				return It.GetIndex();
 			}

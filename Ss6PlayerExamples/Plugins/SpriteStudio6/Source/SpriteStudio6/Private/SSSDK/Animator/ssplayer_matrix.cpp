@@ -153,28 +153,28 @@ void    Matrix4RotationZ( float* _matrix ,const float radians )
 
 
 
-void  MatrixTransformVector3(float* _matrix  , SsVector3& src, SsVector3& dst)
+void  MatrixTransformVector3(float* _matrix  , FVector& src, FVector& dst)
 {
 	float vx, vy, vz;
 	//SsVector3 vec;
 	float *pF1, *pF2, *pF3, *pF4;
 
-	vx = src.x;
-	vy = src.y;
-	vz = src.z;
+	vx = src.X;
+	vy = src.Y;
+	vz = src.Z;
 
 	pF1 = &_matrix[0];
 	pF2 = &_matrix[4];
 	pF3 = &_matrix[8];
 	pF4 = &_matrix[12];
 
-	dst.x = vx * (*pF1) + vy * (*pF2) + vz * (*pF3) + (*pF4);
+	dst.X = vx * (*pF1) + vy * (*pF2) + vz * (*pF3) + (*pF4);
 	pF1 += 1; pF2 += 1; pF3 += 1; pF4 += 1;
 
-	dst.y = vx * (*pF1) + vy * (*pF2) + vz * (*pF3) + (*pF4);
+	dst.Y = vx * (*pF1) + vy * (*pF2) + vz * (*pF3) + (*pF4);
 	pF1 += 1; pF2 += 1; pF3 += 1; pF4 += 1;
 
-	dst.z = vx * (*pF1) + vy * (*pF2) + vz * (*pF3) + (*pF4);
+	dst.Z = vx * (*pF1) + vy * (*pF2) + vz * (*pF3) + (*pF4);
 	pF1 += 1; pF2 += 1; pF3 += 1; pF4 += 1;
 
 	//dst = vec;
