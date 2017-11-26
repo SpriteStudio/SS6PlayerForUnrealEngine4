@@ -193,8 +193,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category=SsModel)
 	TArray<FSsPart>	PartList;	//!<格納されているパーツのリスト
 
-//TODO: Name参照とかで代替する？
-//	UPROPERTY(VisibleAnywhere, Category=SsModel)
 	struct FSsAnimation*	SetupAnimation;	//< 参照するセットアップアニメ
 
 	UPROPERTY(VisibleAnywhere, Category=SsModel)

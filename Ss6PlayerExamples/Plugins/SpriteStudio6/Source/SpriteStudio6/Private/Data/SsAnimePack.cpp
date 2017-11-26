@@ -27,6 +27,17 @@ void FSsAnimePack::Serialize(FArchive& Ar)
 			AnimeList[i].Serialize(Ar);
 		}
 	}
+	if(Ar.IsLoading())
+	{
+		for(auto It = AnimeList.CreateIterator(); It; ++It)
+		{
+			if(It->IsSetup)
+			{
+				Model.SetupAnimation = &(*It);
+				break;
+			}
+		}
+	}
 }
 
 int32 FSsAnimePack::FindAnimationIndex(const FName& Name) const

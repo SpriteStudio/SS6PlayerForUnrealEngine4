@@ -775,6 +775,15 @@ void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar)
 	SSAR_STRUCT_DECLARE("Model", AnimePack.Model);
 	SSAR_DECLARE("cellmapNames", AnimePack.CellmapNames);
 	SSAR_DECLARE_LISTEX("animeList", AnimePack.AnimeList, "anime");
+
+	for(auto It = AnimePack.AnimeList.CreateIterator(); It; ++It)
+	{
+		if(It->IsSetup)
+		{
+			AnimePack.Model.SetupAnimation = &(*It);
+			break;
+		}
+	}
 }
 void SerializeSsEffectFile(FSsEffectFile& EffectFile, SsXmlIArchiver* ar)
 {
