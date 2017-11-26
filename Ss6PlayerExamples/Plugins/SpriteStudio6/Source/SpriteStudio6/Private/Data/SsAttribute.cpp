@@ -238,7 +238,7 @@ void	GetSsEffectParamAnime( const FSsKeyframe* key, SsEffectAttr& v )
 	int iflags = 0;
 	if (v.independent)
 	{
-		iflags = iflags | SsEffectLoopFlag::EFFECT_LOOP_FLAG_INFINITY;
+		iflags = iflags | EFFECT_LOOP_FLAG_INFINITY;
 	}
 	v.loopflag = iflags;
 }
@@ -276,19 +276,19 @@ void	GetSsInstparamAnime( const FSsKeyframe* key , SsInstanceAttr& v )
 	int iflags = 0;
 	if (sinfinity)
 	{
-		iflags = iflags | SsInstanceLoopFlag::INSTANCE_LOOP_FLAG_INFINITY;
+		iflags = iflags | INSTANCE_LOOP_FLAG_INFINITY;
 	}
 	if (sreverse)
 	{
-		iflags = iflags | SsInstanceLoopFlag::INSTANCE_LOOP_FLAG_REVERSE;
+		iflags = iflags | INSTANCE_LOOP_FLAG_REVERSE;
 	}
 	if (spingpong)
 	{
-		iflags = iflags | SsInstanceLoopFlag::INSTANCE_LOOP_FLAG_PINGPONG;
+		iflags = iflags | INSTANCE_LOOP_FLAG_PINGPONG;
 	}
 	if (sindependent)
 	{
-		iflags = iflags | SsInstanceLoopFlag::INSTANCE_LOOP_FLAG_INDEPENDENT;
+		iflags = iflags | INSTANCE_LOOP_FLAG_INDEPENDENT;
 	}
 	v.loopflag = iflags;
 }

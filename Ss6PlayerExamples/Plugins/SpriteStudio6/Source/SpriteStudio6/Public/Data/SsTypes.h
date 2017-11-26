@@ -647,25 +647,17 @@ public:
 };
 
 // インスタンスアトリビュートのループフラグ 
-namespace SsInstanceLoopFlag
-{
-	enum
-	{
-		INSTANCE_LOOP_FLAG_INFINITY    = 1 << 0,
-		INSTANCE_LOOP_FLAG_REVERSE     = 1 << 1,
-		INSTANCE_LOOP_FLAG_PINGPONG    = 1 << 2,
-		INSTANCE_LOOP_FLAG_INDEPENDENT = 1 << 3,
-	};
-}
+enum {
+	INSTANCE_LOOP_FLAG_INFINITY    = 1 << 0,
+	INSTANCE_LOOP_FLAG_REVERSE     = 1 << 1,
+	INSTANCE_LOOP_FLAG_PINGPONG    = 1 << 2,
+	INSTANCE_LOOP_FLAG_INDEPENDENT = 1 << 3,
+};
 
 // エフェクトアトリビュートのループフラグ 
-namespace SsEffectLoopFlag
-{
-	enum
-	{
-		EFFECT_LOOP_FLAG_INFINITY = 1 << 0,
-	};
-}
+enum {
+	EFFECT_LOOP_FLAG_INFINITY = 1 << 0,
+};
 
 //メッシュの分割タイプ
 UENUM()
