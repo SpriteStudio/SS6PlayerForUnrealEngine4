@@ -209,20 +209,18 @@ public:
 
 //---------------------------------------------------------------
 /// ソートモード
-UENUM()
 namespace SsPartsSortMode
 {
-	enum Type
+	enum _enum
 	{
-		Prio,			///< 描画順は優先度で制御する。優先度を表示し、Ｚ座標を隠す。
-		Z,				///< 描画順はＺ座標で制御する。Ｚ座標を表示し、優先度を隠す。
-		Num,
-
-		Invalid = 254,
+		invalid = -1, 
+		prio,			///< 描画順は優先度で制御する。優先度を表示し、Ｚ座標を隠す。
+		z,				///< 描画順はＺ座標で制御する。Ｚ座標を表示し、優先度を隠す。
+		num
 	};
 }
-FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsPartsSortMode::Type> n);
-void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsPartsSortMode::Type>& out);
+FString __EnumToString_(SsPartsSortMode::_enum n);
+void __StringToEnum_(FString n , SsPartsSortMode::_enum& out);
 
 //---------------------------------------------------------------
 /// Animation Part Type

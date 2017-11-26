@@ -38,20 +38,20 @@ void 	__StringToEnum_( FString n , TEnumAsByte<SsPartType::Type>& out)
 
 //---------------------------------------------------------------
 //相互変換 SsPartsSortMode
-FString	__EnumToString_( TEnumAsByte<SsPartsSortMode::Type> n )
+FString	__EnumToString_(SsPartsSortMode::_enum n)
 {
-	if ( SsPartsSortMode::Invalid ) return "invalid";
-	if ( SsPartsSortMode::Prio ) return "prio";
-	if ( SsPartsSortMode::Z ) return "z";
+	if ( SsPartsSortMode::invalid ) return "invalid";
+	if ( SsPartsSortMode::prio ) return "prio";
+	if ( SsPartsSortMode::z ) return "z";
 	return "invalid";	
 }
 
-void	__StringToEnum_( FString n , TEnumAsByte<SsPartsSortMode::Type> &out )
+void	__StringToEnum_( FString n , SsPartsSortMode::_enum &out )
 {
-	out = SsPartsSortMode::Invalid;
-	if ( n == "invalid") out = SsPartsSortMode::Invalid;
-	if ( n == "prio") out = SsPartsSortMode::Prio;
-	if ( n == "z") out = SsPartsSortMode::Z;
+	out = SsPartsSortMode::invalid;
+	if ( n == "invalid") out = SsPartsSortMode::invalid;
+	if ( n == "prio") out = SsPartsSortMode::prio;
+	if ( n == "z") out = SsPartsSortMode::z;
 }
 
 //---------------------------------------------------------------
