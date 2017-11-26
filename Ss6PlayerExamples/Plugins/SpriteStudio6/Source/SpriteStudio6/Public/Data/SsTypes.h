@@ -433,24 +433,6 @@ namespace SsAttributeKind
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsAttributeKind::Type> n);
 void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsAttributeKind::Type>& out);
 
-UENUM()
-namespace SsKeyValueType
-{
-	enum Type
-	{
-		Bool = 0,
-		Float,
-		Int,
-		String,
-		Cellmap,
-		VertexAnime,
-		ColorAnime,
-		UserData,
-		Instance,
-
-		Unkown = 254
-	};
-}
 
 /// カラーブレンドキーのカラー値
 struct FSsColorBlendValue
