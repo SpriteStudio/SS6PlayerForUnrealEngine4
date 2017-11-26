@@ -130,15 +130,15 @@ void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 }
 
 //頂点カラーアニメデータの取得
-void	GetSsColorValue( const FSsKeyframe* key , FSsColorAnime& v )
+void	GetSsColorValue( const FSsKeyframe* key , SsColorAnime& v )
 {
 	TEnumAsByte<SsColorBlendTarget::Type> target;
 	__StringToEnum_( key->Value["target"].get<FString>() , target );
 	TEnumAsByte<SsBlendType::Type> blendtype;
 	__StringToEnum_( key->Value["blendType"].get<FString>() , blendtype);
 
-	v.BlendType = blendtype;
-	v.Target = target;
+	v.blendType = blendtype;
+	v.target = target;
 
 	if ( target == SsColorBlendTarget::Vertex )
 	{
@@ -147,22 +147,22 @@ void	GetSsColorValue( const FSsKeyframe* key , FSsColorAnime& v )
 		SsHash lb = key->Value["LB"].get<SsHash>();
 		SsHash rb = key->Value["RB"].get<SsHash>();
 
-		ConvertStringToSsColor( lt["rgba"].get<FString>() , v.Colors[0].rgba);
-		v.Colors[0].rate = lt["rate"].get<float>();
+		ConvertStringToSsColor( lt["rgba"].get<FString>() , v.colors[0].rgba);
+		v.colors[0].rate = lt["rate"].get<float>();
 
-		ConvertStringToSsColor( rt["rgba"].get<FString>() , v.Colors[1].rgba);
-		v.Colors[1].rate = rt["rate"].get<float>();
+		ConvertStringToSsColor( rt["rgba"].get<FString>() , v.colors[1].rgba);
+		v.colors[1].rate = rt["rate"].get<float>();
 
-		ConvertStringToSsColor( lb["rgba"].get<FString>() , v.Colors[2].rgba);
-		v.Colors[2].rate = lb["rate"].get<float>();
+		ConvertStringToSsColor( lb["rgba"].get<FString>() , v.colors[2].rgba);
+		v.colors[2].rate = lb["rate"].get<float>();
 
-		ConvertStringToSsColor( rb["rgba"].get<FString>() , v.Colors[3].rgba);
-		v.Colors[3].rate = rb["rate"].get<float>();
+		ConvertStringToSsColor( rb["rgba"].get<FString>() , v.colors[3].rgba);
+		v.colors[3].rate = rb["rate"].get<float>();
 
 	}else{
 		SsHash color = key->Value["color"].get<SsHash>();
-		ConvertStringToSsColor( color["rgba"].get<FString>() , v.Color.rgba);
-		v.Color.rate = color["rate"].get<float>();
+		ConvertStringToSsColor( color["rgba"].get<FString>() , v.color.rgba);
+		v.color.rate = color["rate"].get<float>();
 	}
 
 }

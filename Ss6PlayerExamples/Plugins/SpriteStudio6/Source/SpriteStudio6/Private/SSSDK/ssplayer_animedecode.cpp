@@ -417,7 +417,7 @@ void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, 
 
 }
 
-void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsColorAnime& v )
+void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsColorAnime& v )
 {
 	//☆Mapを使っての参照なので高速化必須
 	if ( rightkey == 0 )
@@ -426,8 +426,8 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 		return ;
 	}
 	
-	FSsColorAnime leftv;
-	FSsColorAnime rightv;
+	SsColorAnime leftv;
+	SsColorAnime rightv;
 
 	GetSsColorValue( leftkey , leftv );
 	GetSsColorValue( rightkey , rightv );
@@ -446,27 +446,27 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 	float now = (float)(time - leftkey->Time) / range;
 
 	//初期化しておく
-	v.Color.rgba.a = 0;	
-	v.Color.rgba.r = 0;	
-	v.Color.rgba.g = 0;	
-	v.Color.rgba.b = 0;	
-	v.Target = SsColorBlendTarget::Vertex;
-	v.BlendType = leftv.BlendType;
+	v.color.rgba.a = 0;	
+	v.color.rgba.r = 0;	
+	v.color.rgba.g = 0;	
+	v.color.rgba.b = 0;	
+	v.target = SsColorBlendTarget::Vertex;
+	v.blendType = leftv.blendType;
 
 	now = SsInterpolate( leftkey->IpType , now , 0.0f , 1.0f , &curve );	
 
-	if ( leftv.Target == SsColorBlendTarget::Vertex )
+	if ( leftv.target == SsColorBlendTarget::Vertex )
 	{
-		if ( rightv.Target == SsColorBlendTarget::Vertex )
+		if ( rightv.target == SsColorBlendTarget::Vertex )
 		{
 			//両方とも４頂点カラー
 			for ( int i = 0 ; i < 4 ; i++ )
 			{
-				v.Colors[i].rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rate , rightv.Colors[i].rate  , &curve ) , 0.0f , 1.0f );	
-				v.Colors[i].rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.a , rightv.Colors[i].rgba.a  , &curve ) , 0.0f , 255.0f );	
-				v.Colors[i].rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.r , rightv.Colors[i].rgba.r  , &curve ) , 0.0f , 255.0f );	
-				v.Colors[i].rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.g , rightv.Colors[i].rgba.g  , &curve ) , 0.0f , 255.0f );	
-				v.Colors[i].rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.b , rightv.Colors[i].rgba.b  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rate , rightv.colors[i].rate  , &curve ) , 0.0f , 1.0f );	
+				v.colors[i].rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.a , rightv.colors[i].rgba.a  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.r , rightv.colors[i].rgba.r  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.g , rightv.colors[i].rgba.g  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.b , rightv.colors[i].rgba.b  , &curve ) , 0.0f , 255.0f );	
 			}
 		}
 		else
@@ -474,37 +474,37 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 			//左は４頂点、右は単色
 			for ( int i = 0 ; i < 4 ; i++ )
 			{
-				v.Colors[i].rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rate , rightv.Color.rate  , &curve ) , 0.0f , 1.0f );	
-				v.Colors[i].rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.a , rightv.Color.rgba.a  , &curve ) , 0.0f , 255.0f );	
-				v.Colors[i].rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.r , rightv.Color.rgba.r  , &curve ) , 0.0f , 255.0f );	
-				v.Colors[i].rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.g , rightv.Color.rgba.g  , &curve ) , 0.0f , 255.0f );	
-				v.Colors[i].rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Colors[i].rgba.b , rightv.Color.rgba.b  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rate , rightv.color.rate  , &curve ) , 0.0f , 1.0f );	
+				v.colors[i].rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.a , rightv.color.rgba.a  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.r , rightv.color.rgba.r  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.g , rightv.color.rgba.g  , &curve ) , 0.0f , 255.0f );	
+				v.colors[i].rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.colors[i].rgba.b , rightv.color.rgba.b  , &curve ) , 0.0f , 255.0f );	
 			}
 		}
 	}
 	else
 	{
-		if ( rightv.Target == SsColorBlendTarget::Vertex )
+		if ( rightv.target == SsColorBlendTarget::Vertex )
 		{
 			//左は単色、右は４頂点カラー
 			for ( int i = 0 ; i < 4 ; i++ )
 			{
-				v.Colors[i].rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rate , rightv.Colors[i].rate  , &curve ) , 0.0f , 1.0f );	
-				v.Colors[i].rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.a , rightv.Colors[i].rgba.a  , &curve ) , 0.0f , 255.0f );		
-				v.Colors[i].rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.r , rightv.Colors[i].rgba.r  , &curve ) , 0.0f , 255.0f );		
-				v.Colors[i].rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.g , rightv.Colors[i].rgba.g  , &curve ) , 0.0f , 255.0f );		
-				v.Colors[i].rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.b , rightv.Colors[i].rgba.b  , &curve ) , 0.0f , 255.0f );		
+				v.colors[i].rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rate , rightv.colors[i].rate  , &curve ) , 0.0f , 1.0f );	
+				v.colors[i].rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.a , rightv.colors[i].rgba.a  , &curve ) , 0.0f , 255.0f );		
+				v.colors[i].rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.r , rightv.colors[i].rgba.r  , &curve ) , 0.0f , 255.0f );		
+				v.colors[i].rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.g , rightv.colors[i].rgba.g  , &curve ) , 0.0f , 255.0f );		
+				v.colors[i].rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.b , rightv.colors[i].rgba.b  , &curve ) , 0.0f , 255.0f );		
 			}
 		}
 		else
 		{
 			//両方とも単色
-			v.Color.rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rate , rightv.Color.rate  , &curve ) , 0.0f , 1.0f );	
-			v.Color.rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.a , rightv.Color.rgba.a  , &curve ) , 0.0f , 255.0f );	
-			v.Color.rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.r , rightv.Color.rgba.r  , &curve ) , 0.0f , 255.0f );	
-			v.Color.rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.g , rightv.Color.rgba.g  , &curve ) , 0.0f , 255.0f );	
-			v.Color.rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.Color.rgba.b , rightv.Color.rgba.b  , &curve) , 0.0f , 255.0f );	
-			v.Target = SsColorBlendTarget::Whole;
+			v.color.rate = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rate , rightv.color.rate  , &curve ) , 0.0f , 1.0f );	
+			v.color.rgba.a = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.a , rightv.color.rgba.a  , &curve ) , 0.0f , 255.0f );	
+			v.color.rgba.r = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.r , rightv.color.rgba.r  , &curve ) , 0.0f , 255.0f );	
+			v.color.rgba.g = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.g , rightv.color.rgba.g  , &curve ) , 0.0f , 255.0f );	
+			v.color.rgba.b = clamp( SsInterpolate( SsInterpolationType::Linear , now , leftv.color.rgba.b , rightv.color.rgba.b  , &curve) , 0.0f , 255.0f );	
+			v.target = SsColorBlendTarget::Whole;
 		}
 	}
 

@@ -478,19 +478,19 @@ struct SsPartsColorAnime
 };
 
 /// カラーブレンド使用時のブレンドタイプとカラー値
-struct FSsColorAnime
+struct SsColorAnime
 {
-	SsColorBlendTarget::Type	Target;		//ブレンドの適用方法  単色(全体) , 頂点単位 
-	SsBlendType::Type			BlendType;	//ブレンド種別 (mix　乗算　加算　減算）
-	SsColorBlendValue			Color;		//単色。全体の場合に使用されるカラー値
-	SsColorBlendValue			Colors[4];	//頂点単位の場合使用されるカラー値
+	SsColorBlendTarget::Type	target;		//ブレンドの適用方法  単色(全体) , 頂点単位 
+	SsBlendType::Type			blendType;	//ブレンド種別 (mix　乗算　加算　減算）
+	SsColorBlendValue			color;		//単色。全体の場合に使用されるカラー値
+	SsColorBlendValue			colors[4];	//頂点単位の場合使用されるカラー値
 
-	SsColorBlendValue&		GetColors(int index){ return Colors[index];}
-	int							GetTargetToInt(){ return (int)Target;}
-	int							GetBlendTypeToInt(){ return (int)BlendType;}
-	FSsColorAnime()
-		: Target( SsColorBlendTarget::Invalid )
-		, BlendType( SsBlendType::Invalid )
+	SsColorBlendValue&			getColors(int index){ return colors[index];}
+	int							getTargetToInt(){ return (int)target;}
+	int							getBlendTypeToInt(){ return (int)blendType;}
+	SsColorAnime()
+		: target( SsColorBlendTarget::Invalid )
+		, blendType( SsBlendType::Invalid )
 		{}
 
 };

@@ -127,7 +127,7 @@ public:
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , bool& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsCellValue& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsPartsColorAnime& v );
-	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsColorAnime& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsColorAnime& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsVertexAnime& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsInstanceAttr& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsEffectAttr& v );

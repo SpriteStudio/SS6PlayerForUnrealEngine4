@@ -49,7 +49,7 @@ struct SsPartState
 
 	SsCellValue		cellValue;		///< セルアニメの値
 	SsPartsColorAnime partsColorValue;///< カラーアニメの値
-	FSsColorAnime	colorValue;		///< カラーアニメの値
+	SsColorAnime	colorValue;		///< カラーアニメの値
 	FSsVertexAnime	vertexValue;	///< 頂点アニメの値
 	FSsEffectAttr	effectValue;	///< エフェクトの値
 	int				effectTime;
