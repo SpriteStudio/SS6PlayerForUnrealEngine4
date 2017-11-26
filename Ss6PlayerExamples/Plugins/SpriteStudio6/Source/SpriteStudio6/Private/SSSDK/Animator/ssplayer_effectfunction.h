@@ -1,7 +1,7 @@
 ﻿#ifndef __SSPLAYER_EFFECTFUNCTION__
 #define __SSPLAYER_EFFECTFUNCTION__
 
-#include "ssplayer_effect.h"
+//#include "ssplayer_effect.h"
 #include "ssplayer_effect2.h"
 
 class	SsEffectFunctionExecuter
