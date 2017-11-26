@@ -27,8 +27,7 @@ namespace UnrealBuildTool.Rules
 			PrivateIncludePaths.AddRange(
 				new string[] {
 					"SpriteStudio6/Private",
-					"SpriteStudio6/Private/SSSDK/Animator",
-					"SpriteStudio6/Private/SSSDK/Loader",
+					"SpriteStudio6/Private/SSSDK",
 					"SpriteStudio6/Private/Actor",
 					"SpriteStudio6/Private/Component",
 					"SpriteStudio6/Private/Data",
