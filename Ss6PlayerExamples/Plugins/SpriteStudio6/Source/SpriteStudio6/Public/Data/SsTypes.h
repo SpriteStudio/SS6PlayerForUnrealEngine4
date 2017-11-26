@@ -538,12 +538,12 @@ namespace SsIkRotationArrow
 {
 	enum Type
 	{
-		arrowfree,
-		clockwise,
-		anticlockwise,
-		num,
+		Arrowfree,
+		Clockwise,
+		Anticlockwise,
+		Num,
 
-		unknown = 254,
+		Unknown = 254,
 	};
 }
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsIkRotationArrow::Type> n);

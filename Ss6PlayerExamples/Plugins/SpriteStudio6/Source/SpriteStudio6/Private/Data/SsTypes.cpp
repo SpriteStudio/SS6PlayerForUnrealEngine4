@@ -360,19 +360,19 @@ TEnumAsByte<SsBlendType::Type> SsRenderBlendTypeToBlendType(TEnumAsByte<SsRender
 //相互変換 SsIkRotationArrow
 FString	__EnumToString_( TEnumAsByte<SsIkRotationArrow::Type> n )
 {
-	if ( n == SsIkRotationArrow::arrowfree)		return "arrowfree";
-	if ( n == SsIkRotationArrow::clockwise)		return "clockwise";
-	if ( n == SsIkRotationArrow::anticlockwise)	return "anticlockwise";
+	if ( n == SsIkRotationArrow::Arrowfree)		return "arrowfree";
+	if ( n == SsIkRotationArrow::Clockwise)		return "clockwise";
+	if ( n == SsIkRotationArrow::Anticlockwise)	return "anticlockwise";
 
 	return "unknown";
 }
 
 void 	__StringToEnum_( FString n , TEnumAsByte<SsIkRotationArrow::Type>& out)
 {
-	out =  SsIkRotationArrow::unknown;
-	if ( n == "arrowfree")		out = SsIkRotationArrow::arrowfree;
-	if ( n == "clockwise")		out = SsIkRotationArrow::clockwise;
-	if ( n == "anticlockwise")	out = SsIkRotationArrow::anticlockwise;
+	out =  SsIkRotationArrow::Unknown;
+	if ( n == "arrowfree")		out = SsIkRotationArrow::Arrowfree;
+	if ( n == "clockwise")		out = SsIkRotationArrow::Clockwise;
+	if ( n == "anticlockwise")	out = SsIkRotationArrow::Anticlockwise;
 }
 
 //---------------------------------------------------------------

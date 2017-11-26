@@ -121,7 +121,7 @@ public:
 		WeightPosition = FVector2D::ZeroVector;
 		WeightImpact = 0.f;
 		IKDepth = 0;
-		IKRotationArrow = SsIkRotationArrow::arrowfree;
+		IKRotationArrow = SsIkRotationArrow::Arrowfree;
 
 		for (int i = 0; i < (int32)SsAttributeKind::Num; ++i)
 		{
