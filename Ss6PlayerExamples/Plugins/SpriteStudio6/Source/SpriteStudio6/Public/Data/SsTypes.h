@@ -435,12 +435,12 @@ void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsAttributeKind::
 
 
 /// カラーブレンドキーのカラー値
-struct FSsColorBlendValue
+struct SsColorBlendValue
 {
-	SsColor	Rgba;	///カラー値
-	float	Rate;	///反映率
+	SsColor		rgba;	///カラー値
+	float		rate;	///反映率
 
-	FSsColorBlendValue(): Rate(0){}
+	SsColorBlendValue(): rate(0){}
 
 };
 
@@ -465,10 +465,10 @@ struct SsPartsColorAnime
 {
 	SsColorBlendTarget::Type	target;		//ブレンドの適用方法  単色(全体) , 頂点単位 
 	SsBlendType::Type			blendType;	//ブレンド種別 (mix　乗算　加算　減算）
-	FSsColorBlendValue			color;		//単色。全体の場合に使用されるカラー値
-	FSsColorBlendValue			colors[4];	//頂点単位の場合使用されるカラー値
+	SsColorBlendValue			color;		//単色。全体の場合に使用されるカラー値
+	SsColorBlendValue			colors[4];	//頂点単位の場合使用されるカラー値
 
-	FSsColorBlendValue&			getColors(int index) { return colors[index]; }
+	SsColorBlendValue&			getColors(int index) { return colors[index]; }
 	int							getTargetToInt() { return (int)target; }
 	int							getBlendTypeToInt() { return (int)blendType; }
 	SsPartsColorAnime() :
@@ -482,10 +482,10 @@ struct FSsColorAnime
 {
 	SsColorBlendTarget::Type	Target;		//ブレンドの適用方法  単色(全体) , 頂点単位 
 	SsBlendType::Type			BlendType;	//ブレンド種別 (mix　乗算　加算　減算）
-	FSsColorBlendValue			Color;		//単色。全体の場合に使用されるカラー値
-	FSsColorBlendValue			Colors[4];	//頂点単位の場合使用されるカラー値
+	SsColorBlendValue			Color;		//単色。全体の場合に使用されるカラー値
+	SsColorBlendValue			Colors[4];	//頂点単位の場合使用されるカラー値
 
-	FSsColorBlendValue&		GetColors(int index){ return Colors[index];}
+	SsColorBlendValue&		GetColors(int index){ return Colors[index];}
 	int							GetTargetToInt(){ return (int)Target;}
 	int							GetBlendTypeToInt(){ return (int)BlendType;}
 	FSsColorAnime()
