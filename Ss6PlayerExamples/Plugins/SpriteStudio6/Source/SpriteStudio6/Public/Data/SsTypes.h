@@ -605,44 +605,44 @@ public:
 	{}
 };
 
-class FSsInstanceAttr
+class SsInstanceAttr
 {
 public:
-	bool	Infinity;		///無限ループフラグ
-	bool	Reverse;		///逆再生フラグ
-	bool	Pingpong;		///往復再生フラグ
-	bool	Independent;	///独立動作フラグ
-	int		LoopFlag;		///ループフラグをビット対応でまとめたもの
-	int		LoopNum;		///ループ回数　無限ループフラグ=trueの時には無効
-	FName	StartLabel;		///再生開始位置 ラベル名称
-	int		StartOffset;	///再生開始位置 ラベル名称からのオフセット
-	FName	EndLabel;		///再生終了位置 ラベル名称
-	int		EndOffset;		///再生終了位置 ラベル名称からのオフセット
-	float	Speed;			///再生スピード
-	int		StartFrame;		///ラベル位置とオフセット位置を加えた実際のフレーム数
-	int		EndFrame;		///ラベル位置とオフセット位置を加えた実際のフレーム数
+	bool   		infinity;		///無限ループフラグ
+	bool   		reverse;		///逆再生フラグ
+	bool   		pingpong;		///往復再生フラグ
+	bool		independent;	///独立動作フラグ
+	int			loopflag;		///ループフラグをビット対応でまとめたもの
+	int			loopNum;		///ループ回数　無限ループフラグ=trueの時には無効
+	FName		startLabel;		///再生開始位置 ラベル名称
+	int			startOffset;	///再生開始位置 ラベル名称からのオフセット
+	FName		endLabel;		///再生終了位置 ラベル名称
+	int			endOffset;		///再生終了位置 ラベル名称からのオフセット
+	float       speed;			///再生スピード
+	int			startFrame;		///ラベル位置とオフセット位置を加えた実際のフレーム数
+	int			endFrame;		///ラベル位置とオフセット位置を加えた実際のフレーム数
 
 
-	//テンポラリ <-エディタ用計算値の可能性もあるので後で整理
-	int			CurKeyframe; //この値があるキーフレーム値 (計算値）
-	float		LiveFrame;	//再生時間の累積
+								//テンポラリ <-エディタ用計算値の可能性もあるので後で整理
+	int         curKeyframe; //この値があるキーフレーム値 (計算値）
+	float		liveFrame;	//再生時間の累積
 
-	FSsInstanceAttr():
-		Infinity( false ),
-		Reverse( false ),
-		Pingpong( false ),
-		Independent( false ),
-		LoopFlag(0),
-		LoopNum( 1 ),
-		StartLabel("_start"),
-		StartOffset(0),
-		EndLabel("_end"),
-		EndOffset(0),
-		Speed(1.0f),
-		StartFrame(0),
-		EndFrame(0),
-		CurKeyframe( 0 ),
-		LiveFrame(0.f)
+	SsInstanceAttr():
+		infinity( false ),
+		reverse( false ),
+		pingpong( false ),
+		independent(false),
+		loopflag(0),
+		loopNum( 1 ),
+		startLabel("_start"),
+		startOffset(0),
+		endLabel("_end"),
+		endOffset(0),
+		curKeyframe( 0 ),
+		speed(1.0f),
+		startFrame(0),
+		endFrame(0),
+		liveFrame(0.0f)
 	{}
 };
 

@@ -78,20 +78,20 @@ void	SsPartState::init()
 	effectseed = 0;
 	effectTime = 0;
 
-	instanceValue.Infinity = false;
-	instanceValue.Reverse = false;
-	instanceValue.Pingpong = false;
-	instanceValue.Independent = false;
-	instanceValue.LoopFlag = 0;
-	instanceValue.LoopNum = 1;
-	instanceValue.StartLabel = "_start";
-	instanceValue.StartOffset = 0;
-	instanceValue.EndLabel = "_end";
-	instanceValue.EndOffset = 0;
-	instanceValue.CurKeyframe = 0;
-	instanceValue.Speed = 1.0f;
-	instanceValue.StartFrame = 0;
-	instanceValue.EndFrame = 0;
+	instanceValue.infinity = false;
+	instanceValue.reverse = false;
+	instanceValue.pingpong = false;
+	instanceValue.independent = false;
+	instanceValue.loopflag = 0;
+	instanceValue.loopNum = 1;
+	instanceValue.startLabel = "_start";
+	instanceValue.startOffset = 0;
+	instanceValue.endLabel = "_end";
+	instanceValue.endOffset = 0;
+	instanceValue.curKeyframe = 0;
+	instanceValue.speed = 1.0f;
+	instanceValue.startFrame = 0;
+	instanceValue.endFrame = 0;
 //	instanceValue.liveFrame = 0.0f;	//加算値なので初期化してはいけない
 	
 	masklimen = 0;

@@ -243,7 +243,7 @@ void	GetSsEffectParamAnime( const FSsKeyframe* key, SsEffectAttr& v )
 	v.loopflag = iflags;
 }
 
-void	GetSsInstparamAnime( const FSsKeyframe* key , FSsInstanceAttr& v )
+void	GetSsInstparamAnime( const FSsKeyframe* key , SsInstanceAttr& v )
 {
 	const FString& sstartLabel = key->Value["startLabel"].get<FString>();
 	const int& sstartOffset = key->Value["startOffset"].get<int>();
@@ -259,18 +259,18 @@ void	GetSsInstparamAnime( const FSsKeyframe* key , FSsInstanceAttr& v )
 	const bool& sindependent = key->Value["independent"].get<bool>();
 
 
-	v.StartLabel = FName(*sstartLabel);
-	v.StartOffset = sstartOffset;
-	v.EndLabel = FName(*sendLabel);
-	v.EndOffset = sendOffset;
-	v.Speed = sspeed;
+	v.startLabel = FName(*sstartLabel);
+	v.startOffset = sstartOffset;
+	v.endLabel = FName(*sendLabel);
+	v.endOffset = sendOffset;
+	v.speed = sspeed;
 
-	v.LoopNum = sloopNum;
-	v.Infinity = sinfinity;
-	v.Reverse = sreverse;
-	v.Pingpong = spingpong;
-	v.Independent = sindependent;
-	v.CurKeyframe = key->Time;
+	v.loopNum = sloopNum;
+	v.infinity = sinfinity;
+	v.reverse = sreverse;
+	v.pingpong = spingpong;
+	v.independent = sindependent;
+	v.curKeyframe = key->Time;
 
 
 	int iflags = 0;
@@ -290,7 +290,7 @@ void	GetSsInstparamAnime( const FSsKeyframe* key , FSsInstanceAttr& v )
 	{
 		iflags = iflags | SsInstanceLoopFlag::INSTANCE_LOOP_FLAG_INDEPENDENT;
 	}
-	v.LoopFlag = iflags;
+	v.loopflag = iflags;
 }
 
 bool StringToPoint2(const FString& str, FVector2D& point)

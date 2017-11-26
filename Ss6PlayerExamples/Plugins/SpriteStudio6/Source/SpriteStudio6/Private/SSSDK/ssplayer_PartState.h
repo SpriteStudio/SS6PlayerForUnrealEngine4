@@ -62,7 +62,7 @@ struct SsPartState
 	bool			is_vertex_transform;	/// 頂点変形が使用される (描画コストが高いシェーダが使われるためフラグ化)
 	bool			is_localAlpha;			/// ローカル不透明度を使用している
 
-	FSsInstanceAttr	instanceValue;
+	SsInstanceAttr	instanceValue;
 
 	SsBlendType::Type	alphaBlendType;
 		

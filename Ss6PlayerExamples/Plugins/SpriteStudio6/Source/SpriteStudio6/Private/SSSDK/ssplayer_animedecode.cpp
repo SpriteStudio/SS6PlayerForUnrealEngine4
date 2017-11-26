@@ -523,7 +523,7 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 }
 
 //インスタンスアニメデータ
-void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsInstanceAttr& v )
+void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsInstanceAttr& v )
 {
 	//補間は行わないので、常に左のキーを出力する
 	GetSsInstparamAnime( leftkey , v );
@@ -900,7 +900,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 						//先頭にキーが無い場合
 						if ( t  > nowTime )
 						{
-							FSsInstanceAttr d;
+							SsInstanceAttr d;
 							state->instanceValue = d;
 						}
 					}
@@ -1160,38 +1160,38 @@ void	SsAnimeDecoder::updateInstance( int nowTime , FSsPart* part , FSsPartAnime*
 	//state->refAnime->update();
 
 	FSsAnimation* anime = state->refAnime->curAnimation;
-	const FSsInstanceAttr& instanceValue = state->instanceValue;
+	const SsInstanceAttr& instanceValue = state->instanceValue;
 
     //プレイヤー等では再生開始時にいったん計算してしまって値にしてしまった方がいい。
     //エディター側のロジックなのでそのまま検索する
     //インスタンスアニメ内のスタート位置
-    int	startframe = CalcAnimeLabel2Frame( instanceValue.StartLabel , instanceValue.StartOffset, anime);
-    int	endframe = CalcAnimeLabel2Frame( instanceValue.EndLabel , instanceValue.EndOffset, anime);
+    int	startframe = CalcAnimeLabel2Frame( instanceValue.startLabel , instanceValue.startOffset, anime);
+    int	endframe = CalcAnimeLabel2Frame( instanceValue.endLabel , instanceValue.endOffset, anime);
 
-    state->instanceValue.StartFrame = startframe;		//ラベル位置とオフセット位置を加えた実際のフレーム数
-    state->instanceValue.EndFrame = endframe;			//ラベル位置とオフセット位置を加えた実際のフレーム数
+    state->instanceValue.startFrame = startframe;		//ラベル位置とオフセット位置を加えた実際のフレーム数
+    state->instanceValue.endFrame = endframe;			//ラベル位置とオフセット位置を加えた実際のフレーム数
 
 
     //タイムライン上の時間 （絶対時間）
 	int time = nowTime;
 
 	//独立動作の場合
-	if ( instanceValue.Independent )
+	if ( instanceValue.independent )
 	{
 		//float delta = animeState->frame - parentBackTime;
 		float delta = this->frameDelta;
 
-		state->instanceValue.LiveFrame+= ( delta * instanceValue.Speed );
+		state->instanceValue.liveFrame+= ( delta * instanceValue.speed );
 		//parentBackTime = animeState->frame;
-		time = (int)instanceValue.LiveFrame;
+		time = (int)instanceValue.liveFrame;
 
 	}
 
     //このインスタンスが配置されたキーフレーム（絶対時間）
-    int	selfTopKeyframe = instanceValue.CurKeyframe;
+    int	selfTopKeyframe = instanceValue.curKeyframe;
 
 
-    int reftime = ( time - selfTopKeyframe) * instanceValue.Speed;
+    int reftime = ( time - selfTopKeyframe) * instanceValue.speed;
     //int	reftime = (time*instanceValue.speed) - selfTopKeyframe; //開始から現在の経過時間
 	if ( reftime < 0 ) return ; //そもそも生存時間に存在していない
 	if ( selfTopKeyframe > time ) return ;
@@ -1204,13 +1204,13 @@ void	SsAnimeDecoder::updateInstance( int nowTime , FSsPart* part , FSsPartAnime*
 
 	int	nowloop =  (reftime / inst_scale);	//現在までのループ数
 
-    int checkloopnum = instanceValue.LoopNum;
+    int checkloopnum = instanceValue.loopNum;
 
 	//pingpongの場合では２倍にする
-    if ( instanceValue.Pingpong ) checkloopnum = checkloopnum * 2;
+    if ( instanceValue.pingpong ) checkloopnum = checkloopnum * 2;
 
 	//無限ループで無い時にループ数をチェック
-    if ( !instanceValue.Infinity )   //無限フラグが有効な場合はチェックせず
+    if ( !instanceValue.infinity )   //無限フラグが有効な場合はチェックせず
 	{
         if ( nowloop >= checkloopnum )
 		{
@@ -1224,8 +1224,8 @@ void	SsAnimeDecoder::updateInstance( int nowTime , FSsPart* part , FSsPartAnime*
     //参照位置を決める
     //現在の再生フレームの計算
     int _time = 0;
-	bool	reverse = instanceValue.Reverse;
-	if ( instanceValue.Pingpong && (nowloop % 2 == 1) )
+	bool	reverse = instanceValue.reverse;
+	if ( instanceValue.pingpong && (nowloop % 2 == 1) )
 	{
 		if (reverse)
 		{
