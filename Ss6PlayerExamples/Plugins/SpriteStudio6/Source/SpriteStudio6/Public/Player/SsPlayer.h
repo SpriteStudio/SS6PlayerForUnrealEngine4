@@ -4,6 +4,7 @@
 #include "SsPlayerTickResult.h"
 
 class USs6Project;
+class SsAnimeDecoder;
 
 //
 // SpriteStudioデータの再生制御 
@@ -57,6 +58,8 @@ public:
 private:
 	void TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result);
 	void FindUserDataInInterval(FSsPlayerTickResult& Result, float Start, float End);
+	void CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot);
+	bool CreateRenderPart(FSsRenderPart& OutRenderPart, const struct SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot);
 
 public:
 	float PlayRate;		// 再生速度 
@@ -71,7 +74,7 @@ public:
 
 private:
 	TWeakObjectPtr<USs6Project> SsProject;
-	class SsAnimeDecoder* Decoder;
+	SsAnimeDecoder* Decoder;
 	TSharedPtr<class SsCellMapList> CellMapList;
 	bool bPlaying;
 	bool bFirstTick;
