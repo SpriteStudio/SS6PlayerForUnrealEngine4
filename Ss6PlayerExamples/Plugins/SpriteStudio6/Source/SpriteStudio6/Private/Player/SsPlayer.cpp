@@ -17,6 +17,7 @@ FSsPlayer::FSsPlayer()
 	, bFlipV(false)
 	, SsProject(nullptr)
 	, Decoder(nullptr)
+	, CellMapList(nullptr)
 	, bPlaying(false)
 	, bFirstTick(false)
 	, AnimPivot(0.f,0.f)
@@ -31,6 +32,10 @@ FSsPlayer::~FSsPlayer()
 	if(nullptr != Decoder)
 	{
 		delete Decoder;
+	}
+	if(nullptr != CellMapList)
+	{
+		delete CellMapList;
 	}
 }
 
@@ -48,7 +53,7 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 		delete Decoder;
 	}
 	Decoder = new SsAnimeDecoder();
-	CellMapList = MakeShareable(new SsCellMapList());
+	CellMapList = new SsCellMapList();
 
 	PlayingAnimPackIndex = -1;
 	PlayingAnimationIndex = -1;
@@ -558,7 +563,7 @@ bool FSsPlayer::Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 StartF
 	if(NULL == Animation){ return false; }
 
 	CellMapList->set(SsProject.Get(), AnimPack);
-	Decoder->setAnimation(&AnimPack->Model, Animation, CellMapList.Get(), SsProject.Get());
+	Decoder->setAnimation(&AnimPack->Model, Animation, CellMapList, SsProject.Get());
 	Decoder->setPlayFrame( (float)StartFrame );
 
 	bPlaying = true;

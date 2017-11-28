@@ -5,6 +5,7 @@
 
 class USs6Project;
 class SsAnimeDecoder;
+class SsCellMapList;
 
 //
 // SpriteStudioデータの再生制御 
@@ -75,7 +76,7 @@ public:
 private:
 	TWeakObjectPtr<USs6Project> SsProject;
 	SsAnimeDecoder* Decoder;
-	TSharedPtr<class SsCellMapList> CellMapList;
+	SsCellMapList* CellMapList;
 	bool bPlaying;
 	bool bFirstTick;
 	FVector2D AnimPivot;
