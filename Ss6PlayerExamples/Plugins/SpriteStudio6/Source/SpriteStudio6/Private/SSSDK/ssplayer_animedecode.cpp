@@ -156,12 +156,12 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 
 		SsPartAndAnime _temp;
 		_temp.Key = p;
-		_temp.Value = partAnimeDic[p->PartName];
+		_temp.Value = partAnimeDic.Contains(p->PartName) ? partAnimeDic[p->PartName] : nullptr;
 		partAnime.Add( _temp );
 
 		SsPartAndAnime _tempSetup;
 		_tempSetup.Key = p;
-		_tempSetup.Value = setupPartAnimeDic[p->PartName];
+		_tempSetup.Value = setupPartAnimeDic.Contains(p->PartName) ? setupPartAnimeDic[p->PartName] : nullptr;
 		setupPartAnime.Add(_tempSetup);
 
 		//親子関係の設定

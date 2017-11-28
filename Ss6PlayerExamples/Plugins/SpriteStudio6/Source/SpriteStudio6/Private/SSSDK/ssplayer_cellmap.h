@@ -42,7 +42,7 @@ public:
 		size_t num = cellMap->Cells.Num();
 		for ( size_t i = 0 ; i < num ; i++ )
 		{
-			CellDic[cellMap->Cells[i].CellName] = &cellMap->Cells[i];
+			CellDic.Add(cellMap->Cells[i].CellName, &cellMap->Cells[i]);
 		}
 /*
 		if (!SSTextureFactory::isExist() )
