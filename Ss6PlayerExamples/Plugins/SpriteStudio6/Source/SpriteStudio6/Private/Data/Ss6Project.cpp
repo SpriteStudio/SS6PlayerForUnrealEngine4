@@ -97,7 +97,7 @@ const FSsCellMap* USs6Project::FindCellMap(const FName& InCellMapName) const
 {
 	for(auto It = CellmapList.CreateConstIterator(); It; ++It)
 	{
-		if(InCellMapName == It->CellMapName)
+		if(InCellMapName == It->FileName)
 		{
 			return &(*It);
 		}
