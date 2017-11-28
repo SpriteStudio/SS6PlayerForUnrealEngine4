@@ -95,8 +95,8 @@ public:
 	SsAnimeDecoder();
 	virtual ~SsAnimeDecoder()
 	{
-		if ( curCellMapManager )
-			delete curCellMapManager;
+//		if ( curCellMapManager )
+//			delete curCellMapManager;
 
 		if ( partState )
 			delete [] partState;
