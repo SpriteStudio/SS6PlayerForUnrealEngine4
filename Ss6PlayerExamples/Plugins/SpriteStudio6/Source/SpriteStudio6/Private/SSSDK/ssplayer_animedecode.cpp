@@ -694,7 +694,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	state->init();
 	state->inheritRates = part->InheritRates;
 
-	FSsPartAnime* setupAnime = setupPartAnimeDic[part->PartName];	//セットアップアニメを取得する
+	FSsPartAnime* setupAnime = setupPartAnimeDic.Contains(part->PartName) ? setupPartAnimeDic[part->PartName] : nullptr;	//セットアップアニメを取得する
 
 	if ( ( anime == 0 ) && ( setupAnime == 0 ) ){
 		state->hide = true;
