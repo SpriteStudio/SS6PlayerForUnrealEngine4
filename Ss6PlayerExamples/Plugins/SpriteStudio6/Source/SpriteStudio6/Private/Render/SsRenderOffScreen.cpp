@@ -288,6 +288,26 @@ namespace
 					// カラーブレンドモードの設定 
 					switch(RenderPart.ColorBlendType)
 					{
+						case SsBlendType::Mix:
+						case SsBlendType::Mul:
+						case SsBlendType::Add:
+						case SsBlendType::Sub:
+							{
+								Vert.ColorBlend.X = (float)(RenderPart.ColorBlendType + 0.01f);
+							} break;
+						case SsBlendType::MulAlpha:
+						case SsBlendType::Screen:
+						case SsBlendType::Exclusion:
+						case SsBlendType::Invert:
+							{
+								// 現バージョンでは未実装. Mixとして扱う. 
+								Vert.ColorBlend.X = 0.01f;
+							} break;
+						case SsBlendType::Effect:
+							{
+								// Effect
+								Vert.ColorBlend.X = 6.01f;
+							} break;
 						case SsBlendType::Invalid:
 							{
 								if (RenderPart.AlphaBlendType == SsBlendType::Mix)
@@ -300,15 +320,9 @@ namespace
 									Vert.ColorBlend.X = 4.01f;
 								}
 							} break;
-						case SsBlendType::Effect:
-							{
-								// Effect
-								Vert.ColorBlend.X = 6.01f;
-							} break;
 						default:
 							{
-								// 0～3: Mix/Mul/Add/Sub 
-								Vert.ColorBlend.X = (float)(RenderPart.ColorBlendType + 0.01f);
+								checkf(false, TEXT("Invalid ColorBlendType %d"), (int32)RenderPart.ColorBlendType);
 							} break;
 					}
 					Vert.ColorBlend.Y = RenderPart.Vertices[v].ColorBlendRate;
