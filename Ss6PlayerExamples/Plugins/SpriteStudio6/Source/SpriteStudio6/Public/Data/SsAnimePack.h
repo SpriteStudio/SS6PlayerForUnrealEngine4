@@ -142,16 +142,16 @@ struct SPRITESTUDIO6_API FSsMeshBindInfo
 {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	UPROPERTY()	// 要素数が多くDetailsウィンドウが極端に重くなってしまうため、VisibleAnywhereを付けない 
 	int32	Weight[SSMESHPART_BONEMAX];
 
-	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	UPROPERTY()	// 要素数が多くDetailsウィンドウが極端に重くなってしまうため、VisibleAnywhereを付けない 
 	FName	BoneName[SSMESHPART_BONEMAX];
 
-	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	UPROPERTY()	// 要素数が多くDetailsウィンドウが極端に重くなってしまうため、VisibleAnywhereを付けない 
 	int32	BoneIndex[SSMESHPART_BONEMAX];
 
-	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
+	UPROPERTY()	// 要素数が多くDetailsウィンドウが極端に重くなってしまうため、VisibleAnywhereを付けない 
 	FVector	Offset[SSMESHPART_BONEMAX];
 
 	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
