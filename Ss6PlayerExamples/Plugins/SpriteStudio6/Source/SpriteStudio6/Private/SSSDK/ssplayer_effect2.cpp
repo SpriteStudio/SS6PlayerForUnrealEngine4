@@ -609,7 +609,7 @@ void	SsEffectRenderV2::drawSprite(
 
 }
 */
-/*	//TODO
+/*
 void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , particleDrawData* plp )
 {
 	double t = time;
@@ -778,7 +778,7 @@ void	SsEffectRenderV2::update()
 
 }
 
-/* //TODO
+/*
 void	SsEffectRenderV2::draw()
 {
     if ( nowFrame < 0 ) return;

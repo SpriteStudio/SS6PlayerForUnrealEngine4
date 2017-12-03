@@ -295,6 +295,7 @@ public:
 //			particleList(0),
 			_parentIndex(-1),
 			seedList(0),
+			position(0, 0),
 			particleListBufferSize(180*100),  //生成出来るパーティクルの最大値
 //			_emitpattern(0),
 			particleExistList(0),

@@ -7,6 +7,8 @@
 
 #include "ssplayer_animedecode.h"
 #include "ssplayer_PartState.h"
+#include "ssplayer_effect2.h"
+#include "ssplayer_matrix.h"
 
 // コンストラクタ
 FSsPlayer::FSsPlayer()
@@ -340,8 +342,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 		{
 			if(!State->hide)
 			{
-				//TODO:
-				//CreateEffectRenderParts(State->refEffect, State, CanvasSize, Pivot);
+				CreateEffectRenderParts(RenderParts, State, CanvasSize, Pivot);
 			}
 		}
 		else
@@ -558,7 +559,187 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	return true;
 }
 
+// エフェクト描画用パーツデータの作成 
+void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot)
+{
+	if(nullptr == State){ return; }
+	if(nullptr == State->refEffect){ return; }
+	if(State->refEffect->nowFrame < 0){ return; }
 
+	SsEffectRenderV2* Effect = State->refEffect;
+
+	for(auto It = Effect->updateList.CreateIterator(); It; ++It)
+	{
+		if(*It)
+		{
+			(*It)->setSeedOffset(Effect->seedOffset);
+		}
+	}
+	for(auto It = Effect->updateList.CreateIterator(); It; ++It)
+	{
+		SsEffectEmitter* Emitter = (*It);
+		if(Emitter && Emitter->_parent)
+		{
+			//グローバルの時間で現在親がどれだけ生成されているのかをチェックする
+			Emitter->_parent->updateEmitter(Effect->targetFrame, 0);
+
+			int32 LoopNum = Emitter->_parent->getParticleIDMax();
+			for(int32 n = 0; n < LoopNum; ++n)
+			{
+				const particleExistSt* ExistSt = Emitter->_parent->getParticleDataFromID(n);
+				if(ExistSt->born)
+				{
+					particleDrawData DrawData;
+					DrawData.stime = ExistSt->stime;
+					DrawData.lifetime = ExistSt->endtime;
+					DrawData.id = n;
+					DrawData.pid = 0;
+
+					CreateEffectRenderPart(RenderParts, State, CanvasSize, Pivot, Emitter, (Effect->targetFrame - DrawData.stime), Emitter->_parent, &DrawData);
+				}
+			}
+		}
+		else
+		{
+			CreateEffectRenderPart(RenderParts, State, CanvasSize, Pivot, Emitter, Effect->targetFrame);
+		}
+	}
+}
+
+// エフェクト描画用パーツデータの作成（１パーツ分） 
+void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent, const particleDrawData* DrawData)
+{
+	// 参照：SsEffectRenderV2::particleDraw()
+
+	if(nullptr == State){ return; }
+	if(nullptr == Emitter){ return; }
+
+	SsEffectRenderV2* Effect = State->refEffect;
+
+	int32 ParticleNum = Emitter->getParticleIDMax();
+	int32 Slide = (Parent == nullptr) ? 0 : DrawData->id;
+
+	Emitter->updateEmitter(Time, Slide);
+
+	for(int32 Id = 0; Id < ParticleNum; ++Id)
+	{
+		const particleExistSt* ExistSt = Emitter->getParticleDataFromID(Id);
+		if(!ExistSt->born)
+		{
+			continue;
+		}
+
+		float TargetTime = (Time + 0.f);
+		particleDrawData lp;
+		particleDrawData pp;
+		pp.x = pp.y = 0.f;
+
+		lp.id = Id + ExistSt->cycle;
+		lp.stime = ExistSt->stime;
+		lp.lifetime = ExistSt->endtime;
+		lp.pid = 0;
+
+		if(Parent)
+		{
+			lp.pid = DrawData->id;
+		}
+
+		if(ExistSt->exist)
+		{
+			if(Parent)
+			{
+				//親から描画するパーティクルの初期位置を調べる 
+				pp.id = DrawData->id;
+				pp.stime = DrawData->stime;
+				pp.lifetime = DrawData->lifetime;
+				pp.pid = DrawData->pid;
+
+				//パーティクルが発生した時間の親の位置を取る 
+				int ptime = lp.stime + pp.stime;
+				if (ptime > lp.lifetime) { ptime = lp.lifetime; }
+
+				//逆算はデバッグしずらいかもしれない 
+				Parent->updateParticle(lp.stime + pp.stime, &pp);
+				Emitter->position.X = pp.x;
+				Emitter->position.Y = pp.y;
+			}
+
+			Emitter->updateParticle(TargetTime, &lp);
+
+			SsFColor fcolor;
+			fcolor.fromARGB(lp.color.ToARGB());
+
+
+			FSsRenderPart RenderPart;
+			RenderPart.PartIndex = State->index;
+			RenderPart.Texture = Emitter->dispCell.texture;
+			RenderPart.AlphaBlendType = SsRenderBlendTypeToBlendType(Emitter->refData->BlendType);
+			RenderPart.ColorBlendType = SsBlendType::Effect;
+
+			{
+				float matrix[4 * 4];
+				IdentityMatrix(matrix);
+
+				float parentAlpha = 1.f;
+				if(Effect->parentState)
+				{
+					memcpy(matrix, Effect->parentState->matrix, sizeof(float)*16);
+					parentAlpha = Effect->parentState->alpha;
+				}
+
+				TranslationMatrixM(matrix, lp.x * Effect->layoutScale.X, lp.y * Effect->layoutScale.Y, 0.f);
+				RotationXYZMatrixM(matrix, 0.f, 0.f, FMath::DegreesToRadians(lp.rot) + lp.direc);
+				ScaleMatrixM(matrix, lp.scale.X, lp.scale.Y, 1.f);
+
+				fcolor.a *= parentAlpha;
+
+				if(Emitter->dispCell.cell && (0.f < fcolor.a))
+				{
+					FVector2D pivot = Emitter->dispCell.cell->Pivot;
+					pivot.X *= Emitter->dispCell.cell->Size.X;
+					pivot.Y *= Emitter->dispCell.cell->Size.Y;
+
+					FVector2D dispscale = Emitter->dispCell.cell->Size;
+
+
+					// RenderTargetに対する描画基準位置
+					float OffX = (float)(CanvasSize.X / 2) + pivot.X + Pivot.X * CanvasSize.X;
+					float OffY = (float)(CanvasSize.Y / 2) + pivot.Y - Pivot.Y * CanvasSize.Y;
+
+					// 頂点座標
+					FMatrix ViewMatrix(
+						FVector(matrix[0], matrix[1], matrix[2]),
+						FVector(matrix[4], matrix[5], matrix[6]),
+						FVector(matrix[8], matrix[9], matrix[10]),
+						FVector(matrix[12], matrix[13], matrix[14])
+					);
+					FVector Vertices[4] =
+					{
+						FVector(-(dispscale.X / 2.f),  (dispscale.Y / 2.f), 0.f),
+						FVector((dispscale.X / 2.f),  (dispscale.Y / 2.f), 0.f),
+						FVector(-(dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
+						FVector((dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
+					};
+
+					for (int32 i = 0; i < 4; ++i)
+					{
+						FVector4 V = ViewMatrix.TransformPosition(Vertices[i]);
+						RenderPart.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
+						RenderPart.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
+
+						RenderPart.Vertices[i].TexCoord = Emitter->dispCell.uvs[i];
+						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * parentAlpha));
+						RenderPart.Vertices[i].ColorBlendRate = (Emitter->particle.useColor || Emitter->particle.useTransColor) ? 1.f : 0.f;
+					}
+
+					OutRenderParts.Add(RenderPart);
+				}
+			}
+		}
+	}
+}
+
+// 再生中にアニメーションのCanvasSizeの取得 
 const FVector2D FSsPlayer::GetAnimCanvasSize() const
 {
 	return (nullptr != Decoder) && (nullptr != Decoder->curAnimation) ? Decoder->curAnimation->Settings.CanvasSize : FVector2D(0,0);
