@@ -10,6 +10,7 @@ FString	__EnumToString_( TEnumAsByte<SsPartType::Type> n )
 	if ( SsPartType::Text ) return "text";
 	if ( SsPartType::Instance ) return "instance";
 	if ( SsPartType::Effect ) return "effect";
+	if ( SsPartType::Armature ) return "armature";
 	if ( SsPartType::Mesh ) return "mesh";
 	if ( SsPartType::MoveNode ) return "movenode";
 	if ( SsPartType::Constraint ) return "constraint";
@@ -28,6 +29,7 @@ void 	__StringToEnum_( FString n , TEnumAsByte<SsPartType::Type>& out)
 	if ( n == "text") out = SsPartType::Text;
 	if ( n == "instance") out = SsPartType::Instance;
 	if ( n == "effect") out = SsPartType::Effect;
+	if ( n == "armature") out = SsPartType::Armature;
 	if ( n == "mesh") out = SsPartType::Mesh;
 	if ( n == "movenode") out = SsPartType::MoveNode;
 	if ( n == "constraint") out = SsPartType::Constraint;
