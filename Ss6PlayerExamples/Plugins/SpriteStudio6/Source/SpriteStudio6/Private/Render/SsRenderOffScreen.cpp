@@ -300,7 +300,7 @@ namespace
 						case SsBlendType::Exclusion:
 						case SsBlendType::Invert:
 							{
-								// 現バージョンでは未実装. Mixとして扱う. 
+								//TODO: 現バージョンでは未実装. Mixとして扱う. 
 								Vert.ColorBlend.X = 0.01f;
 							} break;
 						case SsBlendType::Effect:
