@@ -173,23 +173,11 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 		FindUserDataInInterval(Result, BkAnimeFrame, AnimeFrame);
 	}
 
+	// Decoder更新 
 	Decoder->setPlayFrame( AnimeFrame );
-
-/*
-	Decoder->SetDeltaForIndependentInstance( DeltaSeconds );
-	if(bBeyondZeroFrame)
-	{
-		Decoder->ReloadEffects();	// コレは中身が #if 0 で消されてるので削除でOK. 旧エフェクトシステムの残骸かな？ 
-	}
-	Decoder->Update();
-
-	RenderParts.Empty();
-	Decoder->CreateRenderParts(RenderParts);
-*/
-	//TODO:	更新手順を再確認 
-	//		CreateRenderParts相当の処理はPlayer側で実装する 
 	Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
 
+	// 描画情報更新 
 	RenderParts.Empty();
 	CreateRenderParts(Decoder, GetAnimCanvasSize(), GetAnimPivot());
 
