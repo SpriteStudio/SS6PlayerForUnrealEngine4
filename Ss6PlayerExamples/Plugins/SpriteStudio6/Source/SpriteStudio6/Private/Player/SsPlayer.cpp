@@ -376,6 +376,19 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		}
 	}
 
+	// TODO: 現バージョンでは未実装のパーツ種別は無視 
+	if(    (State->partType == SsPartType::Armature)
+		|| (State->partType == SsPartType::Mesh)
+		|| (State->partType == SsPartType::MoveNode)
+		|| (State->partType == SsPartType::Constraint)
+		|| (State->partType == SsPartType::Mask)
+		|| (State->partType == SsPartType::Joint)
+		|| (State->partType == SsPartType::BonePoint)
+		)
+	{
+		return false;
+	}
+
 	//TODO: 今は一旦Ss5Pのそのまま移植. 
 	//		Ss6の新機能が色々あるので、通して見直す. 
 	//		LocalScaleとか. 
