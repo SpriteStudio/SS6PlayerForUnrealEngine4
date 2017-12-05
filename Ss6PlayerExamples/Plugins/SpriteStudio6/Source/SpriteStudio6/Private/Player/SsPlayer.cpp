@@ -82,6 +82,9 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 		return;
 	}
 
+	int32 AnimeStartFrame = Decoder->getAnimeStartFrame();
+	int32 AnimeEndFrame   = Decoder->getAnimeEndFrame();
+
 	// 更新後のフレーム
 	float BkAnimeFrame = Decoder->nowPlatTime;
 	float AnimeFrame = BkAnimeFrame + (PlayRate * DeltaSeconds * Decoder->getAnimeFPS());
@@ -92,85 +95,89 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 		BkAnimeFrame -= (.0f <= PlayRate) ? .1f : -.1f;
 	}
 
-	// 0フレームを跨いだか 
-	bool bBeyondZeroFrame = false;
-
-	// 最終フレーム以降で順方向再生
-	if((Decoder->getAnimeEndFrame() <= AnimeFrame) && (0.f < PlayRate))
+	// 0フレームアニメの場合は開始フレームに固定(Setup対応) 
+	if(0 == (AnimeEndFrame - AnimeStartFrame))
 	{
-		if(0 < LoopCount)
-		{
-			// ループ回数更新
-			--LoopCount;
-
-			// ループ回数の終了
-			if(0 == LoopCount)
-			{
-				AnimeFrame = (float)Decoder->getAnimeEndFrame();
-				Pause();
-				Result.bEndPlay = true;
-			}
-		}
-		FindUserDataInInterval(Result, BkAnimeFrame, (float)Decoder->getAnimeEndFrame());
-
-		if(bPlaying)
-		{
-			float AnimeFrameSurplus = AnimeFrame - Decoder->getAnimeEndFrame();		// 極端に大きなDeltaSecondsは考慮しない
-			// 往復
-			if(bRoundTrip)
-			{
-				AnimeFrame = Decoder->getAnimeEndFrame() - AnimeFrameSurplus;
-				PlayRate *= -1.f;
-				FindUserDataInInterval(Result, (float)Decoder->getAnimeEndFrame(), AnimeFrame);
-			}
-			// ループ
-			else
-			{
-				AnimeFrame = AnimeFrameSurplus;
-				FindUserDataInInterval(Result, -.1f, AnimeFrame);
-			}
-		}
-		bBeyondZeroFrame = true;
+		AnimeFrame = AnimeStartFrame;
 	}
-	// 0フレーム以前で逆方向再生
-	else if((AnimeFrame < 0.f) && (PlayRate < 0.f))
-	{
-		if(0 < LoopCount)
-		{
-			// ループ回数更新
-			--LoopCount;
-
-			// ループ回数の終了
-			if(0 == LoopCount)
-			{
-				AnimeFrame = 0.f;
-				Pause();
-				Result.bEndPlay = true;
-			}
-		}
-		FindUserDataInInterval(Result, BkAnimeFrame, 0.f);
-
-		if(bPlaying)
-		{
-			// 往復
-			if(bRoundTrip)
-			{
-				AnimeFrame = -AnimeFrame;
-				PlayRate *= -1.f;
-				FindUserDataInInterval(Result, 0.f, AnimeFrame);
-			}
-			// ループ
-			else
-			{
-				AnimeFrame = Decoder->getAnimeEndFrame() + AnimeFrame;
-				FindUserDataInInterval(Result, (float)Decoder->getAnimeEndFrame()+.1f, AnimeFrame);
-			}
-		}
-		bBeyondZeroFrame = true;
-	}
+	// ループ/往復処理 
 	else
 	{
-		FindUserDataInInterval(Result, BkAnimeFrame, AnimeFrame);
+		// 最終フレーム以降で順方向再生
+		if((AnimeEndFrame <= AnimeFrame) && (0.f < PlayRate))
+		{
+			if(0 < LoopCount)
+			{
+				// ループ回数更新
+				--LoopCount;
+
+				// ループ回数の終了
+				if(0 == LoopCount)
+				{
+					AnimeFrame = (float)AnimeEndFrame;
+					Pause();
+					Result.bEndPlay = true;
+				}
+			}
+			FindUserDataInInterval(Result, BkAnimeFrame, (float)AnimeEndFrame);
+
+			if(bPlaying)
+			{
+				float AnimeFrameSurplus = AnimeFrame - AnimeEndFrame;	// 極端に大きなDeltaSecondsは考慮しない
+				// 往復
+				if(bRoundTrip)
+				{
+					AnimeFrame = AnimeEndFrame - AnimeFrameSurplus;
+					PlayRate *= -1.f;
+					FindUserDataInInterval(Result, (float)AnimeEndFrame, AnimeFrame);
+				}
+				// ループ
+				else
+				{
+					AnimeFrame = AnimeStartFrame + AnimeFrameSurplus;
+					FindUserDataInInterval(Result, -.1f, AnimeFrame);
+				}
+			}
+		}
+		// 開始フレーム以前で逆方向再生
+		else if((AnimeFrame < AnimeStartFrame) && (PlayRate < 0.f))
+		{
+			if(0 < LoopCount)
+			{
+				// ループ回数更新
+				--LoopCount;
+
+				// ループ回数の終了
+				if(0 == LoopCount)
+				{
+					AnimeFrame = 0.f;
+					Pause();
+					Result.bEndPlay = true;
+				}
+			}
+			FindUserDataInInterval(Result, BkAnimeFrame, 0.f);
+
+			if(bPlaying)
+			{
+				// 往復
+				if(bRoundTrip)
+				{
+					AnimeFrame = AnimeStartFrame + (AnimeStartFrame - AnimeFrame);
+					PlayRate *= -1.f;
+					FindUserDataInInterval(Result, 0.f, AnimeFrame);
+				}
+				// ループ
+				else
+				{
+					AnimeFrame = AnimeEndFrame - (AnimeStartFrame - AnimeFrame);
+					FindUserDataInInterval(Result, (float)AnimeEndFrame+.1f, AnimeFrame);
+				}
+			}
+		}
+		else
+		{
+			FindUserDataInInterval(Result, BkAnimeFrame, AnimeFrame);
+		}
 	}
 
 	// Decoder更新 
@@ -746,7 +753,7 @@ bool FSsPlayer::Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 StartF
 
 	CellMapList->set(SsProject.Get(), AnimPack);
 	Decoder->setAnimation(&AnimPack->Model, Animation, CellMapList, SsProject.Get());
-	Decoder->setPlayFrame( (float)StartFrame );
+	Decoder->setPlayFrame((float)(Decoder->getAnimeStartFrame() + StartFrame));
 
 	bPlaying = true;
 	bFirstTick = true;
@@ -786,7 +793,7 @@ void FSsPlayer::SetPlayFrame(float Frame)
 {
 	if(nullptr != Decoder)
 	{
-		Decoder->setPlayFrame( Frame );
+		Decoder->setPlayFrame(Decoder->getAnimeStartFrame() + Frame);
 	}
 }
 
@@ -795,7 +802,7 @@ float FSsPlayer::GetPlayFrame() const
 {
 	if(nullptr != Decoder)
 	{
-		return Decoder->nowPlatTime;
+		return Decoder->nowPlatTime - Decoder->getAnimeStartFrame();
 	}
 	return 0.f;
 }
@@ -805,7 +812,7 @@ float FSsPlayer::GetAnimeEndFrame() const
 {
 	if(nullptr != Decoder)
 	{
-		return Decoder->getAnimeEndFrame();
+		return Decoder->getAnimeEndFrame() - Decoder->getAnimeStartFrame();
 	}
 	return 0.f;
 }

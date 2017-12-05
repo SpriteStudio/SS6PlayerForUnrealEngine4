@@ -445,7 +445,7 @@ void SerializeStruct(FSsAnimationSettings& Value, SsXmlIArchiver* ar)
 	SSAR_DECLARE("frameCount", Value.FrameCount);
 	SSAR_DECLARE("canvasSize", Value.CanvasSize);
 	SSAR_DECLARE("pivot", Value.Pivot);
-	SSAR_DECLARE("startFreame", Value.StartFrame);
+	SSAR_DECLARE("startFrame", Value.StartFrame);
 	SSAR_DECLARE("endFrame", Value.EndFrame);
 }
 void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
