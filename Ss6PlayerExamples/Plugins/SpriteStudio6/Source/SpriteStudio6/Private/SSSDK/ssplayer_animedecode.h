@@ -122,7 +122,7 @@ public:
 	TArray<SsPartState*>&		getPartSortList(){return sortList;}
 	TArray<SsPartAndAnime>&	getPartAnime(){ return	partAnime; }
 	
-	template<typename mytype> int	SsGetKeyValue( int time , FSsAttribute* attr , mytype&  value );
+	template<typename mytype> int	SsGetKeyValue( FSsPart* part, int time , FSsAttribute* attr , mytype&  value );
 	template<typename mytype> void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , mytype& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , bool& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsCellValue& v );
