@@ -617,7 +617,7 @@ template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int t
 		if (curAnimation->IsSetup == false)
 		{
 			//セットアップアニメから先頭キーを取得する
-			FSsPartAnime* setupAnime = setupPartAnimeDic[part->PartName];
+			FSsPartAnime* setupAnime = setupPartAnimeDic.Contains(part->PartName) ? setupPartAnimeDic[part->PartName] : nullptr;
 			if ((setupAnime) && (0 != setupAnime->Attributes.Num()))
 			{
 				TArray<FSsAttribute>& attList = setupAnime->Attributes;
