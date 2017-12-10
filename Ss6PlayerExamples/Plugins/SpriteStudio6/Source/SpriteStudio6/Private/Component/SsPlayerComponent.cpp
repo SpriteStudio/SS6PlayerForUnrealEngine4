@@ -12,7 +12,7 @@
 namespace
 {
 	// BasePartsMaterials/PartsMIDMap のインデックスを取得
-	inline uint32 PartsMatIndex(SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
+	inline uint32 PartsMatIndex(SsBlendType::Type ColorBlendMode)
 	{
 		switch(ColorBlendMode)
 		{
@@ -20,18 +20,8 @@ namespace
 			case SsBlendType::Mul: { return 1; }
 			case SsBlendType::Add: { return 2; }
 			case SsBlendType::Sub: { return 3; }
-			case SsBlendType::Invalid:
-			{
-				if(AlphaBlendMode == SsBlendType::Mix)
-				{
-					return 5;
-				}
-				else
-				{
-					return 4;
-				}
-			}
-			case SsBlendType::Effect: { return 6; }
+			case SsBlendType::Invalid: { return 4; }
+			case SsBlendType::Effect:  { return 5; }
 		}
 		check(false);
 		return 0;
@@ -84,7 +74,6 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartAdd;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartSub;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartInv;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartInvMix;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartEffect;
 
 		FConstructorStatics()
@@ -94,7 +83,6 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 			, PartAdd(TEXT("/SpriteStudio6/PartMaterials/SsPart_Add"))
 			, PartSub(TEXT("/SpriteStudio6/PartMaterials/SsPart_Sub"))
 			, PartInv(TEXT("/SpriteStudio6/PartMaterials/SsPart_Inv"))
-			, PartInvMix(TEXT("/SpriteStudio6/PartMaterials/SsPart_InvMix"))
 			, PartEffect(TEXT("/SpriteStudio6/PartMaterials/SsPart_Effect"))
 		{}
 	};
@@ -107,8 +95,7 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 	BasePartsMaterials[2] = CS.PartAdd.Object;
 	BasePartsMaterials[3] = CS.PartSub.Object;
 	BasePartsMaterials[4] = CS.PartInv.Object;
-	BasePartsMaterials[5] = CS.PartInvMix.Object;
-	BasePartsMaterials[6] = CS.PartEffect.Object;
+	BasePartsMaterials[5] = CS.PartEffect.Object;
 }
 
 // シリアライズ 
@@ -337,7 +324,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 					FSsRenderPartWithMaterial Part;
 					FMemory::Memcpy(&Part, &(RenderParts[i]), sizeof(FSsRenderPart));
 
-					uint32 MatIdx = PartsMatIndex(Part.AlphaBlendType, Part.ColorBlendType);
+					uint32 MatIdx = PartsMatIndex(Part.ColorBlendType);
 					UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(Part.Texture);
 					
 					Part.Material = (ppMID && *ppMID) ? *ppMID : NULL;
@@ -483,7 +470,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 				const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
 				for(int32 i = 0; i < RenderParts.Num(); ++i)
 				{
-					uint32 MatIdx = PartsMatIndex(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+					uint32 MatIdx = PartsMatIndex(RenderParts[i].ColorBlendType);
 					UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
 					if((NULL == ppMID) || (NULL == *ppMID))
 					{

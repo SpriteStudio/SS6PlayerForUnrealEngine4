@@ -308,19 +308,11 @@ namespace
 						case SsBlendType::Effect:
 							{
 								// Effect
-								Vert.ColorBlend.X = 6.01f;
+								Vert.ColorBlend.X = 5.01f;
 							} break;
 						case SsBlendType::Invalid:
 							{
-								if (RenderPart.AlphaBlendType == SsBlendType::Mix)
-								{
-									// AlphaBlend が Mix の場合だけ、ColorBlend がInvalidの時の挙動が違う 
-									Vert.ColorBlend.X = 5.01f;
-								}
-								else
-								{
-									Vert.ColorBlend.X = 4.01f;
-								}
+								Vert.ColorBlend.X = 4.01f;
 							} break;
 						default:
 							{

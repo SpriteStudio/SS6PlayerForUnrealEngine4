@@ -39,14 +39,13 @@ float4 MainPS(VertexOut In) : SV_Target0
 	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, In.TexCoord);
 
 	float ColorBlendRate = In.ColorBlend.y;
-	float4 BlendColor[7];
+	float4 BlendColor[6];
 	BlendColor[0] = (TextureColor * (1.0 - ColorBlendRate)) + (In.Color * ColorBlendRate);						// Mix
 	BlendColor[1] = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * In.Color * ColorBlendRate);		// Mul
 	BlendColor[2] = TextureColor + (In.Color * ColorBlendRate);													// Add
 	BlendColor[3] = TextureColor - (In.Color * ColorBlendRate);													// Sub
-	BlendColor[4] = TextureColor * TextureColor.a;																// Invalid
-	BlendColor[5] = TextureColor;																				// Invalid(AlphaBlend=Mix)
-	BlendColor[6] = BlendColor[1] * TextureColor.a;																// Effect
+	BlendColor[4] = TextureColor;																				// Invalid
+	BlendColor[5] = BlendColor[1] * TextureColor.a;																// Effect
 
 	uint ColorBlendType = uint(In.ColorBlend.x);
 	float4 OutColor = BlendColor[ColorBlendType];

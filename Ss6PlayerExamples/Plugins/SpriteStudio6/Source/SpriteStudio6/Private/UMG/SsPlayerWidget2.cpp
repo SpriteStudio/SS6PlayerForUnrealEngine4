@@ -12,26 +12,16 @@
 namespace
 {
 	// BasePartsMaterials/PartsMIDMap のインデックスを取得
-	inline uint32 UMGMatIndex(SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
+	inline uint32 UMGMatIndex(SsBlendType::Type ColorBlendMode)
 	{
 		switch (ColorBlendMode)
 		{
-		case SsBlendType::Mix: { return 0; }
-		case SsBlendType::Mul: { return 1; }
-		case SsBlendType::Add: { return 2; }
-		case SsBlendType::Sub: { return 3; }
-		case SsBlendType::Invalid:
-		{
-			if (AlphaBlendMode == SsBlendType::Mix)
-			{
-				return 5;
-			}
-			else
-			{
-				return 4;
-			}
-		}
-		case SsBlendType::Effect: { return 6; }
+			case SsBlendType::Mix: { return 0; }
+			case SsBlendType::Mul: { return 1; }
+			case SsBlendType::Add: { return 2; }
+			case SsBlendType::Sub: { return 3; }
+			case SsBlendType::Invalid: { return 4; }
+			case SsBlendType::Effect:  { return 5; }
 		}
 		check(false);
 		return 0;
@@ -75,7 +65,6 @@ USsPlayerWidget2::USsPlayerWidget2(const FObjectInitializer& ObjectInitializer)
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartAdd;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartSub;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartInv;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartInvMix;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartEffect;
 
 		FConstructorStatics()
@@ -85,7 +74,6 @@ USsPlayerWidget2::USsPlayerWidget2(const FObjectInitializer& ObjectInitializer)
 			, PartAdd(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Add"))
 			, PartSub(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Sub"))
 			, PartInv(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Inv"))
-			, PartInvMix(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_InvMix"))
 			, PartEffect(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Effect"))
 		{}
 	};
@@ -98,8 +86,7 @@ USsPlayerWidget2::USsPlayerWidget2(const FObjectInitializer& ObjectInitializer)
 	BasePartsMaterials[2] = CS.PartAdd.Object;
 	BasePartsMaterials[3] = CS.PartSub.Object;
 	BasePartsMaterials[4] = CS.PartInv.Object;
-	BasePartsMaterials[5] = CS.PartInvMix.Object;
-	BasePartsMaterials[6] = CS.PartEffect.Object;
+	BasePartsMaterials[5] = CS.PartEffect.Object;
 }
 
 // Destroy 
@@ -335,7 +322,7 @@ void USsPlayerWidget2::UpdatePlayer(float DeltaSeconds)
 						FSsRenderPartWithSlateBrush Part;
 						FMemory::Memcpy(&Part, &(RenderParts[i]), sizeof(FSsRenderPart));
 
-						uint32 MatIdx = UMGMatIndex(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+						uint32 MatIdx = UMGMatIndex(RenderParts[i].ColorBlendType);
 						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
 						if((NULL == ppMID) || (NULL == *ppMID))
 						{
