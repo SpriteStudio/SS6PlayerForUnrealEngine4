@@ -363,7 +363,6 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	if(!bCalcHideParts)
 	{
 		if(State->hide){ return false; }
-		if(0.f == Alpha){ return false; }
 	}
 	else
 	{
