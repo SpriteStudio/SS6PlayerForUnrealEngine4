@@ -83,7 +83,7 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 	}
 
 	int32 AnimeStartFrame = Decoder->getAnimeStartFrame();
-	int32 AnimeEndFrame   = Decoder->getAnimeEndFrame();
+	int32 AnimeEndFrame   = Decoder->getAnimeEndFrame() + 1;	// データ上は「アニメーションの最後のフレーム」、ココで欲しいのは「ループの基準になる最終フレーム」 
 
 	// 更新後のフレーム
 	float BkAnimeFrame = Decoder->nowPlatTime;
@@ -95,13 +95,7 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 		BkAnimeFrame -= (.0f <= PlayRate) ? .1f : -.1f;
 	}
 
-	// 0フレームアニメの場合は開始フレームに固定(Setup対応) 
-	if(0 == (AnimeEndFrame - AnimeStartFrame))
-	{
-		AnimeFrame = AnimeStartFrame;
-	}
 	// ループ/往復処理 
-	else
 	{
 		// 最終フレーム以降で順方向再生
 		if((AnimeEndFrame <= AnimeFrame) && (0.f < PlayRate))
@@ -814,7 +808,7 @@ float FSsPlayer::GetAnimeEndFrame() const
 {
 	if(nullptr != Decoder)
 	{
-		return Decoder->getAnimeEndFrame() - Decoder->getAnimeStartFrame();
+		return Decoder->getAnimeEndFrame() - Decoder->getAnimeStartFrame() + 1;
 	}
 	return 0.f;
 }

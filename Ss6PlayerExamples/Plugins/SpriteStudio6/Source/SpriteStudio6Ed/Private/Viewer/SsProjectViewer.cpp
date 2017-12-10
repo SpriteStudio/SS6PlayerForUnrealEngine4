@@ -583,7 +583,7 @@ TOptional<int32> FSsProjectViewer::GetNowFrame() const
 }
 TOptional<int32> FSsProjectViewer::GetMaxFrame() const
 {
-	return (int32)Player.GetAnimeEndFrame() - 1;
+	return (int32)Player.GetAnimeEndFrame();
 }
 
 void FSsProjectViewer::OnChangeDrawGrid()
