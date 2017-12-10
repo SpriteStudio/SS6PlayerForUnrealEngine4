@@ -536,7 +536,7 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
 	return &particleExistList[id];
 }
 
-/*	//TODO
+/*
 void	SsEffectRenderV2::drawSprite(
 		SsCellValue*		dispCell,
 		FVector2D _position,

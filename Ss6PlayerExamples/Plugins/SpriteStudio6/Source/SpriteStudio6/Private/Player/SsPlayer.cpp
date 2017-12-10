@@ -379,9 +379,6 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		return false;
 	}
 
-	//TODO: 今は一旦Ss5Pのそのまま移植. 
-	//		Ss6の新機能が色々あるので、通して見直す. 
-	//		LocalScaleとか. 
 
 	// RenderTargetに対する描画基準位置
 	float OffX = (float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X);

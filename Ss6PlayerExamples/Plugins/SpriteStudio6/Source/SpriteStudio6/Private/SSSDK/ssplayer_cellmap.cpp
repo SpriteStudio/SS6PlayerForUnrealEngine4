@@ -102,7 +102,7 @@ SsCelMapLinker*	SsCellMapList::getCellMapLink( const FName& name )
 			DEBUG_PRINTF( "CellMapName not found : %s " , name.c_str() );
 		}
 #endif
-		//TODO: ココは無視しても大丈夫？ 要確認 
+
 /*		for ( auto itr = CellMapDic.CreateConstIterator(); itr; ++itr)
 		{
 			if ( itr->Value->cellMap->loadFilepath == name )
