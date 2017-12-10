@@ -396,10 +396,10 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 
 	// 頂点座標
 	FMatrix ViewMatrix(
-		FVector(State->matrix[ 0], State->matrix[ 1], State->matrix[ 2]),
-		FVector(State->matrix[ 4], State->matrix[ 5], State->matrix[ 6]),
-		FVector(State->matrix[ 8], State->matrix[ 9], State->matrix[10]),
-		FVector(State->matrix[12], State->matrix[13], State->matrix[14])
+		FVector(State->matrixLocal[ 0], State->matrixLocal[ 1], State->matrixLocal[ 2]),
+		FVector(State->matrixLocal[ 4], State->matrixLocal[ 5], State->matrixLocal[ 6]),
+		FVector(State->matrixLocal[ 8], State->matrixLocal[ 9], State->matrixLocal[10]),
+		FVector(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
 	);
 	FVector2D Vertices2D[4];
 	for(int i = 0; i < 4; ++i)
@@ -679,7 +679,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 				float ParentAlpha = 1.f;
 				if(Effect->parentState)
 				{
-					memcpy(matrix, Effect->parentState->matrix, sizeof(float)*16);
+					memcpy(matrix, Effect->parentState->matrixLocal, sizeof(float)*16);
 					ParentAlpha = (Effect->parentState->localalpha == 1.f) ? Effect->parentState->alpha : Effect->parentState->localalpha;
 				}
 
