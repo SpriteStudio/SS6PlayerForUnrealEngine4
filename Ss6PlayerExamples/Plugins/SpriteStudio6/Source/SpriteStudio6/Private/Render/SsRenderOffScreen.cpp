@@ -300,7 +300,9 @@ namespace
 						case SsBlendType::Exclusion:
 						case SsBlendType::Invert:
 							{
-								//TODO: 現バージョンでは未実装. Mixとして扱う. 
+								// カラーブレンドモードは Mix/Mul/Add/Sub のみ. 
+								// MulAlpha/Screen/Exclusion/Invert はアルファブレンドモード専用. 
+								check(false);
 								Vert.ColorBlend.X = 0.01f;
 							} break;
 						case SsBlendType::Effect:

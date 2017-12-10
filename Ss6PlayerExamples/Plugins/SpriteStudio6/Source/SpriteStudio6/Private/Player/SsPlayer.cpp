@@ -501,11 +501,11 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	// 頂点カラー
 	FColor VertexColors[4];
 	float ColorBlendRate[4];
-	if(State->is_color_blend)
+	if(State->is_parts_color)
 	{
-		if(State->colorValue.target == SsColorBlendTarget::Whole)
+		if(State->partsColorValue.target == SsColorBlendTarget::Whole)
 		{
-			const SsColorBlendValue& cbv = State->colorValue.color;
+			const SsColorBlendValue& cbv = State->partsColorValue.color;
 			VertexColors[0].R = cbv.rgba.r;
 			VertexColors[0].G = cbv.rgba.g;
 			VertexColors[0].B = cbv.rgba.b;
@@ -522,7 +522,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		{
 			for(int32 i = 0; i < 4; ++i)
 			{
-				const SsColorBlendValue& cbv = State->colorValue.colors[i];
+				const SsColorBlendValue& cbv = State->partsColorValue.colors[i];
 				VertexColors[i].R = cbv.rgba.r;
 				VertexColors[i].G = cbv.rgba.g;
 				VertexColors[i].B = cbv.rgba.b;
@@ -533,7 +533,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	}
 	else
 	{
-		const SsColorBlendValue& cbv = State->colorValue.color;
+		const SsColorBlendValue& cbv = State->partsColorValue.color;
 		for(int32 i = 0; i < 4; ++i)
 		{
 			VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * Alpha * HideAlpha));
@@ -543,7 +543,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 
 	OutRenderPart.PartIndex = State->index;
 	OutRenderPart.Texture = State->cellValue.texture;
-	OutRenderPart.ColorBlendType = State->colorValue.blendType;
+	OutRenderPart.ColorBlendType = State->partsColorValue.blendType;
 	OutRenderPart.AlphaBlendType = State->alphaBlendType;
 	for(int32 i = 0; i < 4; ++i)
 	{
