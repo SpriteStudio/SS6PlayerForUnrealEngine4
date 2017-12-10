@@ -310,6 +310,10 @@ namespace
 								// Effect
 								Vert.ColorBlend.X = 5.01f;
 							} break;
+						case SsBlendType::MixVertex:
+							{
+								Vert.ColorBlend.X = 6.01f;
+							} break;
 						case SsBlendType::Invalid:
 							{
 								Vert.ColorBlend.X = 4.01f;

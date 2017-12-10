@@ -542,7 +542,9 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 
 	OutRenderPart.PartIndex = State->index;
 	OutRenderPart.Texture = State->cellValue.texture;
-	OutRenderPart.ColorBlendType = State->partsColorValue.blendType;
+	OutRenderPart.ColorBlendType = ((SsBlendType::Mix == State->partsColorValue.blendType) && (State->is_parts_color) && (State->partsColorValue.target == SsColorBlendTarget::Vertex))
+			? SsBlendType::MixVertex
+			: State->partsColorValue.blendType;
 	OutRenderPart.AlphaBlendType = State->alphaBlendType;
 	for(int32 i = 0; i < 4; ++i)
 	{

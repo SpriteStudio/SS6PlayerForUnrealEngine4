@@ -305,6 +305,7 @@ namespace SsBlendType
 		Exclusion,		///< 6 除外
 		Invert,			///< 7 反転
 		Effect,			///    エフェクト用カラーブレンドタイプ
+		MixVertex,		///    カラーブレンドMixで頂点毎指定の場合
 		Num,
 
 		Invalid = 254
