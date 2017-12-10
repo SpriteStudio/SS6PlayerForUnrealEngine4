@@ -1,5 +1,5 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsPlayerWidget2.h"
+#include "SsPlayerWidget.h"
 
 #include "SlateMaterialBrush.h"
 
@@ -31,7 +31,7 @@ namespace
 
 
 // コンストラクタ 
-USsPlayerWidget2::USsPlayerWidget2(const FObjectInitializer& ObjectInitializer)
+USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 	, FSsPlayPropertySync(&SsProject, &AutoPlayAnimPackName, &AutoPlayAnimationName, &AutoPlayAnimPackIndex, &AutoPlayAnimationIndex)
 	, OffScreenMID(nullptr)
@@ -94,14 +94,14 @@ USsPlayerWidget2::USsPlayerWidget2(const FObjectInitializer& ObjectInitializer)
 }
 
 // Destroy 
-void USsPlayerWidget2::BeginDestroy()
+void USsPlayerWidget::BeginDestroy()
 {
 	Super::BeginDestroy();
 	BrushMap.Empty();	// ココで先に参照を切っておく. Brush -> MID の順で開放されるように 
 }
 
 // シリアライズ 
-void USsPlayerWidget2::Serialize(FArchive& Ar)
+void USsPlayerWidget::Serialize(FArchive& Ar)
 {
 	Super::Serialize(Ar);
 	FSsPlayPropertySync::OnSerialize(Ar);
@@ -109,7 +109,7 @@ void USsPlayerWidget2::Serialize(FArchive& Ar)
 
 #if WITH_EDITOR
 // プロパティ編集イベント 
-void USsPlayerWidget2::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+void USsPlayerWidget::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	FSsPlayPropertySync::OnPostEditChangeProperty(PropertyChangedEvent);
 	Super::PostEditChangeProperty(PropertyChangedEvent);
@@ -129,7 +129,7 @@ void USsPlayerWidget2::PostEditChangeProperty(FPropertyChangedEvent& PropertyCha
 #endif
 
 // Wigetプロパティ同期 
-void USsPlayerWidget2::SynchronizeProperties()
+void USsPlayerWidget::SynchronizeProperties()
 {
 	Super::SynchronizeProperties();
 
@@ -179,7 +179,7 @@ void USsPlayerWidget2::SynchronizeProperties()
 }
 
 // 更新 
-void USsPlayerWidget2::Tick(float DeltaTime)
+void USsPlayerWidget::Tick(float DeltaTime)
 {
 #if WITH_EDITOR
 	// SsProjectがReimportされたら、再初期化する 
@@ -223,14 +223,14 @@ void USsPlayerWidget2::Tick(float DeltaTime)
 }
 
 //
-void USsPlayerWidget2::ReleaseSlateResources(bool bReleaseChildren)
+void USsPlayerWidget::ReleaseSlateResources(bool bReleaseChildren)
 {
 	Super::ReleaseSlateResources(bReleaseChildren);
 	PlayerWidget.Reset();
 }
 
 //
-TSharedRef<SWidget> USsPlayerWidget2::RebuildWidget()
+TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 {
 	PlayerWidget = SNew(SSsPlayerWidget);
 	PlayerWidget->bIgnoreClipRect = bIgnoreClipRect;
@@ -250,11 +250,11 @@ TSharedRef<SWidget> USsPlayerWidget2::RebuildWidget()
 }
 
 //
-UClass* USsPlayerWidget2::GetSlotClass() const
+UClass* USsPlayerWidget::GetSlotClass() const
 {
 	return USsPlayerSlot::StaticClass();
 }
-void USsPlayerWidget2::OnSlotAdded(UPanelSlot* InSlot)
+void USsPlayerWidget::OnSlotAdded(UPanelSlot* InSlot)
 {
 	if(PlayerWidget.IsValid())
 	{
@@ -262,7 +262,7 @@ void USsPlayerWidget2::OnSlotAdded(UPanelSlot* InSlot)
 		PlayerSlot->BuildSlot(PlayerWidget.ToSharedRef());
 	}
 }
-void USsPlayerWidget2::OnSlotRemoved(UPanelSlot* InSlot)
+void USsPlayerWidget::OnSlotRemoved(UPanelSlot* InSlot)
 {
 	if(PlayerWidget.IsValid())
 	{
@@ -279,7 +279,7 @@ void USsPlayerWidget2::OnSlotRemoved(UPanelSlot* InSlot)
 // Blueprint公開関数 
 //
 
-void USsPlayerWidget2::UpdatePlayer(float DeltaSeconds)
+void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 {
 	FSsPlayerTickResult Result = Player.Tick(DeltaSeconds);
 
@@ -388,7 +388,7 @@ void USsPlayerWidget2::UpdatePlayer(float DeltaSeconds)
 	}
 }
 
-UTexture* USsPlayerWidget2::GetRenderTarget()
+UTexture* USsPlayerWidget::GetRenderTarget()
 {
 	if(PlayerWidget.IsValid())
 	{
@@ -397,7 +397,7 @@ UTexture* USsPlayerWidget2::GetRenderTarget()
 	return nullptr;
 }
 
-bool USsPlayerWidget2::Play(FName AnimPackName, FName AnimationName, int32 StartFrame, float PlayRate, int32 LoopCount, bool bRoundTrip)
+bool USsPlayerWidget::Play(FName AnimPackName, FName AnimationName, int32 StartFrame, float PlayRate, int32 LoopCount, bool bRoundTrip)
 {
 	int32 AnimPackIndex, AnimationIndex;
 	if(Player.GetAnimationIndex(AnimPackName, AnimationName, AnimPackIndex, AnimationIndex))
@@ -408,7 +408,7 @@ bool USsPlayerWidget2::Play(FName AnimPackName, FName AnimationName, int32 Start
 	UE_LOG(LogSpriteStudio, Warning, TEXT("SsPlayerWidget2::Play() Invalid Animation (%s, %s)"), *(AnimPackName.ToString()), *(AnimationName.ToString()));
 	return false;
 }
-bool USsPlayerWidget2::PlayByIndex(int32 AnimPackIndex, int32 AnimationIndex, int32 StartFrame, float PlayRate, int32 LoopCount, bool bRoundTrip)
+bool USsPlayerWidget::PlayByIndex(int32 AnimPackIndex, int32 AnimationIndex, int32 StartFrame, float PlayRate, int32 LoopCount, bool bRoundTrip)
 {
 	if(Player.Play(AnimPackIndex, AnimationIndex, StartFrame, PlayRate, LoopCount, bRoundTrip))
 	{
@@ -428,7 +428,7 @@ bool USsPlayerWidget2::PlayByIndex(int32 AnimPackIndex, int32 AnimationIndex, in
 	UE_LOG(LogSpriteStudio, Warning, TEXT("SsPlayerWidget2::PlayByIndex() Invalid Animation index (%d, %d)"), AnimPackIndex, AnimationIndex);
 	return false;
 }
-void USsPlayerWidget2::GetPlayingAnimationName(FName& OutAnimPackName, FName& OutAnimationName) const
+void USsPlayerWidget::GetPlayingAnimationName(FName& OutAnimPackName, FName& OutAnimationName) const
 {
 	int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
 	int32 AnimationIndex = Player.GetPlayingAnimationIndex();
@@ -446,25 +446,25 @@ void USsPlayerWidget2::GetPlayingAnimationName(FName& OutAnimPackName, FName& Ou
 	OutAnimPackName  = FName();
 	OutAnimationName = FName();
 }
-void USsPlayerWidget2::GetPlayingAnimationIndex(int32& OutAnimPackIndex, int32& OutAnimationIndex) const
+void USsPlayerWidget::GetPlayingAnimationIndex(int32& OutAnimPackIndex, int32& OutAnimationIndex) const
 {
 	OutAnimPackIndex  = Player.GetPlayingAnimPackIndex();
 	OutAnimationIndex = Player.GetPlayingAnimationIndex();
 }
-void USsPlayerWidget2::Pause()
+void USsPlayerWidget::Pause()
 {
 	Player.Pause();
 }
-bool USsPlayerWidget2::Resume()
+bool USsPlayerWidget::Resume()
 {
 	return Player.Resume();
 }
-bool USsPlayerWidget2::IsPlaying() const
+bool USsPlayerWidget::IsPlaying() const
 {
 	return Player.IsPlaying();
 }
 
-int32 USsPlayerWidget2::GetNumAnimPacks() const
+int32 USsPlayerWidget::GetNumAnimPacks() const
 {
 	if(SsProject)
 	{
@@ -472,7 +472,7 @@ int32 USsPlayerWidget2::GetNumAnimPacks() const
 	}
 	return 0;
 }
-int32 USsPlayerWidget2::GetNumAnimations(FName AnimPackName) const
+int32 USsPlayerWidget::GetNumAnimations(FName AnimPackName) const
 {
 	if(SsProject)
 	{
@@ -484,7 +484,7 @@ int32 USsPlayerWidget2::GetNumAnimations(FName AnimPackName) const
 	}
 	return 0;
 }
-int32 USsPlayerWidget2::GetNumAnimationsByIndex(int32 AnimPackIndex) const
+int32 USsPlayerWidget::GetNumAnimationsByIndex(int32 AnimPackIndex) const
 {
 	if(SsProject && (AnimPackIndex < SsProject->AnimeList.Num()))
 	{
@@ -493,60 +493,60 @@ int32 USsPlayerWidget2::GetNumAnimationsByIndex(int32 AnimPackIndex) const
 	return 0;
 }
 
-void USsPlayerWidget2::SetPlayFrame(float Frame)
+void USsPlayerWidget::SetPlayFrame(float Frame)
 {
 	Player.SetPlayFrame(Frame);
 }
-float USsPlayerWidget2::GetPlayFrame() const
+float USsPlayerWidget::GetPlayFrame() const
 {
 	return Player.GetPlayFrame();
 }
 
-void USsPlayerWidget2::SetLoopCount(int32 InLoopCount)
+void USsPlayerWidget::SetLoopCount(int32 InLoopCount)
 {
 	Player.LoopCount = InLoopCount;
 }
-int32 USsPlayerWidget2::GetLoopCount() const
+int32 USsPlayerWidget::GetLoopCount() const
 {
 	return Player.LoopCount;
 }
 
-void USsPlayerWidget2::SetRoundTrip(bool bInRoundTrip)
+void USsPlayerWidget::SetRoundTrip(bool bInRoundTrip)
 {
 	Player.bRoundTrip = bInRoundTrip;
 }
-bool USsPlayerWidget2::IsRoundTrip() const
+bool USsPlayerWidget::IsRoundTrip() const
 {
 	return Player.bRoundTrip;
 }
 
-void USsPlayerWidget2::SetPlayRate(float InRate)
+void USsPlayerWidget::SetPlayRate(float InRate)
 {
 	Player.PlayRate = InRate;
 }
-float USsPlayerWidget2::GetPlayRate() const
+float USsPlayerWidget::GetPlayRate() const
 {
 	return Player.PlayRate;
 }
 
-void USsPlayerWidget2::SetFlipH(bool InFlipH)
+void USsPlayerWidget::SetFlipH(bool InFlipH)
 {
 	Player.bFlipH = InFlipH;
 }
-bool USsPlayerWidget2::GetFlipH() const
+bool USsPlayerWidget::GetFlipH() const
 {
 	return Player.bFlipH;
 }
-void USsPlayerWidget2::SetFlipV(bool InFlipV)
+void USsPlayerWidget::SetFlipV(bool InFlipV)
 {
 	Player.bFlipV = InFlipV;
 }
-bool USsPlayerWidget2::GetFlipV() const
+bool USsPlayerWidget::GetFlipV() const
 {
 	return Player.bFlipV;
 }
 
-void USsPlayerWidget2::AddTextureReplacement(FName PartName, UTexture* Texture)
+void USsPlayerWidget::AddTextureReplacement(FName PartName, UTexture* Texture)
 {
 	if(Texture)
 	{
@@ -557,11 +557,11 @@ void USsPlayerWidget2::AddTextureReplacement(FName PartName, UTexture* Texture)
 		}
 	}
 }
-void USsPlayerWidget2::AddTextureReplacementByIndex(int32 PartIndex, UTexture* Texture)
+void USsPlayerWidget::AddTextureReplacementByIndex(int32 PartIndex, UTexture* Texture)
 {
 	Player.TextureReplacements.Add(PartIndex, TWeakObjectPtr<UTexture>(Texture));
 }
-void USsPlayerWidget2::RemoveTextureReplacement(FName PartName)
+void USsPlayerWidget::RemoveTextureReplacement(FName PartName)
 {
 	int32 PartIndex = Player.GetPartIndexFromName(PartName);
 	if(0 <= PartIndex)
@@ -569,16 +569,16 @@ void USsPlayerWidget2::RemoveTextureReplacement(FName PartName)
 		Player.TextureReplacements.Remove(PartIndex);
 	}
 }
-void USsPlayerWidget2::RemoveTextureReplacementByIndex(int32 PartIndex)
+void USsPlayerWidget::RemoveTextureReplacementByIndex(int32 PartIndex)
 {
 	Player.TextureReplacements.Remove(PartIndex);
 }
-void USsPlayerWidget2::RemoveTextureReplacementAll()
+void USsPlayerWidget::RemoveTextureReplacementAll()
 {
 	Player.TextureReplacements.Empty();
 }
 
-FName USsPlayerWidget2::GetPartColorLabel(FName PartName)
+FName USsPlayerWidget::GetPartColorLabel(FName PartName)
 {
 	int32 PartIndex = Player.GetPartIndexFromName(PartName);
 	if (0 <= PartIndex)
@@ -587,7 +587,7 @@ FName USsPlayerWidget2::GetPartColorLabel(FName PartName)
 	}
 	return FName();
 }
-FName USsPlayerWidget2::GetPartColorLabelByIndex(int32 PartIndex)
+FName USsPlayerWidget::GetPartColorLabelByIndex(int32 PartIndex)
 {
 	return Player.GetPartColorLabel(PartIndex);
 }

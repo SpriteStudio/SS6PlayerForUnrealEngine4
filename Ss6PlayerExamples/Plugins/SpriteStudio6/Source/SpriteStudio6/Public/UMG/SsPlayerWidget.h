@@ -6,7 +6,7 @@
 #include "SsPlayer.h"
 #include "SsPlayPropertySync.h"
 
-#include "SsPlayerWidget2.generated.h"
+#include "SsPlayerWidget.generated.h"
 
 class USs6Project;
 class SSsPlayerWidget;
@@ -39,7 +39,7 @@ namespace ESsPlayerWidgetRenderMode
 // sspjデータを再生/UMG上で描画する 
 //
 UCLASS(ClassGroup=SpriteStudio, meta=(DisplayName="Ss Player Widget"))
-class SPRITESTUDIO6_API USsPlayerWidget2 : public UPanelWidget, public FTickableGameObject, public FSsPlayPropertySync 
+class SPRITESTUDIO6_API USsPlayerWidget : public UPanelWidget, public FTickableGameObject, public FSsPlayPropertySync 
 {
 	GENERATED_UCLASS_BODY()
 
