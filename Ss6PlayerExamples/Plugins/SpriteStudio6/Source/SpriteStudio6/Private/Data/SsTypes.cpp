@@ -239,11 +239,15 @@ FString	__EnumToString_( TEnumAsByte<SsAttributeKind::Type> n )
 	if ( SsAttributeKind::Rotz )		return "ROTZ";
 	if ( SsAttributeKind::Sclx )		return "SCLX";
 	if ( SsAttributeKind::Scly )		return "SCLY";
+	if ( SsAttributeKind::Losclx )		return "LSCX";
+	if ( SsAttributeKind::Loscly )		return "LSCY";
 	if ( SsAttributeKind::Alpha )		return "ALPH";
+	if ( SsAttributeKind::Loalpha )		return "LALP";
 	if ( SsAttributeKind::Prio )		return "PRIO";
 	if ( SsAttributeKind::Fliph )		return "FLPH";
 	if ( SsAttributeKind::Flipv )		return "FLPV";
 	if ( SsAttributeKind::Hide )		return "HIDE";
+	if ( SsAttributeKind::PartsColor )	return "PCOL";
 	if ( SsAttributeKind::Color )		return "VCOL";
 	if ( SsAttributeKind::Vertex )		return "VERT";
 	if ( SsAttributeKind::Pivotx )		return "PVTX";
@@ -260,6 +264,7 @@ FString	__EnumToString_( TEnumAsByte<SsAttributeKind::Type> n )
 	if ( SsAttributeKind::Uvsx )		return "UVSX";
 	if ( SsAttributeKind::Uvsy )		return "UVSY";
 	if ( SsAttributeKind::Boundr )		return "BNDR";
+	if ( SsAttributeKind::Mask )		return "MASK";
 	if ( SsAttributeKind::User )		return "USER";
 	if ( SsAttributeKind::Instance )	return "IPRM";
 	if ( SsAttributeKind::Effect)		return "EFCT";
@@ -281,11 +286,15 @@ void	__StringToEnum_( FString n , TEnumAsByte<SsAttributeKind::Type> &out )
 	if ( n == "ROTZ") out = SsAttributeKind::Rotz;
 	if ( n == "SCLX") out = SsAttributeKind::Sclx;
 	if ( n == "SCLY") out = SsAttributeKind::Scly;
+	if ( n == "LSCX") out = SsAttributeKind::Losclx;
+	if ( n == "LSCY") out = SsAttributeKind::Loscly;
 	if ( n == "ALPH") out = SsAttributeKind::Alpha;
+	if ( n == "LALP") out = SsAttributeKind::Loalpha;
 	if ( n == "PRIO") out = SsAttributeKind::Prio;
 	if ( n == "FLPH") out = SsAttributeKind::Fliph;
 	if ( n == "FLPV") out = SsAttributeKind::Flipv;
 	if ( n == "HIDE") out = SsAttributeKind::Hide;
+	if ( n == "PCOL") out = SsAttributeKind::PartsColor;
 	if ( n == "VCOL") out = SsAttributeKind::Color;
 	if ( n == "VERT") out = SsAttributeKind::Vertex;
 	if ( n == "PVTX") out = SsAttributeKind::Pivotx;
@@ -302,6 +311,7 @@ void	__StringToEnum_( FString n , TEnumAsByte<SsAttributeKind::Type> &out )
 	if ( n == "UVSX") out = SsAttributeKind::Uvsx;
 	if ( n == "UVSY") out = SsAttributeKind::Uvsy;
 	if ( n == "BNDR") out = SsAttributeKind::Boundr;
+	if ( n == "MASK") out = SsAttributeKind::Mask;
 	if ( n == "USER") out = SsAttributeKind::User;
 	if ( n == "IPRM") out = SsAttributeKind::Instance;
 	if ( n == "EFCT") out = SsAttributeKind::Effect;
