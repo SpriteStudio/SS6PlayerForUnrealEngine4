@@ -358,11 +358,12 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	if(State->noCells){ return false; }
 	if(nullptr == State->cellValue.cell){ return false; }
 	if(nullptr == State->cellValue.texture){ return false; }
+	float Alpha = (State->localalpha == 1.f) ? State->alpha : State->localalpha;
 	float HideAlpha = 1.f;
 	if(!bCalcHideParts)
 	{
 		if(State->hide){ return false; }
-		if(0.f == State->alpha){ return false; }
+		if(0.f == Alpha){ return false; }
 	}
 	else
 	{
@@ -508,7 +509,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			VertexColors[0].R = cbv.rgba.r;
 			VertexColors[0].G = cbv.rgba.g;
 			VertexColors[0].B = cbv.rgba.b;
-			VertexColors[0].A = (uint8)(cbv.rgba.a * State->alpha * HideAlpha);
+			VertexColors[0].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
 			ColorBlendRate[0] = cbv.rate;
 
 			for(int32 i = 1; i < 4; ++i)
@@ -525,7 +526,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				VertexColors[i].R = cbv.rgba.r;
 				VertexColors[i].G = cbv.rgba.g;
 				VertexColors[i].B = cbv.rgba.b;
-				VertexColors[i].A = (uint8)(cbv.rgba.a * State->alpha * HideAlpha);
+				VertexColors[i].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
 				ColorBlendRate[i] = cbv.rate;
 			}
 		}
@@ -535,7 +536,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		const SsColorBlendValue& cbv = State->colorValue.color;
 		for(int32 i = 0; i < 4; ++i)
 		{
-			VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * State->alpha * HideAlpha));
+			VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * Alpha * HideAlpha));
 			ColorBlendRate[i] = 1.f;
 		}
 	}
@@ -675,18 +676,18 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 				float matrix[4 * 4];
 				IdentityMatrix(matrix);
 
-				float parentAlpha = 1.f;
+				float ParentAlpha = 1.f;
 				if(Effect->parentState)
 				{
 					memcpy(matrix, Effect->parentState->matrix, sizeof(float)*16);
-					parentAlpha = Effect->parentState->alpha;
+					ParentAlpha = (Effect->parentState->localalpha == 1.f) ? Effect->parentState->alpha : Effect->parentState->localalpha;
 				}
 
 				TranslationMatrixM(matrix, lp.x * Effect->layoutScale.X, lp.y * Effect->layoutScale.Y, 0.f);
 				RotationXYZMatrixM(matrix, 0.f, 0.f, FMath::DegreesToRadians(lp.rot) + lp.direc);
 				ScaleMatrixM(matrix, lp.scale.X, lp.scale.Y, 1.f);
 
-				fcolor.a *= parentAlpha;
+				fcolor.a *= ParentAlpha;
 
 				if(Emitter->dispCell.cell && (0.f < fcolor.a))
 				{
@@ -723,7 +724,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						RenderPart.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
 
 						RenderPart.Vertices[i].TexCoord = Emitter->dispCell.uvs[i];
-						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * parentAlpha));
+						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * ParentAlpha));
 						RenderPart.Vertices[i].ColorBlendRate = (Emitter->particle.useColor || Emitter->particle.useTransColor) ? 1.f : 0.f;
 					}
 
