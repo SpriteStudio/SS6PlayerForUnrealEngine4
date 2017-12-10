@@ -543,7 +543,7 @@ void FSsProjectViewer::OnAnimationChanged(TSharedPtr<FString> NewSelection, ESel
 					Player.Pause();
 				}
 
-				FString Text = FString::Printf(TEXT("                    / %3d   "), (int)Player.GetAnimeEndFrame());
+				FString Text = FString::Printf(TEXT("                    / %3d   "), (int32)(Player.GetAnimeEndFrame()));
 				MaxFrameText->SetText(Text);
 
 				if(RenderOffScreen)
@@ -583,7 +583,7 @@ TOptional<int32> FSsProjectViewer::GetNowFrame() const
 }
 TOptional<int32> FSsProjectViewer::GetMaxFrame() const
 {
-	return (int32)Player.GetAnimeEndFrame();
+	return (int32)Player.GetAnimeEndFrame() - 1;
 }
 
 void FSsProjectViewer::OnChangeDrawGrid()
