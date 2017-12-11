@@ -23,7 +23,7 @@ private:
 	UFUNCTION()
 	void OnEndPlay(FName AnimPackName, FName AnimationName, int32 AnimPackIndex, int32 AnimationIndex);
 
-private:
-	UPROPERTY(Category=SpriteStudio, VisibleAnywhere)
+protected:
+	UPROPERTY(Category=SpriteStudio, VisibleAnywhere, BlueprintReadOnly)
 	class USsPlayerComponent* SsPlayerComponent;
 };
