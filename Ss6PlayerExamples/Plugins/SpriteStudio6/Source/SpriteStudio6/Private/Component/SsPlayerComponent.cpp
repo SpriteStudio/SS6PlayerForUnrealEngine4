@@ -126,13 +126,20 @@ bool USsPlayerComponent::HasAnySockets() const
 	{
 		return false;
 	}
-	if(Player.GetSsProject().IsValid())
+	if(nullptr != SsProject)
 	{
 		int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
 		int32 AnimationIndex = Player.GetPlayingAnimationIndex();
+#if WITH_EDITOR
+		if(!Player.GetSsProject().IsValid())
+		{
+			AnimPackIndex  = AutoPlayAnimPackIndex;
+			AnimationIndex = AutoPlayAnimationIndex;
+		}
+#endif
 		if((0 <= AnimPackIndex) && (0 <= AnimationIndex))
 		{
-			FSsAnimation& Animation = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList[AnimationIndex];
+			FSsAnimation& Animation = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex];
 			return (0 < Animation.PartAnimes.Num());
 		}
 	}
@@ -149,14 +156,21 @@ void USsPlayerComponent::QuerySupportedSockets(TArray<FComponentSocketDescriptio
 {
 	OutSockets.Empty();
 	if(    (RenderMode != ESsPlayerComponentRenderMode::OffScreenOnly)
-		&& (Player.GetSsProject().IsValid())
+		&& (nullptr != SsProject)
 		)
 	{
 		int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
 		int32 AnimationIndex = Player.GetPlayingAnimationIndex();
+#if WITH_EDITOR
+		if(!Player.GetSsProject().IsValid())
+		{
+			AnimPackIndex  = AutoPlayAnimPackIndex;
+			AnimationIndex = AutoPlayAnimationIndex;
+		}
+#endif
 		if((0 <= AnimPackIndex) && (0 <= AnimationIndex))
 		{
-			FSsAnimation& Animation = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList[AnimationIndex];
+			FSsAnimation& Animation = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex];
 			for(int32 i = 0; i < Animation.PartAnimes.Num(); ++i)
 			{
 				OutSockets.Add(
