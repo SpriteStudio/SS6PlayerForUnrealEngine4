@@ -829,12 +829,32 @@ int32 FSsPlayer::GetPartIndexFromName(FName PartName) const
 // パーツのTransformを取得
 bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector2D& OutPosition, float& OutRotate, FVector2D& OutScale) const
 {
-	if(nullptr != Decoder)
+	if((nullptr == Decoder) || (PartIndex < 0) || (Decoder->sortList.Num() <= PartIndex))
 	{
-		//TODO: 再実装 
-		//return Decoder->GetPartTransform(PartIndex, OutPosition, OutRotate, OutScale);
+		return false;
 	}
-	return false;
+
+	SsPartState* State = &(Decoder->partState[PartIndex]);
+	FVector2D Pivot = GetAnimPivot();
+	FVector2D CanvasSize = GetAnimCanvasSize();
+	OutPosition = FVector2D(
+		State->matrixLocal[12] + ((float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X)),
+		State->matrixLocal[13] - ((float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y))
+	);
+	OutPosition.X = OutPosition.X / CanvasSize.X;
+	OutPosition.Y = OutPosition.Y / CanvasSize.Y;
+
+	OutRotate = State->rotation.Z;
+	OutScale = State->scale * State->localscale;
+	for(SsPartState* ParentState = State->parent; NULL != ParentState; ParentState = ParentState->parent)
+	{
+		OutRotate += ParentState->rotation.Z;
+		OutScale *= ParentState->scale;
+	}
+	while(OutRotate <   0.f){ OutRotate += 360.f; }
+	while(OutRotate > 360.f){ OutRotate -= 360.f; }
+
+	return true;
 }
 
 // パーツのColorLabelを取得 
