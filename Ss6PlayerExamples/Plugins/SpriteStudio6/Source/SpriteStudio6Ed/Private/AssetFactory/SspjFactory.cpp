@@ -95,9 +95,10 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 
 	// sspj
 	USs6Project* NewProject = FSsLoader::LoadSsProject(InParent, ProjectName, Flags, Buffer, (InBufferEnd - Buffer) + 1);
-	NewProject->SetFilepath( GetCurrentFilename() );
 	if(NewProject)
 	{
+		NewProject->SetFilepath(GetCurrentFilename());
+
 		if(NewProject->AssetImportData == nullptr)
 		{
 			NewProject->AssetImportData = NewObject<UAssetImportData>(NewProject);

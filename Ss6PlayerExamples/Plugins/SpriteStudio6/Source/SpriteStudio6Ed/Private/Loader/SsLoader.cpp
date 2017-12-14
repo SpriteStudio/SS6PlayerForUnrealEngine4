@@ -15,10 +15,17 @@ USs6Project* FSsLoader::LoadSsProject(UObject* InParent, FName InName, EObjectFl
 	XMLDocument xml;
 	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	SsXmlIArchiver ar(&xml, "SpriteStudioProject");
+
+	FString VersionStr;
+	if(!ar.dc_attr("version", VersionStr) || !VersionStr.StartsWith("2."))
+	{
+		UE_LOG(LogSpriteStudioEd, Error, TEXT("Not Support SSPJ Version:%s"), *VersionStr);
+		return nullptr;
+	}
 
 	USs6Project* Proj = NewObject<USs6Project>(InParent, InName, Flags);
 	SerializeSsProject(*Proj, &ar);
