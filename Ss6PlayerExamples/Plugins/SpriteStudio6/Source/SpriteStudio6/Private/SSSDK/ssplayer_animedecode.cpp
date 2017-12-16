@@ -16,6 +16,9 @@
 //stdでののforeach宣言　
 #define USE_TRIANGLE_FIN (0)
 
+#pragma warning(disable:4456)
+#pragma warning(disable:4458)
+
 //乱数シードに利用するユニークIDを作成します。
 int seedMakeID = 123456;
 //エフェクトに与えるシードを取得する関数

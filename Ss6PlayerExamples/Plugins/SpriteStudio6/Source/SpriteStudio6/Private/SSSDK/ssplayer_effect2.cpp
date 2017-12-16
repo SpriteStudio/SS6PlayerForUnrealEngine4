@@ -18,6 +18,7 @@
 #define DEBUG_DISP (0)
 #define BUILD_ERROR_0418 (0)
 
+#pragma warning(disable:4456)
 
 
 static uint8 blendNumber( uint8 a , uint8 b , float rate )
