@@ -87,6 +87,12 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			BasePackageName = BasePackageName / ProjectNameStr;
 		}
 		AssetToolsModule.Get().CreateUniqueAssetName(BasePackageName, TEXT(""), ProjectPackageName, ProjectNameStr);
+		BasePackageName = ProjectPackageName;
+		int32 i = 0;
+		while(!InParentPackage->Rename(*ProjectPackageName, nullptr, REN_Test))
+		{
+			ProjectPackageName = BasePackageName + FString::FromInt(i++);
+		}
 		InParentPackage->Rename(*ProjectPackageName);
 	}
 
