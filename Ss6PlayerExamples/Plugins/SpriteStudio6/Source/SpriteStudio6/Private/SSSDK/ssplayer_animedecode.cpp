@@ -35,6 +35,7 @@ unsigned int getRandomSeed()
 
 SsAnimeDecoder::SsAnimeDecoder() : 
 	curAnimeFPS(0),
+	curAnimation(nullptr),
 	curAnimeStartFrame(0), 
 	curAnimeEndFrame(0),
 	curAnimeTotalFrame(0),
