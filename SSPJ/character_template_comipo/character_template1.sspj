@@ -142,10 +142,10 @@
 		<value>character_template_2head.ssae</value>
 		<value>character_template_3head.ssae</value>
 	</animepackNames>
-	<lastAnimeFile>character_template_2head.ssae</lastAnimeFile>
-	<lastAnimeName>jump_all</lastAnimeName>
-	<lastCellMapFile>character_2head.ssce</lastCellMapFile>
-	<lastCell>body</lastCell>
-	<lastPart>root</lastPart>
+	<lastAnimeFile>character_template_3head.ssae</lastAnimeFile>
+	<lastAnimeName>walk</lastAnimeName>
+	<lastCellMapFile>character_3head.ssce</lastCellMapFile>
+	<lastCell>object2</lastCell>
+	<lastPart>object2</lastPart>
 	<setupmode>0</setupmode>
 </SpriteStudioProject>

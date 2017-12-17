@@ -1139,10 +1139,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -2412,10 +2412,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -3605,10 +3605,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -4833,13 +4833,13 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="7">
 								<value>0</value>
 							</key>
 							<key time="11">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -5985,7 +5985,7 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -6934,7 +6934,7 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -8264,13 +8264,13 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="18">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="25">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -9443,7 +9443,7 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -10143,7 +10143,7 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -11254,16 +11254,16 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="9">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="19">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="29">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -12647,10 +12647,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -13834,10 +13834,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -15070,10 +15070,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="9">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -16115,10 +16115,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="9">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -17129,10 +17129,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="9">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -18282,10 +18282,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -19229,7 +19229,7 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -20062,10 +20062,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="9">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -20121,10 +20121,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="9">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -21224,10 +21224,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -21283,10 +21283,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -22526,13 +22526,13 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="5">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="20">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -23949,13 +23949,13 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="3">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="7">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -25261,10 +25261,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="3">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -26314,10 +26314,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="19">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -28549,7 +28549,7 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
@@ -29495,10 +29495,10 @@
 						</attribute>
 						<attribute tag="HIDE">
 							<key time="0">
-								<value>0</value>
+								<value>1</value>
 							</key>
 							<key time="39">
-								<value>0</value>
+								<value>1</value>
 							</key>
 						</attribute>
 					</attributes>
