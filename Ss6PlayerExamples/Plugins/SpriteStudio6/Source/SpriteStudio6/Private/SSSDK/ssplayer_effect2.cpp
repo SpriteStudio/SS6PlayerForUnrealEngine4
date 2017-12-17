@@ -319,7 +319,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 
 			float blend = OutQuad(_gt, et, 0.9f, 0.0f);
-			blend = blend; // *gp;
+//			blend = blend; // *gp;
 			blend += (_t / _life *0.1f);
 
 			p->x = blendFloat(p->x, particle.gravityPos.X, blend);
