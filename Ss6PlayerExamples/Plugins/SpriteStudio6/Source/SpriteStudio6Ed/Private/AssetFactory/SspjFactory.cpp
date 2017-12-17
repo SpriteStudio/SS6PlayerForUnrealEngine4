@@ -186,122 +186,123 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 		}
 
 		// texture
-		for(int i = 0; i < ImagePaths.Num(); ++i)
 		{
-			FString FileName = GetFilePath(CurPath, NewProject->Settings.ImageBaseDirectory, ImagePaths[i]);
+			UTextureFactory* TextureFact = NewObject<UTextureFactory>();
+			TextureFact->AddToRoot();
 
-			UTexture* ImportedTexture = NULL;
-			if(ExistImages && ExistImages->Contains(ImagePaths[i]))
+			for(int i = 0; i < ImagePaths.Num(); ++i)
 			{
-				ImportedTexture = ExistImages->FindChecked(ImagePaths[i]);
-			}
+				FString FileName = GetFilePath(CurPath, NewProject->Settings.ImageBaseDirectory, ImagePaths[i]);
 
-			TArray<uint8> Data;
-			if(FFileHelper::LoadFileToArray(Data, *FileName))
-			{
+				UTexture* ImportedTexture = NULL;
+				if(ExistImages && ExistImages->Contains(ImagePaths[i]))
+				{
+					ImportedTexture = ExistImages->FindChecked(ImagePaths[i]);
+				}
 
-				UTextureFactory* TextureFact = NewObject<UTextureFactory>();
-				TextureFact->AddToRoot();
+				TArray<uint8> Data;
+				if(FFileHelper::LoadFileToArray(Data, *FileName))
+				{
+					FString TextureName = FPaths::GetBaseFilename(ImagePaths[i]);
 
-				FString TextureName = FPaths::GetBaseFilename(ImagePaths[i]);
+					UPackage* TexturePackage = NULL;
+					if(ImportedTexture)
+					{
+						TexturePackage = ImportedTexture->GetOutermost();
+					}
+					else
+					{
+						FString TexturePackageName;
+						FString BasePackageName = FPackageName::GetLongPackagePath(InParent->GetOutermost()->GetName()) / TextureName;
+						AssetToolsModule.Get().CreateUniqueAssetName(BasePackageName, TEXT(""), TexturePackageName, TextureName);
+						TexturePackage = CreatePackage(NULL, *TexturePackageName);
+					}
 
-				UPackage* TexturePackage = NULL;
+					const uint8* BufferBegin = Data.GetData();
+					const uint8* BufferEnd = BufferBegin + Data.Num();
+					UTexture2D* NewTexture = (UTexture2D*)TextureFact->FactoryCreateBinary(
+						UTexture2D::StaticClass(),
+						TexturePackage,
+						FName(*TextureName),
+						Flags,
+						NULL,
+						*FPaths::GetExtension(ImagePaths[i]),
+						BufferBegin, BufferEnd,
+						Warn
+						);
+					if(NewTexture)
+					{
+						if(ImportSettings->bOverwriteMipGenSettings)
+						{
+							NewTexture->MipGenSettings = TMGS_NoMipmaps;
+						}
+						if(ImportSettings->bOverwriteTextureGroup)
+						{
+							NewTexture->LODGroup = ImportSettings->TextureGroup;
+						}
+						if(ImportSettings->bOverwriteCompressionSettings)
+						{
+							NewTexture->CompressionSettings = TextureCompressionSettings::TC_EditorIcon;
+						}
+						if(ImportSettings->bOverwriteTilingMethodFromSspj)
+						{
+							switch(ImageWrapModes[i])
+							{
+								case SsTexWrapMode::Clamp:
+									{
+										NewTexture->AddressX = NewTexture->AddressY = TA_Clamp;
+									} break;
+								case SsTexWrapMode::Repeat:
+									{
+										NewTexture->AddressX = NewTexture->AddressY = TA_Wrap;
+									} break;
+								case SsTexWrapMode::Mirror:
+									{
+										NewTexture->AddressX = NewTexture->AddressY = TA_Mirror;
+									} break;
+							}
+						}
+						if(ImportSettings->bOverwriteNeverStream)
+						{
+							NewTexture->NeverStream = true;
+						}
+						if(ImportSettings->bOverwriteFilterFromSspj)
+						{
+							switch(ImageFilterModes[i])
+							{
+								case SsTexFilterMode::Nearest:
+									{
+										NewTexture->Filter = TF_Nearest;
+									} break;
+								case SsTexFilterMode::Linear:
+									{
+										NewTexture->Filter = TF_Bilinear;
+									} break;
+							}
+						}
+
+						NewTexture->UpdateResource();
+
+						FAssetRegistryModule::AssetCreated(NewTexture);
+						TexturePackage->SetDirtyFlag(true);
+
+						ImportedTexture = NewTexture;
+					}
+				}
+
 				if(ImportedTexture)
 				{
-					TexturePackage = ImportedTexture->GetOutermost();
-				}
-				else
-				{
-					FString TexturePackageName;
-					FString BasePackageName = FPackageName::GetLongPackagePath(InParent->GetOutermost()->GetName()) / TextureName;
-					AssetToolsModule.Get().CreateUniqueAssetName(BasePackageName, TEXT(""), TexturePackageName, TextureName);
-					TexturePackage = CreatePackage(NULL, *TexturePackageName);
-				}
-
-				const uint8* BufferBegin = Data.GetData();
-				const uint8* BufferEnd = BufferBegin + Data.Num();
-				UTexture2D* NewTexture = (UTexture2D*)TextureFact->FactoryCreateBinary(
-					UTexture2D::StaticClass(),
-					TexturePackage,
-					FName(*TextureName),
-					Flags,
-					NULL,
-					*FPaths::GetExtension(ImagePaths[i]),
-					BufferBegin, BufferEnd,
-					Warn
-					);
-				if(NewTexture)
-				{
-					if(ImportSettings->bOverwriteMipGenSettings)
+					for(int ii = 0; ii < NewProject->CellmapList.Num(); ++ii)
 					{
-						NewTexture->MipGenSettings = TMGS_NoMipmaps;
-					}
-					if(ImportSettings->bOverwriteTextureGroup)
-					{
-						NewTexture->LODGroup = ImportSettings->TextureGroup;
-					}
-					if(ImportSettings->bOverwriteCompressionSettings)
-					{
-						NewTexture->CompressionSettings = TextureCompressionSettings::TC_EditorIcon;
-					}
-					if(ImportSettings->bOverwriteTilingMethodFromSspj)
-					{
-						switch(ImageWrapModes[i])
+						if(NewProject->CellmapList[ii].ImagePath == ImagePaths[i])
 						{
-							case SsTexWrapMode::Clamp:
-								{
-									NewTexture->AddressX = NewTexture->AddressY = TA_Clamp;
-								} break;
-							case SsTexWrapMode::Repeat:
-								{
-									NewTexture->AddressX = NewTexture->AddressY = TA_Wrap;
-								} break;
-							case SsTexWrapMode::Mirror:
-								{
-									NewTexture->AddressX = NewTexture->AddressY = TA_Mirror;
-								} break;
+							NewProject->CellmapList[ii].Texture = ImportedTexture;
 						}
 					}
-					if(ImportSettings->bOverwriteNeverStream)
-					{
-						NewTexture->NeverStream = true;
-					}
-					if(ImportSettings->bOverwriteFilterFromSspj)
-					{
-						switch(ImageFilterModes[i])
-						{
-							case SsTexFilterMode::Nearest:
-								{
-									NewTexture->Filter = TF_Nearest;
-								} break;
-							case SsTexFilterMode::Linear:
-								{
-									NewTexture->Filter = TF_Bilinear;
-								} break;
-						}
-					}
-
-					NewTexture->UpdateResource();
-
-					FAssetRegistryModule::AssetCreated(NewTexture);
-					TexturePackage->SetDirtyFlag(true);
-
-					TextureFact->RemoveFromRoot();
-
-					ImportedTexture = NewTexture;
 				}
 			}
 
-			if(ImportedTexture)
-			{
-				for(int ii = 0; ii < NewProject->CellmapList.Num(); ++ii)
-				{
-					if(NewProject->CellmapList[ii].ImagePath == ImagePaths[i])
-					{
-						NewProject->CellmapList[ii].Texture = ImportedTexture;
-					}
-				}
-			}
+			TextureFact->RemoveFromRoot();
 		}
 	}
 
