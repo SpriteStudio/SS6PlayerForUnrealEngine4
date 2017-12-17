@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioCellMap version="1.00.01">
+	<name>ss_effect</name>
+	<exportPath></exportPath>
+	<generator>TexturePacker</generator>
+	<packed>1</packed>
+	<imagePath>ss_effect.png</imagePath>
+	<pixelSize>2048 2048</pixelSize>
+	<overrideTexSettings>0</overrideTexSettings>
+	<wrapMode>clamp</wrapMode>
+	<filterMode>linear</filterMode>
+	<imagePathAtImport>D:/ss_data/effect_sample/ss_effect.png</imagePathAtImport>
+	<packInfoFilePath></packInfoFilePath>
+	<texPackSettings>
+		<maxSize>4096 4096</maxSize>
+		<forcePo2>1</forcePo2>
+		<forceSquare>0</forceSquare>
+		<margin>0</margin>
+		<padding>1</padding>
+	</texPackSettings>
+	<cells>
+		<cell>
+			<name>aura</name>
+			<pos>1726 194</pos>
+			<size>230 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/aura.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>balllight</name>
+			<pos>765 1122</pos>
+			<size>239 239</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/balllight.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>circle1</name>
+			<pos>4 1957</pos>
+			<size>82 86</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/circle1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>circle2</name>
+			<pos>598 263</pos>
+			<size>90 89</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/circle2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>circle3</name>
+			<pos>697 1939</pos>
+			<size>58 58</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/circle3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>cloud</name>
+			<pos>965 263</pos>
+			<size>256 237</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/cloud.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>comet1</name>
+			<pos>305 369</pos>
+			<size>56 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/comet1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>comet2</name>
+			<pos>1200 1078</pos>
+			<size>208 227</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/comet2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>comet3</name>
+			<pos>365 369</pos>
+			<size>42 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/comet3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>confetti</name>
+			<pos>292 1940</pos>
+			<size>93 103</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/confetti.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dot1</name>
+			<pos>329 629</pos>
+			<size>4 4</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/dot1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dot2</name>
+			<pos>319 629</pos>
+			<size>6 6</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/dot2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dot3</name>
+			<pos>305 629</pos>
+			<size>10 10</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/dot3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>droplet</name>
+			<pos>1773 1141</pos>
+			<size>125 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/droplet.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dust1</name>
+			<pos>1225 244</pos>
+			<size>227 213</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/dust1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dust2</name>
+			<pos>1224 1555</pos>
+			<size>212 225</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/dust2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion1</name>
+			<pos>1863 1714</pos>
+			<size>181 182</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/explosion1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion2</name>
+			<pos>1746 879</pos>
+			<size>183 183</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/explosion2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion3</name>
+			<pos>1788 326</pos>
+			<size>202 187</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/explosion3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion4</name>
+			<pos>1010 1839</pos>
+			<size>202 205</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/explosion4.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion5</name>
+			<pos>264 917</pos>
+			<size>252 254</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/explosion5.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>feather</name>
+			<pos>971 1365</pos>
+			<size>122 235</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/feather.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fire</name>
+			<pos>519 628</pos>
+			<size>61 253</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/fire.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fivepartiesstar1</name>
+			<pos>1311 838</pos>
+			<size>226 214</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/fivepartiesstar1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fivepartiesstar2</name>
+			<pos>1412 1056</pos>
+			<size>226 214</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/fivepartiesstar2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flame</name>
+			<pos>584 628</pos>
+			<size>250 244</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flame.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash1</name>
+			<pos>716 350</pos>
+			<size>245 243</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flash1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash2</name>
+			<pos>1902 1141</pos>
+			<size>132 134</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flash2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash3</name>
+			<pos>1565 553</pos>
+			<size>217 198</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flash3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash5</name>
+			<pos>1892 1279</pos>
+			<size>128 127</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flash5.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash6</name>
+			<pos>264 1685</pos>
+			<size>247 251</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flash6.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash7</name>
+			<pos>1216 1839</pos>
+			<size>201 202</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flash7.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash8</name>
+			<pos>188 264</pos>
+			<size>254 101</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flash8.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flashhole</name>
+			<pos>515 1685</pos>
+			<size>253 250</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flashhole.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fllash4</name>
+			<pos>1226 726</pos>
+			<size>102 108</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/fllash4.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flower1</name>
+			<pos>1113 726</pos>
+			<size>109 108</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flower1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flower2</name>
+			<pos>1647 1900</pos>
+			<size>114 124</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flower2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flower3</name>
+			<pos>500 263</pos>
+			<size>94 93</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/flower3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>form</name>
+			<pos>1074 841</pos>
+			<size>233 233</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/form.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>galaxy</name>
+			<pos>519 1175</pos>
+			<size>242 250</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/galaxy.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>grain</name>
+			<pos>772 1682</pos>
+			<size>226 236</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/grain.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hart</name>
+			<pos>1113 504</pos>
+			<size>240 218</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/hart.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze1</name>
+			<pos>1786 694</pos>
+			<size>196 181</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/haze1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze2</name>
+			<pos>1002 1604</pos>
+			<size>218 231</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/haze2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze3</name>
+			<pos>859 597</pos>
+			<size>250 240</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/haze3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze4</name>
+			<pos>188 4</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/haze4.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hazecircle</name>
+			<pos>4 657</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/hazecircle.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hexagon1</name>
+			<pos>900 1922</pos>
+			<size>106 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/hexagon1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hexagon2</name>
+			<pos>1612 4</pos>
+			<size>106 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/hexagon2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hole</name>
+			<pos>494 4</pos>
+			<size>255 255</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/hole.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ice1</name>
+			<pos>1244 4</pos>
+			<size>190 211</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ice1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ice2</name>
+			<pos>1788 517</pos>
+			<size>200 173</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ice2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ice3</name>
+			<pos>1933 1011</pos>
+			<size>101 126</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ice3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>jewel</name>
+			<pos>1867 1541</pos>
+			<size>169 169</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/jewel.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>light1</name>
+			<pos>557 1939</pos>
+			<size>72 72</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/light1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>light2</name>
+			<pos>1357 553</pos>
+			<size>204 201</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/light2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>magiccircle1</name>
+			<pos>633 1939</pos>
+			<size>60 61</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/magiccircle1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>magiccircle2</name>
+			<pos>761 876</pos>
+			<size>242 242</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/magiccircle2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>minus</name>
+			<pos>305 643</pos>
+			<size>72 9</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/minus.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>petal</name>
+			<pos>446 264</pos>
+			<size>50 101</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/petal.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>plus</name>
+			<pos>476 1940</pos>
+			<size>77 78</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/plus.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ray1</name>
+			<pos>411 369</pos>
+			<size>42 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ray1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ray2</name>
+			<pos>838 597</pos>
+			<size>17 242</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ray2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ray3</name>
+			<pos>448 4</pos>
+			<size>42 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ray3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring</name>
+			<pos>1736 1463</pos>
+			<size>127 126</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ring.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring1</name>
+			<pos>1765 1900</pos>
+			<size>120 120</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ring1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring2</name>
+			<pos>1282 1309</pos>
+			<size>222 222</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ring2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring3</name>
+			<pos>1421 1784</pos>
+			<size>222 222</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ring3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ripple1</name>
+			<pos>457 369</pos>
+			<size>255 255</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ripple1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ripple2</name>
+			<pos>753 4</pos>
+			<size>247 255</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/ripple2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock1</name>
+			<pos>1978 4</pos>
+			<size>65 116</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/rock1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock2</name>
+			<pos>1456 216</pos>
+			<size>144 152</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/rock2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock3</name>
+			<pos>1960 194</pos>
+			<size>74 123</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/rock3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock4</name>
+			<pos>1933 879</pos>
+			<size>103 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/rock4.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock5</name>
+			<pos>1736 1593</pos>
+			<size>123 124</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/rock5.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>sand</name>
+			<pos>1004 4</pos>
+			<size>236 236</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/sand.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>sixpartiesstar</name>
+			<pos>1604 256</pos>
+			<size>114 130</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/sixpartiesstar.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>slash</name>
+			<pos>1456 372</pos>
+			<size>143 177</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/slash.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smoke1</name>
+			<pos>763 1429</pos>
+			<size>204 249</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/smoke1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smoke2</name>
+			<pos>520 885</pos>
+			<size>237 248</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/smoke2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smork3</name>
+			<pos>1726 4</pos>
+			<size>248 186</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/smork3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smork4</name>
+			<pos>4 369</pos>
+			<size>297 284</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/smork4.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>snowcristal</name>
+			<pos>1612 130</pos>
+			<size>106 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/snowcristal.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>splash1</name>
+			<pos>1559 1485</pos>
+			<size>173 198</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/splash1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>splash2</name>
+			<pos>1541 758</pos>
+			<size>201 199</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/splash2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>square1</name>
+			<pos>692 263</pos>
+			<size>83 83</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/square1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>square2</name>
+			<pos>389 1940</pos>
+			<size>83 83</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/square2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>star1</name>
+			<pos>772 1922</pos>
+			<size>124 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/star1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>star2</name>
+			<pos>1726 1273</pos>
+			<size>162 186</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/star2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>starbow</name>
+			<pos>264 657</pos>
+			<size>251 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/starbow.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>steam</name>
+			<pos>4 917</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/steam.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder1</name>
+			<pos>1097 1321</pos>
+			<size>181 230</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/thunder1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder2</name>
+			<pos>1008 1083</pos>
+			<size>188 234</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/thunder2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder3</name>
+			<pos>1440 1535</pos>
+			<size>115 220</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/thunder3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder4</name>
+			<pos>4 4</pos>
+			<size>180 361</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/thunder4.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>triangle1</name>
+			<pos>90 1957</pos>
+			<size>97 84</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/triangle1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>triangle2</name>
+			<pos>191 1957</pos>
+			<size>97 83</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/triangle2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex1</name>
+			<pos>519 1429</pos>
+			<size>240 250</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/vortex1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex2</name>
+			<pos>1438 4</pos>
+			<size>170 208</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/vortex2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex3</name>
+			<pos>4 1177</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/vortex3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex4</name>
+			<pos>1508 1274</pos>
+			<size>214 207</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/vortex4.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wave1</name>
+			<pos>1007 841</pos>
+			<size>63 238</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wave1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wave2</name>
+			<pos>1642 1141</pos>
+			<size>127 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wave2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wave3</name>
+			<pos>1892 1410</pos>
+			<size>127 127</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wave3.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheel1</name>
+			<pos>264 1175</pos>
+			<size>251 251</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wheel1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheel2</name>
+			<pos>264 1430</pos>
+			<size>251 251</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wheel2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheellight1</name>
+			<pos>4 1437</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wheellight1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheellight2</name>
+			<pos>4 1697</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wheellight2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wind1</name>
+			<pos>1647 1721</pos>
+			<size>119 167</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wind1.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wind2</name>
+			<pos>1603 390</pos>
+			<size>181 144</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle-assets/wind2.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+	</cells>
+</SpriteStudioCellMap>

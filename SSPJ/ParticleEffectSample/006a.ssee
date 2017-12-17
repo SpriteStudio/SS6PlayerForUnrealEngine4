@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioEffect version="1.01.00">
+	<name>006a</name>
+	<exportPath></exportPath>
+	<effectData>
+		<lockRandSeed>19</lockRandSeed>
+		<isLockRandSeed>1</isLockRandSeed>
+		<fps>30</fps>
+		<bgcolor>FF000000</bgcolor>
+		<renderVersion>2</renderVersion>
+		<layoutScaleX>100</layoutScaleX>
+		<layoutScaleY>100</layoutScaleY>
+		<nodeList>
+			<node>
+				<name>Root</name>
+				<type>Root</type>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<visible>1</visible>
+			</node>
+			<node>
+				<name></name>
+				<type>Emmiter</type>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>circle2</CellName>
+					<CellMapName>ss_effect.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>19</attimeCreate>
+							<interval>2</interval>
+							<lifetime>1</lifetime>
+							<speed value="10.9375" subvalue="60" />
+							<lifespan value="1" subvalue="13" />
+							<angle>0</angle>
+							<angleVariance>360</angleVariance>
+						</value>
+						<value name="trans_speed">
+							<name>trans_speed</name>
+							<Speed value="0" subvalue="0" />
+						</value>
+						<value name="init_vertexcolor">
+							<name>init_vertexcolor</name>
+							<Color value="FEFFFF80" subvalue="FEFFFFFF" />
+						</value>
+						<value name="trans_size">
+							<name>trans_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="0" subvalue="0" />
+						</value>
+						<value name="trans_colorfade">
+							<name>trans_colorfade</name>
+							<disprange value="26.0416679382324" subvalue="65.1041717529297" />
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name></name>
+				<type>Particle</type>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+		</nodeList>
+	</effectData>
+</SpriteStudioEffect>

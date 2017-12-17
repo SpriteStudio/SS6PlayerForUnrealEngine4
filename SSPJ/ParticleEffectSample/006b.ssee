@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioEffect version="1.01.00">
+	<name>006b</name>
+	<exportPath></exportPath>
+	<effectData>
+		<lockRandSeed>31</lockRandSeed>
+		<isLockRandSeed>0</isLockRandSeed>
+		<fps>30</fps>
+		<bgcolor>FF000000</bgcolor>
+		<renderVersion>2</renderVersion>
+		<layoutScaleX>100</layoutScaleX>
+		<layoutScaleY>100</layoutScaleY>
+		<nodeList>
+			<node>
+				<name>Root</name>
+				<type>Root</type>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<visible>1</visible>
+			</node>
+			<node>
+				<name></name>
+				<type>Emmiter</type>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>star1</CellName>
+					<CellMapName>ss_effect.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>3</maximumParticle>
+							<attimeCreate>2</attimeCreate>
+							<interval>1</interval>
+							<lifetime>1</lifetime>
+							<speed value="0" subvalue="0" />
+							<lifespan value="6" subvalue="6" />
+							<angle>0</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+						<value name="init_rotation">
+							<name>init_rotation</name>
+							<Rotation value="0" subvalue="360" />
+							<RotationAdd value="0" subvalue="0" />
+						</value>
+						<value name="init_vertexcolor">
+							<name>init_vertexcolor</name>
+							<Color value="FF80C8FF" subvalue="FF80C8FF" />
+						</value>
+						<value name="init_size">
+							<name>init_size</name>
+							<SizeX value="0.100000001490116" subvalue="0.100000001490116" />
+							<SizeY value="0.5" subvalue="0.5" />
+							<ScaleFactor value="1" subvalue="1.39999997615814" />
+						</value>
+						<value name="trans_size">
+							<name>trans_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="10" subvalue="10" />
+							<ScaleFactor value="1" subvalue="2" />
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name></name>
+				<type>Particle</type>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+		</nodeList>
+	</effectData>
+</SpriteStudioEffect>

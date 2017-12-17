@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioEffect version="1.01.00">
+	<name>040a</name>
+	<exportPath></exportPath>
+	<effectData>
+		<lockRandSeed>6</lockRandSeed>
+		<isLockRandSeed>1</isLockRandSeed>
+		<fps>30</fps>
+		<bgcolor>FF000000</bgcolor>
+		<renderVersion>2</renderVersion>
+		<layoutScaleX>100</layoutScaleX>
+		<layoutScaleY>100</layoutScaleY>
+		<nodeList>
+			<node>
+				<name>Root</name>
+				<type>Root</type>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<visible>1</visible>
+			</node>
+			<node>
+				<name>Emitter_1</name>
+				<type>Emmiter</type>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>star1_c</CellName>
+					<CellMapName>ss_effect_c.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>80</maximumParticle>
+							<attimeCreate>5</attimeCreate>
+							<interval>1</interval>
+							<lifetime>180</lifetime>
+							<speed value="18.75" subvalue="23.9583339691162" />
+							<lifespan value="30" subvalue="34" />
+							<angle>0</angle>
+							<angleVariance>87.5675659179688</angleVariance>
+						</value>
+						<value name="trans_speed">
+							<name>trans_speed</name>
+							<Speed value="1" subvalue="2" />
+						</value>
+						<value name="init_rotation">
+							<name>init_rotation</name>
+							<Rotation value="0" subvalue="22.4999809265137" />
+							<RotationAdd value="22.4999809265137" subvalue="64.6500015258789" />
+						</value>
+						<value name="trans_rotation">
+							<name>trans_rotation</name>
+							<RotationFactor>2.54054045677185</RotationFactor>
+							<EndLifeTimePer>5.94594573974609</EndLifeTimePer>
+						</value>
+						<value name="add_tangentiala">
+							<name>add_tangentiala</name>
+							<Acceleration value="52.0833358764648" subvalue="81.2500076293945" />
+						</value>
+						<value name="init_size">
+							<name>init_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="0.00999999977648258" subvalue="0.00999999977648258" />
+						</value>
+						<value name="trans_size">
+							<name>trans_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="1" subvalue="1.5" />
+						</value>
+						<value name="TurnToDirection">
+							<Rotation>0</Rotation>
+							<name>TurnToDirection</name>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_1</name>
+				<type>Particle</type>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+		</nodeList>
+	</effectData>
+</SpriteStudioEffect>

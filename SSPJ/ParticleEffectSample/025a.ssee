@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioEffect version="1.01.00">
+	<name>025a</name>
+	<exportPath></exportPath>
+	<effectData>
+		<lockRandSeed>18</lockRandSeed>
+		<isLockRandSeed>1</isLockRandSeed>
+		<fps>30</fps>
+		<bgcolor>FF000000</bgcolor>
+		<renderVersion>2</renderVersion>
+		<layoutScaleX>100</layoutScaleX>
+		<layoutScaleY>100</layoutScaleY>
+		<nodeList>
+			<node>
+				<name>Root</name>
+				<type>Root</type>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<visible>1</visible>
+			</node>
+			<node>
+				<name>Emitter_1</name>
+				<type>Emmiter</type>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>ray2</CellName>
+					<CellMapName>ss_effect.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>1</interval>
+							<lifetime>30</lifetime>
+							<speed value="27.0833339691162" subvalue="43.2299995422363" />
+							<lifespan value="30" subvalue="30" />
+							<angle>360</angle>
+							<angleVariance>360</angleVariance>
+						</value>
+						<value name="init_rotation">
+							<name>init_rotation</name>
+							<Rotation value="-1.87754612852586E-5" subvalue="-1.87754612852586E-5" />
+							<RotationAdd value="-1.87754612852586E-5" subvalue="-1.87754612852586E-5" />
+						</value>
+						<value name="trans_vertexcolor">
+							<name>trans_vertexcolor</name>
+							<Color value="AA1DA390" subvalue="AA9BFBC3" />
+						</value>
+						<value name="init_size">
+							<name>init_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="0.0833333358168602" subvalue="0.0833333358168602" />
+						</value>
+						<value name="trans_size">
+							<name>trans_size</name>
+							<SizeX value="0.916666686534882" subvalue="1.33333337306976" />
+							<SizeY value="1.25" subvalue="2.33333325386047" />
+							<ScaleFactor value="2.41666674613953" subvalue="3.16666674613953" />
+						</value>
+						<value name="trans_colorfade">
+							<name>trans_colorfade</name>
+							<disprange value="11.9791669845581" subvalue="46.875" />
+						</value>
+						<value name="TurnToDirection">
+							<Rotation>0</Rotation>
+							<name>TurnToDirection</name>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_1</name>
+				<type>Particle</type>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_2</name>
+				<type>Emmiter</type>
+				<arrayIndex>3</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>dust2</CellName>
+					<CellMapName>ss_effect.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>65</priority>
+							<maximumParticle>10</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>1</interval>
+							<lifetime>24</lifetime>
+							<speed value="0" subvalue="0" />
+							<lifespan value="31" subvalue="75" />
+							<angle>0</angle>
+							<angleVariance>29.1891899108887</angleVariance>
+						</value>
+						<value name="init_rotation">
+							<name>init_rotation</name>
+							<Rotation value="-11.250018119812" subvalue="29.999979019165" />
+							<RotationAdd value="0" subvalue="3" />
+						</value>
+						<value name="trans_vertexcolor">
+							<name>trans_vertexcolor</name>
+							<Color value="FF008C00" subvalue="FF00B8FF" />
+						</value>
+						<value name="init_size">
+							<name>init_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="0.333333343267441" subvalue="0.333333343267441" />
+						</value>
+						<value name="trans_size">
+							<name>trans_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="3.66666674613953" subvalue="6.58333349227905" />
+						</value>
+						<value name="trans_colorfade">
+							<name>trans_colorfade</name>
+							<disprange value="11.4583339691162" subvalue="11.9791669845581" />
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_2</name>
+				<type>Particle</type>
+				<arrayIndex>4</arrayIndex>
+				<parentIndex>3</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_3</name>
+				<type>Emmiter</type>
+				<arrayIndex>5</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>balllight</CellName>
+					<CellMapName>ss_effect.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>1</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>1</interval>
+							<lifetime>30</lifetime>
+							<speed value="0" subvalue="0" />
+							<lifespan value="30" subvalue="30" />
+							<angle>0</angle>
+							<angleVariance>46.7027015686035</angleVariance>
+						</value>
+						<value name="init_size">
+							<name>init_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="0" subvalue="0" />
+						</value>
+						<value name="trans_size">
+							<name>trans_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="2.16666674613953" subvalue="2.16666674613953" />
+						</value>
+						<value name="trans_colorfade">
+							<name>trans_colorfade</name>
+							<disprange value="14.0625" subvalue="27.0833339691162" />
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_3</name>
+				<type>Particle</type>
+				<arrayIndex>6</arrayIndex>
+				<parentIndex>5</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+		</nodeList>
+	</effectData>
+</SpriteStudioEffect>

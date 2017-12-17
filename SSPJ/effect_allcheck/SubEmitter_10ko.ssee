@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioEffect version="2.00.00">
+	<name>SubEmitter_10ko</name>
+	<exportPath></exportPath>
+	<effectData>
+		<lockRandSeed>0</lockRandSeed>
+		<isLockRandSeed>0</isLockRandSeed>
+		<fps>30</fps>
+		<bgcolor>FF000000</bgcolor>
+		<renderVersion>2</renderVersion>
+		<layoutScaleX>100</layoutScaleX>
+		<layoutScaleY>100</layoutScaleY>
+		<nodeList>
+			<node>
+				<name>Root</name>
+				<type>Root</type>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<visible>1</visible>
+			</node>
+			<node>
+				<name>Emitter_1</name>
+				<type>Emmiter</type>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="0" subvalue="0" />
+							<lifespan value="30" subvalue="30" />
+							<angle>0</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_1</name>
+				<type>Particle</type>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_2</name>
+				<type>Emmiter</type>
+				<arrayIndex>3</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>100</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>1</interval>
+							<lifetime>1</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>0</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_2</name>
+				<type>Particle</type>
+				<arrayIndex>4</arrayIndex>
+				<parentIndex>3</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_3</name>
+				<type>Emmiter</type>
+				<arrayIndex>5</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>30</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_3</name>
+				<type>Particle</type>
+				<arrayIndex>6</arrayIndex>
+				<parentIndex>5</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_4</name>
+				<type>Emmiter</type>
+				<arrayIndex>7</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>60</angle>
+							<angleVariance>10</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_4</name>
+				<type>Particle</type>
+				<arrayIndex>8</arrayIndex>
+				<parentIndex>7</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_5</name>
+				<type>Emmiter</type>
+				<arrayIndex>9</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>90</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_5</name>
+				<type>Particle</type>
+				<arrayIndex>10</arrayIndex>
+				<parentIndex>9</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_6</name>
+				<type>Emmiter</type>
+				<arrayIndex>11</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>120</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_6</name>
+				<type>Particle</type>
+				<arrayIndex>12</arrayIndex>
+				<parentIndex>11</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_7</name>
+				<type>Emmiter</type>
+				<arrayIndex>13</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>150</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_7</name>
+				<type>Particle</type>
+				<arrayIndex>14</arrayIndex>
+				<parentIndex>13</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_8</name>
+				<type>Emmiter</type>
+				<arrayIndex>15</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>180</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_8</name>
+				<type>Particle</type>
+				<arrayIndex>16</arrayIndex>
+				<parentIndex>15</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_9</name>
+				<type>Emmiter</type>
+				<arrayIndex>17</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>210</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_9</name>
+				<type>Particle</type>
+				<arrayIndex>18</arrayIndex>
+				<parentIndex>17</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_10</name>
+				<type>Emmiter</type>
+				<arrayIndex>19</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>240</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_10</name>
+				<type>Particle</type>
+				<arrayIndex>20</arrayIndex>
+				<parentIndex>19</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+			<node>
+				<name>Emitter_11</name>
+				<type>Emmiter</type>
+				<arrayIndex>21</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>NewCell_2</CellName>
+					<CellMapName>color_bar.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>20</maximumParticle>
+							<attimeCreate>1</attimeCreate>
+							<interval>10</interval>
+							<lifetime>10</lifetime>
+							<speed value="5" subvalue="5" />
+							<lifespan value="30" subvalue="30" />
+							<angle>270</angle>
+							<angleVariance>0</angleVariance>
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_11</name>
+				<type>Particle</type>
+				<arrayIndex>22</arrayIndex>
+				<parentIndex>21</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+		</nodeList>
+	</effectData>
+</SpriteStudioEffect>

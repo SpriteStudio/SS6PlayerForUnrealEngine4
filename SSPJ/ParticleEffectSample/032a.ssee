@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioEffect version="1.01.00">
+	<name>032a</name>
+	<exportPath></exportPath>
+	<effectData>
+		<lockRandSeed>17</lockRandSeed>
+		<isLockRandSeed>1</isLockRandSeed>
+		<fps>30</fps>
+		<bgcolor>FF000000</bgcolor>
+		<renderVersion>2</renderVersion>
+		<layoutScaleX>100</layoutScaleX>
+		<layoutScaleY>100</layoutScaleY>
+		<nodeList>
+			<node>
+				<name>Root</name>
+				<type>Root</type>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<visible>1</visible>
+			</node>
+			<node>
+				<name>Emitter_1</name>
+				<type>Emmiter</type>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName>feather</CellName>
+					<CellMapName>ss_effect.ssce</CellMapName>
+					<BlendType>Add</BlendType>
+					<list>
+						<value name="Basic">
+							<name>Basic</name>
+							<priority>64</priority>
+							<maximumParticle>13</maximumParticle>
+							<attimeCreate>4</attimeCreate>
+							<interval>1</interval>
+							<lifetime>90</lifetime>
+							<speed value="24.4799995422363" subvalue="24.4799995422363" />
+							<lifespan value="10" subvalue="64" />
+							<angle>0</angle>
+							<angleVariance>122.594596862793</angleVariance>
+						</value>
+						<value name="OverWriteSeed">
+							<name>OverWriteSeed</name>
+							<Seed>0</Seed>
+						</value>
+						<value name="Gravity">
+							<name>Gravity</name>
+							<Gravity>0 -1.05999994277954</Gravity>
+						</value>
+						<value name="init_position">
+							<name>init_position</name>
+							<OffsetX value="-20.8333415985107" subvalue="31.2499904632568" />
+							<OffsetY value="-31.2500076293945" subvalue="41.6666564941406" />
+						</value>
+						<value name="trans_speed">
+							<name>trans_speed</name>
+							<Speed value="26.0416698455811" subvalue="100" />
+						</value>
+						<value name="init_rotation">
+							<name>init_rotation</name>
+							<Rotation value="-56.2500152587891" subvalue="63.7499771118164" />
+							<RotationAdd value="0" subvalue="11.25" />
+						</value>
+						<value name="trans_rotation">
+							<name>trans_rotation</name>
+							<RotationFactor>-3.40540552139282</RotationFactor>
+							<EndLifeTimePer>94.594596862793</EndLifeTimePer>
+						</value>
+						<value name="init_size">
+							<name>init_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="0.25" subvalue="0.25" />
+						</value>
+						<value name="trans_size">
+							<name>trans_size</name>
+							<SizeX value="1" subvalue="1" />
+							<SizeY value="1" subvalue="1" />
+							<ScaleFactor value="1.29999995231628" subvalue="1.29999995231628" />
+						</value>
+						<value name="trans_colorfade">
+							<name>trans_colorfade</name>
+							<disprange value="25" subvalue="75" />
+						</value>
+					</list>
+				</behavior>
+			</node>
+			<node>
+				<name>Particle_1</name>
+				<type>Particle</type>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<visible>1</visible>
+				<behavior>
+					<CellName></CellName>
+					<CellMapName></CellMapName>
+					<BlendType>Add</BlendType>
+					<list />
+				</behavior>
+			</node>
+		</nodeList>
+	</effectData>
+</SpriteStudioEffect>

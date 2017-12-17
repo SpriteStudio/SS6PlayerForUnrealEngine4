@@ -1,0 +1,1127 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioAnimePack version="2.00.01">
+	<settings>
+		<fps>30</fps>
+		<frameCount>11</frameCount>
+		<sortMode>prio</sortMode>
+		<canvasSize>320 320</canvasSize>
+		<pivot>0 0</pivot>
+		<bgColor>FF323232</bgColor>
+		<gridSize>32</gridSize>
+		<gridColor>FF808080</gridColor>
+		<ik_depth>3</ik_depth>
+		<startFrame>0</startFrame>
+		<endFrame>10</endFrame>
+		<outStartNum>0</outStartNum>
+	</settings>
+	<name>e003</name>
+	<exportPath></exportPath>
+	<Model>
+		<partList>
+			<value>
+				<name>root</name>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<type>null</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>part_1</name>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>null</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>comet2_c</name>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>add</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>comet2_c_1</name>
+				<arrayIndex>3</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>add</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>comet2_c_1_1</name>
+				<arrayIndex>4</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>add</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>comet2_c_1_1_1</name>
+				<arrayIndex>5</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>normal</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>add</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>003a</name>
+				<arrayIndex>6</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>effect</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<refEffectName>003a</refEffectName>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>003a_1</name>
+				<arrayIndex>7</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>effect</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<refEffectName>003a</refEffectName>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+		</partList>
+		<boneList />
+		<meshList />
+	</Model>
+	<cellmapNames>
+		<value>ss_effect_c.ssce</value>
+	</cellmapNames>
+	<animeList>
+		<anime>
+			<name>Setup</name>
+			<overrideSettings>1</overrideSettings>
+			<settings>
+				<fps>30</fps>
+				<frameCount>1</frameCount>
+				<sortMode>prio</sortMode>
+				<canvasSize>320 320</canvasSize>
+				<pivot>0 0</pivot>
+				<bgColor>FF323232</bgColor>
+				<gridSize>32</gridSize>
+				<gridColor>FF808080</gridColor>
+				<ik_depth>3</ik_depth>
+				<startFrame>0</startFrame>
+				<endFrame>0</endFrame>
+				<outStartNum>0</outStartNum>
+			</settings>
+			<labels />
+			<isSetup>1</isSetup>
+			<partAnimes>
+				<partAnime>
+					<partName>root</partName>
+					<attributes>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+			</partAnimes>
+		</anime>
+		<anime>
+			<name>burner</name>
+			<overrideSettings>1</overrideSettings>
+			<settings>
+				<fps>30</fps>
+				<frameCount>31</frameCount>
+				<sortMode>prio</sortMode>
+				<canvasSize>640 640</canvasSize>
+				<pivot>-0.5 0</pivot>
+				<bgColor>FF323232</bgColor>
+				<gridSize>32</gridSize>
+				<gridColor>FF808080</gridColor>
+				<ik_depth>3</ik_depth>
+				<startFrame>0</startFrame>
+				<endFrame>30</endFrame>
+				<outStartNum>0</outStartNum>
+			</settings>
+			<labels />
+			<isSetup>0</isSetup>
+			<partAnimes>
+				<partAnime>
+					<partName>root</partName>
+					<attributes>
+						<attribute tag="SCLX">
+							<key time="-1" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="-1" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>part_1</partName>
+					<attributes>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>comet2_c</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>0</mapId>
+									<name>comet2_c</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>99.8333358764648</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>214.833343505859</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>96.8333435058594</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>217.833343505859</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>93.8333435058594</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>211.833343505859</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>97.2333374023438</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>212.966674804688</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>96.7000122070313</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>213.433349609375</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>128.233337402344</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>-1.5</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>2.5</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>1.5</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>-0.5</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>3.5</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>-0.450000047683716</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>8.43333339691162</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>7.31666660308838</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>3.70000004768372</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>-0.199999988079071</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>-90.9290466308594</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="0" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>1.26336324214935</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>1.26336324214935</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>1.26336324214935</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>1.26336324214935</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>1.26336324214935</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>1.06584084033966</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="0" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>2.31628060340881</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>2.31628060340881</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>2.31628060340881</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>2.31628060340881</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>2.31628060340881</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>1.32907009124756</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="30" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="PRIO">
+							<key time="30" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>comet2_c_1</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>0</mapId>
+									<name>comet2_c</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>165.833343505859</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>-90.9290466308594</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="0" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>0.352263212203979</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="0" ipType="linear">
+								<value>1.69208383560181</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>0.810157537460327</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>1.69208383560181</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>0.810157537460327</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>1.69208383560181</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>0.810157537460327</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>1.69208383560181</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>0.810157537460327</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>1.69208383560181</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>0.810157537460327</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>1.47160220146179</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="30" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="PRIO">
+							<key time="30" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>comet2_c_1_1</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>0</mapId>
+									<name>comet2_c</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>91.8333358764648</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>87.023811340332</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>89.2142868041992</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>91.4047622680664</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>87.7619018554688</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>92.1190490722656</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>89.9761962890625</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>89.8333358764648</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>91.1666717529297</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>95</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>92.625</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>48.5</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>82.7476196289063</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>56.9952392578125</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>85.2428588867188</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>55.1571426391602</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>89.0714263916016</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>57.2857131958008</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>87.5</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>56.8333358764648</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>87.1666717529297</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>58.1666679382324</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>-58.7566528320313</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>-45.2930145263672</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>-58.7566528320313</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>-45.2930145263672</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>-58.7566528320313</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>-45.2930145263672</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>-58.7566528320313</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>-45.2930145263672</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>-58.7566528320313</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>-45.2930145263672</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>-55.3907432556152</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="0" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>0.352263212203979</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="0" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>1.22468090057373</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>1.22468090057373</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>1.22468090057373</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>1.22468090057373</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>1.22468090057373</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>1.11315727233887</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="30" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="PRIO">
+							<key time="30" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>comet2_c_1_1_1</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>0</mapId>
+									<name>comet2_c</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>91.8333358764648</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>88.8333358764648</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>87.3333358764648</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>91.8333358764648</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>86.8333358764648</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>89.8333358764648</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>87.8333358764648</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>89.8333358764648</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>87.8333358764648</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>97.8333358764648</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>93.3333358764648</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>-51.5</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>-84.5</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>-55.5</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>-84.5</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>-56.5</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>-78.5</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>-57.5</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>-76.5</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>-54.5</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>-85.5</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>-60</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>-123.985145568848</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>-135.82975769043</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>-123.985145568848</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>-135.82975769043</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>-123.985145568848</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>-135.82975769043</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>-123.985145568848</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>-135.82975769043</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>-123.985145568848</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>-135.82975769043</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>-126.946296691895</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="0" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>0.381390690803528</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>0.264880806207657</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>0.352263212203979</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="0" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="3" ipType="linear">
+								<value>1.27440059185028</value>
+							</key>
+							<key time="6" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="9" ipType="linear">
+								<value>1.27440059185028</value>
+							</key>
+							<key time="12" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="15" ipType="linear">
+								<value>1.27440059185028</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="21" ipType="linear">
+								<value>1.27440059185028</value>
+							</key>
+							<key time="24" ipType="linear">
+								<value>1.07598268985748</value>
+							</key>
+							<key time="27" ipType="linear">
+								<value>1.27440059185028</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>1.12558722496033</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="30" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="PRIO">
+							<key time="30" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>003a</partName>
+					<attributes>
+						<attribute tag="POSX">
+							<key time="0" ipType="linear">
+								<value>4</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0" ipType="linear">
+								<value>-1</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>-67</value>
+							</key>
+							<key time="11" ipType="linear">
+								<value>-100</value>
+							</key>
+							<key time="22" ipType="linear">
+								<value>-75</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="0" ipType="linear">
+								<value>0.200000002980232</value>
+							</key>
+							<key time="22" ipType="linear">
+								<value>1.5</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="0" ipType="linear">
+								<value>0.200000002980232</value>
+							</key>
+							<key time="22" ipType="linear">
+								<value>1.5</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="11" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="22" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>003a_1</partName>
+					<attributes>
+						<attribute tag="POSX">
+							<key time="9" ipType="linear">
+								<value>4</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="9" ipType="linear">
+								<value>1</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="9" ipType="linear">
+								<value>-90</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>-75</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>-100</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="9" ipType="linear">
+								<value>0.200000002980232</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>1.5</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="9" ipType="linear">
+								<value>0.200000002980232</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>1.5</value>
+							</key>
+						</attribute>
+						<attribute tag="ALPH">
+							<key time="9" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="18" ipType="linear">
+								<value>1</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="9">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="EFCT">
+							<key time="9">
+								<value>
+									<startTime>0</startTime>
+									<speed>1</speed>
+									<independent>0</independent>
+								</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+			</partAnimes>
+		</anime>
+	</animeList>
+</SpriteStudioAnimePack>

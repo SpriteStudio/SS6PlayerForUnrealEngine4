@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioCellMap version="1.00.01">
+	<name>ss_effect_c</name>
+	<exportPath></exportPath>
+	<generator>TexturePacker</generator>
+	<packed>1</packed>
+	<imagePath>ss_effect_c.png</imagePath>
+	<pixelSize>2048 2048</pixelSize>
+	<overrideTexSettings>0</overrideTexSettings>
+	<wrapMode>clamp</wrapMode>
+	<filterMode>linear</filterMode>
+	<imagePathAtImport>D:/ss_data/ParticleEffectSample/ss_effect_c.png</imagePathAtImport>
+	<packInfoFilePath></packInfoFilePath>
+	<texPackSettings>
+		<maxSize>4096 4096</maxSize>
+		<forcePo2>1</forcePo2>
+		<forceSquare>0</forceSquare>
+		<margin>0</margin>
+		<padding>1</padding>
+	</texPackSettings>
+	<cells>
+		<cell>
+			<name>aura_c</name>
+			<pos>1726 194</pos>
+			<size>230 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/aura_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>balllight_c</name>
+			<pos>765 1122</pos>
+			<size>239 239</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/balllight_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>circle1_c</name>
+			<pos>4 1957</pos>
+			<size>82 86</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/circle1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>circle2_c</name>
+			<pos>598 263</pos>
+			<size>90 89</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/circle2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>circle3_c</name>
+			<pos>697 1939</pos>
+			<size>58 58</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/circle3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>cloud_c</name>
+			<pos>965 263</pos>
+			<size>256 237</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/cloud_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>comet1_c</name>
+			<pos>305 369</pos>
+			<size>56 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/comet1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>comet2_c</name>
+			<pos>1200 1078</pos>
+			<size>208 227</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/comet2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>comet3_c</name>
+			<pos>365 369</pos>
+			<size>42 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/comet3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>confetti_c</name>
+			<pos>292 1940</pos>
+			<size>93 103</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/confetti_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dot1_c</name>
+			<pos>329 629</pos>
+			<size>4 4</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/dot1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dot2_c</name>
+			<pos>319 629</pos>
+			<size>6 6</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/dot2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dot3_c</name>
+			<pos>305 629</pos>
+			<size>10 10</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/dot3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>droplet_c</name>
+			<pos>1773 1141</pos>
+			<size>125 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/droplet_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dust1_c</name>
+			<pos>1225 244</pos>
+			<size>227 213</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/dust1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>dust2_c</name>
+			<pos>1224 1555</pos>
+			<size>212 225</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/dust2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion1_c</name>
+			<pos>1863 1714</pos>
+			<size>181 182</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/explosion1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion2_c</name>
+			<pos>1746 879</pos>
+			<size>183 183</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/explosion2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion3_c</name>
+			<pos>1788 326</pos>
+			<size>202 187</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/explosion3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion4_c</name>
+			<pos>1010 1839</pos>
+			<size>202 205</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/explosion4_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>explosion5_c</name>
+			<pos>264 917</pos>
+			<size>252 254</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/explosion5_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fire_c</name>
+			<pos>519 628</pos>
+			<size>61 253</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/fire_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fivepartiesstar1_c</name>
+			<pos>1311 838</pos>
+			<size>226 214</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/fivepartiesstar1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fivepartiesstar2_c</name>
+			<pos>1412 1056</pos>
+			<size>226 214</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/fivepartiesstar2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flame_c</name>
+			<pos>584 628</pos>
+			<size>250 244</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flame_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash1_c</name>
+			<pos>716 350</pos>
+			<size>245 243</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flash1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash2_c</name>
+			<pos>1902 1141</pos>
+			<size>132 134</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flash2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash3_c</name>
+			<pos>1565 553</pos>
+			<size>217 198</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flash3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash5_c</name>
+			<pos>1892 1279</pos>
+			<size>128 127</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flash5_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash6_c</name>
+			<pos>264 1685</pos>
+			<size>247 251</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flash6_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash7_c</name>
+			<pos>1216 1839</pos>
+			<size>201 202</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flash7_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flash8_c</name>
+			<pos>188 264</pos>
+			<size>254 101</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flash8_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flashhole_c</name>
+			<pos>515 1685</pos>
+			<size>253 250</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flashhole_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>fllash4_c</name>
+			<pos>1226 726</pos>
+			<size>102 108</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/fllash4_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flower1_c</name>
+			<pos>1113 726</pos>
+			<size>109 108</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flower1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flower2_c</name>
+			<pos>1647 1900</pos>
+			<size>114 124</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flower2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>flower3_c</name>
+			<pos>500 263</pos>
+			<size>94 93</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/flower3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>form_c</name>
+			<pos>1074 841</pos>
+			<size>233 233</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/form_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>galaxy_c</name>
+			<pos>519 1175</pos>
+			<size>242 250</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/galaxy_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>grain_c</name>
+			<pos>772 1682</pos>
+			<size>226 236</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/grain_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hart_c</name>
+			<pos>1113 504</pos>
+			<size>240 218</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/hart_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze1_c</name>
+			<pos>1786 694</pos>
+			<size>196 181</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/haze1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze2_c</name>
+			<pos>1002 1604</pos>
+			<size>218 231</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/haze2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze3_c</name>
+			<pos>859 597</pos>
+			<size>250 240</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/haze3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>haze4_c</name>
+			<pos>188 4</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/haze4_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hazecircle_c</name>
+			<pos>4 657</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/hazecircle_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hexagon1_c</name>
+			<pos>900 1922</pos>
+			<size>106 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/hexagon1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hexagon2_c</name>
+			<pos>1612 4</pos>
+			<size>106 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/hexagon2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hole_c</name>
+			<pos>494 4</pos>
+			<size>255 255</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/hole_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ice1_c</name>
+			<pos>1244 4</pos>
+			<size>190 211</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ice1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ice2_c</name>
+			<pos>1788 517</pos>
+			<size>200 173</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ice2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ice3_c</name>
+			<pos>1933 1011</pos>
+			<size>101 126</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ice3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>jewel_c</name>
+			<pos>1866 1541</pos>
+			<size>169 169</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/jewel_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>light1_c</name>
+			<pos>557 1939</pos>
+			<size>72 72</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/light1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>light2_c</name>
+			<pos>1357 553</pos>
+			<size>204 201</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/light2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>magiccircle1_c</name>
+			<pos>633 1939</pos>
+			<size>60 61</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/magiccircle1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>magiccircle2_c</name>
+			<pos>761 876</pos>
+			<size>242 242</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/magiccircle2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>minus_c</name>
+			<pos>305 643</pos>
+			<size>72 9</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/minus_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>petal_c</name>
+			<pos>446 264</pos>
+			<size>50 101</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/petal_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>plus_c</name>
+			<pos>476 1940</pos>
+			<size>77 78</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/plus_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ray1_c</name>
+			<pos>411 369</pos>
+			<size>42 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ray1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ray2_c</name>
+			<pos>838 597</pos>
+			<size>17 242</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ray2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ray3_c</name>
+			<pos>448 4</pos>
+			<size>42 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ray3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring1_c</name>
+			<pos>1765 1900</pos>
+			<size>120 120</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ring1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring2_c</name>
+			<pos>1282 1309</pos>
+			<size>222 222</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ring2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring3_c</name>
+			<pos>1421 1784</pos>
+			<size>222 222</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ring3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ring_c</name>
+			<pos>1736 1463</pos>
+			<size>126 124</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ring_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ripple1_c</name>
+			<pos>457 369</pos>
+			<size>255 255</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ripple1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>ripple2_c</name>
+			<pos>753 4</pos>
+			<size>247 255</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/ripple2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock1_c</name>
+			<pos>1978 4</pos>
+			<size>65 116</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/rock1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock2_c</name>
+			<pos>1456 216</pos>
+			<size>144 152</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/rock2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock3_c</name>
+			<pos>1960 194</pos>
+			<size>74 123</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/rock3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock4_c</name>
+			<pos>1933 879</pos>
+			<size>103 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/rock4_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>rock5_c</name>
+			<pos>1736 1591</pos>
+			<size>123 124</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/rock5_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>sand_c</name>
+			<pos>1004 4</pos>
+			<size>236 236</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/sand_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>sixpartiesstar_c</name>
+			<pos>1604 256</pos>
+			<size>114 130</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/sixpartiesstar_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>slash_c</name>
+			<pos>1456 372</pos>
+			<size>143 177</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/slash_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smoke1_c</name>
+			<pos>763 1429</pos>
+			<size>204 249</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/smoke1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smoke2_c</name>
+			<pos>520 885</pos>
+			<size>237 248</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/smoke2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smork3_c</name>
+			<pos>1726 4</pos>
+			<size>248 186</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/smork3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>smork4_c</name>
+			<pos>4 369</pos>
+			<size>297 284</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/smork4_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>snowcristal_c</name>
+			<pos>1612 130</pos>
+			<size>106 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/snowcristal_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>splash1_c</name>
+			<pos>1559 1485</pos>
+			<size>173 198</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/splash1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>splash2_c</name>
+			<pos>1541 758</pos>
+			<size>201 199</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/splash2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>square1_c</name>
+			<pos>692 263</pos>
+			<size>83 83</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/square1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>square2_c</name>
+			<pos>389 1940</pos>
+			<size>83 83</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/square2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>star1_c</name>
+			<pos>772 1922</pos>
+			<size>124 122</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/star1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>star2_c</name>
+			<pos>1726 1273</pos>
+			<size>162 186</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/star2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>starbow_c</name>
+			<pos>264 657</pos>
+			<size>251 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/starbow_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>steam_c</name>
+			<pos>4 917</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/steam_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder1_c</name>
+			<pos>1097 1321</pos>
+			<size>181 230</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/thunder1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder2_c</name>
+			<pos>1008 1083</pos>
+			<size>188 234</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/thunder2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder3_c</name>
+			<pos>1440 1535</pos>
+			<size>115 220</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/thunder3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>thunder4_c</name>
+			<pos>4 4</pos>
+			<size>180 361</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/thunder4_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>triangle1_c</name>
+			<pos>90 1957</pos>
+			<size>97 84</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/triangle1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>triangle2_c</name>
+			<pos>191 1957</pos>
+			<size>97 83</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/triangle2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex1_c</name>
+			<pos>519 1429</pos>
+			<size>240 250</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/vortex1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex2_c</name>
+			<pos>1438 4</pos>
+			<size>170 208</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/vortex2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex3_c</name>
+			<pos>4 1177</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/vortex3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>vortex4_c</name>
+			<pos>1508 1274</pos>
+			<size>214 207</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/vortex4_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wave1_c</name>
+			<pos>1007 841</pos>
+			<size>63 238</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wave1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wave2_c</name>
+			<pos>1642 1141</pos>
+			<size>127 128</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wave2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wave3_c</name>
+			<pos>1892 1410</pos>
+			<size>127 127</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wave3_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheel1_c</name>
+			<pos>264 1175</pos>
+			<size>251 251</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wheel1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheel2_c</name>
+			<pos>264 1430</pos>
+			<size>251 251</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wheel2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheellight1_c</name>
+			<pos>4 1437</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wheellight1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wheellight2_c</name>
+			<pos>4 1697</pos>
+			<size>256 256</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wheellight2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wind1_c</name>
+			<pos>1647 1719</pos>
+			<size>119 167</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wind1_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>wind2_c</name>
+			<pos>1603 390</pos>
+			<size>181 144</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/wind2_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>feather_c</name>
+			<pos>971 1365</pos>
+			<size>122 235</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName>D:/WORKDATA/spritestudio/particle/moto/nuki/particle_c-assets/feather_c.png</orgImageName>
+			<posStable>0</posStable>
+		</cell>
+	</cells>
+</SpriteStudioCellMap>
