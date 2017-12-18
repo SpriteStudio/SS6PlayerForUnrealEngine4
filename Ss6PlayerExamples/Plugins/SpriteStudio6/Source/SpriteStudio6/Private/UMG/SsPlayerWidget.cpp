@@ -51,6 +51,8 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 	, BaseMaterial(nullptr)
 	, OffScreenRenderResolution(512, 512)
 {
+	this->Clipping = EWidgetClipping::ClipToBounds;
+
 	Player.SetCalcHideParts(true);
 
 	// 各種マテリアル参照の取得
