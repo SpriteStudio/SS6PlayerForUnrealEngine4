@@ -2,12 +2,5 @@
 	"FileVersion": 3,
 	"EngineAssociation": "4.18",
 	"Category": "",
-	"Description": "",
-	"Modules": [
-		{
-			"Name": "Ss6PlayerExamples",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		}
-	]
+	"Description": ""
 }
