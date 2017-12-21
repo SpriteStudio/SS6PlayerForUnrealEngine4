@@ -736,7 +736,7 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , FSsEffectNode* node)
 
 void	SsEffectRenderV2::clearEmitterList()
 {
-	for ( size_t i = 0 ; i < this->emmiterList.Num(); i++)
+	for ( int i = 0 ; i < this->emmiterList.Num(); i++)
 	{
 		delete emmiterList[i];
 	}
@@ -863,7 +863,7 @@ void    SsEffectRenderV2::reload()
 	bool _Infinite = false;
 	//パラメータを取得
 	//以前のデータ形式から変換
-	for ( size_t i = 0 ; i < list.Num() ; i ++ )
+	for ( int i = 0 ; i < list.Num() ; i ++ )
 	{
 		FSsEffectNode *node =  &(list[i]);
 
@@ -919,7 +919,7 @@ void    SsEffectRenderV2::reload()
 
 	effectTimeLength = 0;
 	//事前計算計算  updateListにルートの子を配置し親子関係を結ぶ
-	for ( size_t i = 0 ; i < this->emmiterList.Num(); i++)
+	for ( int i = 0 ; i < this->emmiterList.Num(); i++)
 	{
 		if (emmiterList[i] != 0 )
 		{

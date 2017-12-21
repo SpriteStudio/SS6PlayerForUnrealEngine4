@@ -60,7 +60,7 @@ void	SsMeshPart::makeMesh()
 	float uvpixel_y = 1.0f / txsizeh;
 
 
-	for (size_t i = 0; i < targetCell->MeshPointList.Num(); i++)
+	for (int i = 0; i < targetCell->MeshPointList.Num(); i++)
 	{
 		FVector2D& v = targetCell->MeshPointList[i];
 		vertices[i * 3 + 0] = v.X + offs.X;
@@ -89,7 +89,7 @@ void	SsMeshPart::makeMesh()
 	tri_size = targetCell->MeshTriList.Num();
 
 	indices = new unsigned short[tri_size * 3];
-	for (size_t i = 0; i < targetCell->MeshTriList.Num(); i++)
+	for (int i = 0; i < targetCell->MeshTriList.Num(); i++)
 	{
 		FSsTriangle& t = targetCell->MeshTriList[i];
 		indices[i * 3 + 0] = t.IdxPo1;
@@ -201,7 +201,7 @@ void	SsMeshAnimator::makeMeshBoneList()
 	jointList.Empty();
 
 
-	size_t num = bindAnime->getStateNum();
+	int num = bindAnime->getStateNum();
 	SsPartState* indexState = bindAnime->getPartState();
 	for (int i = 0; i < num; i++)
 	{
@@ -246,7 +246,7 @@ void	SsMeshAnimator::modelLoad()
 	FSsModel* model = bindAnime->getMyModel();
 
 
-	for (size_t i = 0; i < model->MeshList.Num(); i++)
+	for (int i = 0; i < model->MeshList.Num(); i++)
 	{
 		TArray<FSsMeshBindInfo>& mvb = model->MeshList[i].MeshVerticesBindArray;
 
@@ -262,7 +262,7 @@ void	SsMeshAnimator::modelLoad()
 			}
 		}
 
-		for (size_t n = 0; n < mvb.Num(); n++)
+		for (int n = 0; n < mvb.Num(); n++)
 		{
 			int bonenum = mvb[n].BindBoneNum;
 			SsPartState* target = this->meshList[i];

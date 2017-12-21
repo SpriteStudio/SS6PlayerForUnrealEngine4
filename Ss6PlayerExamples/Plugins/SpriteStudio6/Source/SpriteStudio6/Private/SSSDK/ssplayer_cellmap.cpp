@@ -43,7 +43,7 @@ void	SsCellMapList::set(USs6Project* proj , FSsAnimePack* animepack )
 	clear();
 	setCellMapPath( proj->GetImageBasepath() );
 
-	for ( size_t i = 0 ; i < animepack->CellmapNames.Num() ; i++ )
+	for ( int i = 0 ; i < animepack->CellmapNames.Num() ; i++ )
 	{
 		FSsCellMap* cell = const_cast<FSsCellMap*>(proj->FindCellMap( animepack->CellmapNames[i] ));
 		if ( cell==0 )
@@ -54,7 +54,7 @@ void	SsCellMapList::set(USs6Project* proj , FSsAnimePack* animepack )
 		}
 	}
 
-	for ( size_t i = 0 ; i < proj->CellmapNames.Num() ; i++ )
+	for ( int i = 0 ; i < proj->CellmapNames.Num() ; i++ )
 	{
 		FSsCellMap* cell = const_cast<FSsCellMap*>(proj->FindCellMap( proj->CellmapNames[i] ));
 		if ( cell==0 )
