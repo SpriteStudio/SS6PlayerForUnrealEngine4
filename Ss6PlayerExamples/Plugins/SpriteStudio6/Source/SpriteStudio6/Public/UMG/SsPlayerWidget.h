@@ -91,6 +91,10 @@ private:
 
 	UPROPERTY(Transient)
 	UMaterialInterface* BasePartsMaterials[7];
+
+	UPROPERTY(Transient)
+	TArray<UMaterialInstanceDynamic*> PartsMIDRef;
+
 	TMap<UTexture*, UMaterialInstanceDynamic*> PartsMIDMap[7];
 
 
