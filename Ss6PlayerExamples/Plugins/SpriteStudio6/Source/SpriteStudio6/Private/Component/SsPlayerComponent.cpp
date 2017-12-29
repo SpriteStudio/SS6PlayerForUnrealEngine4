@@ -284,12 +284,9 @@ void USsPlayerComponent::OnUnregister()
 
 	for(int32 i = 0; i < 6; ++i)
 	{
-		for(auto It = PartsMIDMap[i].CreateIterator(); It; ++It)
-		{
-			(*It).Value->RemoveFromRoot();
-		}
 		PartsMIDMap[i].Empty();
 	}
+	PartsMIDRef.Empty();
 	OffScreenPlaneMID = NULL;
 
 	if(RenderOffScreen)
@@ -495,7 +492,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 						UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(BasePartsMaterials[MatIdx], GetTransientPackage());
 						if(NewMID)
 						{
-							NewMID->AddToRoot();
+							PartsMIDRef.Add(NewMID);
 							NewMID->SetFlags(RF_Transient);
 							NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
 							PartsMIDMap[MatIdx].Add(RenderParts[i].Texture, NewMID);
