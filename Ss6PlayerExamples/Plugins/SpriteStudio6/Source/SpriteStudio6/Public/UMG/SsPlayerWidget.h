@@ -328,5 +328,13 @@ public:
 	// パーツのカラーラベルを取得(インデックス指定) 
 	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
 	FName GetPartColorLabelByIndex(int32 PartIndex);
+
+	// ウィジェット内のパーツのTransformを取得 
+	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	bool GetPartTransform(FName PartName, FVector2D& OutPosition, float& OutAngle, FVector2D& OutScale) const;
+
+	// ウィジェット内のパーツのTransformを取得(インデックス指定) 
+	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	bool GetPartTransformByIndex(int32 PartIndex, FVector2D& OutPosition, float& OutAngle, FVector2D& OutScale) const;
 };
 
