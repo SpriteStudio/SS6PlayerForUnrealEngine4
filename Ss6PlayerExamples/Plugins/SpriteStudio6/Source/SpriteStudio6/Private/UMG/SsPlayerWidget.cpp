@@ -332,25 +332,34 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
 						if((NULL == ppMID) || (NULL == *ppMID))
 						{
-							UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(BasePartsMaterials[MatIdx], GetTransientPackage());
-							if(NewMID)
+							if(nullptr != RenderParts[i].Texture)
 							{
-								PartsMIDRef.Add(NewMID);
-								NewMID->SetFlags(RF_Transient);
-								NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
-								ppMID = &(PartsMIDMap[MatIdx].Add(RenderParts[i].Texture, NewMID));
+								UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(BasePartsMaterials[MatIdx], GetTransientPackage());
+								if(NewMID)
+								{
+									PartsMIDRef.Add(NewMID);
+									NewMID->SetFlags(RF_Transient);
+									NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
+									ppMID = &(PartsMIDMap[MatIdx].Add(RenderParts[i].Texture, NewMID));
+								}
 							}
 						}
 
-						TSharedPtr<FSlateMaterialBrush>* pBrush = BrushMap.Find(*ppMID);
-						if(pBrush)
+						if(nullptr != ppMID)
 						{
-							Part.Brush = *pBrush;
-						}
-						else
-						{
-							Part.Brush = MakeShareable(new FSlateMaterialBrush(**ppMID, FVector2D(64, 64)));
-							BrushMap.Add(*ppMID, Part.Brush);
+							TSharedPtr<FSlateMaterialBrush>* pBrush = BrushMap.Find(*ppMID);
+							if(pBrush)
+							{
+								Part.Brush = *pBrush;
+							}
+							else
+							{
+								if(nullptr != RenderParts[i].Texture)
+								{
+									Part.Brush = MakeShareable(new FSlateMaterialBrush(**ppMID, FVector2D(64, 64)));
+									BrushMap.Add(*ppMID, Part.Brush);
+								}
+							}
 						}
 
 						RenderPartWithSlateBrush.Add(Part);

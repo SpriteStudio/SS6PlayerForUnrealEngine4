@@ -705,6 +705,10 @@ void SSsPlayerWidget::PaintInternal(
 	SsBlendType::Type BkAlphaBlendType = SsBlendType::Invalid;
 	for(auto It = InRenderParts.CreateConstIterator(); It; ++It)
 	{
+		if(nullptr == It->Brush.Get())
+		{
+			continue;
+		}
 		if((0 != It.GetIndex())
 		   && (   (It->Brush.Get() != BkBrush)
 			   || (It->AlphaBlendType != BkAlphaBlendType)
