@@ -413,6 +413,50 @@ namespace
 						FLinearColor::White
 						);
 				} break;
+			case SsBlendType::MulAlpha:
+				{
+					RHICmdList.GetContext().RHISetBlendState(
+						TStaticBlendState<
+							CW_RGBA,
+							BO_Add, BF_DestColor, BF_InverseSourceAlpha,
+							BO_Add, BF_SourceAlpha, BF_One
+							>::GetRHI(),
+						FLinearColor::White
+						);
+				} break;
+			case SsBlendType::Screen:
+				{
+					RHICmdList.GetContext().RHISetBlendState(
+						TStaticBlendState<
+							CW_RGBA,
+							BO_Add, BF_InverseDestColor, BF_One,
+							BO_Add, BF_SourceAlpha, BF_One
+							>::GetRHI(),
+						FLinearColor::White
+						);
+				} break;
+			case SsBlendType::Exclusion:
+				{
+					RHICmdList.GetContext().RHISetBlendState(
+						TStaticBlendState<
+							CW_RGBA,
+							BO_Add, BF_InverseDestColor, BF_InverseSourceColor,
+							BO_Add, BF_SourceAlpha, BF_One
+							>::GetRHI(),
+						FLinearColor::White
+						);
+				} break;
+			case SsBlendType::Invert:
+				{
+					RHICmdList.GetContext().RHISetBlendState(
+						TStaticBlendState<
+							CW_RGBA,
+							BO_Add, BF_InverseDestColor, BF_Zero,
+							BO_Add, BF_SourceAlpha, BF_One
+							>::GetRHI(),
+						FLinearColor::White
+						);
+				} break;
 			}
 
 			if(GRHISupportsBaseVertexIndex)

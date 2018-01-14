@@ -23,6 +23,10 @@ namespace
 	static SsBlendType::Type TypeMul = SsBlendType::Mul;
 	static SsBlendType::Type TypeAdd = SsBlendType::Add;
 	static SsBlendType::Type TypeSub = SsBlendType::Sub;
+	static SsBlendType::Type TypeMulAlpha  = SsBlendType::MulAlpha;
+	static SsBlendType::Type TypeScreen    = SsBlendType::Screen;
+	static SsBlendType::Type TypeExclusion = SsBlendType::Exclusion;
+	static SsBlendType::Type TypeInvert    = SsBlendType::Invert;
 	void* GetBlendTypeAddr(SsBlendType::Type Type)
 	{
 		switch(Type)
@@ -31,14 +35,23 @@ namespace
 			case SsBlendType::Mul: { return &TypeMul; }
 			case SsBlendType::Add: { return &TypeAdd; }
 			case SsBlendType::Sub: { return &TypeSub; }
+			case SsBlendType::MulAlpha:  { return &TypeMulAlpha;  }
+			case SsBlendType::Screen:    { return &TypeScreen;    }
+			case SsBlendType::Exclusion: { return &TypeExclusion; }
+			case SsBlendType::Invert:    { return &TypeInvert;    }
 		}
 		return NULL;
 	}
 	SsBlendType::Type GetBlendTypeFromAddr(const void* Addr)
 	{
+		if(Addr == &TypeMix){ return SsBlendType::Mix; }
 		if(Addr == &TypeMul){ return SsBlendType::Mul; }
 		if(Addr == &TypeAdd){ return SsBlendType::Add; }
 		if(Addr == &TypeSub){ return SsBlendType::Sub; }
+		if(Addr == &TypeMulAlpha) { return SsBlendType::MulAlpha;  }
+		if(Addr == &TypeScreen)   { return SsBlendType::Screen;    }
+		if(Addr == &TypeExclusion){ return SsBlendType::Exclusion; }
+		if(Addr == &TypeInvert)   { return SsBlendType::Invert;    }
 		return SsBlendType::Mix;
 	}
 };
@@ -172,6 +185,50 @@ void FSsPartVertexFactoryShaderParameters::SetMesh(FRHICommandList& RHICmdList, 
 						CW_RGBA,
 						BO_ReverseSubtract, BF_SourceAlpha, BF_One,
 						BO_Add, BF_Zero, BF_DestAlpha
+						>::GetRHI(),
+					FLinearColor::White
+					);
+			} break;
+		case SsBlendType::MulAlpha:
+			{
+				RHICmdList.GetContext().RHISetBlendState(
+					TStaticBlendState<
+						CW_RGBA,
+						BO_Add, BF_DestColor, BF_InverseSourceAlpha,
+						BO_Add, BF_SourceAlpha, BF_One
+						>::GetRHI(),
+					FLinearColor::White
+					);
+			} break;
+		case SsBlendType::Screen:
+			{
+				RHICmdList.GetContext().RHISetBlendState(
+					TStaticBlendState<
+						CW_RGBA,
+						BO_Add, BF_InverseDestColor, BF_One,
+						BO_Add, BF_SourceAlpha, BF_One
+						>::GetRHI(),
+					FLinearColor::White
+					);
+			} break;
+		case SsBlendType::Exclusion:
+			{
+				RHICmdList.GetContext().RHISetBlendState(
+					TStaticBlendState<
+						CW_RGBA,
+						BO_Add, BF_InverseDestColor, BF_InverseSourceColor,
+						BO_Add, BF_SourceAlpha, BF_One
+						>::GetRHI(),
+					FLinearColor::White
+					);
+			} break;
+		case SsBlendType::Invert:
+			{
+				RHICmdList.GetContext().RHISetBlendState(
+					TStaticBlendState<
+						CW_RGBA,
+						BO_Add, BF_InverseDestColor, BF_Zero,
+						BO_Add, BF_SourceAlpha, BF_One
 						>::GetRHI(),
 					FLinearColor::White
 					);
