@@ -364,7 +364,7 @@ namespace
 
 			// テクスチャをセット
 			FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
-			PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture->Resource->TextureRHI, SampleState);
+			PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
 
 
 			switch(RenderPart.AlphaBlendType)
