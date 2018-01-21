@@ -47,7 +47,7 @@ public:
 class FSsRenderPartsProxy : public FPrimitiveSceneProxy
 {
 public:
-	FSsRenderPartsProxy(class USsPlayerComponent* InComponent, uint32 InMaxPartsNum);
+	FSsRenderPartsProxy(class USsPlayerComponent* InComponent, uint32 InMaxVertexNum, uint32 InMaxIndexNum);
 	virtual ~FSsRenderPartsProxy();
 
 	// FPrimitiveSceneProxy interface

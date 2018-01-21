@@ -257,7 +257,9 @@ void USsPlayerComponent::OnRegister()
 			&& !RenderOffScreen->IsInitialized()
 			)
 		{
-			RenderOffScreen->Initialize(OffScreenRenderResolution.X, OffScreenRenderResolution.Y, SsProject->CalcMaxRenderPartsNum());
+			uint32 MaxVertexNum, MaxIndexNum;
+			SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+			RenderOffScreen->Initialize(OffScreenRenderResolution.X, OffScreenRenderResolution.Y, MaxVertexNum, MaxIndexNum);
 
 			// OffScreenPlane用メッシュの初期化
 			if((RenderMode == ESsPlayerComponentRenderMode::OffScreenPlane) && BaseMaterial)
@@ -389,7 +391,9 @@ FPrimitiveSceneProxy* USsPlayerComponent::CreateSceneProxy()
 		{
 			case ESsPlayerComponentRenderMode::Default:
 				{
-					FSsRenderPartsProxy* NewProxy = new FSsRenderPartsProxy(this, SsProject->CalcMaxRenderPartsNum());
+					uint32 MaxVertexNum, MaxIndexNum;
+					SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+					FSsRenderPartsProxy* NewProxy = new FSsRenderPartsProxy(this, MaxVertexNum, MaxIndexNum);
 					return NewProxy;
 				} break;
 			case ESsPlayerComponentRenderMode::OffScreenPlane:

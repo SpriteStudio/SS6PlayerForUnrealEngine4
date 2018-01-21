@@ -7,7 +7,7 @@ class FSsOffScreenVertexBuffer : public FVertexBuffer
 public:
 	virtual void InitDynamicRHI() override;
 	virtual void ReleaseDynamicRHI() override;
-	uint32 MaxPartsNum;
+	uint32 VertexNum;
 };
 // インデックスバッファ
 class FSsOffScreenIndexBuffer : public FIndexBuffer
@@ -15,7 +15,7 @@ class FSsOffScreenIndexBuffer : public FIndexBuffer
 public:
 	virtual void InitDynamicRHI() override;
 	virtual void ReleaseDynamicRHI() override;
-	uint32 MaxPartsNum;
+	uint32 IndexNum;
 };
 
 //
@@ -29,9 +29,9 @@ public:
 	FSsRenderOffScreen();
 	~FSsRenderOffScreen();
 
-	void Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InMaxPartsNum);
+	void Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum);
 	bool IsInitialized() const { return bInitialized; }
-	bool CanReuse(uint32 NewResolutionX, uint32 NewResolutionY, uint32 NewMaxpartsNum) const;
+	bool CanReuse(uint32 NewResolutionX, uint32 NewResolutionY, uint32 NewVertexNum, uint32 NewIndexNum) const;
 	void ReserveTerminate();
 
 	void Render(const TArray<FSsRenderPart>& InRenderParts);
@@ -59,7 +59,8 @@ private:
 private:
 	bool bInitialized;
 	bool bTerminating;
-	uint32 MaxPartsNum;
+	uint32 VertexNum;
+	uint32 IndexNum;
 
 	FRenderCommandFence ReleaseResourcesFence;
 

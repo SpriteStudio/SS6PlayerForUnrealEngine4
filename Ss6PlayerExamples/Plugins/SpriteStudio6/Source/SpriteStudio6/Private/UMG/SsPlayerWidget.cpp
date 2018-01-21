@@ -178,9 +178,11 @@ void USsPlayerWidget::SynchronizeProperties()
 				{
 					if(BaseMaterial)
 					{
+						uint32 MaxVertexNum, MaxIndexNum;
+						SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
 						PlayerWidget->Initialize_OffScreen(
 							OffScreenRenderResolution.X, OffScreenRenderResolution.Y,
-							SsProject->CalcMaxRenderPartsNum()
+							MaxVertexNum, MaxIndexNum
 							);
 						OffScreenRenderTarget = PlayerWidget->GetRenderTarget();
 					}

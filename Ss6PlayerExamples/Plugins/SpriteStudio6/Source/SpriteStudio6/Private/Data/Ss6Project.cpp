@@ -217,16 +217,16 @@ namespace
 	}
 }
 
-uint32 USs6Project::CalcMaxRenderPartsNum() const
+void USs6Project::CalcMaxVertexAndIndexNum(uint32& OutVertexNum, uint32& OutIndexNum) const
 {
-	uint32 Result = 0;
-
+	uint32 PartsNum = 0;
 	for(int32 i = 0; i < AnimeList.Num(); ++i)
 	{
 		for(int32 j = 0; j < AnimeList[i].AnimeList.Num(); ++j)
 		{
-			Result = FMath::Max(Result, CalcMaxRenderPartsNum_Recursive(*this, AnimeList[i]));
+			PartsNum = FMath::Max(PartsNum, CalcMaxRenderPartsNum_Recursive(*this, AnimeList[i]));
 		}
 	}
-	return Result;
+	OutVertexNum = PartsNum * 4;
+	OutIndexNum = PartsNum * 6;
 }

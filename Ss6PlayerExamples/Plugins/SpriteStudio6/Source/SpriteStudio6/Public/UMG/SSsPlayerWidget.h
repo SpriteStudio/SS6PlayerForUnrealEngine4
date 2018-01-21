@@ -51,7 +51,7 @@ public:
 	void Initialize_Default();
 	void Initialize_OffScreen(
 		float InResolutionX, float InResolutionY,
-		uint32 InMaxPartsNum
+		uint32 InMaxVertexNum, uint32 InMaxIndexNum
 		);
 
 	void SetAnimCanvasSize(const FVector2D& InSize) { AnimCanvasSize = InSize; }

@@ -238,7 +238,7 @@ void FSsPartVertexFactoryShaderParameters::SetMesh(FRHICommandList& RHICmdList, 
 
 
 // コンストラクタ
-FSsRenderPartsProxy::FSsRenderPartsProxy(USsPlayerComponent* InComponent, uint32 InMaxPartsNum)
+FSsRenderPartsProxy::FSsRenderPartsProxy(USsPlayerComponent* InComponent, uint32 InMaxVertexNum, uint32 InMaxIndexNum)
 	: FPrimitiveSceneProxy(InComponent)
 	, CanvasSizeUU(100.f, 100.f)
 	, Pivot(0.f, 0.f)
@@ -248,8 +248,8 @@ FSsRenderPartsProxy::FSsRenderPartsProxy(USsPlayerComponent* InComponent, uint32
 
 	Component = InComponent;
 
-	VertexBuffer.NumVerts  = 4 * InMaxPartsNum;
-	IndexBuffer.NumIndices = 6 * InMaxPartsNum;
+	VertexBuffer.NumVerts  = InMaxVertexNum;
+	IndexBuffer.NumIndices = InMaxIndexNum;
 	VertexFactory.Init(&VertexBuffer);
 
 	BeginInitResource(&VertexBuffer);

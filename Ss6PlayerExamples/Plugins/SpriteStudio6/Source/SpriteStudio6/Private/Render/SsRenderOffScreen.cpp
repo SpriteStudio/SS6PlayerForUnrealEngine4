@@ -55,7 +55,7 @@ FSsOffScreenRenderDestroyer GSs6OffScreenRenderDestroyer;
 // 頂点バッファ
 void FSsOffScreenVertexBuffer::InitDynamicRHI()
 {
-	uint32 BufferSize = (MaxPartsNum * 4) * sizeof(FSsOffScreenVertex);
+	uint32 BufferSize = VertexNum * sizeof(FSsOffScreenVertex);
 
 	if(0 < BufferSize)
 	{
@@ -71,7 +71,7 @@ void FSsOffScreenVertexBuffer::ReleaseDynamicRHI()
 // インデックスバッファ
 void FSsOffScreenIndexBuffer::InitDynamicRHI()
 {
-	uint32 BufferSize = (MaxPartsNum * 6) * sizeof(uint32);
+	uint32 BufferSize = IndexNum * sizeof(uint32);
 
 	if(0 < BufferSize)
 	{
@@ -79,7 +79,7 @@ void FSsOffScreenIndexBuffer::InitDynamicRHI()
 		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint32), BufferSize * sizeof(uint32), BUF_Dynamic, CreateInfo);
 
 		void* IndicesPtr = RHILockIndexBuffer(IndexBufferRHI, 0, BufferSize, RLM_WriteOnly);
-		for(uint32 i = 0; i < MaxPartsNum; ++i)
+		for(uint32 i = 0; i < IndexNum/6; ++i)	//TODO: 今は仮で. メッシュパーツでは外部からインデックスリストを受け取るように 
 		{
 			((uint32*)IndicesPtr)[i*6+0] = i*4+0;
 			((uint32*)IndicesPtr)[i*6+1] = i*4+1;
@@ -102,7 +102,8 @@ FSsRenderOffScreen::FSsRenderOffScreen()
 	, ClearColor(0,0,0,0)
 	, bInitialized(false)
 	, bTerminating(false)
-	, MaxPartsNum(0)
+	, VertexNum(0)
+	, IndexNum(0)
 {
 }
 FSsRenderOffScreen::~FSsRenderOffScreen()
@@ -113,7 +114,7 @@ FSsRenderOffScreen::~FSsRenderOffScreen()
 }
 
 // レンダラの初期化 
-void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InMaxPartsNum)
+void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum)
 {
 	check(!bInitialized);
 
@@ -126,7 +127,8 @@ void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, 
 	RenderTarget->AddressY = TA_Clamp;
 	RenderTarget->InitAutoFormat(InResolutionX, InResolutionY);
 
-	VertexBuffer.MaxPartsNum = IndexBuffer.MaxPartsNum = MaxPartsNum = InMaxPartsNum;
+	VertexBuffer.VertexNum = VertexNum = InVertexNum;
+	IndexBuffer.IndexNum = IndexNum = InIndexNum;
 
 	BeginInitResource(&VertexBuffer);
 	BeginInitResource(&IndexBuffer);
@@ -135,7 +137,7 @@ void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, 
 }
 
 // 指定した引数で再利用可能か 
-bool FSsRenderOffScreen::CanReuse(uint32 NewResolutionX, uint32 NewResolutionY, uint32 NewMaxpartsNum) const
+bool FSsRenderOffScreen::CanReuse(uint32 NewResolutionX, uint32 NewResolutionY, uint32 NewVertexNum, uint32 NewIndexNum) const
 {
 	if(!bInitialized)
 	{
@@ -145,7 +147,8 @@ bool FSsRenderOffScreen::CanReuse(uint32 NewResolutionX, uint32 NewResolutionY, 
 	{
 		return false;
 	}
-	if(    (NewMaxpartsNum <= VertexBuffer.MaxPartsNum)
+	if(    (NewVertexNum <= VertexBuffer.VertexNum)
+		&& (NewIndexNum  <= IndexBuffer.IndexNum)
 		&& (NewResolutionX == (uint32)RenderTarget->GetSurfaceWidth())
 		&& (NewResolutionY == (uint32)RenderTarget->GetSurfaceHeight())
 		)
@@ -196,7 +199,7 @@ bool FSsRenderOffScreen::CheckTerminate()
 	{
 		bInitialized = false;
 		bTerminating = false;
-		MaxPartsNum = 0;
+		VertexNum = IndexNum = 0;
 		return true;
 	}
 	return false;
@@ -511,8 +514,6 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 	{
 		return;
 	}
-	check((uint32)InRenderParts.Num() <= MaxPartsNum);
-
 
 	FSsRenderPartsForSendingRenderThread RenderParts;
 	{

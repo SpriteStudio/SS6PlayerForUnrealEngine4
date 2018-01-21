@@ -164,8 +164,11 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 
 	Player.SetSsProject(SsProject);
 
+	uint32 MaxVertexNum, MaxIndexNum;
+	SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+
 	RenderOffScreen = new FSsRenderOffScreen();
-	RenderOffScreen->Initialize(2048, 2048, SsProject->CalcMaxRenderPartsNum());
+	RenderOffScreen->Initialize(2048, 2048, MaxVertexNum, MaxIndexNum);
 	RenderOffScreen->bSupportAlphaBlendMode = true;
 
 	ExtendToolbar();

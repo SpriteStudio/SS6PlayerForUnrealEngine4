@@ -366,14 +366,14 @@ void SSsPlayerWidget::Initialize_Default()
 }
 void SSsPlayerWidget::Initialize_OffScreen(
 	float InResolutionX, float InResolutionY,
-	uint32 InMaxPartsNum
+	uint32 InMaxVertexNum, uint32 InMaxIndexNum
 	)
 {
 	Terminate_OffScreen();
 	bRenderOffScreen = true;
 
 	RenderOffScreen = new FSsRenderOffScreen();
-	RenderOffScreen->Initialize(InResolutionX, InResolutionY, InMaxPartsNum);
+	RenderOffScreen->Initialize(InResolutionX, InResolutionY, InMaxVertexNum, InMaxIndexNum);
 }
 void SSsPlayerWidget::Terminate_OffScreen()
 {
