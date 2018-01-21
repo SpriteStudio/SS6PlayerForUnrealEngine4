@@ -4,6 +4,7 @@
 #include "SsAnimePack.h"
 #include "SsCellMap.h"
 #include "SsString_uty.h"
+#include "SsAttribute.h"
 
 
 USs6Project::USs6Project(const FObjectInitializer& ObjectInitializer)
@@ -228,7 +229,43 @@ namespace
 					} break;
 				case SsPartType::Mesh:
 					{
-						//TODO:
+						// Setupアニメから参照セルを取得 
+						const FSsCell* Cell = nullptr;
+						{
+							for(auto ItAttr = AnimePack.Model.SetupAnimation->PartAnimes[ItPart.GetIndex()].Attributes.CreateIterator(); ItAttr; ++ItAttr)
+							{
+								if(ItAttr->Tag == SsAttributeKind::Cell)
+								{
+									if(0 < ItAttr->Key.Num())
+									{
+										const FSsKeyframe* Key = ItAttr->FirstKey();
+										FName CellName = FName(*(Key->Value["name"].get<FString>()));
+
+										SsRefCell RefCell;
+										GetSsRefCell(ItAttr->FirstKey(), RefCell);
+										if(0 <= RefCell.mapid)
+										{
+											const FSsCellMap* CellMap = &(Proj.CellmapList[RefCell.mapid]);
+											for(auto ItCell = CellMap->Cells.CreateConstIterator(); ItCell; ++ItCell)
+											{
+												if(ItCell->CellName == RefCell.name)
+												{
+													Cell = &(*ItCell);
+													break;
+												}
+											}
+										}
+									}
+									break;
+								}
+							}
+						}
+						// メッシュセルから頂点数とインデックス数を取得 
+						if(Cell && Cell->IsMesh)
+						{
+							OutVertexNum += (uint32)Cell->MeshPointList.Num();
+							OutIndexNum  += (uint32)Cell->MeshTriList.Num() * 3;
+						}
 					} break;
 				default:
 					{} break;
