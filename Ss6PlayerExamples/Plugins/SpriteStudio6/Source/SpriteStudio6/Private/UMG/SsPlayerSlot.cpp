@@ -5,6 +5,7 @@
 // コンストラクタ 
 USsPlayerSlot::USsPlayerSlot(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
+	, bReflectPartAlpha(false)
 {
 }
 
@@ -34,11 +35,12 @@ void USsPlayerSlot::BuildSlot(TSharedRef<SSsPlayerWidget> SsPlayerWidget)
 	SynchronizeProperties();
 }
 
-void USsPlayerSlot::SetPartIndex(int32 InPartIndex)
+void USsPlayerSlot::SetupSlateWidget(int32 InPartIndex)
 {
 	if(Slot)
 	{
 		Slot->PartIndex(InPartIndex);
+		Slot->ReflectPartAlpha(bReflectPartAlpha);
 	}
 }
 
@@ -51,7 +53,9 @@ void USsPlayerSlot::PostEditChangeProperty(FPropertyChangedEvent& PropertyChange
 	if(PropertyChangedEvent.Property)	// Undo/Redo時にNULLのケースがある 
 	{
 		FString PropertyName = PropertyChangedEvent.Property->GetNameCPP();
-		if(0 == PropertyName.Compare(TEXT("PartName")))
+		if(    (0 == PropertyName.Compare(TEXT("PartName")))
+			|| (0 == PropertyName.Compare(TEXT("bReflectPartAlpha")))
+			)
 		{
 			if(Parent)
 			{

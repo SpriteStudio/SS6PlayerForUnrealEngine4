@@ -16,12 +16,19 @@ public:
 			PartIndexAttr = InPartIndex;
 			return *this;
 		}
+		FSlot& ReflectPartAlpha(const TAttribute<bool>& InReflectPartAlpha)
+		{
+			ReflectPartAlphaAttr = InReflectPartAlpha;
+			return *this;
+		}
 
 		TAttribute<int32> PartIndexAttr;
+		TAttribute<bool> ReflectPartAlphaAttr;
 
 		FSlot()
 			: TSlotBase<FSlot>()
 			, PartIndexAttr(-1)
+			, ReflectPartAlphaAttr(false)
 			, WidgetSlot(nullptr)
 		{}
 
@@ -101,11 +108,13 @@ private:
 		const FGeometry& AllottedGeometry,
 		const FSlateRect& MyClippingRect,
 		FSlateWindowElementList& OutDrawElements,
-		int32 LayerId
+		int32 LayerId,
+		const FWidgetStyle& InWidgetStyle
 		) const;
 
 public:
 	bool bIgnoreClipRect;
+	bool bReflectParentAlpha;
 
 private:
 	bool bRenderOffScreen;

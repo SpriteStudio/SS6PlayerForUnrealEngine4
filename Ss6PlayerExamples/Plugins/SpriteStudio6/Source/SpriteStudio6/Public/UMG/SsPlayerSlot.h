@@ -16,7 +16,7 @@ class SPRITESTUDIO6_API USsPlayerSlot : public UPanelSlot
 public:
 	virtual ~USsPlayerSlot();
 	void BuildSlot(TSharedRef<SSsPlayerWidget> SsPlayerWidget);
-	void SetPartIndex(int32 InPartIndex);
+	void SetupSlateWidget(int32 InPartIndex);
 
 	// UObject interface 
 #if WITH_EDITOR
@@ -27,8 +27,13 @@ public:
 	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
 
 public:
+	// 子ウィジェットをアタッチするSpriteStudioパーツ名 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SsPlayerSlot")
 	FName PartName;
+
+	// 子ウィジェットに対して、SpriteStudioパーツのアルファ値を反映させるか 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SsPlayerSlot")
+	bool bReflectPartAlpha;
 
 private:
 	SSsPlayerWidget::FSlot* Slot;

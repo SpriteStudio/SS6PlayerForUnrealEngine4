@@ -188,6 +188,10 @@ public:
 	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadOnly)
 	FVector2D OffScreenRenderResolution;
 
+	// 親Widgetのアルファ値を反映するか 
+	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadOnly)
+	bool bReflectParentAlpha;
+
 
 	//
 	// SpriteStudioCallback 

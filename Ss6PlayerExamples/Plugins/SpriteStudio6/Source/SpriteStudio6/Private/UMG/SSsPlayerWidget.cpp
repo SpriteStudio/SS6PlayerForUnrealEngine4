@@ -582,7 +582,8 @@ int32 SSsPlayerWidget::OnPaint(
 			AllottedGeometry,
 			MyClippingRect,
 			OutDrawElements,
-			LayerId
+			LayerId,
+			InWidgetStyle
 			);
 	}
 	else
@@ -627,7 +628,8 @@ int32 SSsPlayerWidget::OnPaint(
 				AllottedGeometry,
 				MyClippingRect,
 				OutDrawElements,
-				LayerId
+				LayerId,
+				InWidgetStyle
 				);
 		}
 	}
@@ -657,13 +659,53 @@ int32 SSsPlayerWidget::OnPaint(
 				ClippingManager.PushClip(FSlateClippingZone(CurWidget.Geometry));
 			}
 
+			FWidgetStyle WidgetStyle(InWidgetStyle);
+			{
+				float Alpha = 1.f;
+				if(!bRenderOffScreen)
+				{
+					for(auto It = RenderParts_Default.CreateConstIterator(); It; ++It)
+					{
+						if(It->PartIndex == Children[ChildIndex].PartIndexAttr.Get())
+						{
+							if(Children[ChildIndex].ReflectPartAlphaAttr.Get())
+							{
+								for(int32 v = 0; v < 4; ++v)
+								{
+									Alpha = FMath::Min<float>(Alpha, (float)It->Vertices[v].Color.A / 255.f);
+								}
+							}
+							break;
+						}
+					}
+				}
+				else
+				{
+					for(auto It = RenderParts_OffScreen.CreateConstIterator(); It; ++It)
+					{
+						if(It->PartIndex == Children[ChildIndex].PartIndexAttr.Get())
+						{
+							if(Children[ChildIndex].ReflectPartAlphaAttr.Get())
+							{
+								for(int32 v = 0; v < 4; ++v)
+								{
+									Alpha = FMath::Min<float>(Alpha, (float)It->Vertices[v].Color.A / 255.f);
+								}
+							}
+							break;
+						}
+					}
+				}
+				WidgetStyle.BlendColorAndOpacityTint(FLinearColor(1.f, 1.f, 1.f, Alpha));
+			}
+
 			const int32 CurWidgetsMaxLayerId = CurWidget.Widget->Paint(
 				NewArgs,
 				CurWidget.Geometry,
 				MyCullingRect,
 				OutDrawElements,
 				MaxLayerId + 1,
-				InWidgetStyle,
+				WidgetStyle,
 				bForwardedEnabled
 				);
 			MaxLayerId = FMath::Max(MaxLayerId, CurWidgetsMaxLayerId);
@@ -682,7 +724,8 @@ void SSsPlayerWidget::PaintInternal(
 	const FGeometry& AllottedGeometry,
 	const FSlateRect& MyClippingRect,
 	FSlateWindowElementList& OutDrawElements,
-	int32 LayerId
+	int32 LayerId,
+	const FWidgetStyle& InWidgetStyle
 	) const
 {
 	if(0 == InRenderParts.Num())
@@ -873,6 +916,10 @@ void SSsPlayerWidget::PaintInternal(
 						Vert.TexCoords[3] = TmpVerts[i].ColorBlendRate;
 						Vert.MaterialTexCoords[0] = Vert.MaterialTexCoords[1] = 0.f;
 						Vert.Color = TmpVerts[i].Color;
+						if(bReflectParentAlpha)
+						{
+							Vert.Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+						}
 						RenderData.Vertices.Add(Vert);
 					}
 				}
@@ -905,6 +952,10 @@ void SSsPlayerWidget::PaintInternal(
 				Vert.TexCoords[3] = It->Vertices[i].ColorBlendRate;
 				Vert.MaterialTexCoords[0] = Vert.MaterialTexCoords[1] = 0.f;
 				Vert.Color = It->Vertices[i].Color;
+				if(bReflectParentAlpha)
+				{
+					Vert.Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+				}
 				//Vert.ClipRect = FSlateRotatedClipRectType(MyClippingRect);	// MakeCustomVertsでは無視される 
 
 				RenderData.Vertices.Add(Vert);

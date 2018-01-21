@@ -50,6 +50,7 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 	, bIgnoreClipRect(false)
 	, BaseMaterial(nullptr)
 	, OffScreenRenderResolution(512, 512)
+	, bReflectParentAlpha(false)
 {
 	this->Clipping = EWidgetClipping::ClipToBounds;
 
@@ -126,6 +127,13 @@ void USsPlayerWidget::PostEditChangeProperty(FPropertyChangedEvent& PropertyChan
 				PlayerWidget->bIgnoreClipRect = bIgnoreClipRect;
 			}
 		}
+		if(0 == PropertyChangedEvent.Property->GetNameCPP().Compare(TEXT("bReflectParentAlpha")))
+		{
+			if(PlayerWidget.IsValid())
+			{
+				PlayerWidget->bReflectParentAlpha = bReflectParentAlpha;
+			}
+		}
 	}
 }
 #endif
@@ -150,7 +158,7 @@ void USsPlayerWidget::SynchronizeProperties()
 			for(auto It = Slots.CreateConstIterator(); It; ++It)
 			{
 				USsPlayerSlot* PlayerSlot = Cast<USsPlayerSlot>(*It);
-				PlayerSlot->SetPartIndex(Player.GetPartIndexFromName(PlayerSlot->PartName));
+				PlayerSlot->SetupSlateWidget(Player.GetPartIndexFromName(PlayerSlot->PartName));
 			}
 		}
 	}
@@ -158,6 +166,7 @@ void USsPlayerWidget::SynchronizeProperties()
 	if(PlayerWidget.IsValid())
 	{
 		PlayerWidget->bIgnoreClipRect = bIgnoreClipRect;
+		PlayerWidget->bReflectParentAlpha = bReflectParentAlpha;
 
 		switch(RenderMode)
 		{
@@ -236,6 +245,7 @@ TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 {
 	PlayerWidget = SNew(SSsPlayerWidget);
 	PlayerWidget->bIgnoreClipRect = bIgnoreClipRect;
+	PlayerWidget->bReflectParentAlpha = bReflectParentAlpha;
 
 	for(auto It = Slots.CreateConstIterator(); It; ++It)
 	{
@@ -426,7 +436,7 @@ bool USsPlayerWidget::PlayByIndex(int32 AnimPackIndex, int32 AnimationIndex, int
 		for(auto It = Slots.CreateConstIterator(); It; ++It)
 		{
 			USsPlayerSlot* PlayerSlot = Cast<USsPlayerSlot>(*It);
-			PlayerSlot->SetPartIndex(Player.GetPartIndexFromName(PlayerSlot->PartName));
+			PlayerSlot->SetupSlateWidget(Player.GetPartIndexFromName(PlayerSlot->PartName));
 		}
 
 		if(bAutoUpdate)
