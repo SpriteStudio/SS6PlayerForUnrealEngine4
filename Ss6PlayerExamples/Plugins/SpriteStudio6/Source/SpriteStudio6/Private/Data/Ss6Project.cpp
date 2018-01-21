@@ -197,36 +197,60 @@ namespace
 
 		return Result;
 	}
-	uint32 CalcMaxRenderPartsNum_Recursive(const USs6Project& Proj, const FSsAnimePack& AnimePack)
+	void CalcVertexAndIndexNum_Recursive(const USs6Project& Proj, const FSsAnimePack& AnimePack, uint32& OutVertexNum, uint32& OutIndexNum)
 	{
-		uint32 Result = AnimePack.Model.PartList.Num();
-		for(int32 i = 0; i < AnimePack.Model.PartList.Num(); ++i)
+		for(auto ItPart = AnimePack.Model.PartList.CreateConstIterator(); ItPart; ++ItPart)
 		{
-			int32 RefAnimePackIndex = Proj.FindAnimePackIndex(AnimePack.Model.PartList[i].RefAnimePack);
-			if(0 <= RefAnimePackIndex)
+			switch(ItPart->Type)
 			{
-				Result += CalcMaxRenderPartsNum_Recursive(Proj, Proj.AnimeList[RefAnimePackIndex]);
-			}
-			int32 RefEffectIndex = Proj.FindEffectIndex(AnimePack.Model.PartList[i].RefEffectName);
-			if(0 <= RefEffectIndex)
-			{
-				Result += CalcMaxRenderPartsNum_Effect_Recursice(Proj.EffectList[RefEffectIndex], Proj.EffectList[RefEffectIndex].EffectData.Root, 1);
+				case SsPartType::Normal:
+					{
+						OutVertexNum += 4;
+						OutIndexNum  += 6;
+					} break;
+				case SsPartType::Instance:
+					{
+						int32 RefAnimePackIndex = Proj.FindAnimePackIndex(ItPart->RefAnimePack);
+						if(0 <= RefAnimePackIndex)
+						{
+							CalcVertexAndIndexNum_Recursive(Proj, Proj.AnimeList[RefAnimePackIndex], OutVertexNum, OutIndexNum);
+						}
+					} break;
+				case SsPartType::Effect:
+					{
+						int32 RefEffectIndex = Proj.FindEffectIndex(ItPart->RefEffectName);
+						if(0 <= RefEffectIndex)
+						{
+							uint32 PartsNum = CalcMaxRenderPartsNum_Effect_Recursice(Proj.EffectList[RefEffectIndex], Proj.EffectList[RefEffectIndex].EffectData.Root, 1);
+							OutVertexNum += PartsNum * 4;
+							OutIndexNum  += PartsNum * 6;
+						}
+					} break;
+				case SsPartType::Mesh:
+					{
+						//TODO:
+					} break;
+				default:
+					{} break;
 			}
 		}
-		return Result;
 	}
 }
 
-void USs6Project::CalcMaxVertexAndIndexNum(uint32& OutVertexNum, uint32& OutIndexNum) const
+void USs6Project::CalcMaxVertexAndIndexNum(uint32& OutMaxVertexNum, uint32& OutMaxIndexNum) const
 {
-	uint32 PartsNum = 0;
+	OutMaxVertexNum = 0;
+	OutMaxIndexNum = 0;
+
 	for(int32 i = 0; i < AnimeList.Num(); ++i)
 	{
 		for(int32 j = 0; j < AnimeList[i].AnimeList.Num(); ++j)
 		{
-			PartsNum = FMath::Max(PartsNum, CalcMaxRenderPartsNum_Recursive(*this, AnimeList[i]));
+			uint32 VertexNum(0), IndexNum(0);
+			CalcVertexAndIndexNum_Recursive(*this, AnimeList[i], VertexNum, IndexNum);
+
+			OutMaxVertexNum = FMath::Max(OutMaxVertexNum, VertexNum);
+			OutMaxIndexNum  = FMath::Max(OutMaxIndexNum,  IndexNum);
 		}
 	}
-	OutVertexNum = PartsNum * 4;
-	OutIndexNum = PartsNum * 6;
 }

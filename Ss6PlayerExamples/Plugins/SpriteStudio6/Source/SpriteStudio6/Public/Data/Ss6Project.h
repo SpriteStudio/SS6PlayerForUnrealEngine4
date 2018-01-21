@@ -155,5 +155,5 @@ public:
 	FString GetImageBasepath() const;
 
 	///最大描画パーツ数を計算
-	void CalcMaxVertexAndIndexNum(uint32& OutVertexNum, uint32& OutIndexNum) const;
+	void CalcMaxVertexAndIndexNum(uint32& OutMaxVertexNum, uint32& OutMaxIndexNum) const;
 };
