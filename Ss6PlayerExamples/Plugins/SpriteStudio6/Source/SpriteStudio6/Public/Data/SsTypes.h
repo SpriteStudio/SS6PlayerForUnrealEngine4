@@ -711,11 +711,28 @@ struct FSsRenderVertex
 	float ColorBlendRate;
 };
 
+// 描画用のメッシュ頂点 
+struct FSsRenderMeshVertex
+{
+	FVector2D Position;
+	FVector2D TexCoord;
+};
+
+// 描画用のメッシュ情報 
+struct FSsRenderMesh
+{
+	TArray<FSsRenderMeshVertex> Vertices;
+	TArray<uint32> Indices;
+	FColor Color;
+	float ColorBlendRate;
+};
+
 // 描画用のパーツ情報
 struct FSsRenderPart
 {
 	int32 PartIndex;
 	FSsRenderVertex Vertices[4];
+	TArray<FSsRenderMesh> Mesh;		// (0 < Mesh.Num()) の場合はメッシュパーツとして扱い、Verticesは参照しない 
 	UTexture* Texture;
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
