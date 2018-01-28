@@ -77,18 +77,6 @@ void FSsOffScreenIndexBuffer::InitDynamicRHI()
 	{
 		FRHIResourceCreateInfo CreateInfo;
 		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint32), BufferSize * sizeof(uint32), BUF_Dynamic, CreateInfo);
-
-		void* IndicesPtr = RHILockIndexBuffer(IndexBufferRHI, 0, BufferSize, RLM_WriteOnly);
-		for(uint32 i = 0; i < IndexNum/6; ++i)	//TODO: 今は仮で. メッシュパーツでは外部からインデックスリストを受け取るように 
-		{
-			((uint32*)IndicesPtr)[i*6+0] = i*4+0;
-			((uint32*)IndicesPtr)[i*6+1] = i*4+1;
-			((uint32*)IndicesPtr)[i*6+2] = i*4+3;
-			((uint32*)IndicesPtr)[i*6+3] = i*4+0;
-			((uint32*)IndicesPtr)[i*6+4] = i*4+3;
-			((uint32*)IndicesPtr)[i*6+5] = i*4+2;
-		}
-		RHIUnlockIndexBuffer(IndexBufferRHI);
 	}
 }
 void FSsOffScreenIndexBuffer::ReleaseDynamicRHI()
@@ -217,6 +205,48 @@ namespace
 		TArray<FSsRenderPart> RenderParts;
 	};
 
+	// カラーブレンドモードの設定 
+	void SetVertexColorBlendType(SsBlendType::Type ColorBlendType, FVector2D& OutColorBlend)
+	{
+		switch(ColorBlendType)
+		{
+			case SsBlendType::Mix:
+			case SsBlendType::Mul:
+			case SsBlendType::Add:
+			case SsBlendType::Sub:
+				{
+					OutColorBlend.X = (float)(ColorBlendType + 0.01f);
+				} break;
+			case SsBlendType::MulAlpha:
+			case SsBlendType::Screen:
+			case SsBlendType::Exclusion:
+			case SsBlendType::Invert:
+				{
+					// カラーブレンドモードは Mix/Mul/Add/Sub のみ. 
+					// MulAlpha/Screen/Exclusion/Invert はアルファブレンドモード専用. 
+					check(false);
+					OutColorBlend.X = 0.01f;
+				} break;
+			case SsBlendType::Effect:
+				{
+					// Effect
+					OutColorBlend.X = 5.01f;
+				} break;
+			case SsBlendType::MixVertex:
+				{
+					OutColorBlend.X = 6.01f;
+				} break;
+			case SsBlendType::Invalid:
+				{
+					OutColorBlend.X = 4.01f;
+				} break;
+			default:
+				{
+					checkf(false, TEXT("Invalid ColorBlendType %d"), (int32)ColorBlendType);
+				} break;
+		}
+	}
+
 	// 描画 
 	void RenderPartsToRenderTarget(FRHICommandListImmediate& RHICmdList, FSsRenderPartsForSendingRenderThread& RenderParts)
 	{
@@ -246,92 +276,134 @@ namespace
 				)
 			);
 
-		FMatrix ProjectionMatrix;
-		{
-			const float Left = 0.0f;
-			const float Right = Left+SurfaceWidth;
-			const float Top = 0.0f;
-			const float Bottom = Top+SurfaceHeight;
-			const float ZNear = 0.f;
-			const float ZFar = 1.f;
-			ProjectionMatrix =
-					FMatrix(	FPlane(2.0f/(Right-Left),			0,							0,					0 ),
-								FPlane(0,							2.0f/(Top-Bottom),			0,					0 ),
-								FPlane(0,							0,							1/(ZNear-ZFar),		0 ),
-								FPlane((Left+Right)/(Left-Right),	(Top+Bottom)/(Bottom-Top),	ZNear/(ZNear-ZFar), 1 ) );
-		}
-
-		// 頂点バッファへ書き込み 
 		if(0 < RenderParts.RenderParts.Num())
 		{
-			void* VerticesPtr = RHILockVertexBuffer(
-					RenderParts.VertexBuffer->VertexBufferRHI,
-					0, // Offset
-					RenderParts.RenderParts.Num() * sizeof(FSsOffScreenVertex) * 4, // SizeRHI
+			// 頂点バッファへ書き込み 
+			{
+				FMatrix ProjectionMatrix;
+				{
+					const float Left = 0.0f;
+					const float Right = Left+SurfaceWidth;
+					const float Top = 0.0f;
+					const float Bottom = Top+SurfaceHeight;
+					const float ZNear = 0.f;
+					const float ZFar = 1.f;
+					ProjectionMatrix =
+							FMatrix(	FPlane(2.0f/(Right-Left),			0,							0,					0 ),
+										FPlane(0,							2.0f/(Top-Bottom),			0,					0 ),
+										FPlane(0,							0,							1/(ZNear-ZFar),		0 ),
+										FPlane((Left+Right)/(Left-Right),	(Top+Bottom)/(Bottom-Top),	ZNear/(ZNear-ZFar), 1 ) );
+				}
+
+				void* VerticesPtr = RHILockVertexBuffer(
+						RenderParts.VertexBuffer->VertexBufferRHI,
+						0, // Offset
+						RenderParts.VertexBuffer->VertexNum * sizeof(FSsOffScreenVertex),
+						RLM_WriteOnly
+						);
+				int32 VertexCnt = 0;
+				for(auto ItPart = RenderParts.RenderParts.CreateConstIterator(); ItPart; ++ItPart)
+				{
+					FSsOffScreenVertex Vert;
+					// 通常パーツ 
+					if(0 == ItPart->Mesh.Num())
+					{
+						for(int32 v = 0; v < 4; ++v)
+						{
+							FVector4 Position(
+								ItPart->Vertices[v].Position.X * SurfaceWidth,
+								ItPart->Vertices[v].Position.Y * SurfaceHeight,
+								0.f, 1.f
+								);
+							Position = ProjectionMatrix.TransformFVector4(Position);
+							Vert.Position.X = Position.X;
+							Vert.Position.Y = Position.Y;
+					
+							Vert.Color = ItPart->Vertices[v].Color;
+							Vert.TexCoord = ItPart->Vertices[v].TexCoord;
+					
+							// カラーブレンドモードの設定 
+							SetVertexColorBlendType(ItPart->ColorBlendType, Vert.ColorBlend);
+							Vert.ColorBlend.Y = ItPart->Vertices[v].ColorBlendRate;
+				
+							((FSsOffScreenVertex*)VerticesPtr)[VertexCnt] = Vert;
+							++VertexCnt;
+						}
+					}
+					// メッシュパーツ 
+					else
+					{
+						for(auto ItMesh = ItPart->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+						{
+							for(auto ItVert = ItMesh->Vertices.CreateConstIterator(); ItVert; ++ItVert)
+							{
+								FVector4 Position(
+									ItVert->Position.X * SurfaceWidth,
+									ItVert->Position.Y * SurfaceHeight,
+									0.f, 1.f
+									);
+								Position = ProjectionMatrix.TransformFVector4(Position);
+								Vert.Position.X = Position.X;
+								Vert.Position.Y = Position.Y;
+
+								Vert.Color = ItMesh->Color;
+								Vert.TexCoord = ItVert->TexCoord;
+
+								SetVertexColorBlendType(ItPart->ColorBlendType, Vert.ColorBlend);
+								Vert.ColorBlend.Y = ItMesh->ColorBlendRate;
+
+								((FSsOffScreenVertex*)VerticesPtr)[VertexCnt] = Vert;
+								++VertexCnt;
+							}
+						}
+					}
+				}
+				RHIUnlockVertexBuffer(RenderParts.VertexBuffer->VertexBufferRHI);
+			}
+
+			// インデックスバッファへ書き込み 
+			{
+				void* IndicesPtr = RHILockIndexBuffer(
+					RenderParts.IndexBuffer->IndexBufferRHI,
+					0,
+					RenderParts.IndexBuffer->IndexNum * sizeof(uint32),
 					RLM_WriteOnly
 					);
-			for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
-			{
-				FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
-				FSsOffScreenVertex Vert;
-				for(int32 v = 0; v < 4; ++v)
+
+				int32 VertexCnt = 0;
+				int32 IndexCnt = 0;
+				for(auto ItPart = RenderParts.RenderParts.CreateConstIterator(); ItPart; ++ItPart)
 				{
-					FVector4 Position(
-						RenderPart.Vertices[v].Position.X * SurfaceWidth,
-						RenderPart.Vertices[v].Position.Y * SurfaceHeight,
-						0.f, 1.f
-						);
-					Position = ProjectionMatrix.TransformFVector4(Position);
-					Vert.Position.X = Position.X;
-					Vert.Position.Y = Position.Y;
-					
-					Vert.Color = RenderPart.Vertices[v].Color;
-					Vert.TexCoord = RenderPart.Vertices[v].TexCoord;
-					
-					// カラーブレンドモードの設定 
-					switch(RenderPart.ColorBlendType)
+					FSsOffScreenVertex Vert;
+					// 通常パーツ 
+					if(0 == ItPart->Mesh.Num())
 					{
-						case SsBlendType::Mix:
-						case SsBlendType::Mul:
-						case SsBlendType::Add:
-						case SsBlendType::Sub:
-							{
-								Vert.ColorBlend.X = (float)(RenderPart.ColorBlendType + 0.01f);
-							} break;
-						case SsBlendType::MulAlpha:
-						case SsBlendType::Screen:
-						case SsBlendType::Exclusion:
-						case SsBlendType::Invert:
-							{
-								// カラーブレンドモードは Mix/Mul/Add/Sub のみ. 
-								// MulAlpha/Screen/Exclusion/Invert はアルファブレンドモード専用. 
-								check(false);
-								Vert.ColorBlend.X = 0.01f;
-							} break;
-						case SsBlendType::Effect:
-							{
-								// Effect
-								Vert.ColorBlend.X = 5.01f;
-							} break;
-						case SsBlendType::MixVertex:
-							{
-								Vert.ColorBlend.X = 6.01f;
-							} break;
-						case SsBlendType::Invalid:
-							{
-								Vert.ColorBlend.X = 4.01f;
-							} break;
-						default:
-							{
-								checkf(false, TEXT("Invalid ColorBlendType %d"), (int32)RenderPart.ColorBlendType);
-							} break;
+						((uint32*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
+						((uint32*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
+						((uint32*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
+						((uint32*)IndicesPtr)[IndexCnt + 3] = VertexCnt + 0;
+						((uint32*)IndicesPtr)[IndexCnt + 4] = VertexCnt + 3;
+						((uint32*)IndicesPtr)[IndexCnt + 5] = VertexCnt + 2;
+						VertexCnt += 4;
+						IndexCnt  += 6;
 					}
-					Vert.ColorBlend.Y = RenderPart.Vertices[v].ColorBlendRate;
-				
-					((FSsOffScreenVertex*)VerticesPtr)[i*4+v] = Vert;
+					// メッシュパーツ 
+					else
+					{
+						for(auto ItMesh = ItPart->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+						{
+							for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
+							{
+								((uint32*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = *ItIndex;
+							}
+							VertexCnt += ItMesh->Vertices.Num();
+							IndexCnt  += ItMesh->Indices.Num();
+						}
+					}
 				}
+
+				RHIUnlockIndexBuffer(RenderParts.IndexBuffer->IndexBufferRHI);
 			}
-			RHIUnlockVertexBuffer(RenderParts.VertexBuffer->VertexBufferRHI);
 		}
 
 		// シェーダの取得 
@@ -339,11 +411,29 @@ namespace
 		TShaderMapRef<FSsOffScreenPS> PixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 
 		// マテリアルとブレンドタイプが一致しているパーツ毎に描画 
-		uint32 StartPartIndex = 0;
-		uint32 NumParts = 1;
+		uint32 BaseVertexIndex = 0;
+		uint32 BaseIndexIndex  = 0;
+		uint32 NumRenderVertices = 0;
+		uint32 NumRenderIndices  = 0;
 		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
 		{
 			FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
+
+			// 通常パーツ 
+			if(0 == RenderPart.Mesh.Num())
+			{
+				NumRenderVertices += 4;
+				NumRenderIndices  += 6;
+			}
+			// メッシュパーツ 
+			else
+			{
+				for(auto ItMesh = RenderPart.Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+				{
+					NumRenderVertices += ItMesh->Vertices.Num();
+					NumRenderIndices  += ItMesh->Indices.Num();
+				}
+			}
 
 			// 次パーツが同時に描画出来るか 
 			if(    (i != (RenderParts.RenderParts.Num()-1))										// 最後の１つでない
@@ -351,7 +441,6 @@ namespace
 				&& (RenderPart.Texture == RenderParts.RenderParts[i+1].Texture)					// テクスチャが一致
 				)
 			{
-				++NumParts;
 				continue;
 			}
 
@@ -468,11 +557,11 @@ namespace
 				RHICmdList.DrawIndexedPrimitive(
 					RenderParts.IndexBuffer->IndexBufferRHI,
 					PT_TriangleList,
-					(StartPartIndex * 4),	//BaseVertexIndex
-					0,						//MinIndex
-					(NumParts * 4),			//NumVertices
+					BaseVertexIndex,		//BaseVertexIndex
+					BaseIndexIndex,			//MinIndex
+					NumRenderVertices,		//NumVertices
 					0,						//StartIndex
-					(NumParts * 2),			//NumPrimitives
+					NumRenderIndices / 3,	//NumPrimitives
 					1						//NumInstances
 					);
 			}
@@ -481,22 +570,24 @@ namespace
 				RHICmdList.SetStreamSource(
 					0,												//StreamIndex
 					RenderParts.VertexBuffer->VertexBufferRHI,
-					sizeof(FSsOffScreenVertex) * (StartPartIndex * 4)	//Offset
+					sizeof(FSsOffScreenVertex) * BaseVertexIndex	//Offset
 					);
 				RHICmdList.DrawIndexedPrimitive(
 					RenderParts.IndexBuffer->IndexBufferRHI,
 					PT_TriangleList,
-					0,				//BaseVertexIndex
-					0,				//MinIndex
-					(NumParts * 4),	//NumVertices
-					0,				//StartIndex
-					(NumParts * 2),	//NumPrimitives
-					1				//NumInstances
+					0,						//BaseVertexIndex
+					BaseIndexIndex,			//MinIndex
+					NumRenderVertices,		//NumVertices
+					0,						//StartIndex
+					NumRenderIndices / 3,	//NumPrimitives
+					1						//NumInstances
 					);
 			}
 
-			StartPartIndex = i + 1;
-			NumParts = 1;
+			BaseVertexIndex += NumRenderVertices;
+			BaseIndexIndex  += NumRenderIndices;
+			NumRenderVertices = 0;
+			NumRenderIndices  = 0;
 		}
 	}
 }
