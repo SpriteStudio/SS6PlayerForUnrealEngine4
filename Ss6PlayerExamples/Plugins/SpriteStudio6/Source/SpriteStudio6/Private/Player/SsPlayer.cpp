@@ -552,7 +552,6 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		}
 		else
 		{
-			const SsColorBlendValue& cbv = State->partsColorValue.color;
 			for(int32 i = 0; i < 4; ++i)
 			{
 				VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * Alpha * HideAlpha));
@@ -576,6 +575,8 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	// 通常パーツ 
 	else
 	{
+		check(4 == Vertices2D.Num());
+		check(4 == UVs.Num());
 		for(int32 i = 0; i < 4; ++i)
 		{
 			OutRenderPart.Vertices[i].Position = FVector2D(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
