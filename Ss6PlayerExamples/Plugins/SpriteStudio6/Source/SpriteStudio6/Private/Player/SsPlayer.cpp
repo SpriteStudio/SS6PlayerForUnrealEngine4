@@ -368,7 +368,6 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 
 	// TODO: 現バージョンでは未実装のパーツ種別は無視 
 	if(    (State->partType == SsPartType::Armature)
-		|| (State->partType == SsPartType::Mesh)
 		|| (State->partType == SsPartType::MoveNode)
 		|| (State->partType == SsPartType::Constraint)
 		|| (State->partType == SsPartType::Mask)
@@ -378,7 +377,11 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	{
 		return false;
 	}
-
+	if(State->partType == SsPartType::Mesh)
+	{
+		//TODO
+		return false;
+	}
 
 	// RenderTargetに対する描画基準位置
 	float OffX = (float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X);
@@ -391,143 +394,170 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		FVector(State->matrixLocal[ 8], State->matrixLocal[ 9], State->matrixLocal[10]),
 		FVector(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
 	);
-	FVector2D Vertices2D[4];
-	for(int i = 0; i < 4; ++i)
-	{
-		FVector4 V = ViewMatrix.TransformPosition(FVector(
-			State->vertices[i*3 + 0],
-			State->vertices[i*3 + 1],
-			State->vertices[i*3 + 2]
-		));
-		Vertices2D[i] = FVector2D(V.X + OffX, -V.Y + OffY);
-	}
 
-	// 上下反転，左右反転
-	if(State->hFlip)
+	TArray<FVector2D> Vertices2D;
+	// メッシュパーツ 
+	if(State->partType == SsPartType::Mesh)
 	{
-		FVector2D tmp;
-		tmp = Vertices2D[0];
-		Vertices2D[0] = Vertices2D[1];
-		Vertices2D[1] = tmp;
-		tmp = Vertices2D[2];
-		Vertices2D[2] = Vertices2D[3];
-		Vertices2D[3] = tmp;
+		//TODO
 	}
-	if(State->vFlip)
+	// 通常パーツ 
+	else
 	{
-		FVector2D tmp;
-		tmp = Vertices2D[0];
-		Vertices2D[0] = Vertices2D[2];
-		Vertices2D[2] = tmp;
-		tmp = Vertices2D[1];
-		Vertices2D[1] = Vertices2D[3];
-		Vertices2D[3] = tmp;
+		for(int i = 0; i < 4; ++i)
+		{
+			FVector4 V = ViewMatrix.TransformPosition(FVector(
+				State->vertices[i*3 + 0],
+				State->vertices[i*3 + 1],
+				State->vertices[i*3 + 2]
+			));
+			Vertices2D.Add(FVector2D(V.X + OffX, -V.Y + OffY));
+		}
+
+		// 上下反転，左右反転
+		if(State->hFlip)
+		{
+			FVector2D tmp;
+			tmp = Vertices2D[0];
+			Vertices2D[0] = Vertices2D[1];
+			Vertices2D[1] = tmp;
+			tmp = Vertices2D[2];
+			Vertices2D[2] = Vertices2D[3];
+			Vertices2D[3] = tmp;
+		}
+		if(State->vFlip)
+		{
+			FVector2D tmp;
+			tmp = Vertices2D[0];
+			Vertices2D[0] = Vertices2D[2];
+			Vertices2D[2] = tmp;
+			tmp = Vertices2D[1];
+			Vertices2D[1] = Vertices2D[3];
+			Vertices2D[3] = tmp;
+		}
 	}
 
 	// UV
-	FVector2D UVs[4];
-	for(int i = 0; i < 4; ++i)
+	TArray<FVector2D> UVs;
+	// メッシュパーツ 
+	if(State->partType == SsPartType::Mesh)
 	{
-		UVs[i] = FVector2D(State->cellValue.uvs[i].X + State->uvs[i*2 + 0] + State->uvTranslate.X, State->cellValue.uvs[i].Y + State->uvs[i*2 + 1] + State->uvTranslate.Y);
+		//TODO
 	}
-	if(1.f != State->uvScale.X)
+	// 通常パーツ 
+	else
 	{
-		float Center;
-		Center = (UVs[1].X - UVs[0].X) / 2.f + UVs[0].X;
-		UVs[0].X = Center - ((Center - UVs[0].X) * State->uvScale.X);
-		UVs[1].X = Center - ((Center - UVs[1].X) * State->uvScale.X);
-		Center = (UVs[3].X - UVs[2].X) / 2.f + UVs[2].X;
-		UVs[2].X = Center - ((Center - UVs[2].X) * State->uvScale.X);
-		UVs[3].X = Center - ((Center - UVs[3].X) * State->uvScale.X);
-	}
-	if(0.f != State->uvRotation)
-	{
-		FVector2D UVCenter((UVs[1].X - UVs[0].X) / 2.f + UVs[0].X, (UVs[2].Y - UVs[0].Y) / 2.f + UVs[0].Y);
-		float S = FMath::Sin(FMath::DegreesToRadians(State->uvRotation));
-		float C = FMath::Cos(FMath::DegreesToRadians(State->uvRotation));
 		for(int i = 0; i < 4; ++i)
 		{
-			UVs[i] -= UVCenter;
-			UVs[i] = FVector2D(
-				UVs[i].X * C - UVs[i].Y * S,
-				UVs[i].X * S + UVs[i].Y * C
-			);
-			UVs[i] += UVCenter;
+			UVs.Add(FVector2D(State->cellValue.uvs[i].X + State->uvs[i*2 + 0] + State->uvTranslate.X, State->cellValue.uvs[i].Y + State->uvs[i*2 + 1] + State->uvTranslate.Y));
+		}
+		if(1.f != State->uvScale.X)
+		{
+			float Center;
+			Center = (UVs[1].X - UVs[0].X) / 2.f + UVs[0].X;
+			UVs[0].X = Center - ((Center - UVs[0].X) * State->uvScale.X);
+			UVs[1].X = Center - ((Center - UVs[1].X) * State->uvScale.X);
+			Center = (UVs[3].X - UVs[2].X) / 2.f + UVs[2].X;
+			UVs[2].X = Center - ((Center - UVs[2].X) * State->uvScale.X);
+			UVs[3].X = Center - ((Center - UVs[3].X) * State->uvScale.X);
+		}
+		if(0.f != State->uvRotation)
+		{
+			FVector2D UVCenter((UVs[1].X - UVs[0].X) / 2.f + UVs[0].X, (UVs[2].Y - UVs[0].Y) / 2.f + UVs[0].Y);
+			float S = FMath::Sin(FMath::DegreesToRadians(State->uvRotation));
+			float C = FMath::Cos(FMath::DegreesToRadians(State->uvRotation));
+			for(int i = 0; i < 4; ++i)
+			{
+				UVs[i] -= UVCenter;
+				UVs[i] = FVector2D(
+					UVs[i].X * C - UVs[i].Y * S,
+					UVs[i].X * S + UVs[i].Y * C
+				);
+				UVs[i] += UVCenter;
+			}
+		}
+		if(1.f != State->uvScale.Y)
+		{
+			float Center;
+			Center = (UVs[2].Y - UVs[0].Y) / 2.f + UVs[0].Y;
+			UVs[0].Y = Center - ((Center - UVs[0].Y) * State->uvScale.Y);
+			UVs[2].Y = Center - ((Center - UVs[2].Y) * State->uvScale.Y);
+			Center = (UVs[3].Y - UVs[1].Y) / 2.f + UVs[1].Y;
+			UVs[1].Y = Center - ((Center - UVs[1].Y) * State->uvScale.Y);
+			UVs[3].Y = Center - ((Center - UVs[3].Y) * State->uvScale.Y);
+		}
+
+		// イメージ反転
+		if(State->imageFlipH)
+		{
+			FVector2D tmp;
+			tmp = UVs[0];
+			UVs[0] = UVs[1];
+			UVs[1] = tmp;
+			tmp = UVs[2];
+			UVs[2] = UVs[3];
+			UVs[3] = tmp;
+		}
+		if(State->imageFlipV)
+		{
+			FVector2D tmp;
+			tmp = UVs[0];
+			UVs[0] = UVs[2];
+			UVs[2] = tmp;
+			tmp = UVs[1];
+			UVs[1] = UVs[3];
+			UVs[3] = tmp;
 		}
 	}
-	if(1.f != State->uvScale.Y)
-	{
-		float Center;
-		Center = (UVs[2].Y - UVs[0].Y) / 2.f + UVs[0].Y;
-		UVs[0].Y = Center - ((Center - UVs[0].Y) * State->uvScale.Y);
-		UVs[2].Y = Center - ((Center - UVs[2].Y) * State->uvScale.Y);
-		Center = (UVs[3].Y - UVs[1].Y) / 2.f + UVs[1].Y;
-		UVs[1].Y = Center - ((Center - UVs[1].Y) * State->uvScale.Y);
-		UVs[3].Y = Center - ((Center - UVs[3].Y) * State->uvScale.Y);
-	}
 
-	// イメージ反転
-	if(State->imageFlipH)
-	{
-		FVector2D tmp;
-		tmp = UVs[0];
-		UVs[0] = UVs[1];
-		UVs[1] = tmp;
-		tmp = UVs[2];
-		UVs[2] = UVs[3];
-		UVs[3] = tmp;
-	}
-	if(State->imageFlipV)
-	{
-		FVector2D tmp;
-		tmp = UVs[0];
-		UVs[0] = UVs[2];
-		UVs[2] = tmp;
-		tmp = UVs[1];
-		UVs[1] = UVs[3];
-		UVs[3] = tmp;
-	}
-
-	// 頂点カラー
+	// 頂点カラー 
 	FColor VertexColors[4];
 	float ColorBlendRate[4];
-	if(State->is_parts_color)
+	// メッシュパーツ 
+	if(State->partType == SsPartType::Mesh)
 	{
-		if(State->partsColorValue.target == SsColorBlendTarget::Whole)
+		// TODO
+	}
+	// 通常パーツ 
+	{
+		if(State->is_parts_color)
 		{
-			const SsColorBlendValue& cbv = State->partsColorValue.color;
-			VertexColors[0].R = cbv.rgba.r;
-			VertexColors[0].G = cbv.rgba.g;
-			VertexColors[0].B = cbv.rgba.b;
-			VertexColors[0].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
-			ColorBlendRate[0] = cbv.rate;
-
-			for(int32 i = 1; i < 4; ++i)
+			if(State->partsColorValue.target == SsColorBlendTarget::Whole)
 			{
-				VertexColors[i] = VertexColors[0];
-				ColorBlendRate[i] = cbv.rate;
+				const SsColorBlendValue& cbv = State->partsColorValue.color;
+				VertexColors[0].R = cbv.rgba.r;
+				VertexColors[0].G = cbv.rgba.g;
+				VertexColors[0].B = cbv.rgba.b;
+				VertexColors[0].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
+				ColorBlendRate[0] = cbv.rate;
+
+				for(int32 i = 1; i < 4; ++i)
+				{
+					VertexColors[i] = VertexColors[0];
+					ColorBlendRate[i] = cbv.rate;
+				}
+			}
+			else
+			{
+				for(int32 i = 0; i < 4; ++i)
+				{
+					const SsColorBlendValue& cbv = State->partsColorValue.colors[i];
+					VertexColors[i].R = cbv.rgba.r;
+					VertexColors[i].G = cbv.rgba.g;
+					VertexColors[i].B = cbv.rgba.b;
+					VertexColors[i].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
+					ColorBlendRate[i] = cbv.rate;
+				}
 			}
 		}
 		else
 		{
+			const SsColorBlendValue& cbv = State->partsColorValue.color;
 			for(int32 i = 0; i < 4; ++i)
 			{
-				const SsColorBlendValue& cbv = State->partsColorValue.colors[i];
-				VertexColors[i].R = cbv.rgba.r;
-				VertexColors[i].G = cbv.rgba.g;
-				VertexColors[i].B = cbv.rgba.b;
-				VertexColors[i].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
-				ColorBlendRate[i] = cbv.rate;
+				VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * Alpha * HideAlpha));
+				ColorBlendRate[i] = 1.f;
 			}
-		}
-	}
-	else
-	{
-		const SsColorBlendValue& cbv = State->partsColorValue.color;
-		for(int32 i = 0; i < 4; ++i)
-		{
-			VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * Alpha * HideAlpha));
-			ColorBlendRate[i] = 1.f;
 		}
 	}
 
@@ -537,12 +567,22 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			? SsBlendType::MixVertex
 			: State->partsColorValue.blendType;
 	OutRenderPart.AlphaBlendType = State->alphaBlendType;
-	for(int32 i = 0; i < 4; ++i)
+
+	// メッシュパーツ 
+	if(State->partType == SsPartType::Mesh)
 	{
-		OutRenderPart.Vertices[i].Position = FVector2D(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
-		OutRenderPart.Vertices[i].TexCoord = UVs[i];
-		OutRenderPart.Vertices[i].Color = VertexColors[i];
-		OutRenderPart.Vertices[i].ColorBlendRate = ColorBlendRate[i];
+		//TODO
+	}
+	// 通常パーツ 
+	else
+	{
+		for(int32 i = 0; i < 4; ++i)
+		{
+			OutRenderPart.Vertices[i].Position = FVector2D(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
+			OutRenderPart.Vertices[i].TexCoord = UVs[i];
+			OutRenderPart.Vertices[i].Color = VertexColors[i];
+			OutRenderPart.Vertices[i].ColorBlendRate = ColorBlendRate[i];
+		}
 	}
 	return true;
 }
