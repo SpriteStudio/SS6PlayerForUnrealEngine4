@@ -61,7 +61,7 @@ public:
 #endif
 
 	// FTickableObjectBase interface
-	virtual bool IsTickable() const override { return (NULL != SsProject); }
+	virtual bool IsTickable() const override { return (nullptr != SsProject) && (nullptr != this->GetWorld() && (!this->GetWorld()->IsPaused() || bTickableWhenPaused)); }
 	virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(USsPlayerWidget, STATGROUP_Tickables); }
 
 	// FTickableGameObject interface
@@ -166,6 +166,9 @@ public:
 	UPROPERTY(Category=SpriteStudioPlaySettings, EditAnywhere, BlueprintReadWrite, AdvancedDisplay)
 	bool bDontUpdateIfHidden;
 
+	// Pause中でもTickする 
+	UPROPERTY(Category=SpriteStudioPlaySettings, EditAnywhere, BlueprintReadWrite, AdvancedDisplay)
+	bool bTickableWhenPaused;
 
 
 	//
