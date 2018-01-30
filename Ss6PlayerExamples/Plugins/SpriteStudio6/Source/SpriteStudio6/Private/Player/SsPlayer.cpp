@@ -9,6 +9,8 @@
 #include "ssplayer_PartState.h"
 #include "ssplayer_effect2.h"
 #include "ssplayer_matrix.h"
+#include "ssplayer_mesh.h"
+
 
 // コンストラクタ
 FSsPlayer::FSsPlayer()
@@ -377,17 +379,19 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	{
 		return false;
 	}
-	if(State->partType == SsPartType::Mesh)
-	{
-		//TODO
-		return false;
-	}
+
+	OutRenderPart.PartIndex = State->index;
+	OutRenderPart.Texture = State->cellValue.texture;
+	OutRenderPart.ColorBlendType = ((SsBlendType::Mix == State->partsColorValue.blendType) && (State->is_parts_color) && (State->partsColorValue.target == SsColorBlendTarget::Vertex))
+			? SsBlendType::MixVertex
+			: State->partsColorValue.blendType;
+	OutRenderPart.AlphaBlendType = State->alphaBlendType;
+
 
 	// RenderTargetに対する描画基準位置
 	float OffX = (float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X);
 	float OffY = (float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y);
 
-	// 頂点座標
 	FMatrix ViewMatrix(
 		FVector(State->matrixLocal[ 0], State->matrixLocal[ 1], State->matrixLocal[ 2]),
 		FVector(State->matrixLocal[ 4], State->matrixLocal[ 5], State->matrixLocal[ 6]),
@@ -395,15 +399,11 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		FVector(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
 	);
 
-	TArray<FVector2D> Vertices2D;
-	// メッシュパーツ 
-	if(State->partType == SsPartType::Mesh)
-	{
-		//TODO
-	}
 	// 通常パーツ 
-	else
+	if(State->partType != SsPartType::Mesh)
 	{
+		// 頂点座標
+		FVector2D Vertices2D[4];
 		for(int i = 0; i < 4; ++i)
 		{
 			FVector4 V = ViewMatrix.TransformPosition(FVector(
@@ -411,7 +411,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				State->vertices[i*3 + 1],
 				State->vertices[i*3 + 2]
 			));
-			Vertices2D.Add(FVector2D(V.X + OffX, -V.Y + OffY));
+			Vertices2D[i] = FVector2D(V.X + OffX, -V.Y + OffY);
 		}
 
 		// 上下反転，左右反転
@@ -435,21 +435,12 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			Vertices2D[1] = Vertices2D[3];
 			Vertices2D[3] = tmp;
 		}
-	}
 
-	// UV
-	TArray<FVector2D> UVs;
-	// メッシュパーツ 
-	if(State->partType == SsPartType::Mesh)
-	{
-		//TODO
-	}
-	// 通常パーツ 
-	else
-	{
+		// UV
+		FVector2D UVs[4];
 		for(int i = 0; i < 4; ++i)
 		{
-			UVs.Add(FVector2D(State->cellValue.uvs[i].X + State->uvs[i*2 + 0] + State->uvTranslate.X, State->cellValue.uvs[i].Y + State->uvs[i*2 + 1] + State->uvTranslate.Y));
+			UVs[i] = FVector2D(State->cellValue.uvs[i].X + State->uvs[i*2 + 0] + State->uvTranslate.X, State->cellValue.uvs[i].Y + State->uvs[i*2 + 1] + State->uvTranslate.Y);
 		}
 		if(1.f != State->uvScale.X)
 		{
@@ -508,18 +499,10 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			UVs[1] = UVs[3];
 			UVs[3] = tmp;
 		}
-	}
 
-	// 頂点カラー 
-	FColor VertexColors[4];
-	float ColorBlendRate[4];
-	// メッシュパーツ 
-	if(State->partType == SsPartType::Mesh)
-	{
-		// TODO
-	}
-	// 通常パーツ 
-	{
+		// 頂点カラー 
+		FColor VertexColors[4];
+		float ColorBlendRate[4];
 		if(State->is_parts_color)
 		{
 			if(State->partsColorValue.target == SsColorBlendTarget::Whole)
@@ -558,25 +541,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				ColorBlendRate[i] = 1.f;
 			}
 		}
-	}
 
-	OutRenderPart.PartIndex = State->index;
-	OutRenderPart.Texture = State->cellValue.texture;
-	OutRenderPart.ColorBlendType = ((SsBlendType::Mix == State->partsColorValue.blendType) && (State->is_parts_color) && (State->partsColorValue.target == SsColorBlendTarget::Vertex))
-			? SsBlendType::MixVertex
-			: State->partsColorValue.blendType;
-	OutRenderPart.AlphaBlendType = State->alphaBlendType;
-
-	// メッシュパーツ 
-	if(State->partType == SsPartType::Mesh)
-	{
-		//TODO
-	}
-	// 通常パーツ 
-	else
-	{
-		check(4 == Vertices2D.Num());
-		check(4 == UVs.Num());
 		for(int32 i = 0; i < 4; ++i)
 		{
 			OutRenderPart.Vertices[i].Position = FVector2D(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
@@ -585,6 +550,41 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			OutRenderPart.Vertices[i].ColorBlendRate = ColorBlendRate[i];
 		}
 	}
+	// メッシュパーツ 
+	else
+	{
+		check(nullptr != State->meshPart);
+		int32 Idx = OutRenderPart.Mesh.Add(FSsRenderMesh());
+		check(0 == Idx);
+		FSsRenderMesh& RenderMesh = OutRenderPart.Mesh[Idx];
+
+		RenderMesh.Vertices.AddUninitialized(State->meshPart->ver_size);
+		for(int32 i = 0; i < State->meshPart->ver_size; ++i)
+		{
+			FVector4 V = ViewMatrix.TransformPosition(FVector(
+				State->meshPart->vertices[i*3 + 0],
+				State->meshPart->vertices[i*3 + 1],
+				State->meshPart->vertices[i*3 + 2]
+			));
+			RenderMesh.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
+			RenderMesh.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
+			RenderMesh.Vertices[i].TexCoord.X = State->meshPart->uvs[i*2 + 0];
+			RenderMesh.Vertices[i].TexCoord.Y = State->meshPart->uvs[i*2 + 1];
+		}
+
+		RenderMesh.Indices.AddUninitialized(State->meshPart->tri_size * 3);
+		for(int32 i = 0; i < (State->meshPart->tri_size * 3); ++i)
+		{
+			RenderMesh.Indices[i] = (uint32)State->meshPart->indices[i];
+		}
+
+		RenderMesh.Color.R = State->partsColorValue.color.rgba.r;
+		RenderMesh.Color.G = State->partsColorValue.color.rgba.g;
+		RenderMesh.Color.B = State->partsColorValue.color.rgba.b;
+		RenderMesh.Color.A = (uint8)(255 * Alpha * HideAlpha);
+		RenderMesh.ColorBlendRate = State->partsColorValue.color.rgba.a / 255.f;
+	}
+
 	return true;
 }
 

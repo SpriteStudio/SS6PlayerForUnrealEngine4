@@ -394,7 +394,7 @@ namespace
 						{
 							for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
 							{
-								((uint32*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = *ItIndex;
+								((uint32*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = VertexCnt + *ItIndex;
 							}
 							VertexCnt += ItMesh->Vertices.Num();
 							IndexCnt  += ItMesh->Indices.Num();
