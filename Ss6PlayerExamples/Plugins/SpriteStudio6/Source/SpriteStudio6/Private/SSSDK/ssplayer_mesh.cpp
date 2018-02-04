@@ -74,6 +74,10 @@ void	SsMeshPart::makeMesh()
 		colors[i * 4 + 3] = 1.0f;
 		uvs[i * 2 + 0] = (targetCell->Pos.X + v.X) * uvpixel_x;
 		uvs[i * 2 + 1] = (targetCell->Pos.Y + v.Y) * uvpixel_y;
+
+		draw_vertices[i * 3 + 0] = vertices[i * 3];
+		draw_vertices[i * 3 + 1] = vertices[i * 3 + 1];
+		draw_vertices[i * 3 + 2] = vertices[i * 3 + 2];
 	}
 
 	outter_vertexnum = targetCell->OuterPoint.Num();
@@ -143,40 +147,38 @@ void    SsMeshPart::updateTransformMesh()
 		FVector out(FVector::ZeroVector);
 		FVector outtotal(FVector::ZeroVector);
 
-		draw_vertices[i * 3 + 0] = outtotal.X;
-		draw_vertices[i * 3 + 1] = outtotal.Y;
-		draw_vertices[i * 3 + 2] = 0;
+		SsPartState* matrixState = myPartState;
 
-		if (info.bindBoneNum > 0 )
+		if (info.bindBoneNum == 0)
 		{
+			this->isBind = false;
+
+
+			//MatrixTransformVector3(matrixState->matrix, info.offset[n], out);
+		}
+		else {
+			this->isBind = true;
 			for (int n = 0; n < info.bindBoneNum; n++)
 			{
-				//outtotal.X = info.offset[n].X;
-				//outtotal.Y = info.offset[n].Y;
-				//outtotal.z = info.offset[n].z;
-
-#if 1
 				if (info.bone[n])
 				{
+					if (info.bindBoneNum > 0) matrixState = info.bone[n];
 					float w = info.weight[n] / 100.0f;
-					MatrixTransformVector3(info.bone[n]->matrix, info.offset[n], out);
+					MatrixTransformVector3(matrixState->matrix, info.offset[n], out);
 					out.X *= w;
 					out.Y *= w;
-					//out.z *= w;
 
 					outtotal.X += out.X;
 					outtotal.Y += out.Y;
 					outtotal.Z = 0;
-					//outtotal.z += out.z;
 				}
-#endif
-
 			}
 
 			draw_vertices[i * 3 + 0] = outtotal.X * 1.0f;
 			draw_vertices[i * 3 + 1] = outtotal.Y * 1.0f;
 			draw_vertices[i * 3 + 2] = 0;
 		}
+
 	}
 }
 
@@ -239,48 +241,62 @@ void	SsMeshAnimator::update()
 
 }
 
+
+void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , TArray<SsPartState*>& boneList )
+{
+
+	int bnum = (int)boneList.Num();
+	bool isbind = false;	//バインドするボーンが存在するか？
+
+
+
+	for (size_t i = 0; i < src->MeshVerticesBindArray.Num(); i++)
+	{
+		FSsMeshBindInfo & bi = src->MeshVerticesBindArray[i];
+
+		if (dst->getVertexNum() > (int) i)
+		{
+			int cntBone = 0;
+			for (int n = 0; n < bi.BindBoneNum; n++)
+			{
+				dst->bindBoneInfo[i].offset[n] = bi.Offset[n];
+				dst->bindBoneInfo[i].weight[n] = bi.Weight[n];
+
+				//
+				if (bnum > bi.BoneIndex[n])
+				{
+					dst->bindBoneInfo[i].bone[n] = boneList[bi.BoneIndex[n]];
+					isbind = true;	//バインドするボーンがある
+					cntBone++;
+				}
+
+			}
+			dst->bindBoneInfo[i].bindBoneNum = cntBone;
+
+		}
+
+
+	}
+
+
+}
+
+
 void	SsMeshAnimator::modelLoad()
 {
 	if (bindAnime == 0)return;
+	if (meshList.Num() == 0) return;
+	if (boneList.Num() == 0) return;
+	if (jointList.Num() == 0) return;
+
 
 	FSsModel* model = bindAnime->getMyModel();
 
-
-	for (int i = 0; i < model->MeshList.Num(); i++)
+	if (meshList.Num() == model->MeshList.Num() )
 	{
-		TArray<FSsMeshBindInfo>& mvb = model->MeshList[i].MeshVerticesBindArray;
-
+		for (size_t i = 0; i < model->MeshList.Num(); i++)
 		{
-			SsPartState* target = this->meshList[i];
-			SsMeshPart*		meshPart = target->meshPart;
-			FSsPart* pt = &(model->PartList[target->index]);	//fordebug
-			size_t psize = meshPart->targetCell->MeshPointList.Num();
-			//bindBoneInfo は　psiz分だけ生成されているので、mvb.size()が超えたら間違いがあると思われる
-			if (meshPart->ver_size < (int)mvb.Num())
-			{
-				UE_LOG(LogSpriteStudio, Warning, TEXT("ver_sizeを超えている : %s ver_size:%d mvb.size:%d \n"), *(pt->PartName.ToString()), meshPart->ver_size, (int)mvb.Num());
-			}
-		}
-
-		for (int n = 0; n < mvb.Num(); n++)
-		{
-			int bonenum = mvb[n].BindBoneNum;
-			SsPartState* target = this->meshList[i];
-			SsMeshPart*		meshPart = target->meshPart;
-
-			if (meshPart->ver_size <= (int)n)
-			{
-				continue;	//テスト
-			}
-
-			for (int l = 0; l < bonenum; l++)
-			{
-				meshPart->bindBoneInfo[n].weight[l] = mvb[n].Weight[l];
-				meshPart->bindBoneInfo[n].offset[l] = mvb[n].Offset[l];
-				int bi = mvb[n].BoneIndex[l];
-				meshPart->bindBoneInfo[n].bone[l] = this->boneList[bi];
-			}
-			meshPart->bindBoneInfo[n].bindBoneNum = bonenum;
+			copyToSsMeshPart(&model->MeshList[i], meshList[i]->meshPart, boneList);
 
 		}
 

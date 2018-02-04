@@ -138,7 +138,7 @@ public:
 
 	void	update();
 	void	makeMeshBoneList();
-
+	void	copyToSsMeshPart(FSsMeshBind* src, SsMeshPart* dst, TArray<SsPartState*>& boneList);
 
 };
 
