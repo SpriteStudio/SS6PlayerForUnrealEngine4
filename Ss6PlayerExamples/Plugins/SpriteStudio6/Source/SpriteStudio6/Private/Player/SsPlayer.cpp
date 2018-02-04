@@ -561,13 +561,21 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		RenderMesh.Vertices.AddUninitialized(State->meshPart->ver_size);
 		for(int32 i = 0; i < State->meshPart->ver_size; ++i)
 		{
-			FVector4 V = ViewMatrix.TransformPosition(FVector(
-				State->meshPart->vertices[i*3 + 0],
-				State->meshPart->vertices[i*3 + 1],
-				State->meshPart->vertices[i*3 + 2]
-			));
-			RenderMesh.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
-			RenderMesh.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
+			if(State->meshPart->isBind)
+			{
+				RenderMesh.Vertices[i].Position.X = ( State->meshPart->draw_vertices[i*3 + 0] + OffX) / CanvasSize.X;
+				RenderMesh.Vertices[i].Position.Y = (-State->meshPart->draw_vertices[i*3 + 1] + OffY) / CanvasSize.Y;
+			}
+			else
+			{
+				FVector4 V = ViewMatrix.TransformPosition(FVector(
+					State->meshPart->vertices[i*3 + 0],
+					State->meshPart->vertices[i*3 + 1],
+					State->meshPart->vertices[i*3 + 2]
+				));
+				RenderMesh.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
+				RenderMesh.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
+			}
 			RenderMesh.Vertices[i].TexCoord.X = State->meshPart->uvs[i*2 + 0];
 			RenderMesh.Vertices[i].TexCoord.Y = State->meshPart->uvs[i*2 + 1];
 		}
