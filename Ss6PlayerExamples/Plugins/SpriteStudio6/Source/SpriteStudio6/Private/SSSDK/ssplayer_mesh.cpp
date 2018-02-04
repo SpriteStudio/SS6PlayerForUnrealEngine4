@@ -140,8 +140,8 @@ void    SsMeshPart::updateTransformMesh()
 	{
 		StBoneWeight& info = bindBoneInfo[i];
 
-		FVector out;
-		FVector outtotal;
+		FVector out(FVector::ZeroVector);
+		FVector outtotal(FVector::ZeroVector);
 
 		draw_vertices[i * 3 + 0] = outtotal.X;
 		draw_vertices[i * 3 + 1] = outtotal.Y;
