@@ -326,6 +326,7 @@ namespace
 							SetVertexColorBlendType(ItPart->ColorBlendType, Vert.ColorBlend);
 							Vert.ColorBlend.Y = ItPart->Vertices[v].ColorBlendRate;
 				
+							check(VertexCnt < (int32)RenderParts.VertexBuffer->VertexNum);
 							((FSsOffScreenVertex*)VerticesPtr)[VertexCnt] = Vert;
 							++VertexCnt;
 						}
@@ -352,6 +353,7 @@ namespace
 								SetVertexColorBlendType(ItPart->ColorBlendType, Vert.ColorBlend);
 								Vert.ColorBlend.Y = ItMesh->ColorBlendRate;
 
+								check(VertexCnt < (int32)RenderParts.VertexBuffer->VertexNum);
 								((FSsOffScreenVertex*)VerticesPtr)[VertexCnt] = Vert;
 								++VertexCnt;
 							}
@@ -378,6 +380,7 @@ namespace
 					// 通常パーツ 
 					if(0 == ItPart->Mesh.Num())
 					{
+						check((IndexCnt + 6) <= (int32)RenderParts.IndexBuffer->IndexNum);
 						((uint32*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
 						((uint32*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
 						((uint32*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
@@ -392,6 +395,7 @@ namespace
 					{
 						for(auto ItMesh = ItPart->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
 						{
+							check((IndexCnt + ItMesh->Indices.Num()) <= (int32)RenderParts.IndexBuffer->IndexNum);
 							for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
 							{
 								((uint32*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = VertexCnt + *ItIndex;
