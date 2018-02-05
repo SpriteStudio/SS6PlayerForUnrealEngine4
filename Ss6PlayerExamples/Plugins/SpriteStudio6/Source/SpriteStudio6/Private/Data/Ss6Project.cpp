@@ -245,7 +245,7 @@ namespace
 										GetSsRefCell(ItAttr->FirstKey(), RefCell);
 										if(0 <= RefCell.mapid)
 										{
-											const FSsCellMap* CellMap = &(Proj.CellmapList[RefCell.mapid]);
+											const FSsCellMap* CellMap = Proj.FindCellMap(AnimePack.CellmapNames[RefCell.mapid]);
 											for(auto ItCell = CellMap->Cells.CreateConstIterator(); ItCell; ++ItCell)
 											{
 												if(ItCell->CellName == RefCell.name)
