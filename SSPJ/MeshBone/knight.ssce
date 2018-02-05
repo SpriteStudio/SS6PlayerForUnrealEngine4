@@ -1,0 +1,2575 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioCellMap version="2.00.00">
+	<name>knight</name>
+	<exportPath></exportPath>
+	<generator>SpriteStudio</generator>
+	<packed>0</packed>
+	<imagePath>knight.png</imagePath>
+	<pixelSize>1024 512</pixelSize>
+	<overrideTexSettings>0</overrideTexSettings>
+	<wrapMode>clamp</wrapMode>
+	<filterMode>linear</filterMode>
+	<imagePathAtImport></imagePathAtImport>
+	<packInfoFilePath></packInfoFilePath>
+	<texPackSettings>
+		<maxSize>4096 4096</maxSize>
+		<forcePo2>1</forcePo2>
+		<forceSquare>0</forceSquare>
+		<margin>0</margin>
+		<padding>1</padding>
+	</texPackSettings>
+	<cells>
+		<cell>
+			<name>Ahoge</name>
+			<pos>966 226</pos>
+			<size>41 79</size>
+			<pivot>0.402438998222351 0.424050986766815</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Arm</name>
+			<pos>908 226</pos>
+			<size>53 69</size>
+			<pivot>-0.292452991008759 0.355071991682053</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Arrow</name>
+			<pos>248 210</pos>
+			<size>313 32</size>
+			<pivot>0.337060987949371 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Beard</name>
+			<pos>4 148</pos>
+			<size>46 10</size>
+			<pivot>-0.434783011674881 0.300000011920929</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Belt</name>
+			<pos>570 276</pos>
+			<size>64 36</size>
+			<pivot>-0.03125 0.0833330005407333</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Body</name>
+			<pos>650 210</pos>
+			<size>63 69</size>
+			<pivot>-0.0555559992790222 -0.355071991682053</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Boots1</name>
+			<pos>248 246</pos>
+			<size>72 47</size>
+			<pivot>0.208333000540733 0.265956997871399</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Boots2</name>
+			<pos>446 246</pos>
+			<size>52 50</size>
+			<pivot>0.115385003387928 0.280000001192093</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Bow</name>
+			<pos>4 4</pos>
+			<size>462 139</size>
+			<pivot>-0.0779220014810562 0.0395679995417595</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Bow_mesh</name>
+			<pos>4 4</pos>
+			<size>462 139</size>
+			<pivot>-0.0779220014810562 0.0395679995417595</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>1</ismesh>
+			<divtype>polyline</divtype>
+			<innerPoint>
+				<value>7 124</value>
+				<value>12 131</value>
+				<value>23 128</value>
+				<value>32 117</value>
+				<value>39 100</value>
+				<value>45 88</value>
+				<value>53 76</value>
+				<value>63 66</value>
+				<value>74 58</value>
+				<value>88 54</value>
+				<value>44 51</value>
+				<value>56 46</value>
+				<value>70 43</value>
+				<value>85 44</value>
+				<value>158 63</value>
+				<value>145 61</value>
+				<value>132 50</value>
+				<value>135 64</value>
+				<value>114 43</value>
+				<value>119 64</value>
+				<value>101 46</value>
+				<value>103 63</value>
+				<value>170 63</value>
+				<value>193 63</value>
+				<value>221 63</value>
+				<value>231 62</value>
+				<value>242 54</value>
+				<value>252 47</value>
+				<value>263 41</value>
+				<value>272 38</value>
+				<value>279 37</value>
+				<value>291 37</value>
+				<value>301 38</value>
+				<value>316 42</value>
+				<value>330 47</value>
+				<value>340 51</value>
+				<value>349 56</value>
+				<value>360 63</value>
+				<value>371 71</value>
+				<value>382 79</value>
+				<value>390 86</value>
+				<value>398 93</value>
+				<value>406 101</value>
+				<value>417 112</value>
+				<value>422 119</value>
+				<value>432 124</value>
+				<value>442 129</value>
+				<value>451 131</value>
+				<value>456 126</value>
+				<value>309 32</value>
+				<value>324 33</value>
+				<value>336 33</value>
+				<value>344 32</value>
+				<value>353 28</value>
+				<value>362 24</value>
+				<value>370 18</value>
+				<value>354 8</value>
+				<value>355 18</value>
+				<value>330 23</value>
+				<value>369 46</value>
+				<value>363 37</value>
+			</innerPoint>
+			<outerPoint>
+				<value>169 49</value>
+				<value>162 44</value>
+				<value>154 40</value>
+				<value>149 42</value>
+				<value>140 35</value>
+				<value>131 30</value>
+				<value>123 27</value>
+				<value>116 26</value>
+				<value>104 25</value>
+				<value>90 24</value>
+				<value>82 27</value>
+				<value>79 32</value>
+				<value>67 32</value>
+				<value>57 34</value>
+				<value>46 37</value>
+				<value>39 41</value>
+				<value>32 48</value>
+				<value>26 58</value>
+				<value>26 73</value>
+				<value>36 67</value>
+				<value>51 60</value>
+				<value>43 69</value>
+				<value>39 78</value>
+				<value>33 88</value>
+				<value>29 97</value>
+				<value>24 107</value>
+				<value>18 118</value>
+				<value>10 109</value>
+				<value>-2 113</value>
+				<value>-7 126</value>
+				<value>-1 136</value>
+				<value>8 140</value>
+				<value>16 141</value>
+				<value>24 140</value>
+				<value>30 136</value>
+				<value>38 131</value>
+				<value>41 126</value>
+				<value>45 120</value>
+				<value>48 113</value>
+				<value>51 107</value>
+				<value>54 101</value>
+				<value>58 95</value>
+				<value>63 88</value>
+				<value>69 83</value>
+				<value>76 78</value>
+				<value>82 74</value>
+				<value>86 79</value>
+				<value>91 84</value>
+				<value>98 84</value>
+				<value>106 81</value>
+				<value>116 78</value>
+				<value>124 74</value>
+				<value>135 77</value>
+				<value>142 78</value>
+				<value>150 81</value>
+				<value>158 78</value>
+				<value>166 77</value>
+				<value>221 77</value>
+				<value>232 81</value>
+				<value>239 77</value>
+				<value>254 66</value>
+				<value>265 58</value>
+				<value>274 53</value>
+				<value>285 52</value>
+				<value>294 54</value>
+				<value>302 57</value>
+				<value>311 62</value>
+				<value>320 61</value>
+				<value>329 62</value>
+				<value>338 67</value>
+				<value>345 70</value>
+				<value>352 75</value>
+				<value>361 81</value>
+				<value>369 87</value>
+				<value>375 93</value>
+				<value>382 99</value>
+				<value>389 105</value>
+				<value>395 112</value>
+				<value>401 117</value>
+				<value>408 123</value>
+				<value>413 127</value>
+				<value>419 133</value>
+				<value>427 136</value>
+				<value>434 140</value>
+				<value>441 143</value>
+				<value>448 144</value>
+				<value>456 141</value>
+				<value>463 136</value>
+				<value>466 123</value>
+				<value>459 114</value>
+				<value>450 114</value>
+				<value>443 118</value>
+				<value>436 113</value>
+				<value>430 109</value>
+				<value>423 102</value>
+				<value>417 95</value>
+				<value>410 88</value>
+				<value>405 83</value>
+				<value>398 77</value>
+				<value>393 71</value>
+				<value>385 64</value>
+				<value>379 60</value>
+				<value>381 50</value>
+				<value>384 45</value>
+				<value>381 38</value>
+				<value>379 30</value>
+				<value>379 20</value>
+				<value>380 11</value>
+				<value>373 4</value>
+				<value>367 0</value>
+				<value>360 -4</value>
+				<value>353 -5</value>
+				<value>346 -5</value>
+				<value>338 -1</value>
+				<value>337 7</value>
+				<value>330 5</value>
+				<value>324 5</value>
+				<value>315 9</value>
+				<value>314 22</value>
+				<value>305 20</value>
+				<value>298 19</value>
+				<value>287 20</value>
+				<value>275 20</value>
+				<value>265 22</value>
+				<value>257 24</value>
+				<value>251 29</value>
+				<value>241 37</value>
+				<value>230 42</value>
+				<value>219 48</value>
+			</outerPoint>
+			<meshPointList>
+				<value>-1 136</value>
+				<value>-7 126</value>
+				<value>7 124</value>
+				<value>12 131</value>
+				<value>8 140</value>
+				<value>16 141</value>
+				<value>23 128</value>
+				<value>24 140</value>
+				<value>30 136</value>
+				<value>38 131</value>
+				<value>32 117</value>
+				<value>41 126</value>
+				<value>45 120</value>
+				<value>48 113</value>
+				<value>39 100</value>
+				<value>24 107</value>
+				<value>18 118</value>
+				<value>10 109</value>
+				<value>-2 113</value>
+				<value>29 97</value>
+				<value>33 88</value>
+				<value>45 88</value>
+				<value>54 101</value>
+				<value>51 107</value>
+				<value>58 95</value>
+				<value>63 88</value>
+				<value>53 76</value>
+				<value>39 78</value>
+				<value>43 69</value>
+				<value>51 60</value>
+				<value>63 66</value>
+				<value>69 83</value>
+				<value>76 78</value>
+				<value>74 58</value>
+				<value>82 74</value>
+				<value>88 54</value>
+				<value>103 63</value>
+				<value>86 79</value>
+				<value>98 84</value>
+				<value>106 81</value>
+				<value>116 78</value>
+				<value>119 64</value>
+				<value>124 74</value>
+				<value>135 64</value>
+				<value>135 77</value>
+				<value>142 78</value>
+				<value>145 61</value>
+				<value>158 63</value>
+				<value>149 42</value>
+				<value>132 50</value>
+				<value>114 43</value>
+				<value>131 30</value>
+				<value>140 35</value>
+				<value>123 27</value>
+				<value>116 26</value>
+				<value>104 25</value>
+				<value>101 46</value>
+				<value>85 44</value>
+				<value>70 43</value>
+				<value>56 46</value>
+				<value>57 34</value>
+				<value>67 32</value>
+				<value>79 32</value>
+				<value>82 27</value>
+				<value>90 24</value>
+				<value>46 37</value>
+				<value>44 51</value>
+				<value>39 41</value>
+				<value>32 48</value>
+				<value>36 67</value>
+				<value>26 58</value>
+				<value>26 73</value>
+				<value>162 44</value>
+				<value>169 49</value>
+				<value>170 63</value>
+				<value>166 77</value>
+				<value>158 78</value>
+				<value>150 81</value>
+				<value>193 63</value>
+				<value>221 77</value>
+				<value>221 63</value>
+				<value>219 48</value>
+				<value>231 62</value>
+				<value>232 81</value>
+				<value>239 77</value>
+				<value>242 54</value>
+				<value>254 66</value>
+				<value>252 47</value>
+				<value>241 37</value>
+				<value>230 42</value>
+				<value>251 29</value>
+				<value>263 41</value>
+				<value>265 58</value>
+				<value>274 53</value>
+				<value>272 38</value>
+				<value>265 22</value>
+				<value>275 20</value>
+				<value>279 37</value>
+				<value>285 52</value>
+				<value>291 37</value>
+				<value>294 54</value>
+				<value>301 38</value>
+				<value>302 57</value>
+				<value>316 42</value>
+				<value>311 62</value>
+				<value>320 61</value>
+				<value>330 47</value>
+				<value>329 62</value>
+				<value>340 51</value>
+				<value>338 67</value>
+				<value>349 56</value>
+				<value>345 70</value>
+				<value>360 63</value>
+				<value>352 75</value>
+				<value>361 81</value>
+				<value>371 71</value>
+				<value>369 87</value>
+				<value>382 79</value>
+				<value>375 93</value>
+				<value>390 86</value>
+				<value>382 99</value>
+				<value>398 93</value>
+				<value>389 105</value>
+				<value>406 101</value>
+				<value>395 112</value>
+				<value>401 117</value>
+				<value>417 112</value>
+				<value>408 123</value>
+				<value>422 119</value>
+				<value>413 127</value>
+				<value>419 133</value>
+				<value>432 124</value>
+				<value>427 136</value>
+				<value>434 140</value>
+				<value>442 129</value>
+				<value>441 143</value>
+				<value>451 131</value>
+				<value>443 118</value>
+				<value>456 126</value>
+				<value>463 136</value>
+				<value>456 141</value>
+				<value>448 144</value>
+				<value>466 123</value>
+				<value>459 114</value>
+				<value>450 114</value>
+				<value>436 113</value>
+				<value>430 109</value>
+				<value>423 102</value>
+				<value>417 95</value>
+				<value>410 88</value>
+				<value>405 83</value>
+				<value>398 77</value>
+				<value>393 71</value>
+				<value>385 64</value>
+				<value>379 60</value>
+				<value>369 46</value>
+				<value>363 37</value>
+				<value>344 32</value>
+				<value>353 28</value>
+				<value>362 24</value>
+				<value>355 18</value>
+				<value>330 23</value>
+				<value>337 7</value>
+				<value>354 8</value>
+				<value>370 18</value>
+				<value>367 0</value>
+				<value>373 4</value>
+				<value>380 11</value>
+				<value>379 20</value>
+				<value>379 30</value>
+				<value>381 38</value>
+				<value>381 50</value>
+				<value>384 45</value>
+				<value>360 -4</value>
+				<value>353 -5</value>
+				<value>346 -5</value>
+				<value>338 -1</value>
+				<value>330 5</value>
+				<value>324 5</value>
+				<value>315 9</value>
+				<value>314 22</value>
+				<value>324 33</value>
+				<value>309 32</value>
+				<value>305 20</value>
+				<value>298 19</value>
+				<value>336 33</value>
+				<value>287 20</value>
+				<value>257 24</value>
+				<value>154 40</value>
+				<value>91 84</value>
+			</meshPointList>
+			<meshTriList>
+				<value>0 1 2</value>
+				<value>0 2 3</value>
+				<value>4 0 3</value>
+				<value>5 4 3</value>
+				<value>5 3 6</value>
+				<value>6 7 5</value>
+				<value>7 6 8</value>
+				<value>8 6 9</value>
+				<value>9 6 10</value>
+				<value>11 9 10</value>
+				<value>11 10 12</value>
+				<value>12 10 13</value>
+				<value>10 14 13</value>
+				<value>10 15 14</value>
+				<value>16 15 10</value>
+				<value>6 16 10</value>
+				<value>6 3 16</value>
+				<value>3 2 16</value>
+				<value>2 17 16</value>
+				<value>2 18 17</value>
+				<value>1 18 2</value>
+				<value>14 15 19</value>
+				<value>19 20 14</value>
+				<value>14 20 21</value>
+				<value>22 14 21</value>
+				<value>23 14 22</value>
+				<value>13 14 23</value>
+				<value>24 22 21</value>
+				<value>24 21 25</value>
+				<value>21 26 25</value>
+				<value>21 27 26</value>
+				<value>20 27 21</value>
+				<value>27 28 26</value>
+				<value>28 29 26</value>
+				<value>26 29 30</value>
+				<value>26 30 31</value>
+				<value>25 26 31</value>
+				<value>31 30 32</value>
+				<value>32 30 33</value>
+				<value>34 32 33</value>
+				<value>34 33 35</value>
+				<value>34 35 36</value>
+				<value>37 34 36</value>
+				<value>36 38 37</value>
+				<value>36 39 38</value>
+				<value>40 39 36</value>
+				<value>40 36 41</value>
+				<value>40 41 42</value>
+				<value>42 41 43</value>
+				<value>42 43 44</value>
+				<value>45 44 43</value>
+				<value>46 45 43</value>
+				<value>46 47 45</value>
+				<value>46 48 47</value>
+				<value>46 49 48</value>
+				<value>43 49 46</value>
+				<value>41 49 43</value>
+				<value>49 41 50</value>
+				<value>49 50 51</value>
+				<value>49 51 52</value>
+				<value>49 52 48</value>
+				<value>50 53 51</value>
+				<value>50 54 53</value>
+				<value>50 55 54</value>
+				<value>50 56 55</value>
+				<value>36 56 50</value>
+				<value>35 56 36</value>
+				<value>35 57 56</value>
+				<value>33 57 35</value>
+				<value>33 58 57</value>
+				<value>59 58 33</value>
+				<value>58 59 60</value>
+				<value>58 60 61</value>
+				<value>58 61 62</value>
+				<value>58 62 57</value>
+				<value>62 63 57</value>
+				<value>57 63 64</value>
+				<value>56 57 64</value>
+				<value>55 56 64</value>
+				<value>59 65 60</value>
+				<value>66 65 59</value>
+				<value>66 67 65</value>
+				<value>68 67 66</value>
+				<value>69 68 66</value>
+				<value>70 68 69</value>
+				<value>71 70 69</value>
+				<value>69 66 29</value>
+				<value>29 66 59</value>
+				<value>30 29 59</value>
+				<value>33 30 59</value>
+				<value>41 36 50</value>
+				<value>47 48 72</value>
+				<value>47 72 73</value>
+				<value>47 73 74</value>
+				<value>75 47 74</value>
+				<value>75 76 47</value>
+				<value>76 77 47</value>
+				<value>45 47 77</value>
+				<value>75 74 78</value>
+				<value>79 75 78</value>
+				<value>78 80 79</value>
+				<value>78 81 80</value>
+				<value>81 78 73</value>
+				<value>78 74 73</value>
+				<value>80 81 82</value>
+				<value>79 80 82</value>
+				<value>83 79 82</value>
+				<value>84 83 82</value>
+				<value>84 82 85</value>
+				<value>84 85 86</value>
+				<value>85 87 86</value>
+				<value>85 88 87</value>
+				<value>89 88 85</value>
+				<value>82 89 85</value>
+				<value>81 89 82</value>
+				<value>88 90 87</value>
+				<value>87 90 91</value>
+				<value>87 91 92</value>
+				<value>86 87 92</value>
+				<value>92 91 93</value>
+				<value>91 94 93</value>
+				<value>94 91 95</value>
+				<value>94 95 96</value>
+				<value>94 96 97</value>
+				<value>93 94 97</value>
+				<value>93 97 98</value>
+				<value>98 97 99</value>
+				<value>98 99 100</value>
+				<value>100 99 101</value>
+				<value>100 101 102</value>
+				<value>102 101 103</value>
+				<value>104 102 103</value>
+				<value>105 104 103</value>
+				<value>105 103 106</value>
+				<value>107 105 106</value>
+				<value>107 106 108</value>
+				<value>109 107 108</value>
+				<value>109 108 110</value>
+				<value>111 109 110</value>
+				<value>111 110 112</value>
+				<value>113 111 112</value>
+				<value>114 113 112</value>
+				<value>115 114 112</value>
+				<value>116 114 115</value>
+				<value>116 115 117</value>
+				<value>118 116 117</value>
+				<value>118 117 119</value>
+				<value>120 118 119</value>
+				<value>120 119 121</value>
+				<value>122 120 121</value>
+				<value>122 121 123</value>
+				<value>124 122 123</value>
+				<value>125 124 123</value>
+				<value>126 125 123</value>
+				<value>127 125 126</value>
+				<value>127 126 128</value>
+				<value>129 127 128</value>
+				<value>130 129 128</value>
+				<value>130 128 131</value>
+				<value>132 130 131</value>
+				<value>133 132 131</value>
+				<value>134 133 131</value>
+				<value>135 133 134</value>
+				<value>134 136 135</value>
+				<value>136 134 137</value>
+				<value>138 136 137</value>
+				<value>136 138 139</value>
+				<value>140 136 139</value>
+				<value>140 141 136</value>
+				<value>136 141 135</value>
+				<value>139 138 142</value>
+				<value>138 143 142</value>
+				<value>138 144 143</value>
+				<value>137 144 138</value>
+				<value>134 131 137</value>
+				<value>131 145 137</value>
+				<value>131 128 145</value>
+				<value>145 128 146</value>
+				<value>128 126 146</value>
+				<value>126 147 146</value>
+				<value>126 123 147</value>
+				<value>147 123 148</value>
+				<value>123 149 148</value>
+				<value>123 121 149</value>
+				<value>121 150 149</value>
+				<value>121 119 150</value>
+				<value>150 119 151</value>
+				<value>119 152 151</value>
+				<value>119 117 152</value>
+				<value>117 153 152</value>
+				<value>117 115 153</value>
+				<value>153 115 154</value>
+				<value>115 112 154</value>
+				<value>112 155 154</value>
+				<value>112 110 155</value>
+				<value>110 156 155</value>
+				<value>156 110 157</value>
+				<value>156 157 158</value>
+				<value>158 159 156</value>
+				<value>158 160 159</value>
+				<value>158 157 160</value>
+				<value>160 157 161</value>
+				<value>160 161 162</value>
+				<value>160 162 163</value>
+				<value>163 164 160</value>
+				<value>165 164 163</value>
+				<value>165 166 164</value>
+				<value>164 166 167</value>
+				<value>168 164 167</value>
+				<value>164 168 169</value>
+				<value>159 164 169</value>
+				<value>159 160 164</value>
+				<value>156 159 169</value>
+				<value>156 169 170</value>
+				<value>155 156 170</value>
+				<value>171 155 170</value>
+				<value>154 155 171</value>
+				<value>172 171 170</value>
+				<value>163 173 165</value>
+				<value>163 174 173</value>
+				<value>175 174 163</value>
+				<value>163 162 175</value>
+				<value>162 176 175</value>
+				<value>161 177 162</value>
+				<value>178 177 161</value>
+				<value>179 178 161</value>
+				<value>180 179 161</value>
+				<value>181 180 161</value>
+				<value>182 180 181</value>
+				<value>182 183 180</value>
+				<value>182 184 183</value>
+				<value>182 101 184</value>
+				<value>101 182 103</value>
+				<value>103 182 181</value>
+				<value>103 181 106</value>
+				<value>106 181 185</value>
+				<value>106 185 108</value>
+				<value>108 185 157</value>
+				<value>157 110 108</value>
+				<value>157 185 161</value>
+				<value>185 181 161</value>
+				<value>184 101 99</value>
+				<value>99 186 184</value>
+				<value>97 186 99</value>
+				<value>97 96 186</value>
+				<value>91 187 95</value>
+				<value>90 187 91</value>
+				<value>72 48 188</value>
+				<value>38 189 37</value>
+			</meshTriList>
+		</cell>
+		<cell>
+			<name>Feather</name>
+			<pos>120 210</pos>
+			<size>124 101</size>
+			<pivot>-0.403225988149643 0.0841580033302307</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Flag</name>
+			<pos>470 4</pos>
+			<size>228 157</size>
+			<pivot>0.482455998659134 0.48089200258255</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Flag_mesh</name>
+			<pos>470 4</pos>
+			<size>228 157</size>
+			<pivot>0.482455998659134 0.48089200258255</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>1</ismesh>
+			<divtype>boxdiv</divtype>
+			<divw>16</divw>
+			<divh>12</divh>
+			<innerPoint />
+			<outerPoint>
+				<value>0 0</value>
+				<value>14 0</value>
+				<value>28 0</value>
+				<value>42 0</value>
+				<value>57 0</value>
+				<value>71 0</value>
+				<value>85 0</value>
+				<value>99 0</value>
+				<value>114 0</value>
+				<value>128 0</value>
+				<value>142 0</value>
+				<value>156 0</value>
+				<value>171 0</value>
+				<value>185 0</value>
+				<value>199 0</value>
+				<value>213 0</value>
+				<value>228 0</value>
+				<value>0 13</value>
+				<value>14 13</value>
+				<value>28 13</value>
+				<value>42 13</value>
+				<value>57 13</value>
+				<value>71 13</value>
+				<value>85 13</value>
+				<value>99 13</value>
+				<value>114 13</value>
+				<value>128 13</value>
+				<value>142 13</value>
+				<value>156 13</value>
+				<value>171 13</value>
+				<value>185 13</value>
+				<value>199 13</value>
+				<value>213 13</value>
+				<value>228 13</value>
+				<value>0 26</value>
+				<value>14 26</value>
+				<value>28 26</value>
+				<value>42 26</value>
+				<value>57 26</value>
+				<value>71 26</value>
+				<value>85 26</value>
+				<value>99 26</value>
+				<value>114 26</value>
+				<value>128 26</value>
+				<value>142 26</value>
+				<value>156 26</value>
+				<value>171 26</value>
+				<value>185 26</value>
+				<value>199 26</value>
+				<value>213 26</value>
+				<value>228 26</value>
+				<value>0 39</value>
+				<value>14 39</value>
+				<value>28 39</value>
+				<value>42 39</value>
+				<value>57 39</value>
+				<value>71 39</value>
+				<value>85 39</value>
+				<value>99 39</value>
+				<value>114 39</value>
+				<value>128 39</value>
+				<value>142 39</value>
+				<value>156 39</value>
+				<value>171 39</value>
+				<value>185 39</value>
+				<value>199 39</value>
+				<value>213 39</value>
+				<value>228 39</value>
+				<value>0 52</value>
+				<value>14 52</value>
+				<value>28 52</value>
+				<value>42 52</value>
+				<value>57 52</value>
+				<value>71 52</value>
+				<value>85 52</value>
+				<value>99 52</value>
+				<value>114 52</value>
+				<value>128 52</value>
+				<value>142 52</value>
+				<value>156 52</value>
+				<value>171 52</value>
+				<value>185 52</value>
+				<value>199 52</value>
+				<value>213 52</value>
+				<value>228 52</value>
+				<value>0 65</value>
+				<value>14 65</value>
+				<value>28 65</value>
+				<value>42 65</value>
+				<value>57 65</value>
+				<value>71 65</value>
+				<value>85 65</value>
+				<value>99 65</value>
+				<value>114 65</value>
+				<value>128 65</value>
+				<value>142 65</value>
+				<value>156 65</value>
+				<value>171 65</value>
+				<value>185 65</value>
+				<value>199 65</value>
+				<value>213 65</value>
+				<value>228 65</value>
+				<value>0 78</value>
+				<value>14 78</value>
+				<value>28 78</value>
+				<value>42 78</value>
+				<value>57 78</value>
+				<value>71 78</value>
+				<value>85 78</value>
+				<value>99 78</value>
+				<value>114 78</value>
+				<value>128 78</value>
+				<value>142 78</value>
+				<value>156 78</value>
+				<value>171 78</value>
+				<value>185 78</value>
+				<value>199 78</value>
+				<value>213 78</value>
+				<value>228 78</value>
+				<value>0 91</value>
+				<value>14 91</value>
+				<value>28 91</value>
+				<value>42 91</value>
+				<value>57 91</value>
+				<value>71 91</value>
+				<value>85 91</value>
+				<value>99 91</value>
+				<value>114 91</value>
+				<value>128 91</value>
+				<value>142 91</value>
+				<value>156 91</value>
+				<value>171 91</value>
+				<value>185 91</value>
+				<value>199 91</value>
+				<value>213 91</value>
+				<value>228 91</value>
+				<value>0 104</value>
+				<value>14 104</value>
+				<value>28 104</value>
+				<value>42 104</value>
+				<value>57 104</value>
+				<value>71 104</value>
+				<value>85 104</value>
+				<value>99 104</value>
+				<value>114 104</value>
+				<value>128 104</value>
+				<value>142 104</value>
+				<value>156 104</value>
+				<value>171 104</value>
+				<value>185 104</value>
+				<value>199 104</value>
+				<value>213 104</value>
+				<value>228 104</value>
+				<value>0 117</value>
+				<value>14 117</value>
+				<value>28 117</value>
+				<value>42 117</value>
+				<value>57 117</value>
+				<value>71 117</value>
+				<value>85 117</value>
+				<value>99 117</value>
+				<value>114 117</value>
+				<value>128 117</value>
+				<value>142 117</value>
+				<value>156 117</value>
+				<value>171 117</value>
+				<value>185 117</value>
+				<value>199 117</value>
+				<value>213 117</value>
+				<value>228 117</value>
+				<value>0 130</value>
+				<value>14 130</value>
+				<value>28 130</value>
+				<value>42 130</value>
+				<value>57 130</value>
+				<value>71 130</value>
+				<value>85 130</value>
+				<value>99 130</value>
+				<value>114 130</value>
+				<value>128 130</value>
+				<value>142 130</value>
+				<value>156 130</value>
+				<value>171 130</value>
+				<value>185 130</value>
+				<value>199 130</value>
+				<value>213 130</value>
+				<value>228 130</value>
+				<value>0 143</value>
+				<value>14 143</value>
+				<value>28 143</value>
+				<value>42 143</value>
+				<value>57 143</value>
+				<value>71 143</value>
+				<value>85 143</value>
+				<value>99 143</value>
+				<value>114 143</value>
+				<value>128 143</value>
+				<value>142 143</value>
+				<value>156 143</value>
+				<value>171 143</value>
+				<value>185 143</value>
+				<value>199 143</value>
+				<value>213 143</value>
+				<value>228 143</value>
+				<value>0 157</value>
+				<value>14 157</value>
+				<value>28 157</value>
+				<value>42 157</value>
+				<value>57 157</value>
+				<value>71 157</value>
+				<value>85 157</value>
+				<value>99 157</value>
+				<value>114 157</value>
+				<value>128 157</value>
+				<value>142 157</value>
+				<value>156 157</value>
+				<value>171 157</value>
+				<value>185 157</value>
+				<value>199 157</value>
+				<value>213 157</value>
+				<value>228 157</value>
+			</outerPoint>
+			<meshPointList>
+				<value>0 0</value>
+				<value>14 0</value>
+				<value>0 13</value>
+				<value>14 13</value>
+				<value>28 0</value>
+				<value>28 13</value>
+				<value>42 0</value>
+				<value>42 13</value>
+				<value>57 0</value>
+				<value>57 13</value>
+				<value>71 0</value>
+				<value>71 13</value>
+				<value>85 0</value>
+				<value>85 13</value>
+				<value>99 0</value>
+				<value>99 13</value>
+				<value>114 0</value>
+				<value>114 13</value>
+				<value>128 0</value>
+				<value>128 13</value>
+				<value>142 0</value>
+				<value>142 13</value>
+				<value>156 0</value>
+				<value>156 13</value>
+				<value>171 0</value>
+				<value>171 13</value>
+				<value>185 0</value>
+				<value>185 13</value>
+				<value>199 0</value>
+				<value>199 13</value>
+				<value>213 0</value>
+				<value>213 13</value>
+				<value>228 0</value>
+				<value>228 13</value>
+				<value>0 26</value>
+				<value>14 26</value>
+				<value>28 26</value>
+				<value>42 26</value>
+				<value>57 26</value>
+				<value>71 26</value>
+				<value>85 26</value>
+				<value>99 26</value>
+				<value>114 26</value>
+				<value>128 26</value>
+				<value>142 26</value>
+				<value>156 26</value>
+				<value>171 26</value>
+				<value>185 26</value>
+				<value>199 26</value>
+				<value>213 26</value>
+				<value>228 26</value>
+				<value>0 39</value>
+				<value>14 39</value>
+				<value>28 39</value>
+				<value>42 39</value>
+				<value>57 39</value>
+				<value>71 39</value>
+				<value>85 39</value>
+				<value>99 39</value>
+				<value>114 39</value>
+				<value>128 39</value>
+				<value>142 39</value>
+				<value>156 39</value>
+				<value>171 39</value>
+				<value>185 39</value>
+				<value>199 39</value>
+				<value>213 39</value>
+				<value>228 39</value>
+				<value>0 52</value>
+				<value>14 52</value>
+				<value>28 52</value>
+				<value>42 52</value>
+				<value>57 52</value>
+				<value>71 52</value>
+				<value>85 52</value>
+				<value>99 52</value>
+				<value>114 52</value>
+				<value>128 52</value>
+				<value>142 52</value>
+				<value>156 52</value>
+				<value>171 52</value>
+				<value>185 52</value>
+				<value>199 52</value>
+				<value>213 52</value>
+				<value>228 52</value>
+				<value>0 65</value>
+				<value>14 65</value>
+				<value>28 65</value>
+				<value>42 65</value>
+				<value>57 65</value>
+				<value>71 65</value>
+				<value>85 65</value>
+				<value>99 65</value>
+				<value>114 65</value>
+				<value>128 65</value>
+				<value>142 65</value>
+				<value>156 65</value>
+				<value>171 65</value>
+				<value>185 65</value>
+				<value>199 65</value>
+				<value>213 65</value>
+				<value>228 65</value>
+				<value>0 78</value>
+				<value>14 78</value>
+				<value>28 78</value>
+				<value>42 78</value>
+				<value>57 78</value>
+				<value>71 78</value>
+				<value>85 78</value>
+				<value>99 78</value>
+				<value>114 78</value>
+				<value>128 78</value>
+				<value>142 78</value>
+				<value>156 78</value>
+				<value>171 78</value>
+				<value>185 78</value>
+				<value>199 78</value>
+				<value>213 78</value>
+				<value>228 78</value>
+				<value>0 91</value>
+				<value>14 91</value>
+				<value>28 91</value>
+				<value>42 91</value>
+				<value>57 91</value>
+				<value>71 91</value>
+				<value>85 91</value>
+				<value>99 91</value>
+				<value>114 91</value>
+				<value>128 91</value>
+				<value>142 91</value>
+				<value>156 91</value>
+				<value>171 91</value>
+				<value>185 91</value>
+				<value>199 91</value>
+				<value>213 91</value>
+				<value>228 91</value>
+				<value>0 104</value>
+				<value>14 104</value>
+				<value>28 104</value>
+				<value>42 104</value>
+				<value>57 104</value>
+				<value>71 104</value>
+				<value>85 104</value>
+				<value>99 104</value>
+				<value>114 104</value>
+				<value>128 104</value>
+				<value>142 104</value>
+				<value>156 104</value>
+				<value>171 104</value>
+				<value>185 104</value>
+				<value>199 104</value>
+				<value>213 104</value>
+				<value>228 104</value>
+				<value>0 117</value>
+				<value>14 117</value>
+				<value>28 117</value>
+				<value>42 117</value>
+				<value>57 117</value>
+				<value>71 117</value>
+				<value>85 117</value>
+				<value>99 117</value>
+				<value>114 117</value>
+				<value>128 117</value>
+				<value>142 117</value>
+				<value>156 117</value>
+				<value>171 117</value>
+				<value>185 117</value>
+				<value>199 117</value>
+				<value>213 117</value>
+				<value>228 117</value>
+				<value>0 130</value>
+				<value>14 130</value>
+				<value>28 130</value>
+				<value>42 130</value>
+				<value>57 130</value>
+				<value>71 130</value>
+				<value>85 130</value>
+				<value>99 130</value>
+				<value>114 130</value>
+				<value>128 130</value>
+				<value>142 130</value>
+				<value>156 130</value>
+				<value>171 130</value>
+				<value>185 130</value>
+				<value>199 130</value>
+				<value>213 130</value>
+				<value>228 130</value>
+				<value>0 143</value>
+				<value>14 143</value>
+				<value>28 143</value>
+				<value>42 143</value>
+				<value>57 143</value>
+				<value>71 143</value>
+				<value>85 143</value>
+				<value>99 143</value>
+				<value>114 143</value>
+				<value>128 143</value>
+				<value>142 143</value>
+				<value>156 143</value>
+				<value>171 143</value>
+				<value>185 143</value>
+				<value>199 143</value>
+				<value>213 143</value>
+				<value>228 143</value>
+				<value>0 157</value>
+				<value>14 157</value>
+				<value>28 157</value>
+				<value>42 157</value>
+				<value>57 157</value>
+				<value>71 157</value>
+				<value>85 157</value>
+				<value>99 157</value>
+				<value>114 157</value>
+				<value>128 157</value>
+				<value>142 157</value>
+				<value>156 157</value>
+				<value>171 157</value>
+				<value>185 157</value>
+				<value>199 157</value>
+				<value>213 157</value>
+				<value>228 157</value>
+			</meshPointList>
+			<meshTriList>
+				<value>0 1 2</value>
+				<value>1 2 3</value>
+				<value>1 4 3</value>
+				<value>4 3 5</value>
+				<value>4 6 5</value>
+				<value>6 5 7</value>
+				<value>6 8 7</value>
+				<value>8 7 9</value>
+				<value>8 10 9</value>
+				<value>10 9 11</value>
+				<value>10 12 11</value>
+				<value>12 11 13</value>
+				<value>12 14 13</value>
+				<value>14 13 15</value>
+				<value>14 16 15</value>
+				<value>16 15 17</value>
+				<value>16 18 17</value>
+				<value>18 17 19</value>
+				<value>18 20 19</value>
+				<value>20 19 21</value>
+				<value>20 22 21</value>
+				<value>22 21 23</value>
+				<value>22 24 23</value>
+				<value>24 23 25</value>
+				<value>24 26 25</value>
+				<value>26 25 27</value>
+				<value>26 28 27</value>
+				<value>28 27 29</value>
+				<value>28 30 29</value>
+				<value>30 29 31</value>
+				<value>30 32 31</value>
+				<value>32 31 33</value>
+				<value>2 3 34</value>
+				<value>3 34 35</value>
+				<value>3 5 35</value>
+				<value>5 35 36</value>
+				<value>5 7 36</value>
+				<value>7 36 37</value>
+				<value>7 9 37</value>
+				<value>9 37 38</value>
+				<value>9 11 38</value>
+				<value>11 38 39</value>
+				<value>11 13 39</value>
+				<value>13 39 40</value>
+				<value>13 15 40</value>
+				<value>15 40 41</value>
+				<value>15 17 41</value>
+				<value>17 41 42</value>
+				<value>17 19 42</value>
+				<value>19 42 43</value>
+				<value>19 21 43</value>
+				<value>21 43 44</value>
+				<value>21 23 44</value>
+				<value>23 44 45</value>
+				<value>23 25 45</value>
+				<value>25 45 46</value>
+				<value>25 27 46</value>
+				<value>27 46 47</value>
+				<value>27 29 47</value>
+				<value>29 47 48</value>
+				<value>29 31 48</value>
+				<value>31 48 49</value>
+				<value>31 33 49</value>
+				<value>33 49 50</value>
+				<value>34 35 51</value>
+				<value>35 51 52</value>
+				<value>35 36 52</value>
+				<value>36 52 53</value>
+				<value>36 37 53</value>
+				<value>37 53 54</value>
+				<value>37 38 54</value>
+				<value>38 54 55</value>
+				<value>38 39 55</value>
+				<value>39 55 56</value>
+				<value>39 40 56</value>
+				<value>40 56 57</value>
+				<value>40 41 57</value>
+				<value>41 57 58</value>
+				<value>41 42 58</value>
+				<value>42 58 59</value>
+				<value>42 43 59</value>
+				<value>43 59 60</value>
+				<value>43 44 60</value>
+				<value>44 60 61</value>
+				<value>44 45 61</value>
+				<value>45 61 62</value>
+				<value>45 46 62</value>
+				<value>46 62 63</value>
+				<value>46 47 63</value>
+				<value>47 63 64</value>
+				<value>47 48 64</value>
+				<value>48 64 65</value>
+				<value>48 49 65</value>
+				<value>49 65 66</value>
+				<value>49 50 66</value>
+				<value>50 66 67</value>
+				<value>51 52 68</value>
+				<value>52 68 69</value>
+				<value>52 53 69</value>
+				<value>53 69 70</value>
+				<value>53 54 70</value>
+				<value>54 70 71</value>
+				<value>54 55 71</value>
+				<value>55 71 72</value>
+				<value>55 56 72</value>
+				<value>56 72 73</value>
+				<value>56 57 73</value>
+				<value>57 73 74</value>
+				<value>57 58 74</value>
+				<value>58 74 75</value>
+				<value>58 59 75</value>
+				<value>59 75 76</value>
+				<value>59 60 76</value>
+				<value>60 76 77</value>
+				<value>60 61 77</value>
+				<value>61 77 78</value>
+				<value>61 62 78</value>
+				<value>62 78 79</value>
+				<value>62 63 79</value>
+				<value>63 79 80</value>
+				<value>63 64 80</value>
+				<value>64 80 81</value>
+				<value>64 65 81</value>
+				<value>65 81 82</value>
+				<value>65 66 82</value>
+				<value>66 82 83</value>
+				<value>66 67 83</value>
+				<value>67 83 84</value>
+				<value>68 69 85</value>
+				<value>69 85 86</value>
+				<value>69 70 86</value>
+				<value>70 86 87</value>
+				<value>70 71 87</value>
+				<value>71 87 88</value>
+				<value>71 72 88</value>
+				<value>72 88 89</value>
+				<value>72 73 89</value>
+				<value>73 89 90</value>
+				<value>73 74 90</value>
+				<value>74 90 91</value>
+				<value>74 75 91</value>
+				<value>75 91 92</value>
+				<value>75 76 92</value>
+				<value>76 92 93</value>
+				<value>76 77 93</value>
+				<value>77 93 94</value>
+				<value>77 78 94</value>
+				<value>78 94 95</value>
+				<value>78 79 95</value>
+				<value>79 95 96</value>
+				<value>79 80 96</value>
+				<value>80 96 97</value>
+				<value>80 81 97</value>
+				<value>81 97 98</value>
+				<value>81 82 98</value>
+				<value>82 98 99</value>
+				<value>82 83 99</value>
+				<value>83 99 100</value>
+				<value>83 84 100</value>
+				<value>84 100 101</value>
+				<value>85 86 102</value>
+				<value>86 102 103</value>
+				<value>86 87 103</value>
+				<value>87 103 104</value>
+				<value>87 88 104</value>
+				<value>88 104 105</value>
+				<value>88 89 105</value>
+				<value>89 105 106</value>
+				<value>89 90 106</value>
+				<value>90 106 107</value>
+				<value>90 91 107</value>
+				<value>91 107 108</value>
+				<value>91 92 108</value>
+				<value>92 108 109</value>
+				<value>92 93 109</value>
+				<value>93 109 110</value>
+				<value>93 94 110</value>
+				<value>94 110 111</value>
+				<value>94 95 111</value>
+				<value>95 111 112</value>
+				<value>95 96 112</value>
+				<value>96 112 113</value>
+				<value>96 97 113</value>
+				<value>97 113 114</value>
+				<value>97 98 114</value>
+				<value>98 114 115</value>
+				<value>98 99 115</value>
+				<value>99 115 116</value>
+				<value>99 100 116</value>
+				<value>100 116 117</value>
+				<value>100 101 117</value>
+				<value>101 117 118</value>
+				<value>102 103 119</value>
+				<value>103 119 120</value>
+				<value>103 104 120</value>
+				<value>104 120 121</value>
+				<value>104 105 121</value>
+				<value>105 121 122</value>
+				<value>105 106 122</value>
+				<value>106 122 123</value>
+				<value>106 107 123</value>
+				<value>107 123 124</value>
+				<value>107 108 124</value>
+				<value>108 124 125</value>
+				<value>108 109 125</value>
+				<value>109 125 126</value>
+				<value>109 110 126</value>
+				<value>110 126 127</value>
+				<value>110 111 127</value>
+				<value>111 127 128</value>
+				<value>111 112 128</value>
+				<value>112 128 129</value>
+				<value>112 113 129</value>
+				<value>113 129 130</value>
+				<value>113 114 130</value>
+				<value>114 130 131</value>
+				<value>114 115 131</value>
+				<value>115 131 132</value>
+				<value>115 116 132</value>
+				<value>116 132 133</value>
+				<value>116 117 133</value>
+				<value>117 133 134</value>
+				<value>117 118 134</value>
+				<value>118 134 135</value>
+				<value>119 120 136</value>
+				<value>120 136 137</value>
+				<value>120 121 137</value>
+				<value>121 137 138</value>
+				<value>121 122 138</value>
+				<value>122 138 139</value>
+				<value>122 123 139</value>
+				<value>123 139 140</value>
+				<value>123 124 140</value>
+				<value>124 140 141</value>
+				<value>124 125 141</value>
+				<value>125 141 142</value>
+				<value>125 126 142</value>
+				<value>126 142 143</value>
+				<value>126 127 143</value>
+				<value>127 143 144</value>
+				<value>127 128 144</value>
+				<value>128 144 145</value>
+				<value>128 129 145</value>
+				<value>129 145 146</value>
+				<value>129 130 146</value>
+				<value>130 146 147</value>
+				<value>130 131 147</value>
+				<value>131 147 148</value>
+				<value>131 132 148</value>
+				<value>132 148 149</value>
+				<value>132 133 149</value>
+				<value>133 149 150</value>
+				<value>133 134 150</value>
+				<value>134 150 151</value>
+				<value>134 135 151</value>
+				<value>135 151 152</value>
+				<value>136 137 153</value>
+				<value>137 153 154</value>
+				<value>137 138 154</value>
+				<value>138 154 155</value>
+				<value>138 139 155</value>
+				<value>139 155 156</value>
+				<value>139 140 156</value>
+				<value>140 156 157</value>
+				<value>140 141 157</value>
+				<value>141 157 158</value>
+				<value>141 142 158</value>
+				<value>142 158 159</value>
+				<value>142 143 159</value>
+				<value>143 159 160</value>
+				<value>143 144 160</value>
+				<value>144 160 161</value>
+				<value>144 145 161</value>
+				<value>145 161 162</value>
+				<value>145 146 162</value>
+				<value>146 162 163</value>
+				<value>146 147 163</value>
+				<value>147 163 164</value>
+				<value>147 148 164</value>
+				<value>148 164 165</value>
+				<value>148 149 165</value>
+				<value>149 165 166</value>
+				<value>149 150 166</value>
+				<value>150 166 167</value>
+				<value>150 151 167</value>
+				<value>151 167 168</value>
+				<value>151 152 168</value>
+				<value>152 168 169</value>
+				<value>153 154 170</value>
+				<value>154 170 171</value>
+				<value>154 155 171</value>
+				<value>155 171 172</value>
+				<value>155 156 172</value>
+				<value>156 172 173</value>
+				<value>156 157 173</value>
+				<value>157 173 174</value>
+				<value>157 158 174</value>
+				<value>158 174 175</value>
+				<value>158 159 175</value>
+				<value>159 175 176</value>
+				<value>159 160 176</value>
+				<value>160 176 177</value>
+				<value>160 161 177</value>
+				<value>161 177 178</value>
+				<value>161 162 178</value>
+				<value>162 178 179</value>
+				<value>162 163 179</value>
+				<value>163 179 180</value>
+				<value>163 164 180</value>
+				<value>164 180 181</value>
+				<value>164 165 181</value>
+				<value>165 181 182</value>
+				<value>165 166 182</value>
+				<value>166 182 183</value>
+				<value>166 167 183</value>
+				<value>167 183 184</value>
+				<value>167 168 184</value>
+				<value>168 184 185</value>
+				<value>168 169 185</value>
+				<value>169 185 186</value>
+				<value>170 171 187</value>
+				<value>171 187 188</value>
+				<value>171 172 188</value>
+				<value>172 188 189</value>
+				<value>172 173 189</value>
+				<value>173 189 190</value>
+				<value>173 174 190</value>
+				<value>174 190 191</value>
+				<value>174 175 191</value>
+				<value>175 191 192</value>
+				<value>175 176 192</value>
+				<value>176 192 193</value>
+				<value>176 177 193</value>
+				<value>177 193 194</value>
+				<value>177 178 194</value>
+				<value>178 194 195</value>
+				<value>178 179 195</value>
+				<value>179 195 196</value>
+				<value>179 180 196</value>
+				<value>180 196 197</value>
+				<value>180 181 197</value>
+				<value>181 197 198</value>
+				<value>181 182 198</value>
+				<value>182 198 199</value>
+				<value>182 183 199</value>
+				<value>183 199 200</value>
+				<value>183 184 200</value>
+				<value>184 200 201</value>
+				<value>184 185 201</value>
+				<value>185 201 202</value>
+				<value>185 186 202</value>
+				<value>186 202 203</value>
+				<value>187 188 204</value>
+				<value>188 204 205</value>
+				<value>188 189 205</value>
+				<value>189 205 206</value>
+				<value>189 190 206</value>
+				<value>190 206 207</value>
+				<value>190 191 207</value>
+				<value>191 207 208</value>
+				<value>191 192 208</value>
+				<value>192 208 209</value>
+				<value>192 193 209</value>
+				<value>193 209 210</value>
+				<value>193 194 210</value>
+				<value>194 210 211</value>
+				<value>194 195 211</value>
+				<value>195 211 212</value>
+				<value>195 196 212</value>
+				<value>196 212 213</value>
+				<value>196 197 213</value>
+				<value>197 213 214</value>
+				<value>197 198 214</value>
+				<value>198 214 215</value>
+				<value>198 199 215</value>
+				<value>199 215 216</value>
+				<value>199 200 216</value>
+				<value>200 216 217</value>
+				<value>200 201 217</value>
+				<value>201 217 218</value>
+				<value>201 202 218</value>
+				<value>202 218 219</value>
+				<value>202 203 219</value>
+				<value>203 219 220</value>
+			</meshTriList>
+		</cell>
+		<cell>
+			<name>Hand1</name>
+			<pos>368 290</pos>
+			<size>46 47</size>
+			<pivot>-0.13043500483036 0.287234008312225</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Hand2</name>
+			<pos>638 284</pos>
+			<size>47 48</size>
+			<pivot>-0.138298004865646 0.291667014360428</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Head</name>
+			<pos>702 4</pos>
+			<size>162 154</size>
+			<pivot>-0.0123460004106164 -0.441558003425598</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Hem_L</name>
+			<pos>502 276</pos>
+			<size>64 39</size>
+			<pivot>-0.09375 0.269230991601944</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Hem_R</name>
+			<pos>744 292</pos>
+			<size>51 35</size>
+			<pivot>0.264705985784531 0.300000011920929</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Hip</name>
+			<pos>566 210</pos>
+			<size>80 62</size>
+			<pivot>0 0.306452006101608</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Lance</name>
+			<pos>4 166</pos>
+			<size>715 40</size>
+			<pivot>0.230069994926453 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Lance_mesh</name>
+			<pos>4 166</pos>
+			<size>715 40</size>
+			<pivot>0.230069994926453 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>1</ismesh>
+			<divtype>boxdiv</divtype>
+			<divw>16</divw>
+			<divh>4</divh>
+			<innerPoint />
+			<outerPoint>
+				<value>0 0</value>
+				<value>44 0</value>
+				<value>89 0</value>
+				<value>134 0</value>
+				<value>178 0</value>
+				<value>223 0</value>
+				<value>268 0</value>
+				<value>312 0</value>
+				<value>357 0</value>
+				<value>402 0</value>
+				<value>446 0</value>
+				<value>491 0</value>
+				<value>536 0</value>
+				<value>580 0</value>
+				<value>625 0</value>
+				<value>670 0</value>
+				<value>715 0</value>
+				<value>0 10</value>
+				<value>44 10</value>
+				<value>89 10</value>
+				<value>134 10</value>
+				<value>178 10</value>
+				<value>223 10</value>
+				<value>268 10</value>
+				<value>312 10</value>
+				<value>357 10</value>
+				<value>402 10</value>
+				<value>446 10</value>
+				<value>491 10</value>
+				<value>536 10</value>
+				<value>580 10</value>
+				<value>625 10</value>
+				<value>670 10</value>
+				<value>715 10</value>
+				<value>0 20</value>
+				<value>44 20</value>
+				<value>89 20</value>
+				<value>134 20</value>
+				<value>178 20</value>
+				<value>223 20</value>
+				<value>268 20</value>
+				<value>312 20</value>
+				<value>357 20</value>
+				<value>402 20</value>
+				<value>446 20</value>
+				<value>491 20</value>
+				<value>536 20</value>
+				<value>580 20</value>
+				<value>625 20</value>
+				<value>670 20</value>
+				<value>715 20</value>
+				<value>0 30</value>
+				<value>44 30</value>
+				<value>89 30</value>
+				<value>134 30</value>
+				<value>178 30</value>
+				<value>223 30</value>
+				<value>268 30</value>
+				<value>312 30</value>
+				<value>357 30</value>
+				<value>402 30</value>
+				<value>446 30</value>
+				<value>491 30</value>
+				<value>536 30</value>
+				<value>580 30</value>
+				<value>625 30</value>
+				<value>670 30</value>
+				<value>715 30</value>
+				<value>0 40</value>
+				<value>44 40</value>
+				<value>89 40</value>
+				<value>134 40</value>
+				<value>178 40</value>
+				<value>223 40</value>
+				<value>268 40</value>
+				<value>312 40</value>
+				<value>357 40</value>
+				<value>402 40</value>
+				<value>446 40</value>
+				<value>491 40</value>
+				<value>536 40</value>
+				<value>580 40</value>
+				<value>625 40</value>
+				<value>670 40</value>
+				<value>715 40</value>
+			</outerPoint>
+			<meshPointList>
+				<value>0 0</value>
+				<value>44 0</value>
+				<value>0 10</value>
+				<value>44 10</value>
+				<value>89 0</value>
+				<value>89 10</value>
+				<value>134 0</value>
+				<value>134 10</value>
+				<value>178 0</value>
+				<value>178 10</value>
+				<value>223 0</value>
+				<value>223 10</value>
+				<value>268 0</value>
+				<value>268 10</value>
+				<value>312 0</value>
+				<value>312 10</value>
+				<value>357 0</value>
+				<value>357 10</value>
+				<value>402 0</value>
+				<value>402 10</value>
+				<value>446 0</value>
+				<value>446 10</value>
+				<value>491 0</value>
+				<value>491 10</value>
+				<value>536 0</value>
+				<value>536 10</value>
+				<value>580 0</value>
+				<value>580 10</value>
+				<value>625 0</value>
+				<value>625 10</value>
+				<value>670 0</value>
+				<value>670 10</value>
+				<value>715 0</value>
+				<value>715 10</value>
+				<value>0 20</value>
+				<value>44 20</value>
+				<value>89 20</value>
+				<value>134 20</value>
+				<value>178 20</value>
+				<value>223 20</value>
+				<value>268 20</value>
+				<value>312 20</value>
+				<value>357 20</value>
+				<value>402 20</value>
+				<value>446 20</value>
+				<value>491 20</value>
+				<value>536 20</value>
+				<value>580 20</value>
+				<value>625 20</value>
+				<value>670 20</value>
+				<value>715 20</value>
+				<value>0 30</value>
+				<value>44 30</value>
+				<value>89 30</value>
+				<value>134 30</value>
+				<value>178 30</value>
+				<value>223 30</value>
+				<value>268 30</value>
+				<value>312 30</value>
+				<value>357 30</value>
+				<value>402 30</value>
+				<value>446 30</value>
+				<value>491 30</value>
+				<value>536 30</value>
+				<value>580 30</value>
+				<value>625 30</value>
+				<value>670 30</value>
+				<value>715 30</value>
+				<value>0 40</value>
+				<value>44 40</value>
+				<value>89 40</value>
+				<value>134 40</value>
+				<value>178 40</value>
+				<value>223 40</value>
+				<value>268 40</value>
+				<value>312 40</value>
+				<value>357 40</value>
+				<value>402 40</value>
+				<value>446 40</value>
+				<value>491 40</value>
+				<value>536 40</value>
+				<value>580 40</value>
+				<value>625 40</value>
+				<value>670 40</value>
+				<value>715 40</value>
+			</meshPointList>
+			<meshTriList>
+				<value>0 1 2</value>
+				<value>1 2 3</value>
+				<value>1 4 3</value>
+				<value>4 3 5</value>
+				<value>4 6 5</value>
+				<value>6 5 7</value>
+				<value>6 8 7</value>
+				<value>8 7 9</value>
+				<value>8 10 9</value>
+				<value>10 9 11</value>
+				<value>10 12 11</value>
+				<value>12 11 13</value>
+				<value>12 14 13</value>
+				<value>14 13 15</value>
+				<value>14 16 15</value>
+				<value>16 15 17</value>
+				<value>16 18 17</value>
+				<value>18 17 19</value>
+				<value>18 20 19</value>
+				<value>20 19 21</value>
+				<value>20 22 21</value>
+				<value>22 21 23</value>
+				<value>22 24 23</value>
+				<value>24 23 25</value>
+				<value>24 26 25</value>
+				<value>26 25 27</value>
+				<value>26 28 27</value>
+				<value>28 27 29</value>
+				<value>28 30 29</value>
+				<value>30 29 31</value>
+				<value>30 32 31</value>
+				<value>32 31 33</value>
+				<value>2 3 34</value>
+				<value>3 34 35</value>
+				<value>3 5 35</value>
+				<value>5 35 36</value>
+				<value>5 7 36</value>
+				<value>7 36 37</value>
+				<value>7 9 37</value>
+				<value>9 37 38</value>
+				<value>9 11 38</value>
+				<value>11 38 39</value>
+				<value>11 13 39</value>
+				<value>13 39 40</value>
+				<value>13 15 40</value>
+				<value>15 40 41</value>
+				<value>15 17 41</value>
+				<value>17 41 42</value>
+				<value>17 19 42</value>
+				<value>19 42 43</value>
+				<value>19 21 43</value>
+				<value>21 43 44</value>
+				<value>21 23 44</value>
+				<value>23 44 45</value>
+				<value>23 25 45</value>
+				<value>25 45 46</value>
+				<value>25 27 46</value>
+				<value>27 46 47</value>
+				<value>27 29 47</value>
+				<value>29 47 48</value>
+				<value>29 31 48</value>
+				<value>31 48 49</value>
+				<value>31 33 49</value>
+				<value>33 49 50</value>
+				<value>34 35 51</value>
+				<value>35 51 52</value>
+				<value>35 36 52</value>
+				<value>36 52 53</value>
+				<value>36 37 53</value>
+				<value>37 53 54</value>
+				<value>37 38 54</value>
+				<value>38 54 55</value>
+				<value>38 39 55</value>
+				<value>39 55 56</value>
+				<value>39 40 56</value>
+				<value>40 56 57</value>
+				<value>40 41 57</value>
+				<value>41 57 58</value>
+				<value>41 42 58</value>
+				<value>42 58 59</value>
+				<value>42 43 59</value>
+				<value>43 59 60</value>
+				<value>43 44 60</value>
+				<value>44 60 61</value>
+				<value>44 45 61</value>
+				<value>45 61 62</value>
+				<value>45 46 62</value>
+				<value>46 62 63</value>
+				<value>46 47 63</value>
+				<value>47 63 64</value>
+				<value>47 48 64</value>
+				<value>48 64 65</value>
+				<value>48 49 65</value>
+				<value>49 65 66</value>
+				<value>49 50 66</value>
+				<value>50 66 67</value>
+				<value>51 52 68</value>
+				<value>52 68 69</value>
+				<value>52 53 69</value>
+				<value>53 69 70</value>
+				<value>53 54 70</value>
+				<value>54 70 71</value>
+				<value>54 55 71</value>
+				<value>55 71 72</value>
+				<value>55 56 72</value>
+				<value>56 72 73</value>
+				<value>56 57 73</value>
+				<value>57 73 74</value>
+				<value>57 58 74</value>
+				<value>58 74 75</value>
+				<value>58 59 75</value>
+				<value>59 75 76</value>
+				<value>59 60 76</value>
+				<value>60 76 77</value>
+				<value>60 61 77</value>
+				<value>61 77 78</value>
+				<value>61 62 78</value>
+				<value>62 78 79</value>
+				<value>62 63 79</value>
+				<value>63 79 80</value>
+				<value>63 64 80</value>
+				<value>64 80 81</value>
+				<value>64 65 81</value>
+				<value>65 81 82</value>
+				<value>65 66 82</value>
+				<value>66 82 83</value>
+				<value>66 67 83</value>
+				<value>67 83 84</value>
+			</meshTriList>
+		</cell>
+		<cell>
+			<name>Leg</name>
+			<pos>324 246</pos>
+			<size>39 77</size>
+			<pivot>-0.0897440016269684 0.149351000785828</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Pants</name>
+			<pos>908 128</pos>
+			<size>82 94</size>
+			<pivot>-0.134146004915237 0.329786986112595</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Pudding</name>
+			<pos>868 4</pos>
+			<size>130 119</size>
+			<pivot>0 -0.0546219982206821</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>PuddingHat</name>
+			<pos>690 292</pos>
+			<size>49 44</size>
+			<pivot>-0.0102040003985167 -0.18181799352169</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>PuddingHat_mesh</name>
+			<pos>690 292</pos>
+			<size>49 44</size>
+			<pivot>-0.0102040003985167 -0.18181799352169</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>1</ismesh>
+			<divtype>boxdiv</divtype>
+			<divw>3</divw>
+			<divh>2</divh>
+			<innerPoint />
+			<outerPoint>
+				<value>0 0</value>
+				<value>16 0</value>
+				<value>32 0</value>
+				<value>49 0</value>
+				<value>0 22</value>
+				<value>16 22</value>
+				<value>32 22</value>
+				<value>49 22</value>
+				<value>0 44</value>
+				<value>16 44</value>
+				<value>32 44</value>
+				<value>49 44</value>
+			</outerPoint>
+			<meshPointList>
+				<value>0 0</value>
+				<value>16 0</value>
+				<value>0 22</value>
+				<value>16 22</value>
+				<value>32 0</value>
+				<value>32 22</value>
+				<value>49 0</value>
+				<value>49 22</value>
+				<value>0 44</value>
+				<value>16 44</value>
+				<value>32 44</value>
+				<value>49 44</value>
+			</meshPointList>
+			<meshTriList>
+				<value>0 1 2</value>
+				<value>1 2 3</value>
+				<value>1 4 3</value>
+				<value>4 3 5</value>
+				<value>4 6 5</value>
+				<value>6 5 7</value>
+				<value>2 3 8</value>
+				<value>3 8 9</value>
+				<value>3 5 9</value>
+				<value>5 9 10</value>
+				<value>5 7 10</value>
+				<value>7 10 11</value>
+			</meshTriList>
+		</cell>
+		<cell>
+			<name>Pudding_mesh</name>
+			<pos>868 4</pos>
+			<size>130 119</size>
+			<pivot>0 -0.0546219982206821</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>1</ismesh>
+			<divtype>polyline</divtype>
+			<innerPoint>
+				<value>62 22</value>
+				<value>60 44</value>
+				<value>60 72</value>
+				<value>61 92</value>
+				<value>63 109</value>
+				<value>43 34</value>
+				<value>41 54</value>
+				<value>40 73</value>
+				<value>41 89</value>
+				<value>43 102</value>
+				<value>84 33</value>
+				<value>83 54</value>
+				<value>83 74</value>
+				<value>84 90</value>
+				<value>84 104</value>
+				<value>25 24</value>
+				<value>9 40</value>
+				<value>19 50</value>
+				<value>28 35</value>
+				<value>106 22</value>
+				<value>123 39</value>
+				<value>109 50</value>
+				<value>98 38</value>
+				<value>105 56</value>
+				<value>106 73</value>
+				<value>100 88</value>
+				<value>24 56</value>
+				<value>24 74</value>
+				<value>28 90</value>
+				<value>12 59</value>
+				<value>12 74</value>
+				<value>16 89</value>
+				<value>119 56</value>
+				<value>120 71</value>
+				<value>116 87</value>
+				<value>41 16</value>
+				<value>62 11</value>
+				<value>85 14</value>
+				<value>98 22</value>
+				<value>32 22</value>
+				<value>31 105</value>
+				<value>49 114</value>
+				<value>74 114</value>
+				<value>94 107</value>
+				<value>106 97</value>
+				<value>118 25</value>
+				<value>13 25</value>
+				<value>104 3</value>
+				<value>95 9</value>
+			</innerPoint>
+			<outerPoint>
+				<value>70 2</value>
+				<value>53 3</value>
+				<value>41 7</value>
+				<value>30 8</value>
+				<value>16 10</value>
+				<value>3 21</value>
+				<value>-2 37</value>
+				<value>-3 59</value>
+				<value>3 67</value>
+				<value>5 88</value>
+				<value>14 102</value>
+				<value>28 115</value>
+				<value>47 122</value>
+				<value>73 122</value>
+				<value>95 117</value>
+				<value>109 110</value>
+				<value>121 98</value>
+				<value>129 81</value>
+				<value>130 61</value>
+				<value>137 53</value>
+				<value>137 40</value>
+				<value>131 25</value>
+				<value>124 15</value>
+				<value>117 9</value>
+				<value>112 -4</value>
+				<value>95 -6</value>
+				<value>84 4</value>
+			</outerPoint>
+			<meshPointList>
+				<value>3 67</value>
+				<value>-3 59</value>
+				<value>12 59</value>
+				<value>12 74</value>
+				<value>5 88</value>
+				<value>16 89</value>
+				<value>14 102</value>
+				<value>28 90</value>
+				<value>31 105</value>
+				<value>28 115</value>
+				<value>49 114</value>
+				<value>47 122</value>
+				<value>63 109</value>
+				<value>73 122</value>
+				<value>74 114</value>
+				<value>95 117</value>
+				<value>84 104</value>
+				<value>61 92</value>
+				<value>43 102</value>
+				<value>41 89</value>
+				<value>40 73</value>
+				<value>60 72</value>
+				<value>83 74</value>
+				<value>84 90</value>
+				<value>94 107</value>
+				<value>109 110</value>
+				<value>106 97</value>
+				<value>100 88</value>
+				<value>116 87</value>
+				<value>121 98</value>
+				<value>129 81</value>
+				<value>120 71</value>
+				<value>106 73</value>
+				<value>105 56</value>
+				<value>119 56</value>
+				<value>130 61</value>
+				<value>137 53</value>
+				<value>123 39</value>
+				<value>109 50</value>
+				<value>98 38</value>
+				<value>118 25</value>
+				<value>131 25</value>
+				<value>137 40</value>
+				<value>124 15</value>
+				<value>117 9</value>
+				<value>106 22</value>
+				<value>98 22</value>
+				<value>84 33</value>
+				<value>85 14</value>
+				<value>62 22</value>
+				<value>60 44</value>
+				<value>43 34</value>
+				<value>41 54</value>
+				<value>28 35</value>
+				<value>24 56</value>
+				<value>24 74</value>
+				<value>19 50</value>
+				<value>9 40</value>
+				<value>13 25</value>
+				<value>25 24</value>
+				<value>32 22</value>
+				<value>41 16</value>
+				<value>30 8</value>
+				<value>16 10</value>
+				<value>3 21</value>
+				<value>-2 37</value>
+				<value>41 7</value>
+				<value>53 3</value>
+				<value>62 11</value>
+				<value>70 2</value>
+				<value>84 4</value>
+				<value>95 9</value>
+				<value>104 3</value>
+				<value>112 -4</value>
+				<value>95 -6</value>
+				<value>83 54</value>
+			</meshPointList>
+			<meshTriList>
+				<value>0 1 2</value>
+				<value>0 2 3</value>
+				<value>4 0 3</value>
+				<value>4 3 5</value>
+				<value>6 4 5</value>
+				<value>6 5 7</value>
+				<value>8 6 7</value>
+				<value>9 6 8</value>
+				<value>10 9 8</value>
+				<value>11 9 10</value>
+				<value>11 10 12</value>
+				<value>13 11 12</value>
+				<value>13 12 14</value>
+				<value>13 14 15</value>
+				<value>14 16 15</value>
+				<value>14 12 16</value>
+				<value>12 17 16</value>
+				<value>18 17 12</value>
+				<value>18 19 17</value>
+				<value>8 19 18</value>
+				<value>8 7 19</value>
+				<value>20 19 7</value>
+				<value>19 20 21</value>
+				<value>19 21 17</value>
+				<value>17 21 22</value>
+				<value>23 17 22</value>
+				<value>17 23 16</value>
+				<value>24 16 23</value>
+				<value>16 24 15</value>
+				<value>15 24 25</value>
+				<value>24 26 25</value>
+				<value>26 24 27</value>
+				<value>26 27 28</value>
+				<value>26 28 29</value>
+				<value>25 26 29</value>
+				<value>29 28 30</value>
+				<value>28 31 30</value>
+				<value>28 32 31</value>
+				<value>27 32 28</value>
+				<value>27 22 32</value>
+				<value>23 22 27</value>
+				<value>27 24 23</value>
+				<value>32 22 33</value>
+				<value>33 31 32</value>
+				<value>31 33 34</value>
+				<value>31 34 35</value>
+				<value>30 31 35</value>
+				<value>35 34 36</value>
+				<value>34 37 36</value>
+				<value>34 38 37</value>
+				<value>34 33 38</value>
+				<value>38 33 39</value>
+				<value>38 39 37</value>
+				<value>37 39 40</value>
+				<value>37 40 41</value>
+				<value>37 41 42</value>
+				<value>37 42 36</value>
+				<value>40 43 41</value>
+				<value>43 40 44</value>
+				<value>40 45 44</value>
+				<value>39 45 40</value>
+				<value>39 46 45</value>
+				<value>47 46 39</value>
+				<value>47 48 46</value>
+				<value>47 49 48</value>
+				<value>50 49 47</value>
+				<value>50 51 49</value>
+				<value>52 51 50</value>
+				<value>52 53 51</value>
+				<value>52 54 53</value>
+				<value>20 54 52</value>
+				<value>20 55 54</value>
+				<value>7 55 20</value>
+				<value>7 5 55</value>
+				<value>5 3 55</value>
+				<value>55 3 2</value>
+				<value>54 55 2</value>
+				<value>2 56 54</value>
+				<value>56 2 57</value>
+				<value>56 57 53</value>
+				<value>54 56 53</value>
+				<value>53 57 58</value>
+				<value>53 58 59</value>
+				<value>53 59 60</value>
+				<value>53 60 51</value>
+				<value>60 61 51</value>
+				<value>60 62 61</value>
+				<value>60 59 62</value>
+				<value>59 63 62</value>
+				<value>59 58 63</value>
+				<value>58 64 63</value>
+				<value>65 64 58</value>
+				<value>57 65 58</value>
+				<value>1 65 57</value>
+				<value>2 1 57</value>
+				<value>62 66 61</value>
+				<value>61 66 67</value>
+				<value>61 67 68</value>
+				<value>49 61 68</value>
+				<value>51 61 49</value>
+				<value>48 49 68</value>
+				<value>48 68 69</value>
+				<value>69 70 48</value>
+				<value>48 70 71</value>
+				<value>48 71 46</value>
+				<value>45 46 71</value>
+				<value>72 45 71</value>
+				<value>44 45 72</value>
+				<value>72 73 44</value>
+				<value>72 74 73</value>
+				<value>71 74 72</value>
+				<value>70 74 71</value>
+				<value>68 67 69</value>
+				<value>20 52 21</value>
+				<value>52 50 21</value>
+				<value>21 50 75</value>
+				<value>21 75 22</value>
+				<value>22 75 33</value>
+				<value>33 75 39</value>
+				<value>75 47 39</value>
+				<value>75 50 47</value>
+				<value>10 8 18</value>
+				<value>10 18 12</value>
+			</meshTriList>
+		</cell>
+		<cell>
+			<name>Scarf</name>
+			<pos>368 246</pos>
+			<size>73 39</size>
+			<pivot>0.00684900023043156 0.0641029998660088</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Scarf_Tail</name>
+			<pos>4 210</pos>
+			<size>112 181</size>
+			<pivot>-0.428570985794067 0.444750994443893</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Shoulder</name>
+			<pos>800 292</pos>
+			<size>34 50</size>
+			<pivot>-0.147058993577957 0.219999998807907</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>Tail</name>
+			<pos>724 162</pos>
+			<size>179 125</size>
+			<pivot>-0.460893988609314 0.435999989509583</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+	</cells>
+</SpriteStudioCellMap>
