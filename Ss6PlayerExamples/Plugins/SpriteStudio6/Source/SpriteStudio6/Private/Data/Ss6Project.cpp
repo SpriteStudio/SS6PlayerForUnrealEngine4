@@ -232,32 +232,40 @@ namespace
 						// Setupアニメから参照セルを取得 
 						const FSsCell* Cell = nullptr;
 						{
-							for(auto ItAttr = AnimePack.Model.SetupAnimation->PartAnimes[ItPart.GetIndex()].Attributes.CreateIterator(); ItAttr; ++ItAttr)
+							for(auto ItSetupPartAnime = AnimePack.Model.SetupAnimation->PartAnimes.CreateConstIterator(); ItSetupPartAnime; ++ItSetupPartAnime)
 							{
-								if(ItAttr->Tag == SsAttributeKind::Cell)
+								if(ItPart->PartName != ItSetupPartAnime->PartName)
 								{
-									if(0 < ItAttr->Key.Num())
+									continue;
+								}
+								for(auto ItAttr = ItSetupPartAnime->Attributes.CreateConstIterator(); ItAttr; ++ItAttr)
+								{
+									if(ItAttr->Tag == SsAttributeKind::Cell)
 									{
-										const FSsKeyframe* Key = ItAttr->FirstKey();
-										FName CellName = FName(*(Key->Value["name"].get<FString>()));
-
-										SsRefCell RefCell;
-										GetSsRefCell(ItAttr->FirstKey(), RefCell);
-										if(0 <= RefCell.mapid)
+										if(0 < ItAttr->Key.Num())
 										{
-											const FSsCellMap* CellMap = Proj.FindCellMap(AnimePack.CellmapNames[RefCell.mapid]);
-											for(auto ItCell = CellMap->Cells.CreateConstIterator(); ItCell; ++ItCell)
+											const FSsKeyframe* Key = ItAttr->FirstKey();
+											FName CellName = FName(*(Key->Value["name"].get<FString>()));
+
+											SsRefCell RefCell;
+											GetSsRefCell(ItAttr->FirstKey(), RefCell);
+											if(0 <= RefCell.mapid)
 											{
-												if(ItCell->CellName == RefCell.name)
+												const FSsCellMap* CellMap = Proj.FindCellMap(AnimePack.CellmapNames[RefCell.mapid]);
+												for(auto ItCell = CellMap->Cells.CreateConstIterator(); ItCell; ++ItCell)
 												{
-													Cell = &(*ItCell);
-													break;
+													if(ItCell->CellName == RefCell.name)
+													{
+														Cell = &(*ItCell);
+														break;
+													}
 												}
 											}
 										}
+										break;
 									}
-									break;
 								}
+								break;
 							}
 						}
 						// メッシュセルから頂点数とインデックス数を取得 

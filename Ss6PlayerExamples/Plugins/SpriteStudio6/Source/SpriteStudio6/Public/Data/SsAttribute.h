@@ -54,7 +54,7 @@ public:
 		return 0 == Key.Num();
 	}
 
-	const FSsKeyframe* FirstKey();
+	const FSsKeyframe* FirstKey() const;
 
 	///時間から左側のキーを取得
 	const FSsKeyframe* FindLeftKey(int time);

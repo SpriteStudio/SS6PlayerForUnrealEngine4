@@ -16,7 +16,7 @@ void FSsAttribute::Serialize(FArchive& Ar)
 	}
 }
 
-const FSsKeyframe*	FSsAttribute::FirstKey()
+const FSsKeyframe*	FSsAttribute::FirstKey() const
 {
 	if ( 0 == Key.Num() )
 		return 0;
