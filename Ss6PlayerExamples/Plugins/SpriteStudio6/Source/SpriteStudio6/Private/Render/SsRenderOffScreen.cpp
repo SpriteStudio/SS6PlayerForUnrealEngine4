@@ -555,38 +555,17 @@ namespace
 				} break;
 			}
 
-			if(GRHISupportsBaseVertexIndex)
-			{
-				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
-				RHICmdList.DrawIndexedPrimitive(
-					RenderParts.IndexBuffer->IndexBufferRHI,
-					PT_TriangleList,
-					BaseVertexIndex,		//BaseVertexIndex
-					BaseIndexIndex,			//MinIndex
-					NumRenderVertices,		//NumVertices
-					0,						//StartIndex
-					NumRenderIndices / 3,	//NumPrimitives
-					1						//NumInstances
-					);
-			}
-			else
-			{
-				RHICmdList.SetStreamSource(
-					0,												//StreamIndex
-					RenderParts.VertexBuffer->VertexBufferRHI,
-					sizeof(FSsOffScreenVertex) * BaseVertexIndex	//Offset
-					);
-				RHICmdList.DrawIndexedPrimitive(
-					RenderParts.IndexBuffer->IndexBufferRHI,
-					PT_TriangleList,
-					0,						//BaseVertexIndex
-					BaseIndexIndex,			//MinIndex
-					NumRenderVertices,		//NumVertices
-					0,						//StartIndex
-					NumRenderIndices / 3,	//NumPrimitives
-					1						//NumInstances
-					);
-			}
+			RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
+			RHICmdList.DrawIndexedPrimitive(
+				RenderParts.IndexBuffer->IndexBufferRHI,
+				PT_TriangleList,
+				0,						//BaseVertexIndex
+				BaseVertexIndex,		//MinIndex
+				NumRenderVertices,		//NumVertices
+				BaseIndexIndex,			//StartIndex
+				NumRenderIndices / 3,	//NumPrimitives
+				1						//NumInstances
+				);
 
 			BaseVertexIndex += NumRenderVertices;
 			BaseIndexIndex  += NumRenderIndices;
