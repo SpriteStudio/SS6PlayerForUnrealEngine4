@@ -3,7 +3,7 @@
 	<item>
 		<available>1</available>
 		<id>SS6PlayerForUnrealEngine4</id>
-		<caption>SS6PlayerForUnrealEngine4 v1.0.0</caption>
+		<caption>SS6PlayerForUnrealEngine4 v1.1.0</caption>
 		<platform>any</platform>
 		<inputProjectFormat>sspj</inputProjectFormat>
 		<inputAnimeFormat>ssae</inputAnimeFormat>
@@ -54,12 +54,10 @@
 			<item>mul</item>
 			<item>add</item>
 			<item>sub</item>
-<!--
 			<item>mulalpha</item>
 			<item>screen</item>
 			<item>exclusion</item>
 			<item>invert</item>
--->
 		</alphaBlendTypes>
 		<partsColorTypes>
 			<item>mix</item>
@@ -82,9 +80,9 @@
 			<item>effect</item>
 <!--
 			<item>mask</item>
+-->
 			<item>bone</item>
 			<item>mesh</item>
--->
 		</features>
 		<enablePMASettings>0</enablePMASettings>
 		<convertImageToPMA>0</convertImageToPMA>
