@@ -55,12 +55,10 @@ FSsOffScreenRenderDestroyer GSs6OffScreenRenderDestroyer;
 // 頂点バッファ
 void FSsOffScreenVertexBuffer::InitDynamicRHI()
 {
-	uint32 BufferSize = VertexNum * sizeof(FSsOffScreenVertex);
-
-	if(0 < BufferSize)
+	if(0 < VertexNum)
 	{
 		FRHIResourceCreateInfo CreateInfo;
-		VertexBufferRHI = RHICreateVertexBuffer(BufferSize, BUF_Dynamic, CreateInfo);
+		VertexBufferRHI = RHICreateVertexBuffer(VertexNum * sizeof(FSsOffScreenVertex), BUF_Dynamic, CreateInfo);
 	}
 }
 void FSsOffScreenVertexBuffer::ReleaseDynamicRHI()
@@ -71,12 +69,10 @@ void FSsOffScreenVertexBuffer::ReleaseDynamicRHI()
 // インデックスバッファ
 void FSsOffScreenIndexBuffer::InitDynamicRHI()
 {
-	uint32 BufferSize = IndexNum * sizeof(uint32);
-
-	if(0 < BufferSize)
+	if(0 < IndexNum)
 	{
 		FRHIResourceCreateInfo CreateInfo;
-		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint32), BufferSize * sizeof(uint32), BUF_Dynamic, CreateInfo);
+		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint32), IndexNum * sizeof(uint32), BUF_Dynamic, CreateInfo);
 	}
 }
 void FSsOffScreenIndexBuffer::ReleaseDynamicRHI()
