@@ -119,7 +119,13 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 
 			if(bPlaying)
 			{
-				float AnimeFrameSurplus = AnimeFrame - AnimeEndFrame;	// 極端に大きなDeltaSecondsは考慮しない
+				// アニメ時間より長いDeltaSecondsは考慮しない 
+				float AnimeFrameSurplus = AnimeFrame - AnimeEndFrame;
+				if((AnimeEndFrame - AnimeStartFrame) < AnimeFrameSurplus)
+				{
+					AnimeFrameSurplus = (AnimeEndFrame - AnimeStartFrame);
+				}
+
 				// 往復
 				if(bRoundTrip)
 				{
@@ -130,6 +136,10 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 				// ループ
 				else
 				{
+					if((AnimeEndFrame - AnimeStartFrame) <= AnimeFrameSurplus)
+					{
+						AnimeFrameSurplus -= (AnimeEndFrame - AnimeStartFrame);
+					}
 					AnimeFrame = AnimeStartFrame + AnimeFrameSurplus;
 					FindUserDataInInterval(Result, -.1f, AnimeFrame);
 				}
@@ -155,17 +165,24 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 
 			if(bPlaying)
 			{
+				// アニメ時間より長いDeltaSecondsは考慮しない 
+				float AnimeFrameSurplus = AnimeStartFrame - AnimeFrame;
+				if((AnimeEndFrame - AnimeStartFrame) < AnimeFrameSurplus)
+				{
+					AnimeFrameSurplus = (AnimeEndFrame - AnimeStartFrame);
+				}
+
 				// 往復
 				if(bRoundTrip)
 				{
-					AnimeFrame = AnimeStartFrame + (AnimeStartFrame - AnimeFrame);
+					AnimeFrame = AnimeStartFrame + AnimeFrameSurplus;
 					PlayRate *= -1.f;
 					FindUserDataInInterval(Result, 0.f, AnimeFrame);
 				}
 				// ループ
 				else
 				{
-					AnimeFrame = AnimeEndFrame - (AnimeStartFrame - AnimeFrame);
+					AnimeFrame = AnimeEndFrame - AnimeFrameSurplus;
 					FindUserDataInInterval(Result, (float)AnimeEndFrame+.1f, AnimeFrame);
 				}
 			}
