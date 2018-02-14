@@ -333,33 +333,146 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 	{
 		case ESsPlayerComponentRenderMode::Default:
 			{
-				const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
-				TArray<FSsRenderPartWithMaterial> NewRenderParts;
-				NewRenderParts.Reserve(RenderParts.Num());
-				for(int32 i = 0; i < RenderParts.Num(); ++i)
+				TArray<FSsRenderPartsProxy::FSsPartVertex> RenderVertices;
+				TArray<uint32> RenderIndices;
+				TArray<FSsRenderPartsProxy::FSsPartPrimitive> RenderPrimitives;
 				{
-					FSsRenderPartWithMaterial Part;
-					FMemory::Memcpy(&Part, &(RenderParts[i]), sizeof(FSsRenderPart));
+					const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
+					FVector2D Pivot = Player.GetAnimPivot();
+					FVector2D CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
 
-					uint32 MatIdx = PartsMatIndex(Part.ColorBlendType);
-					UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(Part.Texture);
-					
-					Part.Material = (ppMID && *ppMID) ? *ppMID : NULL;
+					TArray<UMaterialInterface*> PartsMaterials;
+					PartsMaterials.Reserve(RenderParts.Num());
+					for(auto ItPart = RenderParts.CreateConstIterator(); ItPart; ++ItPart)
+					{
+						uint32 MatIdx = PartsMatIndex(ItPart->ColorBlendType);
+						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(ItPart->Texture);
+						PartsMaterials.Add((ppMID && *ppMID) ? *ppMID : nullptr);
+					}
 
-					NewRenderParts.Add(Part);
+					uint32 VertexCnt = 0;
+					uint32 IndexCnt  = 0;
+
+					// Vertex, Index 
+					FSsRenderPartsProxy::FSsPartVertex Vertex;
+					for(auto ItPart = RenderParts.CreateConstIterator(); ItPart; ++ItPart)
+					{
+						// 通常パーツ 
+						if(0 == ItPart->Mesh.Num())
+						{
+							for(int32 v = 0; v < 4; ++v)
+							{
+								Vertex.Position = FVector(
+									0.f,
+									( ItPart->Vertices[v].Position.X - 0.5f - Pivot.X) * CanvasSizeUU.X,
+									(-ItPart->Vertices[v].Position.Y + 0.5f - Pivot.Y) * CanvasSizeUU.Y
+									);
+								Vertex.TexCoord   = ItPart->Vertices[v].TexCoord;
+								Vertex.Color      = ItPart->Vertices[v].Color;
+								Vertex.ColorBlend = FVector2D(0.f, ItPart->Vertices[v].ColorBlendRate);
+								Vertex.TangentX   = FVector(1.f, 0.f, 0.f);
+								Vertex.TangentZ   = FVector(0.f, 0.f, 1.f);
+								RenderVertices.Add(Vertex);
+							}
+
+							RenderIndices.Add(VertexCnt + 0);
+							RenderIndices.Add(VertexCnt + 1);
+							RenderIndices.Add(VertexCnt + 3);
+							RenderIndices.Add(VertexCnt + 0);
+							RenderIndices.Add(VertexCnt + 3);
+							RenderIndices.Add(VertexCnt + 2);
+
+							VertexCnt += 4;
+							IndexCnt  += 6;
+						}
+						// メッシュパーツ 
+						else
+						{
+							for(auto ItMesh = ItPart->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+							{
+								for(auto ItVert = ItMesh->Vertices.CreateConstIterator(); ItVert; ++ItVert)
+								{
+									Vertex.Position = FVector(
+										0.f,
+										( ItVert->Position.X - 0.5f - Pivot.X) * CanvasSizeUU.X,
+										(-ItVert->Position.Y + 0.5f - Pivot.Y) * CanvasSizeUU.Y
+										);
+									Vertex.TexCoord   = ItVert->TexCoord;
+									Vertex.Color      = ItMesh->Color;
+									Vertex.ColorBlend = FVector2D(0.f, ItMesh->ColorBlendRate);
+									Vertex.TangentX   = FVector(1.f, 0.f, 0.f);
+									Vertex.TangentZ   = FVector(0.f, 0.f, 1.f);
+									RenderVertices.Add(Vertex);
+								}
+								for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
+								{
+									RenderIndices.Add(VertexCnt + *ItIndex);
+								}
+
+								VertexCnt += ItMesh->Vertices.Num();
+								IndexCnt  += ItMesh->Indices.Num();
+							}
+						}
+					}
+
+					// Primitive 
+					uint32 FirstIndex = 0;
+					uint32 MinVertexIndex = 0;
+					VertexCnt = 0;
+					IndexCnt  = 0;
+					for(int32 i = 0; i < RenderParts.Num(); ++i)
+					{
+						// 通常パーツ 
+						if(0 == RenderParts[i].Mesh.Num())
+						{
+							VertexCnt += 4;
+							IndexCnt  += 6;
+						}
+						// メッシュパーツ 
+						else
+						{
+							for(auto ItMesh = RenderParts[i].Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+							{
+								VertexCnt += ItMesh->Vertices.Num();
+								IndexCnt  += ItMesh->Indices.Num();
+							}
+						}
+
+						// 次パーツが同時に描画出来るか 
+						if(    (i != (RenderParts.Num()-1))											// 最後の１つでない 
+							&& (RenderParts[i].AlphaBlendType == RenderParts[i+1].AlphaBlendType)	// アルファブレンドモード
+							&& (PartsMaterials[i] == PartsMaterials[i+1])							// マテリアルが一致(参照セル/カラーブレンド毎にマテリアルが別れる) 
+							)
+						{
+							continue;
+						}
+
+						FSsRenderPartsProxy::FSsPartPrimitive RenderPrimitive;
+						RenderPrimitive.Material       = PartsMaterials[i];
+						RenderPrimitive.AlphaBlendType = RenderParts[i].AlphaBlendType;
+						RenderPrimitive.FirstIndex     = FirstIndex;
+						RenderPrimitive.MinVertexIndex = MinVertexIndex;
+						RenderPrimitive.MaxVertexIndex = MinVertexIndex + VertexCnt - 1;
+						RenderPrimitive.NumPrimitives  = IndexCnt / 3;
+						RenderPrimitives.Add(RenderPrimitive);
+
+						FirstIndex     = FirstIndex + IndexCnt;
+						MinVertexIndex = MinVertexIndex + VertexCnt;
+						VertexCnt = 0;
+						IndexCnt  = 0;
+					}
 				}
 
 				ENQUEUE_UNIQUE_RENDER_COMMAND_FOURPARAMETER(
-					FSendSsPartsData,
+					FSendSsRenderData,
 					FSsRenderPartsProxy*, SsPartsProxy, (FSsRenderPartsProxy*)SceneProxy,
-					TArray<FSsRenderPartWithMaterial>, InRenderParts, NewRenderParts,
-					FVector2D, Pivot, Player.GetAnimPivot(),
-					FVector2D, CanvasSizeUU, (Player.GetAnimCanvasSize() * UUPerPixel),
+					TArray<FSsRenderPartsProxy::FSsPartVertex>, InRenderVertices, RenderVertices,
+					TArray<uint32>, InRenderIndices, RenderIndices,
+					TArray<FSsRenderPartsProxy::FSsPartPrimitive>, InRenderPrimitives, RenderPrimitives,
 				{
-					SsPartsProxy->CanvasSizeUU = CanvasSizeUU;
-					SsPartsProxy->SetPivot(Pivot);
-					SsPartsProxy->SetDynamicData_RenderThread(InRenderParts);
+						SsPartsProxy->SetDynamicData_RenderThread(InRenderVertices, InRenderIndices, InRenderPrimitives);
 				});
+
 			} break;
 		case ESsPlayerComponentRenderMode::OffScreenPlane:
 			{

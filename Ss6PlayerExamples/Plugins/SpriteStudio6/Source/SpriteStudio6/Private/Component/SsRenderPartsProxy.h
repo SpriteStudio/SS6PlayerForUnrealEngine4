@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "PrimitiveSceneProxy.h"
+#include "SsTypes.h"
 
 
 // VertexBuffer
@@ -47,6 +48,26 @@ public:
 class FSsRenderPartsProxy : public FPrimitiveSceneProxy
 {
 public:
+	struct FSsPartVertex
+	{
+		FVector Position;
+		FVector2D TexCoord;
+		FColor Color;
+		FVector2D ColorBlend;	// [1]:ColorBlendRate 
+		FPackedNormal TangentX;
+		FPackedNormal TangentZ;
+	};
+	struct FSsPartPrimitive
+	{
+		UMaterialInterface* Material;
+		SsBlendType::Type AlphaBlendType;
+		uint32 FirstIndex;
+		uint32 NumPrimitives;
+		uint32 MinVertexIndex;
+		uint32 MaxVertexIndex;
+	};
+
+public:
 	FSsRenderPartsProxy(class USsPlayerComponent* InComponent, uint32 InMaxVertexNum, uint32 InMaxIndexNum);
 	virtual ~FSsRenderPartsProxy();
 
@@ -55,18 +76,12 @@ public:
 	virtual FPrimitiveViewRelevance GetViewRelevance(const FSceneView* View) const override;
 	virtual uint32 GetMemoryFootprint() const override;
 
-
-	void SetDynamicData_RenderThread(const TArray<FSsRenderPartWithMaterial>& InRenderParts);
-	void SetPivot(const FVector2D& InPivot) { Pivot = InPivot; }
-
-public:
-	FVector2D CanvasSizeUU;
+	void SetDynamicData_RenderThread(const TArray<FSsPartVertex>& InRenderVertices, const TArray<uint32>& InRenderIndices, const TArray<FSsPartPrimitive>& InRenderPrimitives);
 
 private:
 	USsPlayerComponent* Component;
 
-	TArray<FSsRenderPartWithMaterial> RenderParts;
-	FVector2D Pivot;
+	TArray<FSsPartPrimitive> RenderPrimitives;
 
 	FSsPartsVertexBuffer  VertexBuffer;
 	FSsPartsIndexBuffer   IndexBuffer;
