@@ -257,8 +257,11 @@ void USsPlayerComponent::OnRegister()
 			&& !RenderOffScreen->IsInitialized()
 			)
 		{
-			uint32 MaxVertexNum, MaxIndexNum;
-			SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+			uint32 MaxVertexNum(0), MaxIndexNum(0);
+			if(nullptr != SsProject)
+			{
+				SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+			}
 			RenderOffScreen->Initialize(OffScreenRenderResolution.X, OffScreenRenderResolution.Y, MaxVertexNum, MaxIndexNum);
 
 			// OffScreenPlane用メッシュの初期化
