@@ -48,7 +48,6 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 	, bDontUpdateIfHidden(false)
 	, bTickableWhenPaused(true)
 	, RenderMode(ESsPlayerWidgetRenderMode::UMG_Default)
-	, bIgnoreClipRect(false)
 	, BaseMaterial(nullptr)
 	, OffScreenRenderResolution(512, 512)
 	, bReflectParentAlpha(false)
@@ -120,14 +119,6 @@ void USsPlayerWidget::PostEditChangeProperty(FPropertyChangedEvent& PropertyChan
 
 	if(PropertyChangedEvent.Property)
 	{
-	
-		if(0 == PropertyChangedEvent.Property->GetNameCPP().Compare(TEXT("bIgnoreClipRect")))
-		{
-			if(PlayerWidget.IsValid())
-			{
-				PlayerWidget->bIgnoreClipRect = bIgnoreClipRect;
-			}
-		}
 		if(0 == PropertyChangedEvent.Property->GetNameCPP().Compare(TEXT("bReflectParentAlpha")))
 		{
 			if(PlayerWidget.IsValid())
@@ -166,7 +157,6 @@ void USsPlayerWidget::SynchronizeProperties()
 
 	if(PlayerWidget.IsValid())
 	{
-		PlayerWidget->bIgnoreClipRect = bIgnoreClipRect;
 		PlayerWidget->bReflectParentAlpha = bReflectParentAlpha;
 
 		switch(RenderMode)
@@ -236,7 +226,6 @@ void USsPlayerWidget::ReleaseSlateResources(bool bReleaseChildren)
 TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 {
 	PlayerWidget = SNew(SSsPlayerWidget);
-	PlayerWidget->bIgnoreClipRect = bIgnoreClipRect;
 	PlayerWidget->bReflectParentAlpha = bReflectParentAlpha;
 
 	for(auto It = Slots.CreateConstIterator(); It; ++It)

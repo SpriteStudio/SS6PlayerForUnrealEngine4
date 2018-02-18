@@ -84,7 +84,7 @@ public:
 private:
 	template<class T>
 	void ArrangeChildrenInternal(
-		TArray<T> InRenderParts,
+		const TArray<T>& InRenderParts,
 		const FGeometry& AllottedGeometry,
 		FArrangedChildren& ArrangedChildren
 		) const;
@@ -113,7 +113,6 @@ private:
 		) const;
 
 public:
-	bool bIgnoreClipRect;
 	bool bReflectParentAlpha;
 
 private:
