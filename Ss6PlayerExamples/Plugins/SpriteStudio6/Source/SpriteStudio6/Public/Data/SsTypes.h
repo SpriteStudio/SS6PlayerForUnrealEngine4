@@ -736,12 +736,19 @@ struct FSsRenderPart
 	UTexture* Texture;
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
-};
 
-// マテリアル付き描画用のパーツ情報
-struct FSsRenderPartWithMaterial : public FSsRenderPart
-{
-	UMaterialInterface* Material;
+	void CopyFrom(const FSsRenderPart* Other)
+	{
+		PartIndex = Other->PartIndex;
+		Vertices[0] = Other->Vertices[0];
+		Vertices[1] = Other->Vertices[1];
+		Vertices[2] = Other->Vertices[2];
+		Vertices[3] = Other->Vertices[3];
+		Mesh = Other->Mesh;
+		Texture = Other->Texture;
+		AlphaBlendType = Other->AlphaBlendType;
+		ColorBlendType = Other->ColorBlendType;
+	}
 };
 
 // SlateBrush付き描画用のパーツ情報

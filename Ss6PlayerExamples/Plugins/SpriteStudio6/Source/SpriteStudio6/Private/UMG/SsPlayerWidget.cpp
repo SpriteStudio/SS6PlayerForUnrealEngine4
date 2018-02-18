@@ -320,7 +320,7 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 					for(int32 i = 0; i < RenderParts.Num(); ++i)
 					{
 						FSsRenderPartWithSlateBrush Part;
-						FMemory::Memcpy(&Part, &(RenderParts[i]), sizeof(FSsRenderPart));
+						Part.CopyFrom(&(RenderParts[i]));
 
 						uint32 MatIdx = UMGMatIndex(RenderParts[i].ColorBlendType);
 						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
