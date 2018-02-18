@@ -458,35 +458,73 @@ void SSsPlayerWidget::PaintInternal(
 			RenderData = FRenderData();
 		}
 
-		RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-		RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
-		RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
-		RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-		RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
-		RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
-
-		for (int32 i = 0; i < 4; ++i)
+		// 通常パーツ 
+		if(0 == It->Mesh.Num())
 		{
-			FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
-				FVector2D(
-					It->Vertices[i].Position.X * LocalSize.X,
-					It->Vertices[i].Position.Y * LocalSize.Y
-					));
-			FSlateVertex Vert;
-			Vert.Position[0] = TransPosition.X;
-			Vert.Position[1] = TransPosition.Y;
-			Vert.TexCoords[0] = It->Vertices[i].TexCoord.X;
-			Vert.TexCoords[1] = It->Vertices[i].TexCoord.Y;
-			Vert.TexCoords[2] = 0.f;
-			Vert.TexCoords[3] = It->Vertices[i].ColorBlendRate;
-			Vert.MaterialTexCoords[0] = Vert.MaterialTexCoords[1] = 0.f;
-			Vert.Color = It->Vertices[i].Color;
-			if(bReflectParentAlpha)
-			{
-				Vert.Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
-			}
+			RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
+			RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
+			RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
+			RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
+			RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
+			RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
 
-			RenderData.Vertices.Add(Vert);
+			for (int32 i = 0; i < 4; ++i)
+			{
+				FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
+					FVector2D(
+						It->Vertices[i].Position.X * LocalSize.X,
+						It->Vertices[i].Position.Y * LocalSize.Y
+						));
+				FSlateVertex Vert;
+				Vert.Position[0] = TransPosition.X;
+				Vert.Position[1] = TransPosition.Y;
+				Vert.TexCoords[0] = It->Vertices[i].TexCoord.X;
+				Vert.TexCoords[1] = It->Vertices[i].TexCoord.Y;
+				Vert.TexCoords[2] = 0.f;
+				Vert.TexCoords[3] = It->Vertices[i].ColorBlendRate;
+				Vert.MaterialTexCoords[0] = Vert.MaterialTexCoords[1] = 0.f;
+				Vert.Color = It->Vertices[i].Color;
+				if(bReflectParentAlpha)
+				{
+					Vert.Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+				}
+
+				RenderData.Vertices.Add(Vert);
+			}
+		}
+		// メッシュパーツ 
+		else
+		{
+			for(auto ItMesh = It->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+			{
+				for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
+				{
+					RenderData.Indices.Add(RenderData.Vertices.Num() + *ItIndex);
+				}
+				for(auto ItVertex = ItMesh->Vertices.CreateConstIterator(); ItVertex; ++ItVertex)
+				{
+					FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
+						FVector2D(
+							ItVertex->Position.X * LocalSize.X,
+							ItVertex->Position.Y * LocalSize.Y
+						));
+					FSlateVertex Vert;
+					Vert.Position[0] = TransPosition.X;
+					Vert.Position[1] = TransPosition.Y;
+					Vert.TexCoords[0] = ItVertex->TexCoord.X;
+					Vert.TexCoords[1] = ItVertex->TexCoord.Y;
+					Vert.TexCoords[2] = 0.f;
+					Vert.TexCoords[3] = ItMesh->ColorBlendRate;
+					Vert.MaterialTexCoords[0] = Vert.MaterialTexCoords[1] = 0.f;
+					Vert.Color = ItMesh->Color;
+					if(bReflectParentAlpha)
+					{
+						Vert.Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+					}
+
+					RenderData.Vertices.Add(Vert);
+				}
+			}
 		}
 
 		RenderData.RenderResourceHandle =
