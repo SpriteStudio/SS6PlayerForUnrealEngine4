@@ -300,6 +300,11 @@ namespace
 				int32 VertexCnt = 0;
 				for(auto ItPart = RenderParts.RenderParts.CreateConstIterator(); ItPart; ++ItPart)
 				{
+					if(nullptr == ItPart->Texture)
+					{
+						continue;
+					}
+
 					FSsOffScreenVertex Vert;
 					// 通常パーツ 
 					if(0 == ItPart->Mesh.Num())
@@ -372,6 +377,11 @@ namespace
 				int32 IndexCnt = 0;
 				for(auto ItPart = RenderParts.RenderParts.CreateConstIterator(); ItPart; ++ItPart)
 				{
+					if(nullptr == ItPart->Texture)
+					{
+						continue;
+					}
+
 					FSsOffScreenVertex Vert;
 					// 通常パーツ 
 					if(0 == ItPart->Mesh.Num())
@@ -418,6 +428,10 @@ namespace
 		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
 		{
 			FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
+			if(nullptr == RenderPart.Texture)
+			{
+				continue;
+			}
 
 			// 通常パーツ 
 			if(0 == RenderPart.Mesh.Num())

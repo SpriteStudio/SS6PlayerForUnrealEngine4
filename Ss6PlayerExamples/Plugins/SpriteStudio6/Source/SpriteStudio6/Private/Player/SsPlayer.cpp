@@ -370,6 +370,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	if(nullptr == State){ return false; }
 	float Alpha = (State->localalpha == 1.f) ? State->alpha : State->localalpha;
 	float HideAlpha = 1.f;
+	bool bHideParts = false;
 	if(!bCalcHideParts)
 	{
 		if(State->noCells){ return false; }
@@ -379,8 +380,13 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	}
 	else
 	{
-		if(State->hide)
+		if(    (State->noCells)
+			|| (nullptr == State->cellValue.cell)
+			|| (nullptr == State->cellValue.texture)
+			|| (State->hide)
+			)
 		{
+			bHideParts = true;
 			HideAlpha = 0.f;
 		}
 	}
@@ -398,7 +404,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	}
 
 	OutRenderPart.PartIndex = State->index;
-	OutRenderPart.Texture = State->cellValue.texture;
+	OutRenderPart.Texture = bHideParts ? nullptr : State->cellValue.texture;	// 座標計算だけを行う非表示パーツはテクスチャをNULLにしておき、これを基準に描画をスキップする. 
 	OutRenderPart.ColorBlendType = ((SsBlendType::Mix == State->partsColorValue.blendType) && (State->is_parts_color) && (State->partsColorValue.target == SsColorBlendTarget::Vertex))
 			? SsBlendType::MixVertex
 			: State->partsColorValue.blendType;

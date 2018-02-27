@@ -360,6 +360,11 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 					FSsRenderPartsProxy::FSsPartVertex Vertex;
 					for(auto ItPart = RenderParts.CreateConstIterator(); ItPart; ++ItPart)
 					{
+						if(nullptr == ItPart->Texture)
+						{
+							continue;
+						}
+
 						// 通常パーツ 
 						if(0 == ItPart->Mesh.Num())
 						{
@@ -425,6 +430,11 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 					IndexCnt  = 0;
 					for(int32 i = 0; i < RenderParts.Num(); ++i)
 					{
+						if(nullptr == RenderParts[i].Texture)
+						{
+							continue;
+						}
+
 						// 通常パーツ 
 						if(0 == RenderParts[i].Mesh.Num())
 						{
