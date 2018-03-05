@@ -42,6 +42,9 @@ public:
 
 //private:
 
+	///プロジェクト情報
+	USs6Project* project;
+
 	///パーツ情報とパーツアニメーションを結びつけアレイにしたもの
 	TArray<SsPartAndAnime>		partAnime;
 	TArray<SsPartAndAnime>		setupPartAnime;		///セットアップデータ
@@ -112,8 +115,7 @@ public:
 	int		getAnimeStartFrame() { return curAnimeStartFrame; }
 	int		getAnimeEndFrame() { return curAnimeEndFrame; }
 	int		getAnimeTotalFrame() { return curAnimeTotalFrame; }
-	int		getAnimeFPS() {
-		return curAnimeFPS; }		
+	int		getAnimeFPS() {	return curAnimeFPS; }		
 
 	size_t	getStateNum() { return stateNum; }
 	SsPartState*  getPartState() { return partState; }

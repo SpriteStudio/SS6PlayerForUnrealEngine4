@@ -55,6 +55,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category=SsProjectSetting)
 	TEnumAsByte<SsTexFilterMode::Type>	FilterMode;			//!< テクスチャのフィルタモード
+
+	UPROPERTY(VisibleAnywhere, Category=SsProjectSetting)
+	int32 VertexAnimeFloat;									//!< 頂点変形アトリビュートの少数対応
 };
 
 

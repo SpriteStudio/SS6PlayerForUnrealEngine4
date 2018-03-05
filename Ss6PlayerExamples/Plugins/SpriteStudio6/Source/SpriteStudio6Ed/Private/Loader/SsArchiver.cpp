@@ -775,6 +775,7 @@ void SerializeStruct(FSs6ProjectSetting& Value, SsXmlIArchiver* ar)
 	SSAR_DECLARE("queryExportBaseDirectory", Value.QueryExportBaseDirectory);
 	SSAR_DECLARE_ENUM("wrapMode", Value.WrapMode);
 	SSAR_DECLARE_ENUM("filterMode", Value.FilterMode);
+	SSAR_DECLARE("vertexAnimeFloat", Value.VertexAnimeFloat);
 }
 
 
