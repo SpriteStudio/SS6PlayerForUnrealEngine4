@@ -378,8 +378,6 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 								Vertex.TexCoord   = ItPart->Vertices[v].TexCoord;
 								Vertex.Color      = ItPart->Vertices[v].Color;
 								Vertex.ColorBlend = FVector2D(0.f, ItPart->Vertices[v].ColorBlendRate);
-								Vertex.TangentX   = FVector(1.f, 0.f, 0.f);
-								Vertex.TangentZ   = FVector(0.f, 0.f, 1.f);
 								RenderVertices.Add(Vertex);
 							}
 
@@ -408,8 +406,6 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 									Vertex.TexCoord   = ItVert->TexCoord;
 									Vertex.Color      = ItMesh->Color;
 									Vertex.ColorBlend = FVector2D(0.f, ItMesh->ColorBlendRate);
-									Vertex.TangentX   = FVector(1.f, 0.f, 0.f);
-									Vertex.TangentZ   = FVector(0.f, 0.f, 1.f);
 									RenderVertices.Add(Vertex);
 								}
 								for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
@@ -525,6 +521,8 @@ FPrimitiveSceneProxy* USsPlayerComponent::CreateSceneProxy()
 			case ESsPlayerComponentRenderMode::OffScreenPlane:
 				{
 					FSsRenderPlaneProxy* NewProxy = new FSsRenderPlaneProxy(this, OffScreenPlaneMID);
+					NewProxy->CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
+					NewProxy->SetPivot(Player.GetAnimPivot());
 					return NewProxy;
 				} break;
 		}

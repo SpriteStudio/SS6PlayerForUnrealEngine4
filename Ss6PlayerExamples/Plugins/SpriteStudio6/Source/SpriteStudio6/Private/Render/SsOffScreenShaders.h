@@ -32,7 +32,7 @@ class FSsOffScreenVS : public FGlobalShader
 	DECLARE_SHADER_TYPE(FSsOffScreenVS, Global);
 
 public:
-	static bool ShouldCache(EShaderPlatform Platform){ return true; }
+	static bool ShouldCompilePermutation(const FGlobalShaderPermutationParameters& Parameters){ return true; }
 
 	FSsOffScreenVS(const ShaderMetaType::CompiledShaderInitializerType& Initializer)
 		: FGlobalShader(Initializer)
@@ -46,7 +46,7 @@ class FSsOffScreenPS : public FGlobalShader
 	DECLARE_SHADER_TYPE(FSsOffScreenPS, Global);
 
 public:
-	static bool ShouldCache(EShaderPlatform Platform){ return true; }
+	static bool ShouldCompilePermutation(const FGlobalShaderPermutationParameters& Parameters){ return true; }
 
 	FSsOffScreenPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer);
 	FSsOffScreenPS() {}
