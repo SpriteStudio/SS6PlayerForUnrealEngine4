@@ -299,3 +299,18 @@ void USs6Project::CalcMaxVertexAndIndexNum(uint32& OutMaxVertexNum, uint32& OutM
 		}
 	}
 }
+
+bool USs6Project::ContainsMaskParts() const
+{
+	for(auto ItAnimePack = AnimeList.CreateConstIterator(); ItAnimePack; ++ItAnimePack)
+	{
+		for(auto ItPart = ItAnimePack->Model.PartList.CreateConstIterator(); ItPart; ++ItPart)
+		{
+			if(SsPartType::Mask == ItPart->Type)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
+}

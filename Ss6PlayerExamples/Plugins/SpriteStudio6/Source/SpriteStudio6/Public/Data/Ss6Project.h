@@ -159,4 +159,7 @@ public:
 
 	///最大描画パーツ数を計算
 	void CalcMaxVertexAndIndexNum(uint32& OutMaxVertexNum, uint32& OutMaxIndexNum) const;
+
+	///マスクパーツを含むか
+	bool ContainsMaskParts() const;
 };
