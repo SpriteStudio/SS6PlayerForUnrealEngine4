@@ -98,7 +98,7 @@ FSsRenderOffScreen::~FSsRenderOffScreen()
 }
 
 // レンダラの初期化 
-void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum)
+void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum, bool bNeedMask)
 {
 	check(!bInitialized);
 
@@ -111,6 +111,18 @@ void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, 
 	RenderTarget->AddressY = TA_Clamp;
 	RenderTarget->InitAutoFormat(InResolutionX, InResolutionY);
 
+	if(bNeedMask)
+	{
+		MaskRenderTarget = NewObject<UTextureRenderTarget2D>(UTextureRenderTarget2D::StaticClass());
+		MaskRenderTarget->AddToRoot();
+		MaskRenderTarget->SetFlags(RF_Transient);
+		MaskRenderTarget->RenderTargetFormat = RTF_R8;
+		MaskRenderTarget->bForceLinearGamma = false;
+		MaskRenderTarget->AddressX = TA_Clamp;
+		MaskRenderTarget->AddressY = TA_Clamp;
+		MaskRenderTarget->InitAutoFormat(InResolutionX, InResolutionY);
+	}
+
 	VertexBuffer.VertexNum = VertexNum = InVertexNum;
 	IndexBuffer.IndexNum = IndexNum = InIndexNum;
 
@@ -118,28 +130,6 @@ void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, 
 	BeginInitResource(&IndexBuffer);
 	
 	bInitialized = true;
-}
-
-// 指定した引数で再利用可能か 
-bool FSsRenderOffScreen::CanReuse(uint32 NewResolutionX, uint32 NewResolutionY, uint32 NewVertexNum, uint32 NewIndexNum) const
-{
-	if(!bInitialized)
-	{
-		return false;
-	}
-	if(NULL == RenderTarget)
-	{
-		return false;
-	}
-	if(    (NewVertexNum <= VertexBuffer.VertexNum)
-		&& (NewIndexNum  <= IndexBuffer.IndexNum)
-		&& (NewResolutionX == (uint32)RenderTarget->GetSurfaceWidth())
-		&& (NewResolutionY == (uint32)RenderTarget->GetSurfaceHeight())
-		)
-	{
-		return true;
-	}
-	return false;
 }
 
 // 破棄予約 
@@ -161,6 +151,12 @@ void FSsRenderOffScreen::BeginTerminate()
 	{
 		RenderTarget->RemoveFromRoot();
 		RenderTarget.Reset();
+	}
+
+	if(MaskRenderTarget.IsValid())
+	{
+		MaskRenderTarget->RemoveFromRoot();
+		MaskRenderTarget.Reset();
 	}
 
 	BeginReleaseResource(&VertexBuffer);
@@ -195,6 +191,7 @@ namespace
 	struct FSsRenderPartsForSendingRenderThread
 	{
 		UTextureRenderTarget2D* RenderTarget;
+		UTextureRenderTarget2D* MaskRenderTarget;
 		FSsOffScreenVertexBuffer* VertexBuffer;
 		FSsOffScreenIndexBuffer* IndexBuffer;
 		FColor ClearColor;
@@ -231,6 +228,10 @@ namespace
 			case SsBlendType::MixVertex:
 				{
 					OutColorBlend.X = 6.01f;
+				} break;
+			case SsBlendType::Mask:
+				{
+					OutColorBlend.X = 0.01f;	//TODO:
 				} break;
 			case SsBlendType::Invalid:
 				{
@@ -453,6 +454,8 @@ namespace
 			if(    (i != (RenderParts.RenderParts.Num()-1))										// 最後の１つでない
 				&& (RenderPart.AlphaBlendType == RenderParts.RenderParts[i+1].AlphaBlendType)	// アルファブレンドタイプが一致
 				&& (RenderPart.Texture == RenderParts.RenderParts[i+1].Texture)					// テクスチャが一致
+				&& (RenderPart.ColorBlendType != SsBlendType::Mask)								// マスクパーツでない
+				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::Mask)			// 次がマスクパーツでない
 				)
 			{
 				continue;
@@ -601,10 +604,11 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 
 	FSsRenderPartsForSendingRenderThread RenderParts;
 	{
-		RenderParts.RenderTarget = RenderTarget.Get();
-		RenderParts.VertexBuffer = &VertexBuffer;
-		RenderParts.IndexBuffer  = &IndexBuffer;
-		RenderParts.ClearColor   = ClearColor;
+		RenderParts.RenderTarget     = RenderTarget.Get();
+		RenderParts.MaskRenderTarget = MaskRenderTarget.Get();
+		RenderParts.VertexBuffer     = &VertexBuffer;
+		RenderParts.IndexBuffer      = &IndexBuffer;
+		RenderParts.ClearColor       = ClearColor;
 
 		for(int32 i = 0; i < InRenderParts.Num(); ++i)
 		{

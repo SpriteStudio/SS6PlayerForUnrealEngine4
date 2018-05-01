@@ -23,6 +23,7 @@ namespace
 			case SsBlendType::Invalid:   { return 4; }
 			case SsBlendType::Effect:    { return 5; }
 			case SsBlendType::MixVertex: { return 6; }
+			case SsBlendType::Mask:      { return 0; }	//TODO:
 		}
 		check(false);
 		return 0;
@@ -258,11 +259,13 @@ void USsPlayerComponent::OnRegister()
 			)
 		{
 			uint32 MaxVertexNum(0), MaxIndexNum(0);
+			bool bNeedMask(false);
 			if(nullptr != SsProject)
 			{
 				SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+				bNeedMask = SsProject->ContainsMaskParts();
 			}
-			RenderOffScreen->Initialize(OffScreenRenderResolution.X, OffScreenRenderResolution.Y, MaxVertexNum, MaxIndexNum);
+			RenderOffScreen->Initialize(OffScreenRenderResolution.X, OffScreenRenderResolution.Y, MaxVertexNum, MaxIndexNum, bNeedMask);
 
 			// OffScreenPlane用メッシュの初期化
 			if((RenderMode == ESsPlayerComponentRenderMode::OffScreenPlane) && BaseMaterial)

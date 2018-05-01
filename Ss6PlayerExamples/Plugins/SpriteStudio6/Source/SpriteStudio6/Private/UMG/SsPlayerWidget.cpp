@@ -23,6 +23,7 @@ namespace
 			case SsBlendType::Invalid:   { return 4; }
 			case SsBlendType::Effect:    { return 5; }
 			case SsBlendType::MixVertex: { return 6; }
+			case SsBlendType::Mask:      { return 0; }	//TODO:
 		}
 		check(false);
 		return 0;
@@ -170,13 +171,16 @@ void USsPlayerWidget::SynchronizeProperties()
 					if(BaseMaterial)
 					{
 						uint32 MaxVertexNum(0), MaxIndexNum(0);
+						bool bNeedMask(false);
 						if(nullptr != SsProject)
 						{
 							SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+							bNeedMask = SsProject->ContainsMaskParts();
 						}
 						PlayerWidget->Initialize_OffScreen(
 							OffScreenRenderResolution.X, OffScreenRenderResolution.Y,
-							MaxVertexNum, MaxIndexNum
+							MaxVertexNum, MaxIndexNum,
+							bNeedMask
 							);
 						OffScreenRenderTarget = PlayerWidget->GetRenderTarget();
 					}

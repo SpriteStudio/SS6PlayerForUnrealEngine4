@@ -391,11 +391,10 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		}
 	}
 
-	// TODO: 現バージョンでは未実装のパーツ種別は無視 
+	// 描画対象外のパーツ種別は無視 
 	if(    (State->partType == SsPartType::Armature)
 		|| (State->partType == SsPartType::MoveNode)
 		|| (State->partType == SsPartType::Constraint)
-		|| (State->partType == SsPartType::Mask)
 		|| (State->partType == SsPartType::Joint)
 		|| (State->partType == SsPartType::BonePoint)
 		)
@@ -425,6 +424,11 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	// 通常パーツ 
 	if(State->partType != SsPartType::Mesh)
 	{
+		if(State->partType == SsPartType::Mask)
+		{
+			OutRenderPart.ColorBlendType = SsBlendType::Mask;
+		}
+
 		// 頂点座標
 		FVector2D Vertices2D[4];
 		for(int i = 0; i < 4; ++i)

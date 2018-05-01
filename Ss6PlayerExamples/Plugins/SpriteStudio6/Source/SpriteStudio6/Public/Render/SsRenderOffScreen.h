@@ -29,9 +29,8 @@ public:
 	FSsRenderOffScreen();
 	~FSsRenderOffScreen();
 
-	void Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum);
+	void Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum, bool bNeedMask);
 	bool IsInitialized() const { return bInitialized; }
-	bool CanReuse(uint32 NewResolutionX, uint32 NewResolutionY, uint32 NewVertexNum, uint32 NewIndexNum) const;
 	void ReserveTerminate();
 
 	void Render(const TArray<FSsRenderPart>& InRenderParts);
@@ -54,8 +53,6 @@ private:
 	void BeginTerminate();
 	bool CheckTerminate();
 
-	void Draw_GameThread();
-
 private:
 	bool bInitialized;
 	bool bTerminating;
@@ -65,6 +62,7 @@ private:
 	FRenderCommandFence ReleaseResourcesFence;
 
 	TWeakObjectPtr<UTextureRenderTarget2D> RenderTarget;
+	TWeakObjectPtr<UTextureRenderTarget2D> MaskRenderTarget;
 	FSsOffScreenVertexBuffer VertexBuffer;
 	FSsOffScreenIndexBuffer  IndexBuffer;
 };

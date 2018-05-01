@@ -304,8 +304,12 @@ namespace SsBlendType
 		Screen,			///< 5 スクリーン
 		Exclusion,		///< 6 除外
 		Invert,			///< 7 反転
+
+		// 以下、Playerでの処理分岐用 
 		Effect,			///    エフェクト用カラーブレンドタイプ
 		MixVertex,		///    カラーブレンドMixで頂点毎指定の場合
+		Mask,			///    マスクパーツ用
+
 		Num,
 
 		Invalid = 254
