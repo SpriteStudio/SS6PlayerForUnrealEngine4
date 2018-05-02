@@ -19,6 +19,14 @@ struct VertexOut
 	float2 TexCoord : TEXCOORD0;
 	float2 ColorBlend : TEXCOORD1;	// [0]:ColorBlendType, [1]:ColorBlendRate
 };
+struct VertexOutMasked
+{
+	float4 Position : SV_POSITION;
+	float4 Color : COLOR0;
+	float2 TexCoord : TEXCOORD0;
+	float2 ColorBlend : TEXCOORD1;	// [0]:ColorBlendType, [1]:ColorBlendRate
+	float2 MaskCoord : TEXCOORD2;
+};
 
 VertexOut MainVS(
 	in float2 InPosition : ATTRIBUTE0,
@@ -34,36 +42,51 @@ VertexOut MainVS(
 	VOut.ColorBlend = InColorBlend;
 	return VOut;
 }
+VertexOutMasked MainMaskedVS(
+	in float2 InPosition : ATTRIBUTE0,
+	in float4 InColor : ATTRIBUTE1,
+	in float2 InTexCoord : ATTRIBUTE2,
+	in float2 InColorBlend : ATTRIBUTE3
+	)
+{
+	VertexOutMasked VOut;
+	VOut.Position = float4(InPosition.xy, 0, 1);
+	VOut.TexCoord = InTexCoord.xy;
+	VOut.Color = InColor;
+	VOut.ColorBlend = InColorBlend;
+	VOut.MaskCoord.x =       (InPosition.x + 1.0) / 2.0;
+	VOut.MaskCoord.y = 1.0 - (InPosition.y + 1.0) / 2.0;
+	return VOut;
+}
 
-float4 CalcColorPS(VertexOut In) : SV_Target0
+float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 {
 	float4 TextureColor;
-	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, In.TexCoord);
+	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, InTexCoord);
 
-	float ColorBlendRate = In.ColorBlend.y;
+	float ColorBlendRate = InColorBlend.y;
 	float4 BlendColor[7];
-	BlendColor[0] = (TextureColor * (1.0 - ColorBlendRate)) + (In.Color * ColorBlendRate);						// Mix(Whole)
-	BlendColor[1] = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * In.Color * ColorBlendRate);		// Mul
-	BlendColor[2] = TextureColor + (In.Color * ColorBlendRate);													// Add
-	BlendColor[3] = TextureColor - (In.Color * ColorBlendRate);													// Sub
+	BlendColor[0] = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate);						// Mix(Whole)
+	BlendColor[1] = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate);		// Mul
+	BlendColor[2] = TextureColor + (InColor * ColorBlendRate);													// Add
+	BlendColor[3] = TextureColor - (InColor * ColorBlendRate);													// Sub
 	BlendColor[4] = TextureColor;																				// Invalid
 	BlendColor[5] = BlendColor[1] * TextureColor.a;																// Effect
-	BlendColor[6] = (TextureColor * (1.0 - In.Color.a))     + (In.Color * In.Color.a);							// Mix(Vertex) 
+	BlendColor[6] = (TextureColor * (1.0 - InColor.a))     + (InColor * InColor.a);								// Mix(Vertex) 
 
-	uint ColorBlendType = uint(In.ColorBlend.x);
+	uint ColorBlendType = uint(InColorBlend.x);
 	float4 OutColor = BlendColor[ColorBlendType];
-	OutColor.a = (6 != ColorBlendType) ? (TextureColor.a * In.Color.a) : (TextureColor.a);
+	OutColor.a = (6 != ColorBlendType) ? (TextureColor.a * InColor.a) : (TextureColor.a);
 
 	return OutColor;
 }
-
 float4 MainPS(VertexOut In) : SV_Target0
 {
-	return CalcColorPS(In);
+	return CalcColorPS(In.Color, In.TexCoord, In.ColorBlend);
 }
-float4 MainMaskedPS(VertexOut In) : SV_Target0
+float4 MainMaskedPS(VertexOutMasked In) : SV_Target0
 {
-	float4 Color = CalcColorPS(In);
-	int Mask = (1 + int(Texture2DSample(MaskTexture, MaskTextureSampler, In.Position).r * 255)) % 2;
+	float4 Color = CalcColorPS(In.Color, In.TexCoord, In.ColorBlend);
+	int Mask = (1 + int(Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255)) % 2;
 	return float4(Color.rgb, Color.a * (float)Mask);
 }

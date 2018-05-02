@@ -6,6 +6,7 @@
 
 IMPLEMENT_SHADER_TYPE(, FSsOffScreenVS,       TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainVS"), SF_Vertex);
 IMPLEMENT_SHADER_TYPE(, FSsOffScreenPS,       TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainPS"), SF_Pixel);
+IMPLEMENT_SHADER_TYPE(, FSsOffScreenMaskedVS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainMaskedVS"), SF_Vertex);
 IMPLEMENT_SHADER_TYPE(, FSsOffScreenMaskedPS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainMaskedPS"), SF_Pixel);
 
 TGlobalResource<FSsOffScreenVertexDeclaration> GSs6OffScreenVertexDeclaration;

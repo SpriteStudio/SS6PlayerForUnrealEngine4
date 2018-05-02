@@ -60,6 +60,21 @@ private:
 	FShaderResourceParameter CellTextureParameterSampler;
 };
 
+
+// 
+class FSsOffScreenMaskedVS : public FGlobalShader
+{
+	DECLARE_SHADER_TYPE(FSsOffScreenMaskedVS, Global);
+
+public:
+	static bool ShouldCompilePermutation(const FGlobalShaderPermutationParameters& Parameters){ return true; }
+
+	FSsOffScreenMaskedVS(const ShaderMetaType::CompiledShaderInitializerType& Initializer)
+		: FGlobalShader(Initializer)
+	{}
+	FSsOffScreenMaskedVS() {}
+};
+
 // 
 class FSsOffScreenMaskedPS : public FGlobalShader
 {
