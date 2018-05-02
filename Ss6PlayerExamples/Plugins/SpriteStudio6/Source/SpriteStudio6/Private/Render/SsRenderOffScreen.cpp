@@ -261,6 +261,10 @@ namespace
 		TShaderMapRef<FSsMaskVS> VertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 		TShaderMapRef<FSsMaskPS> PixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 
+		FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
+
+
+		// RenderTarget切り替え
 		SetRenderTarget(
 			RHICmdList,
 			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetTextureRHI(),
@@ -309,7 +313,6 @@ namespace
 					));
 
 				// テクスチャをセット
-				FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
 				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
 
 				if(RenderPart.bMaskInfluence)
@@ -532,7 +535,10 @@ namespace
 		TShaderMapRef<FSsOffScreenMaskedVS> MaskedVertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 		TShaderMapRef<FSsOffScreenMaskedPS> MaskedPixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 
+		FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
+
 		// マテリアルとブレンドタイプが一致しているパーツ毎に描画 
+		bool bNeedUpdateMask = true;
 		uint32 BaseVertexIndex = 0;
 		uint32 BaseIndexIndex  = 0;
 		uint32 NumRenderVertices = 0;
@@ -550,6 +556,7 @@ namespace
 			{
 				BaseVertexIndex += 4;
 				BaseIndexIndex  += 6;
+				bNeedUpdateMask = true;
 				continue;
 			}
 
@@ -579,8 +586,8 @@ namespace
 				continue;
 			}
 
-			// マスクバッファの描画	//TODO: 要・最適化. 連続する場合のスキップ等 
-			if(RenderPart.bMaskInfluence)
+			// マスクバッファの描画
+			if(bNeedUpdateMask && RenderPart.bMaskInfluence)
 			{
 				RenderMaskBuffer(RHICmdList, RenderParts, i);
 				SetRenderTarget(
@@ -588,10 +595,11 @@ namespace
 					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI(),
 					FTextureRHIParamRef()
 				);
+				bNeedUpdateMask = false;
 			}
 
 			// マスク影響の有無でシェーダを切り替える 
-			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))	//TODO: この時点で適用すべきマスクが無い場合もelseに流す 
+			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))
 			{
 				RHICmdList.GetContext().RHISetBoundShaderState(
 					RHICreateBoundShaderState(
@@ -604,7 +612,6 @@ namespace
 					));
 
 				// テクスチャをセット
-				FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
 				MaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
 				MaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->Resource->TextureRHI : nullptr, SampleState);
 			}
@@ -621,7 +628,6 @@ namespace
 					));
 
 				// テクスチャをセット
-				FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
 				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
 			}
 
