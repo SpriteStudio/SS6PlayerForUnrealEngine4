@@ -19,7 +19,7 @@ struct VertexOut
 
 VertexOut MainVS(
 	in float2 InPosition : ATTRIBUTE0,
-	in float4 InColor : ATTIBUTE1,
+	in float4 InColor : ATTRIBUTE1,
 	in float2 InTexCoord : ATTRIBUTE2,
 	in float2 InColorBlend : ATTRIBUTE3		// 未使用だが、Ss6OffScreenShaderと頂点バッファを共有するため、フォーマットを合わせておく必要がある 
 	)
