@@ -9,6 +9,8 @@
 
 Texture2D CellTexture;
 SamplerState CellTextureSampler;
+Texture2D MaskTexture;
+SamplerState MaskTextureSampler;
 
 struct VertexOut
 {
@@ -33,7 +35,7 @@ VertexOut MainVS(
 	return VOut;
 }
 
-float4 MainPS(VertexOut In) : SV_Target0
+float4 CalcColorPS(VertexOut In) : SV_Target0
 {
 	float4 TextureColor;
 	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, In.TexCoord);
@@ -53,4 +55,15 @@ float4 MainPS(VertexOut In) : SV_Target0
 	OutColor.a = (6 != ColorBlendType) ? (TextureColor.a * In.Color.a) : (TextureColor.a);
 
 	return OutColor;
+}
+
+float4 MainPS(VertexOut In) : SV_Target0
+{
+	return CalcColorPS(In);
+}
+float4 MainMaskedPS(VertexOut In) : SV_Target0
+{
+	float4 Color = CalcColorPS(In);
+	int Mask = (1 + int(Texture2DSample(MaskTexture, MaskTextureSampler, In.Position).r * 255)) % 2;
+	return float4(Color.rgb, Color.a * (float)Mask);
 }

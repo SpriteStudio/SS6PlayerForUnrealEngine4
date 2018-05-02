@@ -60,4 +60,27 @@ private:
 	FShaderResourceParameter CellTextureParameterSampler;
 };
 
+// 
+class FSsOffScreenMaskedPS : public FGlobalShader
+{
+	DECLARE_SHADER_TYPE(FSsOffScreenMaskedPS, Global);
+
+public:
+	static bool ShouldCompilePermutation(const FGlobalShaderPermutationParameters& Parameters){ return true; }
+
+	FSsOffScreenMaskedPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer);
+	FSsOffScreenMaskedPS() {}
+
+	virtual bool Serialize(FArchive& Ar) override;
+
+	void SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState);
+	void SetMaskTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState);
+
+private:
+	FShaderResourceParameter CellTextureParameter;
+	FShaderResourceParameter CellTextureParameterSampler;
+	FShaderResourceParameter MaskTextureParameter;
+	FShaderResourceParameter MaskTextureParameterSampler;
+};
+
 extern TGlobalResource<FSsOffScreenVertexDeclaration> GSs6OffScreenVertexDeclaration;

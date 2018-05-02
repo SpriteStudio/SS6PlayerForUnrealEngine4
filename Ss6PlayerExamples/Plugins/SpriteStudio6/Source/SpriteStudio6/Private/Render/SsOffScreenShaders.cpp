@@ -4,8 +4,9 @@
 #include "ShaderParameterUtils.h"
 
 
-IMPLEMENT_SHADER_TYPE(, FSsOffScreenVS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainVS"), SF_Vertex);
-IMPLEMENT_SHADER_TYPE(, FSsOffScreenPS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainPS"), SF_Pixel);
+IMPLEMENT_SHADER_TYPE(, FSsOffScreenVS,       TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainVS"), SF_Vertex);
+IMPLEMENT_SHADER_TYPE(, FSsOffScreenPS,       TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainPS"), SF_Pixel);
+IMPLEMENT_SHADER_TYPE(, FSsOffScreenMaskedPS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainMaskedPS"), SF_Pixel);
 
 TGlobalResource<FSsOffScreenVertexDeclaration> GSs6OffScreenVertexDeclaration;
 
@@ -45,4 +46,33 @@ bool FSsOffScreenPS::Serialize(FArchive& Ar)
 void FSsOffScreenPS::SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
+}
+
+//
+FSsOffScreenMaskedPS::FSsOffScreenMaskedPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer)
+	: FGlobalShader(Initializer)
+{
+	CellTextureParameter.Bind(Initializer.ParameterMap, TEXT("CellTexture"));
+	CellTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("CellTextureSampler"));
+	MaskTextureParameter.Bind(Initializer.ParameterMap, TEXT("MaskTexture"));
+	MaskTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("MaskTextureSampler"));
+}
+bool FSsOffScreenMaskedPS::Serialize(FArchive& Ar)
+{
+	bool bShaderHasOutdatedParams = FGlobalShader::Serialize(Ar);
+
+	Ar << CellTextureParameter;
+	Ar << CellTextureParameterSampler;
+	Ar << MaskTextureParameter;
+	Ar << MaskTextureParameterSampler;
+
+	return bShaderHasOutdatedParams;
+}
+void FSsOffScreenMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState )
+{
+	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
+}
+void FSsOffScreenMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState )
+{
+	SetTextureParameter(RHICmdList, GetPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
 }
