@@ -580,6 +580,7 @@ namespace
 			if(    (i != (RenderParts.RenderParts.Num()-1))										// 最後の１つでない
 				&& (RenderPart.AlphaBlendType == RenderParts.RenderParts[i+1].AlphaBlendType)	// アルファブレンドタイプが一致
 				&& (RenderPart.Texture == RenderParts.RenderParts[i+1].Texture)					// テクスチャが一致
+				&& (RenderParts.RenderParts[i].bMaskInfluence == RenderParts.RenderParts[i+1].bMaskInfluence)	// マスク対象かどうかが一致
 				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::Mask)			// 次がマスクパーツでない
 				)
 			{
