@@ -5,6 +5,7 @@
 #include "ClearQuad.h"
 
 #include "SsOffScreenShaders.h"
+#include "SsMaskShaders.h"
 #include "Ss6Project.h"
 
 
@@ -244,6 +245,102 @@ namespace
 		}
 	}
 
+	// マスクバッファの描画 
+	void RenderMaskBuffer(
+		FRHICommandListImmediate& RHICmdList,
+		FSsRenderPartsForSendingRenderThread& RenderParts,
+		int32 CurrentPartIndex
+		)
+	{
+		if(nullptr == RenderParts.MaskRenderTarget)
+		{
+			return;
+		}
+
+		// シェーダの取得 
+		TShaderMapRef<FSsMaskVS> VertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
+		TShaderMapRef<FSsMaskPS> PixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
+
+		SetRenderTarget(
+			RHICmdList,
+			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetTextureRHI(),
+			FTextureRHIParamRef()
+		);
+		DrawClearQuad(RHICmdList, FLinearColor::Black);
+
+
+		uint32 BaseVertexIndex = 0;
+		uint32 BaseIndexIndex  = 0;
+		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
+		{
+			FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
+			if(nullptr == RenderPart.Texture)
+			{
+				continue;
+			}
+
+			uint32 NumRenderVertices = 0;
+			uint32 NumRenderIndices  = 0;
+			if(0 == RenderPart.Mesh.Num())
+			{
+				NumRenderVertices = 4;
+				NumRenderIndices  = 6;
+			}
+			else
+			{
+				for(auto ItMesh = RenderPart.Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+				{
+					NumRenderVertices += ItMesh->Vertices.Num();
+					NumRenderIndices  += ItMesh->Indices.Num();
+				}
+			}
+
+			// マスクバッファに書き込み 
+			if((CurrentPartIndex < i) && (SsBlendType::Mask == RenderPart.ColorBlendType))
+			{
+				//if(RenderPart.bMaskInfluence)	//TODO: マスクにマスクをかける場合 
+
+				RHICmdList.GetContext().RHISetBoundShaderState(
+					RHICreateBoundShaderState(
+						GSs6OffScreenVertexDeclaration.VertexDeclarationRHI,
+						VertexShader->GetVertexShader(),	//VertexShaderRHI
+						nullptr,							//HullShaderRHI
+						nullptr,							//DomainShaderRHI
+						PixelShader->GetPixelShader(),		//PixelShaderRHI
+						FGeometryShaderRHIRef()
+					));
+
+				// テクスチャをセット
+				FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
+				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
+
+				// Rチャンネルのみの加算描画を指定 
+				RHICmdList.GetContext().RHISetBlendState(
+					TStaticBlendState<
+							CW_RED,
+							BO_Add, BF_One, BF_One
+							>::GetRHI(),
+						FLinearColor::White
+					);
+
+				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
+				RHICmdList.DrawIndexedPrimitive(
+					RenderParts.IndexBuffer->IndexBufferRHI,
+					PT_TriangleList,
+					0,						//BaseVertexIndex
+					BaseVertexIndex,		//MinIndex
+					NumRenderVertices,		//NumVertices
+					BaseIndexIndex,			//StartIndex
+					NumRenderIndices / 3,	//NumPrimitives
+					1						//NumInstances
+				);
+			}
+
+			BaseVertexIndex += NumRenderVertices;
+			BaseIndexIndex  += NumRenderIndices;
+		}
+	}
+
 	// 描画 
 	void RenderPartsToRenderTarget(FRHICommandListImmediate& RHICmdList, FSsRenderPartsForSendingRenderThread& RenderParts)
 	{
@@ -307,7 +404,7 @@ namespace
 					}
 
 					FSsOffScreenVertex Vert;
-					// 通常パーツ 
+					// 通常パーツ/マスクパーツ 
 					if(0 == ItPart->Mesh.Num())
 					{
 						for(int32 v = 0; v < 4; ++v)
@@ -384,7 +481,7 @@ namespace
 					}
 
 					FSsOffScreenVertex Vert;
-					// 通常パーツ 
+					// 通常パーツ/マスクパーツ 
 					if(0 == ItPart->Mesh.Num())
 					{
 						check((IndexCnt + 6) <= (int32)RenderParts.IndexBuffer->IndexNum);
@@ -418,8 +515,10 @@ namespace
 		}
 
 		// シェーダの取得 
-		TShaderMapRef<FSsOffScreenVS> VertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
-		TShaderMapRef<FSsOffScreenPS> PixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
+		TShaderMapRef<FSsOffScreenVS>       VertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
+		TShaderMapRef<FSsOffScreenPS>       PixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
+		TShaderMapRef<FSsOffScreenMaskedVS> MaskedVertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
+		TShaderMapRef<FSsOffScreenMaskedPS> MaskedPixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 
 		// マテリアルとブレンドタイプが一致しているパーツ毎に描画 
 		uint32 BaseVertexIndex = 0;
@@ -441,8 +540,9 @@ namespace
 				BaseIndexIndex  += 6;
 				continue;
 			}
+
 			// 通常パーツ 
-			else if(0 == RenderPart.Mesh.Num())
+			if(0 == RenderPart.Mesh.Num())
 			{
 				NumRenderVertices += 4;
 				NumRenderIndices  += 6;
@@ -467,19 +567,51 @@ namespace
 				continue;
 			}
 
-			RHICmdList.GetContext().RHISetBoundShaderState(
-				RHICreateBoundShaderState(
-					GSs6OffScreenVertexDeclaration.VertexDeclarationRHI,
-					VertexShader->GetVertexShader(),	//VertexShaderRHI
-					nullptr,							//HullShaderRHI
-					nullptr,							//DomainShaderRHI
-					PixelShader->GetPixelShader(),		//PixelShaderRHI
-					FGeometryShaderRHIRef()
-				));
+			// マスクバッファの描画	//TODO: 要・最適化. 連続する場合のスキップ等 
+			if(RenderPart.bMaskInfluence)
+			{
+				RenderMaskBuffer(RHICmdList, RenderParts, i);
+				SetRenderTarget(
+					RHICmdList,
+					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI(),
+					FTextureRHIParamRef()
+				);
+			}
 
-			// テクスチャをセット
-			FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
-			PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
+			// マスク影響の有無でシェーダを切り替える 
+			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))	//TODO: この時点で適用すべきマスクが無い場合もelseに流す 
+			{
+				RHICmdList.GetContext().RHISetBoundShaderState(
+					RHICreateBoundShaderState(
+						GSs6OffScreenVertexDeclaration.VertexDeclarationRHI,
+						MaskedVertexShader->GetVertexShader(),	//VertexShaderRHI
+						nullptr,								//HullShaderRHI
+						nullptr,								//DomainShaderRHI
+						MaskedPixelShader->GetPixelShader(),	//PixelShaderRHI
+						FGeometryShaderRHIRef()
+					));
+
+				// テクスチャをセット
+				FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
+				MaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
+				MaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->Resource->TextureRHI : nullptr, SampleState);
+			}
+			else
+			{
+				RHICmdList.GetContext().RHISetBoundShaderState(
+					RHICreateBoundShaderState(
+						GSs6OffScreenVertexDeclaration.VertexDeclarationRHI,
+						VertexShader->GetVertexShader(),		//VertexShaderRHI
+						nullptr,								//HullShaderRHI
+						nullptr,								//DomainShaderRHI
+						PixelShader->GetPixelShader(),			//PixelShaderRHI
+						FGeometryShaderRHIRef()
+					));
+
+				// テクスチャをセット
+				FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
+				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
+			}
 
 
 			switch(RenderPart.AlphaBlendType)
