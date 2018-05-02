@@ -232,7 +232,7 @@ namespace
 				} break;
 			case SsBlendType::Mask:
 				{
-					OutColorBlend.X = 0.01f;	//TODO:
+					OutColorBlend.X = 0.01f;
 				} break;
 			case SsBlendType::Invalid:
 				{
@@ -298,8 +298,6 @@ namespace
 			// マスクバッファに書き込み 
 			if((CurrentPartIndex < i) && (SsBlendType::Mask == RenderPart.ColorBlendType))
 			{
-				//if(RenderPart.bMaskInfluence)	//TODO: マスクにマスクをかける場合 
-
 				RHICmdList.GetContext().RHISetBoundShaderState(
 					RHICreateBoundShaderState(
 						GSs6OffScreenVertexDeclaration.VertexDeclarationRHI,
@@ -314,14 +312,28 @@ namespace
 				FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
 				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
 
-				// Rチャンネルのみの加算描画を指定 
-				RHICmdList.GetContext().RHISetBlendState(
-					TStaticBlendState<
-							CW_RED,
-							BO_Add, BF_One, BF_One
-							>::GetRHI(),
-						FLinearColor::White
-					);
+				if(RenderPart.bMaskInfluence)
+				{
+					// Rチャンネルのみの加算描画を指定 
+					RHICmdList.GetContext().RHISetBlendState(
+						TStaticBlendState<
+								CW_RED,
+								BO_Add, BF_One, BF_One
+								>::GetRHI(),
+							FLinearColor::White
+						);
+				}
+				else
+				{
+					// マスク対象でない場合は上書き 
+					RHICmdList.GetContext().RHISetBlendState(
+						TStaticBlendState<
+								CW_RED,
+								BO_Add, BF_One, BF_Zero
+								>::GetRHI(),
+							FLinearColor::White
+						);
+				}
 
 				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
 				RHICmdList.DrawIndexedPrimitive(
