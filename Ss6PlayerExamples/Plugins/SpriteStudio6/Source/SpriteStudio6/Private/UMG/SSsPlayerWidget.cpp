@@ -445,7 +445,9 @@ void SSsPlayerWidget::PaintInternal(
 	SsBlendType::Type BkAlphaBlendType = SsBlendType::Invalid;
 	for(auto It = InRenderParts.CreateConstIterator(); It; ++It)
 	{
-		if(nullptr == It->Brush.Get())
+		if(	   (nullptr == It->Brush.Get())
+			|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
+			)
 		{
 			continue;
 		}

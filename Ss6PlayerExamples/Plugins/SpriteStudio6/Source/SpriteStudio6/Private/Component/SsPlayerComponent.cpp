@@ -23,7 +23,6 @@ namespace
 			case SsBlendType::Invalid:   { return 4; }
 			case SsBlendType::Effect:    { return 5; }
 			case SsBlendType::MixVertex: { return 6; }
-			case SsBlendType::Mask:      { return 0; }	//TODO:
 		}
 		check(false);
 		return 0;
@@ -351,9 +350,17 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 					PartsMaterials.Reserve(RenderParts.Num());
 					for(auto ItPart = RenderParts.CreateConstIterator(); ItPart; ++ItPart)
 					{
-						uint32 MatIdx = PartsMatIndex(ItPart->ColorBlendType);
-						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(ItPart->Texture);
-						PartsMaterials.Add((ppMID && *ppMID) ? *ppMID : nullptr);
+						// マスクパーツ（未対応） 
+						if(SsBlendType::Mask == ItPart->ColorBlendType)
+						{
+							PartsMaterials.Add(nullptr);
+						}
+						else
+						{
+							uint32 MatIdx = PartsMatIndex(ItPart->ColorBlendType);
+							UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(ItPart->Texture);
+							PartsMaterials.Add((ppMID && *ppMID) ? *ppMID : nullptr);
+						}
 					}
 
 					uint32 VertexCnt = 0;
@@ -368,8 +375,13 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 							continue;
 						}
 
+						// マスクパーツ（未対応） 
+						if(SsBlendType::Mask == ItPart->ColorBlendType)
+						{
+							continue;
+						}
 						// 通常パーツ 
-						if(0 == ItPart->Mesh.Num())
+						else if(0 == ItPart->Mesh.Num())
 						{
 							for(int32 v = 0; v < 4; ++v)
 							{
@@ -434,8 +446,13 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 							continue;
 						}
 
+						// マスクパーツ（未対応） 
+						if(SsBlendType::Mask == RenderParts[i].ColorBlendType)
+						{
+							continue;
+						}
 						// 通常パーツ 
-						if(0 == RenderParts[i].Mesh.Num())
+						else if(0 == RenderParts[i].Mesh.Num())
 						{
 							VertexCnt += 4;
 							IndexCnt  += 6;
@@ -454,6 +471,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 						if(    (i != (RenderParts.Num()-1))											// 最後の１つでない 
 							&& (RenderParts[i].AlphaBlendType == RenderParts[i+1].AlphaBlendType)	// アルファブレンドモード
 							&& (PartsMaterials[i] == PartsMaterials[i+1])							// マテリアルが一致(参照セル/カラーブレンド毎にマテリアルが別れる) 
+							&& (RenderParts[i+1].ColorBlendType != SsBlendType::Mask)				// 次がマスクパーツでない
 							)
 						{
 							continue;
@@ -616,6 +634,12 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 				const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
 				for(int32 i = 0; i < RenderParts.Num(); ++i)
 				{
+					// マスクパーツ（未対応） 
+					if(SsBlendType::Mask == RenderParts[i].ColorBlendType)
+					{
+						continue;
+					}
+
 					uint32 MatIdx = PartsMatIndex(RenderParts[i].ColorBlendType);
 					UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
 					if((NULL == ppMID) || (NULL == *ppMID))

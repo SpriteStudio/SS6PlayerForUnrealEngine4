@@ -23,7 +23,6 @@ namespace
 			case SsBlendType::Invalid:   { return 4; }
 			case SsBlendType::Effect:    { return 5; }
 			case SsBlendType::MixVertex: { return 6; }
-			case SsBlendType::Mask:      { return 0; }	//TODO:
 		}
 		check(false);
 		return 0;
@@ -323,6 +322,11 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 
 					for(int32 i = 0; i < RenderParts.Num(); ++i)
 					{
+						if(SsBlendType::Mask == RenderParts[i].ColorBlendType)
+						{
+							continue;
+						}
+
 						FSsRenderPartWithSlateBrush Part;
 						Part.CopyFrom(&(RenderParts[i]));
 

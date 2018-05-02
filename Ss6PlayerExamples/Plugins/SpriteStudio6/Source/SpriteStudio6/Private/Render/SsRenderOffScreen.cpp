@@ -434,8 +434,15 @@ namespace
 				continue;
 			}
 
+			// マスクパーツ 
+			if(SsBlendType::Mask == RenderPart.ColorBlendType)
+			{
+				BaseVertexIndex += 4;
+				BaseIndexIndex  += 6;
+				continue;
+			}
 			// 通常パーツ 
-			if(0 == RenderPart.Mesh.Num())
+			else if(0 == RenderPart.Mesh.Num())
 			{
 				NumRenderVertices += 4;
 				NumRenderIndices  += 6;
@@ -454,7 +461,6 @@ namespace
 			if(    (i != (RenderParts.RenderParts.Num()-1))										// 最後の１つでない
 				&& (RenderPart.AlphaBlendType == RenderParts.RenderParts[i+1].AlphaBlendType)	// アルファブレンドタイプが一致
 				&& (RenderPart.Texture == RenderParts.RenderParts[i+1].Texture)					// テクスチャが一致
-				&& (RenderPart.ColorBlendType != SsBlendType::Mask)								// マスクパーツでない
 				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::Mask)			// 次がマスクパーツでない
 				)
 			{
