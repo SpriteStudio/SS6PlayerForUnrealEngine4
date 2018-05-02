@@ -1,0 +1,39 @@
+//
+// Copyright(C) Web Technology Corp.
+//
+// SpriteStudio6 Player for UE4 
+//   マスクパーツレンダリング用シェーダ 
+//
+
+#include "/Engine/Private/Common.ush"
+
+Texture2D CellTexture;
+SamplerState CellTextureSampler;
+
+struct VertexOut
+{
+	float4 Position : SV_POSITION;
+	float Alpha : COLOR0;
+	float2 TexCoord : TEXCOORD0;
+};
+
+VertexOut MainVS(
+	in float2 InPosition : ATTRIBUTE0,
+	in float4 InColor : ATTIBUTE1,
+	in float2 InTexCoord : ATTRIBUTE2
+	)
+{
+	VertexOut VOut;
+	VOut.Position = float4(InPosition.xy, 0, 1);
+	VOut.Alpha = InColor.a;
+	VOut.TexCoord = InTexCoord;
+	return VOut;
+}
+
+float MainPS(VertexOut In) : SV_Target0
+{
+	float4 TextureColor;
+	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, In.TexCoord);
+
+	return (1.0 < (TextureColor.a + In.Alpha)) ? (1.0/255.0) : 0.0;
+}
