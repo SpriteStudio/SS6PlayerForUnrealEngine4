@@ -740,6 +740,7 @@ struct FSsRenderPart
 	UTexture* Texture;
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
+	bool bMaskInfluence;
 
 	void CopyFrom(const FSsRenderPart* Other)
 	{

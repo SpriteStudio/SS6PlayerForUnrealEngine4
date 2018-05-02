@@ -408,6 +408,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			? SsBlendType::MixVertex
 			: State->partsColorValue.blendType;
 	OutRenderPart.AlphaBlendType = State->alphaBlendType;
+	OutRenderPart.bMaskInfluence = State->maskInfluence;
 
 
 	// RenderTargetに対する描画基準位置
@@ -421,14 +422,9 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		FVector(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
 	);
 
-	// 通常パーツ 
+	// 通常パーツ/マスクパーツ 
 	if(State->partType != SsPartType::Mesh)
 	{
-		if(State->partType == SsPartType::Mask)
-		{
-			OutRenderPart.ColorBlendType = SsBlendType::Mask;
-		}
-
 		// 頂点座標
 		FVector2D Vertices2D[4];
 		for(int i = 0; i < 4; ++i)
@@ -566,6 +562,15 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			{
 				VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * Alpha * HideAlpha));
 				ColorBlendRate[i] = 1.f;
+			}
+		}
+
+		if(State->partType == SsPartType::Mask)
+		{
+			OutRenderPart.ColorBlendType = SsBlendType::Mask;
+			for(int32 i = 0; i < 4; ++i)
+			{
+				VertexColors[i].A = State->masklimen;
 			}
 		}
 
