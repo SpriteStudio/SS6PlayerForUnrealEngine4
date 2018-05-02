@@ -744,6 +744,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 			RenderPart.Texture = Emitter->dispCell.texture;
 			RenderPart.AlphaBlendType = SsRenderBlendTypeToBlendType(Emitter->refData->BlendType);
 			RenderPart.ColorBlendType = SsBlendType::Effect;
+			RenderPart.bMaskInfluence = State->maskInfluence;
 
 			{
 				float matrix[4 * 4];
