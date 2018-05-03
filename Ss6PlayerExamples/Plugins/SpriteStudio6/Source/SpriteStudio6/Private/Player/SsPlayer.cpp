@@ -333,7 +333,7 @@ void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start,
 }
 
 // 描画用パーツデータの作成 
-void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot)
+void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
 {
 	for(auto It = RenderDecoder->sortList.CreateConstIterator(); It; ++It)
 	{
@@ -343,7 +343,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 		{
 			if(!State->hide)
 			{
-				CreateRenderParts(State->refAnime, CanvasSize, Pivot);
+				CreateRenderParts(State->refAnime, CanvasSize, Pivot, true);
 			}
 		}
 		else if(nullptr != State->refEffect)
@@ -356,7 +356,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 		else
 		{
 			FSsRenderPart RenderPart;
-			if(CreateRenderPart(RenderPart, State, CanvasSize, Pivot))
+			if(CreateRenderPart(RenderPart, State, CanvasSize, Pivot, bInstance))
 			{
 				RenderParts.Add(RenderPart);
 			}
@@ -365,7 +365,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 }
 
 // 描画用パーツデータの作成（１パーツ分） 
-bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot)
+bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
 {
 	if(nullptr == State){ return false; }
 	float Alpha = (State->localalpha == 1.f) ? State->alpha : State->localalpha;
@@ -398,6 +398,12 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		|| (State->partType == SsPartType::Joint)
 		|| (State->partType == SsPartType::BonePoint)
 		)
+	{
+		return false;
+	}
+
+	// インスタンスパーツ内のマスクパーツは無視 
+	if(bInstance && (State->partType == SsPartType::Mask))
 	{
 		return false;
 	}
