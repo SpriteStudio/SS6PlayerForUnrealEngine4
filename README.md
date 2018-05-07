@@ -3,7 +3,7 @@
 ドキュメント  
 https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki
 
-チュートリアル
+チュートリアル  
 http://www.webtech.co.jp/help/ja/spritestudio/guide/output6/unrealengine4/
 
 機能リファレンス  
