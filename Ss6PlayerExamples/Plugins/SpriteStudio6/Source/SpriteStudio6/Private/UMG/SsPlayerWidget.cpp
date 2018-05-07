@@ -137,6 +137,11 @@ void USsPlayerWidget::SynchronizeProperties()
 
 	if(SsProject)
 	{
+#if WITH_EDITOR
+		// Reimportでインデックスが変わった場合に即座に反映 
+		SyncAutoPlayAnimation_NameToIndex();
+#endif
+
 		// Playerの初期化 
 		if(Player.GetSsProject().Get() != SsProject)
 		{

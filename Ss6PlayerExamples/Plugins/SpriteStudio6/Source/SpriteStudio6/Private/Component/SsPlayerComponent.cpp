@@ -234,6 +234,11 @@ void USsPlayerComponent::OnRegister()
 
 	if(FApp::CanEverRender() && SsProject)	// FApp::CanEverRender() : コマンドラインからのCook時にも呼び出され、テクスチャリソースが確保されていない状態で処理が流れてしまうのを防ぐため 
 	{
+#if WITH_EDITOR
+		// Reimportでインデックスが変わった場合に即座に反映 
+		SyncAutoPlayAnimation_NameToIndex();
+#endif
+
 		// Playerの初期化
 		Player.SetSsProject(SsProject);
 
