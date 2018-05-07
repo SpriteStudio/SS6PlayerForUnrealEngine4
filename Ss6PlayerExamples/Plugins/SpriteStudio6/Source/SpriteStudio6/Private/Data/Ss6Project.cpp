@@ -205,6 +205,7 @@ namespace
 			switch(ItPart->Type)
 			{
 				case SsPartType::Normal:
+				case SsPartType::Mask:
 					{
 						OutVertexNum += 4;
 						OutIndexNum  += 6;
