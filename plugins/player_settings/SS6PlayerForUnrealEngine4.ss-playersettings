@@ -3,7 +3,7 @@
 	<item>
 		<available>1</available>
 		<id>SS6PlayerForUnrealEngine4</id>
-		<caption>SS6PlayerForUnrealEngine4 v1.1.0</caption>
+		<caption>SS6PlayerForUnrealEngine4 v1.2.0</caption>
 		<platform>any</platform>
 		<inputProjectFormat>sspj</inputProjectFormat>
 		<inputAnimeFormat>ssae</inputAnimeFormat>
@@ -41,8 +41,8 @@
 			<item>UVRZ</item>
 			<item>UVSX</item>
 			<item>UVSY</item>
-<!--
 			<item>MASK</item>
+<!--
 			<item>BNDR</item>
 -->
 			<item>USER</item>
@@ -78,9 +78,7 @@
 		</boundsTypes>
 		<features>
 			<item>effect</item>
-<!--
 			<item>mask</item>
--->
 			<item>bone</item>
 			<item>mesh</item>
 		</features>
