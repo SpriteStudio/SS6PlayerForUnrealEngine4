@@ -1,18 +1,18 @@
 ### SS6Player for Unreal Engine 4
 
-ドキュメント  
+- ドキュメント  
 https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki
 
-チュートリアル  
+- チュートリアル  
 http://www.webtech.co.jp/help/ja/spritestudio/guide/output6/unrealengine4/
 
-機能リファレンス  
-https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/BluePrint
+- BluePrintリファレンス  
+https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/BluePrintリファレンス
 
-プロパティリファレンス
-https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/Component%E3%80%81Widget%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9
+- Widget、プロパティリファレンス  
+https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/Component、Widgetプロパティリファレンス
 
-制限事項
+- 制限事項  
 https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/TIPS-制限事項
 
 
