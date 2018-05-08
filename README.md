@@ -9,7 +9,7 @@ http://www.webtech.co.jp/help/ja/spritestudio/guide/output6/unrealengine4/
 - BluePrintリファレンス  
 https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/BluePrintリファレンス
 
-- Widget、プロパティリファレンス  
+- Component/Widget、プロパティリファレンス  
 https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/Component、Widgetプロパティリファレンス
 
 - 制限事項  
