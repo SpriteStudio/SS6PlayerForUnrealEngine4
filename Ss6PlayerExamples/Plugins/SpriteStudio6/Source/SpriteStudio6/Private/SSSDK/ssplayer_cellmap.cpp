@@ -70,7 +70,7 @@ void	SsCellMapList::set(USs6Project* proj , FSsAnimePack* animepack )
 void	SsCellMapList::addMap(FSsCellMap* cellmap)
 {
 	SsCelMapLinker* linker = new SsCelMapLinker(cellmap , this->CellMapPath );
-	CellMapDic.Add(FName(*(cellmap->CellMapName.ToString()+TEXT(".ssce"))), linker);
+	CellMapDic.Add(cellmap->CellMapNameEx, linker);
 
 }
 

@@ -85,6 +85,9 @@ public:
 	FName		CellMapName;		///< このセルマップの名称です。
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
+	FName		CellMapNameEx;		///< 拡張子付きセルマップ名
+
+	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
 	FString		ImagePath;			///< 参照画像ファイルパス。プロジェクトの画像基準相対
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)

@@ -3,6 +3,36 @@
 #include "SsString_uty.h"
 
 
+namespace
+{
+	static const FName ConstName_Target("target");
+	static const FName ConstName_BlendType("blendType");
+	static const FName ConstName_LT("LT");
+	static const FName ConstName_RT("RT");
+	static const FName ConstName_LB("LB");
+	static const FName ConstName_RB("RB");
+	static const FName ConstName_RGBA("rgba");
+	static const FName ConstName_Rate("rate");
+	static const FName ConstName_Color("color");
+	static const FName ConstName_MapId("mapId");
+	static const FName ConstName_Name("name");
+	static const FName ConstName_Integer("integer");
+	static const FName ConstName_Point("point");
+	static const FName ConstName_Rect("rect");
+	static const FName ConstName_String("string");
+	static const FName ConstName_StartTime("startTime");
+	static const FName ConstName_Speed("speed");
+	static const FName ConstName_Independent("independent");
+	static const FName ConstName_StartLabel("startLabel");
+	static const FName ConstName_StartOffset("startOffset");
+	static const FName ConstName_EndLabel("endLabel");
+	static const FName ConstName_EndOffset("endOffset");
+	static const FName ConstName_LoopNum("loopNum");
+	static const FName ConstName_Infinity("infinity");
+	static const FName ConstName_Reverse("reverse");
+	static const FName ConstName_Pingpong("pingpong");
+}
+
 void FSsKeyframe::Serialize(FArchive& Ar)
 {
 	Value.Serialize(Ar);
@@ -94,37 +124,37 @@ int32 FSsAttribute::GetUpperBoundKeyIndex(int32 Time)
 void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 {
 	TEnumAsByte<SsColorBlendTarget::Type> target;
-	__StringToEnum_( key->Value["target"].get<FString>() , target );
+	__StringToEnum_( key->Value[ConstName_Target].get<FString>() , target );
 	TEnumAsByte<SsBlendType::Type> blendtype;
-	__StringToEnum_( key->Value["blendType"].get<FString>() , blendtype);
+	__StringToEnum_( key->Value[ConstName_BlendType].get<FString>() , blendtype);
 
 	v.blendType = blendtype;
 	v.target = target;
 
 	if ( target == SsColorBlendTarget::Vertex )
 	{
-		SsHash lt = key->Value["LT"].get<SsHash>();
-		SsHash rt = key->Value["RT"].get<SsHash>();
-		SsHash lb = key->Value["LB"].get<SsHash>();
-		SsHash rb = key->Value["RB"].get<SsHash>();
+		SsHash lt = key->Value[ConstName_LT].get<SsHash>();
+		SsHash rt = key->Value[ConstName_RT].get<SsHash>();
+		SsHash lb = key->Value[ConstName_LB].get<SsHash>();
+		SsHash rb = key->Value[ConstName_RB].get<SsHash>();
 
-		ConvertStringToSsColor( lt["rgba"].get<FString>() , v.colors[0].rgba);
-		v.colors[0].rate = lt["rate"].get<float>();
+		ConvertStringToSsColor( lt[ConstName_RGBA].get<FString>() , v.colors[0].rgba);
+		v.colors[0].rate = lt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rt["rgba"].get<FString>() , v.colors[1].rgba);
-		v.colors[1].rate = rt["rate"].get<float>();
+		ConvertStringToSsColor( rt[ConstName_RGBA].get<FString>() , v.colors[1].rgba);
+		v.colors[1].rate = rt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( lb["rgba"].get<FString>() , v.colors[2].rgba);
-		v.colors[2].rate = lb["rate"].get<float>();
+		ConvertStringToSsColor( lb[ConstName_RGBA].get<FString>() , v.colors[2].rgba);
+		v.colors[2].rate = lb[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rb["rgba"].get<FString>() , v.colors[3].rgba);
-		v.colors[3].rate = rb["rate"].get<float>();
+		ConvertStringToSsColor( rb[ConstName_RGBA].get<FString>() , v.colors[3].rgba);
+		v.colors[3].rate = rb[ConstName_Rate].get<float>();
 
 	}else{
-		SsHash color = key->Value["color"].get<SsHash>();
+		SsHash color = key->Value[ConstName_Color].get<SsHash>();
 
-		ConvertStringToSsColor( color["rgba"].get<FString>() , v.color.rgba);
-		v.color.rate = color["rate"].get<float>();
+		ConvertStringToSsColor( color[ConstName_RGBA].get<FString>() , v.color.rgba);
+		v.color.rate = color[ConstName_Rate].get<float>();
 	}
 
 }
@@ -133,46 +163,46 @@ void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 void	GetSsColorValue( const FSsKeyframe* key , SsColorAnime& v )
 {
 	TEnumAsByte<SsColorBlendTarget::Type> target;
-	__StringToEnum_( key->Value["target"].get<FString>() , target );
+	__StringToEnum_( key->Value[ConstName_Target].get<FString>() , target );
 	TEnumAsByte<SsBlendType::Type> blendtype;
-	__StringToEnum_( key->Value["blendType"].get<FString>() , blendtype);
+	__StringToEnum_( key->Value[ConstName_BlendType].get<FString>() , blendtype);
 
 	v.blendType = blendtype;
 	v.target = target;
 
 	if ( target == SsColorBlendTarget::Vertex )
 	{
-		SsHash lt = key->Value["LT"].get<SsHash>();
-		SsHash rt = key->Value["RT"].get<SsHash>();
-		SsHash lb = key->Value["LB"].get<SsHash>();
-		SsHash rb = key->Value["RB"].get<SsHash>();
+		SsHash lt = key->Value[ConstName_LT].get<SsHash>();
+		SsHash rt = key->Value[ConstName_RT].get<SsHash>();
+		SsHash lb = key->Value[ConstName_LB].get<SsHash>();
+		SsHash rb = key->Value[ConstName_RB].get<SsHash>();
 
-		ConvertStringToSsColor( lt["rgba"].get<FString>() , v.colors[0].rgba);
-		v.colors[0].rate = lt["rate"].get<float>();
+		ConvertStringToSsColor( lt[ConstName_RGBA].get<FString>() , v.colors[0].rgba);
+		v.colors[0].rate = lt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rt["rgba"].get<FString>() , v.colors[1].rgba);
-		v.colors[1].rate = rt["rate"].get<float>();
+		ConvertStringToSsColor( rt[ConstName_RGBA].get<FString>() , v.colors[1].rgba);
+		v.colors[1].rate = rt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( lb["rgba"].get<FString>() , v.colors[2].rgba);
-		v.colors[2].rate = lb["rate"].get<float>();
+		ConvertStringToSsColor( lb[ConstName_RGBA].get<FString>() , v.colors[2].rgba);
+		v.colors[2].rate = lb[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rb["rgba"].get<FString>() , v.colors[3].rgba);
-		v.colors[3].rate = rb["rate"].get<float>();
+		ConvertStringToSsColor( rb[ConstName_RGBA].get<FString>() , v.colors[3].rgba);
+		v.colors[3].rate = rb[ConstName_Rate].get<float>();
 
 	}else{
-		SsHash color = key->Value["color"].get<SsHash>();
-		ConvertStringToSsColor( color["rgba"].get<FString>() , v.color.rgba);
-		v.color.rate = color["rate"].get<float>();
+		SsHash color = key->Value[ConstName_Color].get<SsHash>();
+		ConvertStringToSsColor( color[ConstName_RGBA].get<FString>() , v.color.rgba);
+		v.color.rate = color[ConstName_Rate].get<float>();
 	}
 
 }
 
 void	GetSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
 {
-	const FString& sLT = key->Value["LT"].get<FString>();
-	const FString& sRT = key->Value["RT"].get<FString>();
-	const FString& sLB = key->Value["LB"].get<FString>();
-	const FString& sRB = key->Value["RB"].get<FString>();
+	const FString& sLT = key->Value[ConstName_LT].get<FString>();
+	const FString& sRT = key->Value[ConstName_RT].get<FString>();
+	const FString& sLB = key->Value[ConstName_LB].get<FString>();
+	const FString& sRB = key->Value[ConstName_RB].get<FString>();
 	
 	StringToPoint2( sLT , v.Offsets[0] );
 	StringToPoint2( sRT , v.Offsets[1] );
@@ -184,8 +214,8 @@ void	GetSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
 
 void GetSsRefCell( const FSsKeyframe* key , SsRefCell& v )
 {
-	int id = key->Value["mapId"].get<int>();
-	FName name = FName( *(key->Value["name"].get<FString>()) );
+	int id = key->Value[ConstName_MapId].get<int>();
+	FName name = FName( *(key->Value[ConstName_Name].get<FString>()) );
 
 	v.mapid = id;
 	v.name = name;
@@ -198,31 +228,31 @@ void	GetSsUserDataAnime( const FSsKeyframe* key , SsUserDataAnime& v )
 	v.point.X = v.point.Y = 0;
 	v.rect.x = v.rect.y = v.rect.w = v.rect.h = 0; 
 	v.string = FString(TEXT(""));
-	v.useInteger = key->Value.IsExistHashkey("integer");
-	v.usePoint = key->Value.IsExistHashkey("point");
-	v.useRect = key->Value.IsExistHashkey("rect");
-	v.useString = key->Value.IsExistHashkey("string");
+	v.useInteger = key->Value.IsExistHashkey(ConstName_Integer);
+	v.usePoint = key->Value.IsExistHashkey(ConstName_Point);
+	v.useRect = key->Value.IsExistHashkey(ConstName_Rect);
+	v.useString = key->Value.IsExistHashkey(ConstName_String);
 
 	if ( v.useInteger )
 	{
-		v.integer = key->Value["integer"].get<int>();
+		v.integer = key->Value[ConstName_Integer].get<int>();
 	}
 
 	if ( v.usePoint )
 	{
-		const FString& str = key->Value["point"].get<FString>();
+		const FString& str = key->Value[ConstName_Point].get<FString>();
 		StringToPoint2( str , v.point );
 	}
 	
 	if ( v.useRect )
 	{
-		const FString& str = key->Value["rect"].get<FString>();
+		const FString& str = key->Value[ConstName_Rect].get<FString>();
 		StringToIRect( str , v.rect );
 	}
 
 	if ( v.useString )
 	{
-		const FString& str = key->Value["string"].get<FString>();
+		const FString& str = key->Value[ConstName_String].get<FString>();
 		v.string = str;
 	}
 
@@ -230,9 +260,9 @@ void	GetSsUserDataAnime( const FSsKeyframe* key , SsUserDataAnime& v )
 
 void	GetSsEffectParamAnime( const FSsKeyframe* key, SsEffectAttr& v )
 {
-	v.startTime = key->Value["startTime"].get<int>();
-	v.speed = key->Value["speed"].get<float>();
-	v.independent = key->Value["independent"].get<bool>();
+	v.startTime = key->Value[ConstName_StartTime].get<int>();
+	v.speed = key->Value[ConstName_Speed].get<float>();
+	v.independent = key->Value[ConstName_Independent].get<bool>();
 	v.curKeyframe = key->Time;
 
 	int iflags = 0;
@@ -245,18 +275,18 @@ void	GetSsEffectParamAnime( const FSsKeyframe* key, SsEffectAttr& v )
 
 void	GetSsInstparamAnime( const FSsKeyframe* key , SsInstanceAttr& v )
 {
-	const FString& sstartLabel = key->Value["startLabel"].get<FString>();
-	const int& sstartOffset = key->Value["startOffset"].get<int>();
-	const FString& sendLabel = key->Value["endLabel"].get<FString>();
-	const int& sendOffset = key->Value["endOffset"].get<int>();
+	const FString& sstartLabel = key->Value[ConstName_StartLabel].get<FString>();
+	const int& sstartOffset = key->Value[ConstName_StartOffset].get<int>();
+	const FString& sendLabel = key->Value[ConstName_EndLabel].get<FString>();
+	const int& sendOffset = key->Value[ConstName_EndOffset].get<int>();
 
-	const float& sspeed = key->Value["speed"].get<float>();
+	const float& sspeed = key->Value[ConstName_Speed].get<float>();
 
-	const int& sloopNum = key->Value["loopNum"].get<int>();
-	const bool& sinfinity = key->Value["infinity"].get<bool>();
-	const bool& sreverse = key->Value["reverse"].get<bool>();
-	const bool& spingpong = key->Value["pingpong"].get<bool>();
-	const bool& sindependent = key->Value["independent"].get<bool>();
+	const int& sloopNum = key->Value[ConstName_LoopNum].get<int>();
+	const bool& sinfinity = key->Value[ConstName_Infinity].get<bool>();
+	const bool& sreverse = key->Value[ConstName_Reverse].get<bool>();
+	const bool& spingpong = key->Value[ConstName_Pingpong].get<bool>();
+	const bool& sindependent = key->Value[ConstName_Independent].get<bool>();
 
 
 	v.startLabel = FName(*sstartLabel);

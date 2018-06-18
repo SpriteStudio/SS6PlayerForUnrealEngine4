@@ -148,7 +148,8 @@ public:
 
 		if ( Type == SsValueType::HashType )
 		{
-			return _Hash->Contains(key) ? (*_Hash)[key] : r_value;
+			FSsValue* Value = _Hash->Find(key);
+			return (nullptr != Value) ? *Value : r_value;
 		}
 
 		return *this;
