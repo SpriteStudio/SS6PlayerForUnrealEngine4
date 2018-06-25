@@ -257,6 +257,15 @@ namespace
 			return;
 		}
 
+		// RenderTarget切り替え
+		SetRenderTarget(
+			RHICmdList,
+			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetTextureRHI(),
+			FTextureRHIParamRef()
+		);
+		DrawClearQuad(RHICmdList, FLinearColor::Black);
+
+
 		// シェーダの取得 
 		TShaderMapRef<FSsMaskVS> VertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 		TShaderMapRef<FSsMaskPS> PixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
@@ -271,15 +280,6 @@ namespace
 		GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = PixelShader->GetPixelShader();
 
 		FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
-
-
-		// RenderTarget切り替え
-		SetRenderTarget(
-			RHICmdList,
-			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetTextureRHI(),
-			FTextureRHIParamRef()
-		);
-		DrawClearQuad(RHICmdList, FLinearColor::Black);
 
 
 		uint32 BaseVertexIndex = 0;
