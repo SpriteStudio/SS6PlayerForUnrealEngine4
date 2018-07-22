@@ -40,6 +40,7 @@ SSsPlayerWidget::SSsPlayerWidget()
 	, AnimCanvasSize(0.f, 0.f)
 	, bRenderOffScreen(false)
 	, RenderOffScreen(nullptr)
+	, Children(this)
 {
 }
 SSsPlayerWidget::~SSsPlayerWidget()

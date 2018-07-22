@@ -154,7 +154,7 @@ void FSsRenderPlaneProxy::SetDynamicData_RenderThread()
 	for(int32 i = 0; i < 4; ++i)
 	{
 		VertexBuffers.PositionVertexBuffer.VertexPosition(i) = Vertices[i].Position;
-		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(i, Vertices[i].TangentX, Vertices[i].GetTangentY(), Vertices[i].TangentZ);
+		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(i, Vertices[i].TangentX.ToFVector(), Vertices[i].GetTangentY(), Vertices[i].TangentZ.ToFVector());
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(i, 0, Vertices[i].TextureCoordinate[0]);
 		VertexBuffers.ColorVertexBuffer.VertexColor(i) = Vertices[i].Color;
 	}

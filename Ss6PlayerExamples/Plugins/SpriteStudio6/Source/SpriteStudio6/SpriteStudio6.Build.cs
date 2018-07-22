@@ -13,14 +13,14 @@ namespace UnrealBuildTool.Rules
 
 			PublicIncludePaths.AddRange(
 				new string[] {
-					"SpriteStudio6/Public",
-					"SpriteStudio6/Public/Actor",
-					"SpriteStudio6/Public/Component",
-					"SpriteStudio6/Public/Data",
-					"SpriteStudio6/Public/Player",
-					"SpriteStudio6/Public/Render",
-					"SpriteStudio6/Public/UMG",
-					"SpriteStudio6/Public/Misc",
+					ModuleDirectory + "/Public",
+					ModuleDirectory + "/Public/Actor",
+					ModuleDirectory + "/Public/Component",
+					ModuleDirectory + "/Public/Data",
+					ModuleDirectory + "/Public/Player",
+					ModuleDirectory + "/Public/Render",
+					ModuleDirectory + "/Public/UMG",
+					ModuleDirectory + "/Public/Misc",
 				}
 				);
 
