@@ -1,6 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsRenderOffScreen.h"
 
+#include "PipelineStateCache.h"
 #include "MaterialShader.h"
 #include "ClearQuad.h"
 
@@ -327,8 +328,7 @@ namespace
 						BO_Add, BF_One, BF_Zero
 						>::GetRHI();
 				}
-				FGraphicsPipelineStateRHIRef GraphicsState = GDynamicRHI->RHICreateGraphicsPipelineState(GraphicsPSOInit);
-				RHICmdList.GetContext().RHISetGraphicsPipelineState(GraphicsState);
+				SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
 
 				// テクスチャをセット 
 				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
@@ -686,8 +686,7 @@ namespace
 					check(false);
 				}
 			}
-			FGraphicsPipelineStateRHIRef GraphicsState = GDynamicRHI->RHICreateGraphicsPipelineState(GraphicsPSOInit);
-			RHICmdList.GetContext().RHISetGraphicsPipelineState(GraphicsState);
+			SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
 
 			// テクスチャをセット 
 			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))

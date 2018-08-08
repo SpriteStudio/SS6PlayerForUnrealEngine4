@@ -292,15 +292,15 @@ public:
 
 public:
 	SsEffectEmitter() :
-//			particleList(0),
-			_parentIndex(-1),
-			seedList(0),
-			position(0, 0),
-			particleListBufferSize(180*100),  //生成出来るパーティクルの最大値
+			seedOffset(0),
 //			_emitpattern(0),
 			particleExistList(0),
-			globaltime(0),
-			seedOffset(0)
+//			particleList(0),
+			particleListBufferSize(180*100),  //生成出来るパーティクルの最大値			
+			seedList(0),
+			position(0, 0),
+			_parentIndex(-1),
+			globaltime(0)
 	{
 		emitterSeed = SEED_MAGIC;
 	}
@@ -400,7 +400,7 @@ protected:
 	void	clearEmitterList();
 
 public:
-	SsEffectRenderV2() : effectTimeLength(0) ,isIntFrame(true),seedOffset(0), mySeed(0){}
+	SsEffectRenderV2() : mySeed(0), effectTimeLength(0) ,isIntFrame(true),seedOffset(0){}
 	virtual ~SsEffectRenderV2()
 	{
 		clearEmitterList();

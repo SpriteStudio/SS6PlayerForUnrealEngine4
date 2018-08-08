@@ -34,17 +34,17 @@ unsigned int getRandomSeed()
 
 
 SsAnimeDecoder::SsAnimeDecoder() : 
-	curAnimeFPS(0),
-	curAnimation(nullptr),
+	curCellMapManager(0),
+	partState(0),
+	seedOffset(0),
+	nowPlatTime(0) ,
+	nowPlatTimeOld(0),
 	curAnimeStartFrame(0), 
 	curAnimeEndFrame(0),
 	curAnimeTotalFrame(0),
-	nowPlatTime(0) ,
-	nowPlatTimeOld(0),
-	curCellMapManager(0),
-	partState(0),
+	curAnimeFPS(0),
+	curAnimation(nullptr),
 	instancePartsHide(false),
-	seedOffset(0),
 	maskFuncFlag(true),
 	maskParentSetting(true),
 	meshAnimator(0)
@@ -1349,11 +1349,11 @@ int		SsAnimeDecoder::CalcAnimeLabel2Frame(const FName& str, int offset, FSsAnima
 
         if ( ret != -1 )
         {
-			int ret2 = ret + offset;
-			if ( ret2 < startframe ) ret2 = startframe;
-			if ( ret2 > endframe ) ret2 = endframe;
+			int ret3 = ret + offset;
+			if ( ret3 < startframe ) ret3 = startframe;
+			if ( ret3 > endframe ) ret3 = endframe;
 
-        	return ret2;
+        	return ret3;
 		}
 		//警告など出すべき？
 	}
@@ -1386,11 +1386,11 @@ void	SsAnimeDecoder::setMaskParentSetting(bool flg)
 
 ///SS5の場合  SsPartのarrayIndexは、親子順　（子は親より先にいない）と
 ///なっているためそのまま木構造を作らずUpdateを行う
-void	SsAnimeDecoder::update(float frameDelta)
+void	SsAnimeDecoder::update(float frameDeltaLocal)
 {
 	int	time = (int)nowPlatTime;
 
-	this->frameDelta = frameDelta;
+	this->frameDelta = frameDeltaLocal;
 
 	int cnt = 0;
 	for(auto e = partAnime.CreateConstIterator(); e; ++e)
@@ -1411,7 +1411,7 @@ void	SsAnimeDecoder::update(float frameDelta)
 		if ( part->Type == SsPartType::Effect)
 		{
 			updateMatrix( part , anime , &partState[cnt]);
-			updateEffect(frameDelta, time, part, anime, &partState[cnt]);
+			updateEffect(frameDeltaLocal, time, part, anime, &partState[cnt]);
 		}
 
 		cnt++;
@@ -1438,7 +1438,7 @@ void	SsAnimeDecoder::update(float frameDelta)
 }
 
 
-void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , FSsPart* part , FSsPartAnime* part_anime , SsPartState* state )
+void	SsAnimeDecoder::updateEffect( float frameDeltaLocal , int nowTime , FSsPart* part , FSsPartAnime* part_anime , SsPartState* state )
 {
 	if ( state->hide ) return ;
 
@@ -1446,7 +1446,7 @@ void	SsAnimeDecoder::updateEffect( float frameDelta , int nowTime , FSsPart* par
 	{
 		if (state && state->refEffect && state->effectValue.attrInitialized )
 		{
-			state->effectTimeTotal += frameDelta* state->effectValue.speed;
+			state->effectTimeTotal += frameDeltaLocal* state->effectValue.speed;
 			state->refEffect->setLoop(true);
 			state->refEffect->setFrame( state->effectTimeTotal );
 			state->refEffect->play();

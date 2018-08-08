@@ -644,10 +644,10 @@ public:
 		startOffset(0),
 		endLabel("_end"),
 		endOffset(0),
-		curKeyframe( 0 ),
 		speed(1.0f),
 		startFrame(0),
 		endFrame(0),
+		curKeyframe( 0 ),
 		liveFrame(0.0f)
 	{}
 };

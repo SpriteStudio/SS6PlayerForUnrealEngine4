@@ -5,7 +5,7 @@
 #include "ssplayer_PartState.h"
 #include "ssplayer_effect2.h"
 
-SsPartState::SsPartState() : refAnime(0), index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::Invalid),	refEffect(0) {
+SsPartState::SsPartState() : index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::Invalid),	refAnime(0), refEffect(0) {
 	init();
 	effectValue.attrInitialized = false;
 	meshPart = 0;

@@ -62,17 +62,17 @@ public:
 
 public:
 	SsMeshPart() :
-		isBind(false), weightColors(0), bindBoneInfo(0), targetCell(0),
-		vertices_outer(0), draw_vertices(0),
-		vertices(0), colors(0), uvs(0), indices(0), update_vertices_outer(0), myPartState(0)
+		vertices(0), colors(0), weightColors(0), uvs(0), indices(0),
+		draw_vertices(0), vertices_outer(0), update_vertices_outer(0),
+		bindBoneInfo(0), targetCell(0), myPartState(0), isBind(false)
 	{
 	}
 
 
 	SsMeshPart(SsPartState* s) :
-		isBind(false), weightColors(0), bindBoneInfo(0), targetCell(0),
-		vertices_outer(0), draw_vertices(0),
-		vertices(0), colors(0), uvs(0), indices(0), update_vertices_outer(0)
+		vertices(0), colors(0), weightColors(0), uvs(0), indices(0),
+		draw_vertices(0), vertices_outer(0), update_vertices_outer(0),
+		bindBoneInfo(0), targetCell(0), isBind(false)
 	{
 		myPartState = s;
 	}

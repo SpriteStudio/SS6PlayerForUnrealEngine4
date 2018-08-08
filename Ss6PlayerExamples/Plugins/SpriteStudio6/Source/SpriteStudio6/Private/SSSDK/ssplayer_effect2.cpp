@@ -507,12 +507,12 @@ void SsEffectEmitter::updateEmitter( double _time , int slide )
 					particleExistList[i].exist = false;    //作られてない
 
 					//最終的な値に計算し直し <-事前計算しておくといいかも・
-					int t = this->emitter.life - _offsetPattern[i];
-					int loopnum = t / targetEP->cycle;
+					int t2 = this->emitter.life - _offsetPattern[i];
+					int loopnum2 = t2 / targetEP->cycle;
 
-					int cycle_top = loopnum * targetEP->cycle;
+					int cycle_top2 = loopnum2 * targetEP->cycle;
 
-					particleExistList[i].stime = cycle_top + _offsetPattern[i];
+					particleExistList[i].stime = cycle_top2 + _offsetPattern[i];
 
 					particleExistList[i].endtime = particleExistList[i].stime + targetEP->life;// + _lifeExtend[slide_num];
 					particleExistList[i].born = false;

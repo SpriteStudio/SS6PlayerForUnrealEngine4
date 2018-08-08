@@ -242,10 +242,10 @@ void	SsMeshAnimator::update()
 }
 
 
-void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , TArray<SsPartState*>& boneList )
+void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , TArray<SsPartState*>& boneListLocal )
 {
 
-	int bnum = (int)boneList.Num();
+	int bnum = (int)boneListLocal.Num();
 	bool isbind = false;	//バインドするボーンが存在するか？
 
 
@@ -265,7 +265,7 @@ void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , TArra
 				//
 				if (bnum > bi.BoneIndex[n])
 				{
-					dst->bindBoneInfo[i].bone[n] = boneList[bi.BoneIndex[n]];
+					dst->bindBoneInfo[i].bone[n] = boneListLocal[bi.BoneIndex[n]];
 					isbind = true;	//バインドするボーンがある
 					cntBone++;
 				}
