@@ -387,7 +387,10 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			)
 		{
 			bHideParts = true;
-			HideAlpha = 0.f;
+			if((State->hide))
+			{
+				HideAlpha = 0.f;
+			}
 		}
 	}
 
