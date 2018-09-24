@@ -40,16 +40,12 @@ public:
 	int				ver_size;
 	float			*draw_vertices;		//[3 * 10];///< 座標
 
-	TArray<FVector>		calc_world_vertices;
-
 	float			*offset_world_vertices;	// 描画に使われるデフォームアトリビュート
 
 	//ツール用テンポラリワーク [editer]
 	FVector2D*					vertices_outer;
 	FVector2D*					update_vertices_outer;
 	size_t						outter_vertexnum;
-
-	TArray<SsPartState*>   bindCandidateBoneList; //バインド候補[Editer]
 
 public:
 	StBoneWeight*   	bindBoneInfo;

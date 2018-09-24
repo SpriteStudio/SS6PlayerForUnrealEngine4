@@ -236,9 +236,6 @@ void    SsMeshPart::updateTransformMesh()
 				FMemory::Memcpy(mtx.M, myPartState->matrix, sizeof(float)*16);
 				out = mtx.TransformVector(outtotal);
 
-
-				calc_world_vertices.Add(out);
-
 				outtotal = out;
 			}
 
