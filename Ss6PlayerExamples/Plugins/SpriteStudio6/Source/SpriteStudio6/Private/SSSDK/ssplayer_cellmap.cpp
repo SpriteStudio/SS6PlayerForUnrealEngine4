@@ -141,7 +141,10 @@ void getCellValue( SsCelMapLinker* l, FName& cellName , SsCellValue& v )
 void getCellValue( SsCellMapList* cellList, FName& cellMapName , FName& cellName , SsCellValue& v )
 {
 	SsCelMapLinker* l = cellList->getCellMapLink( cellMapName );
-	getCellValue( l , cellName , v );
+	if (l)
+	{
+		getCellValue( l , cellName , v );
+	}
 
 
 }

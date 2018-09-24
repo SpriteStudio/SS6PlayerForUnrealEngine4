@@ -138,11 +138,14 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 		partAnimeDic.Add(panime->PartName, panime);
 	}
 	//セットアップデータの作成
-	panum = model->SetupAnimation->PartAnimes.Num();
-	for (size_t i = 0; i < panum; i++)
+	if (model->SetupAnimation)
 	{
-		FSsPartAnime* panime = &model->SetupAnimation->PartAnimes[i];
-		setupPartAnimeDic.Add(panime->PartName, panime);
+		panum = model->SetupAnimation->PartAnimes.Num();
+		for (size_t i = 0; i < panum; i++)
+		{
+			FSsPartAnime* panime = &model->SetupAnimation->PartAnimes[i];
+			setupPartAnimeDic.Add(panime->PartName, panime);
+		}
 	}
 
 	//パーツとパーツアニメを関連付ける

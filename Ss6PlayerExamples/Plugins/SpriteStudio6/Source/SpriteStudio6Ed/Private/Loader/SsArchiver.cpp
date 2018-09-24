@@ -282,17 +282,16 @@ bool SsXmlIArchiver::dc(const char* name, TMap<FName, int32>& map)
 	AR_SELF_CHECK();
 	map.Empty();
 	XMLElement* e = getxml()->FirstChildElement(name);
-	if(e)
-	{
-		e = e->FirstChildElement("item");
-		while (e)
-		{
-			FString key(babel::utf8_to_sjis( e->Attribute("key") ).c_str());
-			FString val(babel::utf8_to_sjis( e->GetText() ).c_str());
+	if (e == nullptr){ return false; }
+	e = e->FirstChildElement("item");
 
-			map.Add(FName(*key), FCString::Atoi(*val));
-			e = e->NextSiblingElement();
-		}
+	while (e)
+	{
+		FString key(babel::utf8_to_sjis( e->Attribute("key") ).c_str());
+		FString val(babel::utf8_to_sjis( e->GetText() ).c_str());
+
+		map.Add(FName(*key), FCString::Atoi(*val));
+		e = e->NextSiblingElement();
 	}
 
 	return false;

@@ -159,6 +159,10 @@ FString USs6Project::GetSsaeBasepath() const
 {
 	return getFullPath(ProjFilepath, Settings.AnimeBaseDirectory);
 }
+FString USs6Project::GetSseeBasepath() const
+{
+	return getFullPath(ProjFilepath, Settings.EffectBaseDirectory);
+}
 FString USs6Project::GetImageBasepath() const
 {
 	return getFullPath(ProjFilepath, Settings.ImageBaseDirectory);

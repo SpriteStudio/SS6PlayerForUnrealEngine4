@@ -14,7 +14,7 @@
 void	SsMeshPart::makeMesh()
 {
 	//パーツステートの初期化の際にターゲットセルが作られる、その際にマップもコピーする？
-
+	if (targetCell == 0)return;
 	size_t psize = targetCell->MeshPointList.Num();
 
 	if (vertices) delete[] vertices;

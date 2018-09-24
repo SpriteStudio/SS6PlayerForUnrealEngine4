@@ -131,6 +131,7 @@ public:
 	SsCelMapLinker*	getCellMapLink( const FName& name );
 	SsCelMapLinker*	getCellMapLink( int index )
 	{	
+		if (CellMapList.Num() <= index) return 0;
 		return CellMapList[index];
 	}
 	

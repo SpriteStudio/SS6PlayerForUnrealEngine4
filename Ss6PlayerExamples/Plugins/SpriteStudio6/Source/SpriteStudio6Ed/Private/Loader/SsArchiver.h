@@ -133,6 +133,7 @@ public:
 	{
 		list.Empty();
 		XMLElement* e = getxml()->FirstChildElement( name );
+		if (e == nullptr){ return false; }
 
 		if ( key != "" )
 		{
