@@ -81,7 +81,7 @@ struct SsPartState
 
 	SsMeshPart*		meshPart;
 
-
+	SsDeformAttr	deformValue;
 
 	SsPartState();
 

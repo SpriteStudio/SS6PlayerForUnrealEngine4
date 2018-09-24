@@ -431,6 +431,7 @@ namespace SsAttributeKind
 		User,		///< [USER]ユーザーデータ
 		Instance,	///< [IPRM]インスタンスパーツパラメータ
 		Effect,		///< [EFCT]エフェクトパラメータ
+		Deform,		///< [DEFM]デフォーム用パラメータ
 		Num,
 
 		Invalid = 254	///< 無効値。旧データからの変換時など
@@ -703,6 +704,49 @@ struct SsBoneBind
 	float   blend;
 };
 
+class SsDeformAttr
+{
+public:
+	TArray<FVector2D> verticeChgList;
+
+	SsDeformAttr()
+	{
+		verticeChgList.Empty();
+	}
+	SsDeformAttr(const SsDeformAttr& rhs)
+	{
+		*this = rhs;
+	}
+
+	bool	operator ==(const SsDeformAttr& r) const;
+	bool	operator !=(const SsDeformAttr& r) const
+	{
+		return !(*this == r);
+	}
+
+	bool	operator ==(int n) const { return false; }
+	bool	operator !=(int n) const { return false; }
+
+	SsDeformAttr		operator +(const SsDeformAttr& rhs) const
+	{
+		return SsDeformAttr(rhs);
+	}
+
+	SsDeformAttr		operator *(const SsDeformAttr& rhs) const
+	{
+		return SsDeformAttr(rhs);
+	}
+
+	SsDeformAttr		operator /(const SsDeformAttr& rhs) const
+	{
+		return SsDeformAttr(rhs);
+	}
+
+	FString	ToString() const { return "SsDeformAttr" /* todo パラメータ出力*/; }
+	operator FString() const { return ToString(); }
+
+
+};
 
 
 //---------------------------------------------------------------

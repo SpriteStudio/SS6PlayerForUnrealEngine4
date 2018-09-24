@@ -138,6 +138,7 @@ public:
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , FSsVertexAnime& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsInstanceAttr& v );
 	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsEffectAttr& v );
+	void	SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsDeformAttr& v );
 
 
 	void	setInstancePartsHide(bool hide){

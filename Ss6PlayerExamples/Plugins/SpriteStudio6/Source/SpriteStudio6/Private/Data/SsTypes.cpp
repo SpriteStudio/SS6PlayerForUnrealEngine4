@@ -264,10 +264,11 @@ FString	__EnumToString_( TEnumAsByte<SsAttributeKind::Type> n )
 	if ( n == SsAttributeKind::Uvsx )		return "UVSX";
 	if ( n == SsAttributeKind::Uvsy )		return "UVSY";
 	if ( n == SsAttributeKind::Boundr )		return "BNDR";
-	if ( n == SsAttributeKind::Mask )		return "MASK";
 	if ( n == SsAttributeKind::User )		return "USER";
 	if ( n == SsAttributeKind::Instance )	return "IPRM";
 	if ( n == SsAttributeKind::Effect)		return "EFCT";
+	if ( n == SsAttributeKind::Mask )		return "MASK";
+	if ( n == SsAttributeKind::Deform )		return "DEFM";
 
 	return "invalid";	
 }
@@ -311,10 +312,11 @@ void	__StringToEnum_( FString n , TEnumAsByte<SsAttributeKind::Type> &out )
 	if ( n == "UVSX") out = SsAttributeKind::Uvsx;
 	if ( n == "UVSY") out = SsAttributeKind::Uvsy;
 	if ( n == "BNDR") out = SsAttributeKind::Boundr;
-	if ( n == "MASK") out = SsAttributeKind::Mask;
 	if ( n == "USER") out = SsAttributeKind::User;
 	if ( n == "IPRM") out = SsAttributeKind::Instance;
 	if ( n == "EFCT") out = SsAttributeKind::Effect;
+	if ( n == "MASK") out = SsAttributeKind::Mask;
+	if ( n == "DEFM") out = SsAttributeKind::Deform;
 }
 
 

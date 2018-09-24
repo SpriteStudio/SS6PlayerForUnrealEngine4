@@ -546,6 +546,54 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 }
 
 
+void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, const FSsKeyframe* rightkey, SsDeformAttr& v)
+{
+	if (rightkey == 0)
+	{
+		GetSsDeformAnime(leftkey, v);
+		return;
+	}
+
+	SsInterpolationType::Type ipType = leftkey->IpType;
+	const FSsCurve curve = leftkey->Curve;
+	SsDeformAttr startValue;
+	SsDeformAttr endValue;
+
+	GetSsDeformAnime(leftkey, startValue);
+	GetSsDeformAnime(rightkey, endValue);
+
+
+	//スタートとエンドの頂点数を比較し、多い方に合わせる(足りない部分は0とみなす)
+	int numPoints = FMath::Max<int>(startValue.verticeChgList.Num(), endValue.verticeChgList.Num());
+
+	TArray<FVector2D> start = startValue.verticeChgList;
+	//start.resize(numPoints);
+	for (int i = start.Num(); i < numPoints; i++)
+	{
+		start.Add(FVector2D(0, 0));
+	}
+
+	TArray<FVector2D> end = endValue.verticeChgList;
+	//end.resize(numPoints);
+	for (int i = end.Num(); i < numPoints; i++)
+	{
+		end.Add(FVector2D(0, 0));
+	}
+
+	//SsDebugPrint("start : %d, end : %d", start.size(), end.size());
+
+	for (int i = 0; i < numPoints; i++)
+	{
+		FVector2D outVec;
+
+		outVec = SsInterpolate(ipType, time, start[i], end[i], &curve);
+		v.verticeChgList.Add(outVec);
+
+	}
+
+
+}
+
 
 //float , int , bool基本型はこれで値の補間を行う
 template<typename mytype>
@@ -959,6 +1007,9 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 					break;
 				case SsAttributeKind::Mask:
 					SsGetKeyValue( part, nowTime, attr, state->masklimen);
+					break;
+				case SsAttributeKind::Deform:
+					SsGetKeyValue(part, nowTime, attr, state->deformValue);
 					break;
 
 			}
@@ -1506,17 +1557,42 @@ void	SsAnimeDecoder::draw()
 	{
 		SsPartState* state = (*e);
 
+		if (state->partType == SsPartType::mask)
+		{
+			//マスクパーツ
+
+			//6.2対応
+			//非表示の場合でもマスクの場合は処理をしなくてはならない
+			//マスクはパーツの描画より先に奥のマスクパーツから順にマスクを作成していく必要があるため
+			//通常パーツの描画順と同じ箇所で非表示によるスキップを行うとマスクのバッファがクリアされずに、
+			//マスクが手前の優先度に影響するようになってしまう。
+			if (maskFuncFlag == true) //マスク機能が有効（インスタンスのソースアニメではない）
+			{
+				SsCurrentRenderer::getRender()->clearMask();
+				mask_index++;	//0番は処理しないので先にインクメントする
+
+				for (size_t i = mask_index; i < maskIndexList.size(); i++)
+				{
+					SsPartState * ps2 = maskIndexList[i];
+					if (!ps2->hide)
+					{
+						SsCurrentRenderer::getRender()->renderPart(ps2);
+					}
+				}
+			}
+		}
+
 		if ( state->hide )continue;
 
 		if ( state->refAnime )
 		{
-
+			//インスタンスパーツ
 			SsCurrentRenderer::getRender()->execMask(state);
-
 			state->refAnime->draw();
 		}
 		else if ( state->refEffect )
 		{
+			//エフェクトパーツ
 			SsCurrentRenderer::getRender()->execMask(state);
 
 			//Ver6 ローカルスケール対応
@@ -1537,25 +1613,9 @@ void	SsAnimeDecoder::draw()
 			memcpy(state->matrix, mattemp, sizeof(mattemp));						//継承用マトリクスを戻す
 			state->alpha = orgAlpha;
 		}
-		else if ( state->partType == SsPartType::mask )
+		else if (state->partType != SsPartType::mask)
 		{
-			if (maskFuncFlag == true) //マスク機能が有効（インスタンスのソースアニメではない）
-			{
-				SsCurrentRenderer::getRender()->clearMask();
-				mask_index++;	//0番は処理しないので先にインクメントする
-
-				for (size_t i = mask_index; i < maskIndexList.size(); i++)
-				{
-					SsPartState * ps2 = maskIndexList[i];
-					if (!ps2->hide)
-					{
-						SsCurrentRenderer::getRender()->renderPart(ps2);
-					}
-				}
-			}
-		}
-		else
-		{
+			//通常パーツ
 			SsCurrentRenderer::getRender()->renderPart(state);
 		}
 	}

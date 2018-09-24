@@ -323,6 +323,48 @@ void	GetSsInstparamAnime( const FSsKeyframe* key , SsInstanceAttr& v )
 	v.loopflag = iflags;
 }
 
+//デフォームアニメデータの取得
+void	GetSsDeformAnime(const FSsKeyframe* key, SsDeformAttr& v)
+{
+	const int& svsize = key->Value["vsize"].get<int>();
+	const FString& sVchg = key->Value["vchg"].get<FString>();
+
+	v.verticeChgList.Empty(svsize);
+
+	TArray<FString>	str_list;
+	split_string(sVchg, ' ', str_list);
+	if (str_list.Num() < 1)
+	{
+	}
+	else
+	{
+		//移動していいない点は出力されていない
+		int datasize = FCString::Atoi(*str_list[0]);		//データ数
+		int cnt = 0;
+		for (int i = 0; i < svsize; i++)
+		{
+			int idx = FCString::Atoi(*str_list[1 + (cnt * 3)]);		//index
+			float x = FCString::Atof(*str_list[2 + (cnt * 3)]);	//x
+			float y = FCString::Atof(*str_list[3 + (cnt * 3)]);	//y
+
+
+			FVector2D param(0, 0);
+			if (i == idx)
+			{
+				param.X = x;
+				param.Y = y;
+				cnt++;
+			}
+			v.verticeChgList.Add(param);
+		}
+		if (cnt != datasize)
+		{
+			//データがおかしいのでは？
+			UE_LOG(LogSpriteStudio, Error, TEXT("Deform Attr Data Error"));
+		}
+	}
+}
+
 bool StringToPoint2(const FString& str, FVector2D& point)
 {
 	FString LeftS, RightS;

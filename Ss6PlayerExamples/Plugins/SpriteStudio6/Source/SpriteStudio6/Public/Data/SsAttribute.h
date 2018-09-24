@@ -75,6 +75,7 @@ void GetSsRefCell(const FSsKeyframe* key , SsRefCell& v);
 void GetSsUserDataAnime(const FSsKeyframe* key , SsUserDataAnime& v);
 void GetSsInstparamAnime(const FSsKeyframe* key , SsInstanceAttr& v);
 void GetSsEffectParamAnime(const FSsKeyframe* key , SsEffectAttr& v);
+void GetSsDeformAnime(const FSsKeyframe* key, SsDeformAttr& v);
 
 bool SPRITESTUDIO6_API StringToPoint2(const FString& str , FVector2D& point);
 bool SPRITESTUDIO6_API StringToIRect(const FString& str , SsIRect& rect);

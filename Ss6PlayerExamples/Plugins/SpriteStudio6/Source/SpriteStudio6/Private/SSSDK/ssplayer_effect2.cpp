@@ -229,7 +229,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
         float per = _lifeper * 100.0f;
 
 
-		if ( per < start )
+		if ( ( per < start ) && ( start > 0.0f ) ) //Ver6.2　0除算発生する可能性対策
 		{
 			float alpha = (start - per) / start;
 			p->color.A*= 1.0f - alpha;
@@ -304,7 +304,15 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		float gp = particle.gravityPower;
 		if (gp > 0) {
 			FVector2D v2 = FVector2D(p->x, p->y);
+
+			//6.2対応　収束点座標を(0, 0)にすると収束しない
 			float len = v.Size(); // 生成位置からの距離
+			if (len == 0.0f) {
+				len = 0.1f;
+				nv.X = 1;
+				nv.Y = 0;
+			}
+
 			float et = (len / gp)*0.90f;;
 
 			float _gt = _t;
