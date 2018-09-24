@@ -157,6 +157,8 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 	partAnime.Empty();
 	setupPartAnime.Empty();
 	partStatesMask_.Empty();
+	//マスクがあるアニメーションからないアニメーションに切り替えいた場合にdrawで無効なマスクのパーツステートを参照してしまうためクリアを追加
+	maskIndexList.Empty();	
 	stateNum = partNum;
 
 	for ( size_t i = 0 ; i < partNum ; i++ ) 
@@ -548,19 +550,33 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 
 void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, const FSsKeyframe* rightkey, SsDeformAttr& v)
 {
+	v.verticeChgList.Empty();
+
 	if (rightkey == 0)
 	{
 		GetSsDeformAnime(leftkey, v);
 		return;
 	}
 
-	SsInterpolationType::Type ipType = leftkey->IpType;
-	const FSsCurve curve = leftkey->Curve;
 	SsDeformAttr startValue;
 	SsDeformAttr endValue;
 
 	GetSsDeformAnime(leftkey, startValue);
 	GetSsDeformAnime(rightkey, endValue);
+
+	int range = rightkey->Time - leftkey->Time;
+	float now = (float)(time - leftkey->Time) / range;
+
+	FSsCurve curve;
+	curve = leftkey->Curve;
+	if (leftkey->IpType == SsInterpolationType::Bezier)
+	{
+		// ベジェのみキーの開始・終了時間が必要
+		curve.StartKeyTime = leftkey->Time;
+		curve.EndKeyTime = rightkey->Time;
+	}
+
+	float rate = SsInterpolate(leftkey->IpType, now, 0.0f, 1.0f, &curve);
 
 
 	//スタートとエンドの頂点数を比較し、多い方に合わせる(足りない部分は0とみなす)
@@ -586,7 +602,7 @@ void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, 
 	{
 		FVector2D outVec;
 
-		outVec = SsInterpolate(ipType, time, start[i], end[i], &curve);
+		outVec = SsInterpolate(SsInterpolationType::Linear, rate, start[i], end[i], 0);
 		v.verticeChgList.Add(outVec);
 
 	}
@@ -803,6 +819,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	bool hideTriger = false;
 	state->masklimen = 0;
 	state->is_localAlpha = false;
+	state->is_defrom = false;
 
 	state->position.X = part->BonePosition.X;
 	state->position.Y = part->BonePosition.Y;
@@ -1009,6 +1026,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 					SsGetKeyValue( part, nowTime, attr, state->masklimen);
 					break;
 				case SsAttributeKind::Deform:
+					state->is_defrom = true;
 					SsGetKeyValue(part, nowTime, attr, state->deformValue);
 					break;
 

@@ -343,17 +343,20 @@ void	GetSsDeformAnime(const FSsKeyframe* key, SsDeformAttr& v)
 		int cnt = 0;
 		for (int i = 0; i < svsize; i++)
 		{
-			int idx = FCString::Atoi(*str_list[1 + (cnt * 3)]);		//index
-			float x = FCString::Atof(*str_list[2 + (cnt * 3)]);	//x
-			float y = FCString::Atof(*str_list[3 + (cnt * 3)]);	//y
-
-
 			FVector2D param(0, 0);
-			if (i == idx)
+			if (cnt < datasize)
 			{
-				param.X = x;
-				param.Y = y;
-				cnt++;
+				int idx = FCString::Atoi(*str_list[1 + (cnt * 3)]);		//index
+				float x = FCString::Atof(*str_list[2 + (cnt * 3)]);	//x
+				float y = FCString::Atof(*str_list[3 + (cnt * 3)]);	//y
+
+
+				if (i == idx)
+				{
+					param.X = x;
+					param.Y = y;
+					cnt++;
+				}
 			}
 			v.verticeChgList.Add(param);
 		}

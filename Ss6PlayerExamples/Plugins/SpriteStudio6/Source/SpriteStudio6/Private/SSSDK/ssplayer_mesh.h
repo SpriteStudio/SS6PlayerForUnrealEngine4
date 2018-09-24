@@ -42,6 +42,8 @@ public:
 
 	TArray<FVector>		calc_world_vertices;
 
+	float			*offset_world_vertices;	// 描画に使われるデフォームアトリビュート
+
 	//ツール用テンポラリワーク [editer]
 	FVector2D*					vertices_outer;
 	FVector2D*					update_vertices_outer;
@@ -63,7 +65,7 @@ public:
 public:
 	SsMeshPart() :
 		vertices(0), colors(0), weightColors(0), uvs(0), indices(0),
-		draw_vertices(0), vertices_outer(0), update_vertices_outer(0),
+		draw_vertices(0), offset_world_vertices(0), vertices_outer(0), update_vertices_outer(0),
 		bindBoneInfo(0), targetCell(0), myPartState(0), isBind(false)
 	{
 	}
@@ -71,7 +73,7 @@ public:
 
 	SsMeshPart(SsPartState* s) :
 		vertices(0), colors(0), weightColors(0), uvs(0), indices(0),
-		draw_vertices(0), vertices_outer(0), update_vertices_outer(0),
+		draw_vertices(0), offset_world_vertices(0), vertices_outer(0), update_vertices_outer(0),
 		bindBoneInfo(0), targetCell(0), isBind(false)
 	{
 		myPartState = s;
@@ -92,6 +94,12 @@ public:
 	}
 
 	void    updateTransformMesh();            //再生時用　（バインドされたボーンに沿って変形を行う）
+
+	//デフォーム関連
+	FVector getOffsetWorldVerticesFromKey(int index);
+	void	setOffsetWorldVertices(int index, const FVector & v);
+	FVector2D getOffsetLocalVertices(int index);
+
 
 /*
 	void	renderVertex();

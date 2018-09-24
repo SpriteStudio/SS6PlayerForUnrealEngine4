@@ -68,6 +68,7 @@ void	SsPartState::init()
 	inheritRates = 0; 
 
 	is_localAlpha = false;
+	is_defrom = false;
 	
 	effectValue.independent = false;
 	effectValue.loopflag = 0;
