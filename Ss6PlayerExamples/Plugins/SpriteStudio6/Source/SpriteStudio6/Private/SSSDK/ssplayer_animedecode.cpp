@@ -14,7 +14,6 @@
 #include "ssInterpolation.h"
 
 //stdでののforeach宣言　
-#define USE_TRIANGLE_FIN (0)
 
 #pragma warning(disable:4456)
 #pragma warning(disable:4458)
@@ -1123,29 +1122,29 @@ void	SsAnimeDecoder::updateVertices(FSsPart* part , FSsPartAnime* anime , SsPart
 	//きれいな頂点変形に対応
 #if USE_TRIANGLE_FIN
 
-	if ( state->is_color_blend || state->is_vertex_transform )
+	if ( state->is_parts_color || state->is_vertex_transform )
 	{
 
-		SsVector2	vertexCoordinateLU = SsVector2( sx + (float)vtxOfs[0].x , sy + (float)vtxOfs[0].y );// : 左上頂点座標（ピクセル座標系）
-		SsVector2	vertexCoordinateRU = SsVector2( ex + (float)vtxOfs[1].x , sy + (float)vtxOfs[1].y );// : 右上頂点座標（ピクセル座標系）
-		SsVector2	vertexCoordinateLD = SsVector2( sx + (float)vtxOfs[2].x , ey + (float)vtxOfs[2].y );// : 左下頂点座標（ピクセル座標系）
-		SsVector2	vertexCoordinateRD = SsVector2( ex + (float)vtxOfs[3].x , ey + (float)vtxOfs[3].y );// : 右下頂点座標（ピクセル座標系）
+		FVector2D	vertexCoordinateLU = FVector2D( sx + (float)vtxOfs[0].X , sy + (float)vtxOfs[0].Y );// : 左上頂点座標（ピクセル座標系）
+		FVector2D	vertexCoordinateRU = FVector2D( ex + (float)vtxOfs[1].X , sy + (float)vtxOfs[1].Y );// : 右上頂点座標（ピクセル座標系）
+		FVector2D	vertexCoordinateLD = FVector2D( sx + (float)vtxOfs[2].X , ey + (float)vtxOfs[2].Y );// : 左下頂点座標（ピクセル座標系）
+		FVector2D	vertexCoordinateRD = FVector2D( ex + (float)vtxOfs[3].X , ey + (float)vtxOfs[3].Y );// : 右下頂点座標（ピクセル座標系）
 
-		SsVector2 CoordinateLURU = (vertexCoordinateLU + vertexCoordinateRU) * 0.5f;
-		SsVector2 CoordinateLULD = (vertexCoordinateLU + vertexCoordinateLD) * 0.5f;
-		SsVector2 CoordinateLDRD = (vertexCoordinateLD + vertexCoordinateRD) * 0.5f;
-		SsVector2 CoordinateRURD = (vertexCoordinateRU + vertexCoordinateRD) * 0.5f;
+		FVector2D CoordinateLURU = (vertexCoordinateLU + vertexCoordinateRU) * 0.5f;
+		FVector2D CoordinateLULD = (vertexCoordinateLU + vertexCoordinateLD) * 0.5f;
+		FVector2D CoordinateLDRD = (vertexCoordinateLD + vertexCoordinateRD) * 0.5f;
+		FVector2D CoordinateRURD = (vertexCoordinateRU + vertexCoordinateRD) * 0.5f;
 
-		SsVector2 center;
+		FVector2D center;
 		CoordinateGetDiagonalIntersection( center , CoordinateLURU, CoordinateRURD, CoordinateLULD, CoordinateLDRD );
 
-		SsVector2*	coodinatetable[] = { &vertexCoordinateLU , &vertexCoordinateRU , &vertexCoordinateLD , &vertexCoordinateRD , &center };
+		FVector2D*	coodinatetable[] = { &vertexCoordinateLU , &vertexCoordinateRU , &vertexCoordinateLD , &vertexCoordinateRD , &center };
 
 
 		for (int i = 0; i < 5; ++i)
 		{
-			state->vertices[ i * 3 ] = coodinatetable[i]->x;
-			state->vertices[ i * 3 + 1 ] = coodinatetable[i]->y;
+			state->vertices[ i * 3 ] = coodinatetable[i]->X;
+			state->vertices[ i * 3 + 1 ] = coodinatetable[i]->Y;
 			state->vertices[ i * 3 + 2]	= 0;
 		}
 	}else{

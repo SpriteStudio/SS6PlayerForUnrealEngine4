@@ -18,6 +18,11 @@ class SsCelMapLinker;
 class SsMeshAnimator;
 
 
+//きれいな頂点変形に対応する場合は1にする。
+//４ポリゴンで変形します。
+//0の場合はZ型の２ポリゴンで変形します。
+#define USE_TRIANGLE_FIN (1)
+
 //パーツとアニメを関連付ける
 typedef TPair<FSsPart*, FSsPartAnime*> SsPartAndAnime;
 
