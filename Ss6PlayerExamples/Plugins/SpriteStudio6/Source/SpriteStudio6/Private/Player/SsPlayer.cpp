@@ -204,22 +204,36 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 	// 水平反転 
 	if(bFlipH)
 	{
-		for(int32 i = 0; i < RenderParts.Num(); ++i)
+		for(auto ItPart = RenderParts.CreateIterator(); ItPart; ++ItPart)
 		{
-			for(int32 v = 0; v < 4; ++v)
+			for(auto ItVert = ItPart->Vertices.CreateIterator(); ItVert; ++ItVert)
 			{
-				RenderParts[i].Vertices[v].Position.X = 1.f - RenderParts[i].Vertices[v].Position.X;
+				ItVert->Position.X = 1.f - ItVert->Position.X;
+			}
+			for(auto ItMesh = ItPart->Mesh.CreateIterator(); ItMesh; ++ItMesh)
+			{
+				for(auto ItVert = ItMesh->Vertices.CreateIterator(); ItVert; ++ItVert)
+				{
+					ItVert->Position.X = 1.f - ItVert->Position.X;
+				}
 			}
 		}
 	}
 	// 垂直反転 
 	if(bFlipV)
 	{
-		for(int32 i = 0; i < RenderParts.Num(); ++i)
+		for(auto ItPart = RenderParts.CreateIterator(); ItPart; ++ItPart)
 		{
-			for(int32 v = 0; v < 4; ++v)
+			for(auto ItVert = ItPart->Vertices.CreateIterator(); ItVert; ++ItVert)
 			{
-				RenderParts[i].Vertices[v].Position.Y = 1.f - RenderParts[i].Vertices[v].Position.Y;
+				ItVert->Position.Y = 1.f - ItVert->Position.Y;
+			}
+			for(auto ItMesh = ItPart->Mesh.CreateIterator(); ItMesh; ++ItMesh)
+			{
+				for(auto ItVert = ItMesh->Vertices.CreateIterator(); ItVert; ++ItVert)
+				{
+					ItVert->Position.Y = 1.f - ItVert->Position.Y;
+				}
 			}
 		}
 	}
