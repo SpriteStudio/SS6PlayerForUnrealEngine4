@@ -289,6 +289,7 @@ int32 SSsPlayerWidget::OnPaint(
 		if((0 < RenderParts_OffScreen.Num()) && (nullptr != OffScreenBrush.Get()))
 		{
 			FSsRenderPartWithSlateBrush Part;
+			Part.Vertices.AddUninitialized(4);
 			Part.PartIndex = -1;
 			Part.Vertices[0].Position.X = 0.f;
 			Part.Vertices[0].Position.Y = 0.f;
@@ -368,7 +369,7 @@ int32 SSsPlayerWidget::OnPaint(
 						{
 							if(Children[ChildIndex].ReflectPartAlphaAttr.Get())
 							{
-								for(int32 v = 0; v < 4; ++v)
+								for(int32 v = 0; v < It->Vertices.Num(); ++v)
 								{
 									Alpha = FMath::Min<float>(Alpha, (float)It->Vertices[v].Color.A / 255.f);
 								}
@@ -385,7 +386,7 @@ int32 SSsPlayerWidget::OnPaint(
 						{
 							if(Children[ChildIndex].ReflectPartAlphaAttr.Get())
 							{
-								for(int32 v = 0; v < 4; ++v)
+								for(int32 v = 0; v < It->Vertices.Num(); ++v)
 								{
 									Alpha = FMath::Min<float>(Alpha, (float)It->Vertices[v].Color.A / 255.f);
 								}
@@ -465,14 +466,37 @@ void SSsPlayerWidget::PaintInternal(
 		// 通常パーツ 
 		if(0 == It->Mesh.Num())
 		{
-			RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-			RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
-			RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
-			RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-			RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
-			RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
+			check((4 == It->Vertices.Num()) || (5 == It->Vertices.Num()));
+			if(4 == It->Vertices.Num())
+			{
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
 
-			for (int32 i = 0; i < 4; ++i)
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
+			}
+			else
+			{
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
+				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+			}
+
+			for (int32 i = 0; i < It->Vertices.Num(); ++i)
 			{
 				FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
 					FVector2D(
@@ -480,8 +504,8 @@ void SSsPlayerWidget::PaintInternal(
 						It->Vertices[i].Position.Y * LocalSize.Y
 						));
 				FSlateVertex Vert;
-				Vert.Position[0] = TransPosition.X;
-				Vert.Position[1] = TransPosition.Y;
+				Vert.Position.X = TransPosition.X;
+				Vert.Position.Y = TransPosition.Y;
 				Vert.TexCoords[0] = It->Vertices[i].TexCoord.X;
 				Vert.TexCoords[1] = It->Vertices[i].TexCoord.Y;
 				Vert.TexCoords[2] = 0.f;
@@ -513,8 +537,8 @@ void SSsPlayerWidget::PaintInternal(
 							ItVertex->Position.Y * LocalSize.Y
 						));
 					FSlateVertex Vert;
-					Vert.Position[0] = TransPosition.X;
-					Vert.Position[1] = TransPosition.Y;
+					Vert.Position.X = TransPosition.X;
+					Vert.Position.Y = TransPosition.Y;
 					Vert.TexCoords[0] = ItVertex->TexCoord.X;
 					Vert.TexCoords[1] = ItVertex->TexCoord.Y;
 					Vert.TexCoords[2] = 0.f;

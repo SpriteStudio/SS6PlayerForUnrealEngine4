@@ -210,6 +210,26 @@ namespace
 
 		return Result;
 	}
+	bool CheckNeedCenterVertex(const FSsAnimePack& AnimePack, const FSsPart& Part)
+	{
+		for(auto ItAnime = AnimePack.AnimeList.CreateConstIterator(); ItAnime; ++ItAnime)
+		{
+			for(auto ItPartAnime = ItAnime->PartAnimes.CreateConstIterator(); ItPartAnime; ++ItPartAnime)
+			{
+				if(Part.PartName == ItPartAnime->PartName)
+				{
+					for(auto ItAttr = ItPartAnime->Attributes.CreateConstIterator(); ItAttr; ++ItAttr)
+					{
+						if((SsAttributeKind::Vertex == ItAttr->Tag) || (SsAttributeKind::PartsColor == ItAttr->Tag))
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 	void CalcVertexAndIndexNum_Recursive(const USs6Project& Proj, const FSsAnimePack& AnimePack, uint32& OutVertexNum, uint32& OutIndexNum)
 	{
 		for(auto ItPart = AnimePack.Model.PartList.CreateConstIterator(); ItPart; ++ItPart)
@@ -219,8 +239,16 @@ namespace
 				case SsPartType::Normal:
 				case SsPartType::Mask:
 					{
-						OutVertexNum += 4;
-						OutIndexNum  += 6;
+						if(CheckNeedCenterVertex(AnimePack, *ItPart))
+						{
+							OutVertexNum += 5;
+							OutIndexNum  += 12;
+						}
+						else
+						{
+							OutVertexNum += 4;
+							OutIndexNum  += 6;
+						}
 					} break;
 				case SsPartType::Instance:
 					{

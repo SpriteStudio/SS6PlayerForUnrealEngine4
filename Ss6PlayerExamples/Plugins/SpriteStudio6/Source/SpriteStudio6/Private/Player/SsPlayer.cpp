@@ -448,9 +448,11 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	// 通常パーツ/マスクパーツ 
 	if(State->partType != SsPartType::Mesh)
 	{
+		const int32 VertCnt = (State->is_vertex_transform || State->is_parts_color) ? 5 : 4;
+
 		// 頂点座標
-		FVector2D Vertices2D[4];
-		for(int i = 0; i < 4; ++i)
+		FVector2D Vertices2D[5];
+		for(int i = 0; i < VertCnt; ++i)
 		{
 			FVector4 V = ViewMatrix.TransformPosition(FVector(
 				State->vertices[i*3 + 0],
@@ -483,10 +485,21 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		}
 
 		// UV
-		FVector2D UVs[4];
+		FVector2D UVs[5];
 		for(int i = 0; i < 4; ++i)
 		{
 			UVs[i] = FVector2D(State->cellValue.uvs[i].X + State->uvs[i*2 + 0] + State->uvTranslate.X, State->cellValue.uvs[i].Y + State->uvs[i*2 + 1] + State->uvTranslate.Y);
+		}
+		if(5 <= VertCnt)
+		{
+			UVs[4].X = UVs[4].Y = 0.f;
+			for(int32 i = 0; i < 4; ++i)
+			{
+				UVs[4].X += UVs[i].X;
+				UVs[4].Y += UVs[i].Y;
+			}
+			UVs[4].X /= 4.f;
+			UVs[4].Y /= 4.f;
 		}
 		if(1.f != State->uvScale.X)
 		{
@@ -503,7 +516,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			FVector2D UVCenter((UVs[1].X - UVs[0].X) / 2.f + UVs[0].X, (UVs[2].Y - UVs[0].Y) / 2.f + UVs[0].Y);
 			float S = FMath::Sin(FMath::DegreesToRadians(State->uvRotation));
 			float C = FMath::Cos(FMath::DegreesToRadians(State->uvRotation));
-			for(int i = 0; i < 4; ++i)
+			for(int i = 0; i < VertCnt; ++i)
 			{
 				UVs[i] -= UVCenter;
 				UVs[i] = FVector2D(
@@ -547,8 +560,8 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		}
 
 		// 頂点カラー 
-		FColor VertexColors[4];
-		float ColorBlendRate[4];
+		FColor VertexColors[5];
+		float ColorBlendRate[5];
 		if(State->is_parts_color)
 		{
 			if(State->partsColorValue.target == SsColorBlendTarget::Whole)
@@ -560,7 +573,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				VertexColors[0].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
 				ColorBlendRate[0] = cbv.rate;
 
-				for(int32 i = 1; i < 4; ++i)
+				for(int32 i = 1; i < VertCnt; ++i)
 				{
 					VertexColors[i] = VertexColors[0];
 					ColorBlendRate[i] = cbv.rate;
@@ -577,11 +590,29 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 					VertexColors[i].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
 					ColorBlendRate[i] = cbv.rate;
 				}
+				if( 5 <= VertCnt)
+				{
+					uint32 R(0), G(0), B(0), A(0);
+					float Rate(0.f);
+					for (int i = 0; i < 4; i++)
+					{
+						R += State->partsColorValue.colors[i].rgba.r;
+						G += State->partsColorValue.colors[i].rgba.g;
+						B += State->partsColorValue.colors[i].rgba.b;
+						A += State->partsColorValue.colors[i].rgba.a;
+						Rate += State->partsColorValue.colors[i].rate;
+					}
+					VertexColors[4].R = R / 4;
+					VertexColors[4].G = G / 4;
+					VertexColors[4].B = B / 4;
+					VertexColors[4].A = A / 4;
+					ColorBlendRate[4] = Rate / 4.f;
+				}
 			}
 		}
 		else
 		{
-			for(int32 i = 0; i < 4; ++i)
+			for(int32 i = 0; i < VertCnt; ++i)
 			{
 				VertexColors[i] = FColor(255, 255, 255, (uint8)(255 * Alpha * HideAlpha));
 				ColorBlendRate[i] = 1.f;
@@ -591,13 +622,14 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		if(State->partType == SsPartType::Mask)
 		{
 			OutRenderPart.ColorBlendType = SsBlendType::Mask;
-			for(int32 i = 0; i < 4; ++i)
+			for(int32 i = 0; i < VertCnt; ++i)
 			{
 				VertexColors[i].A = State->masklimen;
 			}
 		}
 
-		for(int32 i = 0; i < 4; ++i)
+		OutRenderPart.Vertices.AddUninitialized(VertCnt);
+		for(int32 i = 0; i < VertCnt; ++i)
 		{
 			OutRenderPart.Vertices[i].Position = FVector2D(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
 			OutRenderPart.Vertices[i].TexCoord = UVs[i];
@@ -816,6 +848,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						FVector((dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
 					};
 
+					RenderPart.Vertices.AddUninitialized(4);
 					for (int32 i = 0; i < 4; ++i)
 					{
 						FVector4 V = ViewMatrix.TransformPosition(Vertices[i]);

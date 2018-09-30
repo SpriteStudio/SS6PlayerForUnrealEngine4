@@ -388,7 +388,8 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 						// 通常パーツ 
 						else if(0 == ItPart->Mesh.Num())
 						{
-							for(int32 v = 0; v < 4; ++v)
+							check((4 == ItPart->Vertices.Num()) || (5 == ItPart->Vertices.Num()));
+							for(int32 v = 0; v < ItPart->Vertices.Num(); ++v)
 							{
 								Vertex.Position = FVector(
 									0.f,
@@ -401,15 +402,39 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 								RenderVertices.Add(Vertex);
 							}
 
-							RenderIndices.Add(VertexCnt + 0);
-							RenderIndices.Add(VertexCnt + 1);
-							RenderIndices.Add(VertexCnt + 3);
-							RenderIndices.Add(VertexCnt + 0);
-							RenderIndices.Add(VertexCnt + 3);
-							RenderIndices.Add(VertexCnt + 2);
+							if(4 == ItPart->Vertices.Num())
+							{
+								RenderIndices.Add(VertexCnt + 0);
+								RenderIndices.Add(VertexCnt + 1);
+								RenderIndices.Add(VertexCnt + 3);
 
-							VertexCnt += 4;
-							IndexCnt  += 6;
+								RenderIndices.Add(VertexCnt + 0);
+								RenderIndices.Add(VertexCnt + 3);
+								RenderIndices.Add(VertexCnt + 2);
+
+								IndexCnt += 6;
+							}
+							else
+							{
+								RenderIndices.Add(VertexCnt + 0);
+								RenderIndices.Add(VertexCnt + 1);
+								RenderIndices.Add(VertexCnt + 4);
+
+								RenderIndices.Add(VertexCnt + 1);
+								RenderIndices.Add(VertexCnt + 3);
+								RenderIndices.Add(VertexCnt + 4);
+
+								RenderIndices.Add(VertexCnt + 3);
+								RenderIndices.Add(VertexCnt + 2);
+								RenderIndices.Add(VertexCnt + 4);
+
+								RenderIndices.Add(VertexCnt + 2);
+								RenderIndices.Add(VertexCnt + 0);
+								RenderIndices.Add(VertexCnt + 4);
+
+								IndexCnt += 12;
+							}
+							VertexCnt += ItPart->Vertices.Num();
 						}
 						// メッシュパーツ 
 						else
@@ -459,8 +484,17 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 						// 通常パーツ 
 						else if(0 == RenderParts[i].Mesh.Num())
 						{
-							VertexCnt += 4;
-							IndexCnt  += 6;
+							check((4 == RenderParts[i].Vertices.Num()) || (5 == RenderParts[i].Vertices.Num()));
+							if(4 == RenderParts[i].Vertices.Num())
+							{
+								VertexCnt += 4;
+								IndexCnt  += 6;
+							}
+							else
+							{
+								VertexCnt += 5;
+								IndexCnt  += 12;
+							}
 						}
 						// メッシュパーツ 
 						else

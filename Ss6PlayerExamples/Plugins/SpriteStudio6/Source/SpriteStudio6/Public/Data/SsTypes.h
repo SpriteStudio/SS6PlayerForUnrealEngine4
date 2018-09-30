@@ -779,7 +779,7 @@ struct FSsRenderMesh
 struct FSsRenderPart
 {
 	int32 PartIndex;
-	FSsRenderVertex Vertices[4];
+	TArray<FSsRenderVertex> Vertices;
 	TArray<FSsRenderMesh> Mesh;		// (0 < Mesh.Num()) の場合はメッシュパーツとして扱い、Verticesは参照しない 
 	UTexture* Texture;
 	SsBlendType::Type AlphaBlendType;
@@ -789,10 +789,7 @@ struct FSsRenderPart
 	void CopyFrom(const FSsRenderPart* Other)
 	{
 		PartIndex = Other->PartIndex;
-		Vertices[0] = Other->Vertices[0];
-		Vertices[1] = Other->Vertices[1];
-		Vertices[2] = Other->Vertices[2];
-		Vertices[3] = Other->Vertices[3];
+		Vertices = Other->Vertices;
 		Mesh = Other->Mesh;
 		Texture = Other->Texture;
 		AlphaBlendType = Other->AlphaBlendType;

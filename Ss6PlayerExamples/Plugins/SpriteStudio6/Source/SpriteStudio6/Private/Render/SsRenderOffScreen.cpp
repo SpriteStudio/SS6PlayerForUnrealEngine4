@@ -297,8 +297,17 @@ namespace
 			uint32 NumRenderIndices  = 0;
 			if(0 == RenderPart.Mesh.Num())
 			{
-				NumRenderVertices = 4;
-				NumRenderIndices  = 6;
+				check((4 == RenderPart.Vertices.Num()) || (5 == RenderPart.Vertices.Num()));
+				if(4 == RenderPart.Vertices.Num())
+				{
+					NumRenderVertices = 4;
+					NumRenderIndices  = 6;
+				}
+				else
+				{
+					NumRenderVertices = 5;
+					NumRenderIndices  = 12;
+				}
 			}
 			else
 			{
@@ -415,7 +424,7 @@ namespace
 					// 通常パーツ/マスクパーツ 
 					if(0 == ItPart->Mesh.Num())
 					{
-						for(int32 v = 0; v < 4; ++v)
+						for(int32 v = 0; v < ItPart->Vertices.Num(); ++v)
 						{
 							FVector4 Position(
 								ItPart->Vertices[v].Position.X * SurfaceWidth,
@@ -492,15 +501,42 @@ namespace
 					// 通常パーツ/マスクパーツ 
 					if(0 == ItPart->Mesh.Num())
 					{
-						check((IndexCnt + 6) <= (int32)RenderParts.IndexBuffer->IndexNum);
-						((uint32*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
-						((uint32*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
-						((uint32*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
-						((uint32*)IndicesPtr)[IndexCnt + 3] = VertexCnt + 0;
-						((uint32*)IndicesPtr)[IndexCnt + 4] = VertexCnt + 3;
-						((uint32*)IndicesPtr)[IndexCnt + 5] = VertexCnt + 2;
-						VertexCnt += 4;
-						IndexCnt  += 6;
+						check((4 == ItPart->Vertices.Num()) || (5 == ItPart->Vertices.Num()));
+						if(4 == ItPart->Vertices.Num())
+						{
+							check((IndexCnt + 6) <= (int32)RenderParts.IndexBuffer->IndexNum);
+							((uint32*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
+							((uint32*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
+							((uint32*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
+
+							((uint32*)IndicesPtr)[IndexCnt + 3] = VertexCnt + 0;
+							((uint32*)IndicesPtr)[IndexCnt + 4] = VertexCnt + 3;
+							((uint32*)IndicesPtr)[IndexCnt + 5] = VertexCnt + 2;
+
+							VertexCnt += 4;
+							IndexCnt  += 6;
+						}
+						else
+						{
+							((uint32*)IndicesPtr)[IndexCnt +  0] = VertexCnt + 0;
+							((uint32*)IndicesPtr)[IndexCnt +  1] = VertexCnt + 1;
+							((uint32*)IndicesPtr)[IndexCnt +  2] = VertexCnt + 4;
+
+							((uint32*)IndicesPtr)[IndexCnt +  3] = VertexCnt + 1;
+							((uint32*)IndicesPtr)[IndexCnt +  4] = VertexCnt + 3;
+							((uint32*)IndicesPtr)[IndexCnt +  5] = VertexCnt + 4;
+
+							((uint32*)IndicesPtr)[IndexCnt +  6] = VertexCnt + 3;
+							((uint32*)IndicesPtr)[IndexCnt +  7] = VertexCnt + 2;
+							((uint32*)IndicesPtr)[IndexCnt +  8] = VertexCnt + 4;
+
+							((uint32*)IndicesPtr)[IndexCnt +  9] = VertexCnt + 2;
+							((uint32*)IndicesPtr)[IndexCnt + 10] = VertexCnt + 0;
+							((uint32*)IndicesPtr)[IndexCnt + 11] = VertexCnt + 4;
+
+							VertexCnt += 5;
+							IndexCnt  += 12;
+						}
 					}
 					// メッシュパーツ 
 					else
@@ -566,8 +602,17 @@ namespace
 			// 通常パーツ 
 			if(0 == RenderPart.Mesh.Num())
 			{
-				NumRenderVertices += 4;
-				NumRenderIndices  += 6;
+				check((4 == RenderPart.Vertices.Num()) || (5 == RenderPart.Vertices.Num()));
+				if(4 == RenderPart.Vertices.Num())
+				{
+					NumRenderVertices += 4;
+					NumRenderIndices  += 6;
+				}
+				else
+				{
+					NumRenderVertices += 5;
+					NumRenderIndices  += 12;
+				}
 			}
 			// メッシュパーツ 
 			else
