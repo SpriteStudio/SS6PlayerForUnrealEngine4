@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<SpriteStudioProject version="2.00.00">
+<SpriteStudioProject version="2.00.01">
 	<name>allAttributeV6</name>
 	<exportPath></exportPath>
 	<settings>
@@ -28,7 +28,7 @@
 			<reverseZRotSignForNegativeScale>1</reverseZRotSignForNegativeScale>
 			<numberOfPivotDecimals>0</numberOfPivotDecimals>
 		</ssaxExport>
-		<player>custom</player>
+		<player>any</player>
 		<strictVer4>0</strictVer4>
 		<dontUseMatrixForTransform>0</dontUseMatrixForTransform>
 		<rootPartFunctionAsVer4>0</rootPartFunctionAsVer4>
@@ -125,6 +125,7 @@
 		<convertImageToPMA>0</convertImageToPMA>
 		<blendImageAsPMA>0</blendImageAsPMA>
 		<unpremultiplyAlpha>0</unpremultiplyAlpha>
+		<vertexAnimeFloat>0</vertexAnimeFloat>
 	</settings>
 	<animeSettings>
 		<fps>60</fps>
@@ -138,6 +139,22 @@
 		<ik_depth>3</ik_depth>
 		<startFrame>0</startFrame>
 		<endFrame>59</endFrame>
+		<bgSettings>
+			<value>
+				<imagePath></imagePath>
+				<imageDisp>1</imageDisp>
+				<imageOffset>0 0</imageOffset>
+				<imageCanvas>0 0</imageCanvas>
+				<imagePivot>0 0</imagePivot>
+			</value>
+			<value>
+				<imagePath></imagePath>
+				<imageDisp>1</imageDisp>
+				<imageOffset>0 0</imageOffset>
+				<imageCanvas>0 0</imageCanvas>
+				<imagePivot>0 0</imagePivot>
+			</value>
+		</bgSettings>
 		<outStartNum>0</outStartNum>
 	</animeSettings>
 	<texPackSettings>
@@ -154,6 +171,8 @@
 		<value>alpha.ssae</value>
 		<value>boundr.ssae</value>
 		<value>cell.ssae</value>
+		<value>deform.ssae</value>
+		<value>deform_bone.ssae</value>
 		<value>effect.ssae</value>
 		<value>hide.ssae</value>
 		<value>imgflip.ssae</value>
@@ -180,11 +199,12 @@
 	<effectFileNames>
 		<value>NewEffect.ssee</value>
 	</effectFileNames>
-	<lastAnimeFile>userdata.ssae</lastAnimeFile>
+	<lastAnimeFile>partsColor.ssae</lastAnimeFile>
 	<lastAnimeName>anime_1</lastAnimeName>
+	<lastPart></lastPart>
 	<lastCellMapFile>color_bar.ssce</lastCellMapFile>
+	<lastCell>NewCell_9</lastCell>
 	<lastEffectFile>NewEffect.ssee</lastEffectFile>
-	<lastCell>NewCell</lastCell>
-	<lastPart>NewCell_2</lastPart>
 	<setupmode>0</setupmode>
+	<expandAnimation />
 </SpriteStudioProject>

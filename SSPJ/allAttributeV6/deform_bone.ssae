@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioAnimePack version="2.00.03">
+	<settings>
+		<fps>30</fps>
+		<frameCount>11</frameCount>
+		<sortMode>prio</sortMode>
+		<canvasSize>320 320</canvasSize>
+		<pivot>0 0</pivot>
+		<bgColor>FF323232</bgColor>
+		<gridSize>32</gridSize>
+		<gridColor>FF808080</gridColor>
+		<ik_depth>3</ik_depth>
+		<startFrame>0</startFrame>
+		<endFrame>10</endFrame>
+		<outStartNum>0</outStartNum>
+		<frontImagePath></frontImagePath>
+		<frontImageDisp>1</frontImageDisp>
+		<frontImageOffset>0 0</frontImageOffset>
+		<frontImageCanvas>0 0</frontImageCanvas>
+		<frontImagePivot>0 0</frontImagePivot>
+		<backImagePath></backImagePath>
+		<backImageDisp>1</backImageDisp>
+		<backImageOffset>0 0</backImageOffset>
+		<backImageCanvas>0 0</backImageCanvas>
+		<backImagePivot>0 0</backImagePivot>
+	</settings>
+	<name>deform_bone</name>
+	<exportPath></exportPath>
+	<Model>
+		<partList>
+			<value>
+				<name>root</name>
+				<arrayIndex>0</arrayIndex>
+				<parentIndex>-1</parentIndex>
+				<type>null</type>
+				<boundsType>none</boundsType>
+				<inheritType>self</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>joint_1</name>
+				<arrayIndex>1</arrayIndex>
+				<parentIndex>0</parentIndex>
+				<type>joint</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>bone_1</name>
+				<arrayIndex>2</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>armature</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<colorLabel>FFFF0000</colorLabel>
+				<refCellTag></refCellTag>
+				<boneLength>17</boneLength>
+				<bonePosition>0 0</bonePosition>
+				<boneRotation>90</boneRotation>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>bone_2</name>
+				<arrayIndex>3</arrayIndex>
+				<parentIndex>2</parentIndex>
+				<type>armature</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<colorLabel>FFFF007F</colorLabel>
+				<refCellTag></refCellTag>
+				<boneLength>19</boneLength>
+				<bonePosition>17 0</bonePosition>
+				<boneRotation>0</boneRotation>
+				<maskInfluence>1</maskInfluence>
+			</value>
+			<value>
+				<name>NewCell_17</name>
+				<arrayIndex>4</arrayIndex>
+				<parentIndex>1</parentIndex>
+				<type>mesh</type>
+				<boundsType>none</boundsType>
+				<inheritType>parent</inheritType>
+				<meshWeightType>0</meshWeightType>
+				<meshWeightStrong>3</meshWeightStrong>
+				<ineheritRates>
+					<ALPH>1</ALPH>
+					<IFLH>0</IFLH>
+					<IFLV>0</IFLV>
+					<FLPH>0</FLPH>
+					<FLPV>0</FLPV>
+					<HIDE>0</HIDE>
+				</ineheritRates>
+				<alphaBlendType>mix</alphaBlendType>
+				<show>1</show>
+				<locked>0</locked>
+				<expandAttribute>0</expandAttribute>
+				<expandChildren>1</expandChildren>
+				<refCellTag></refCellTag>
+				<maskInfluence>1</maskInfluence>
+			</value>
+		</partList>
+		<boneList>
+			<item key="bone_1">0</item>
+			<item key="bone_2">1</item>
+		</boneList>
+		<meshList>
+			<value>2 0 73 -33.00 33.00 1 27 -50.00 33.00,2 0 76 -27.00 28.00 1 24 -44.00 28.00,2 0 78 -33.00 17.00 1 22 -50.00 17.00,2 0 75 -16.00 33.00 1 25 -33.00 33.00,2 0 82 -16.00 21.00 1 18 -33.00 21.00,2 0 81 -27.00 17.00 1 19 -44.00 17.00,2 0 84 -25.00 6.00 1 16 -42.00 6.00,2 0 81 -33.00 0.00 1 19 -50.00 0.00,2 0 86 -23.00 -5.00 1 14 -40.00 -5.00,2 0 79 -33.00 -16.00 1 21 -50.00 -16.00,2 0 83 -22.00 -16.00 1 17 -39.00 -16.00,2 0 85 -15.00 -17.00 1 15 -32.00 -17.00,2 0 78 -16.00 -27.00 1 22 -33.00 -27.00,2 0 77 -27.00 -27.00 1 23 -44.00 -27.00,2 0 73 -33.00 -33.00 1 27 -50.00 -33.00,2 0 75 -17.00 -33.00 1 25 -34.00 -33.00,2 0 79 -6.00 -26.00 1 21 -23.00 -26.00,2 0 70 0.00 -33.00 1 30 -17.00 -33.00,2 0 85 -1.00 -20.00 1 15 -18.00 -20.00,2 0 87 -8.00 -18.00 1 13 -25.00 -18.00,2 0 93 -7.00 -9.00 1 7 -24.00 -9.00,2 0 90 -16.00 0.00 1 10 -33.00 0.00,2 0 88 -16.00 10.00 1 12 -33.00 10.00,2 0 93 -5.00 11.00 1 7 -22.00 11.00,2 0 79 -7.00 26.00 1 21 -24.00 26.00,2 0 70 0.00 33.00 1 30 -17.00 33.00,2 0 77 4.00 24.00 1 23 -13.00 24.00,2 0 90 3.00 15.00 1 10 -14.00 15.00,2 0 97 -3.00 4.00 1 3 -20.00 4.00,2 0 99 1.00 -2.00 1 1 -16.00 -2.00,2 0 97 5.00 -9.00 1 3 -12.00 -9.00,1 0 100 11.00 0.00,2 0 95 10.00 9.00 1 5 -7.00 9.00,2 0 5 22.00 5.00 1 95 5.00 5.00,2 0 2 24.00 -6.00 1 98 7.00 -6.00,2 0 39 19.00 -13.00 1 61 2.00 -13.00,2 0 77 10.00 -18.00 1 23 -7.00 -18.00,2 0 66 9.00 -28.00 1 34 -8.00 -28.00,2 0 52 16.00 -33.00 1 48 -1.00 -33.00,2 0 52 17.00 -22.00 1 48 0.00 -22.00,2 0 16 28.00 -17.00 1 84 11.00 -17.00,2 0 12 33.00 -17.00 1 88 16.00 -17.00,2 0 30 28.00 -27.00 1 70 11.00 -27.00,2 0 31 33.00 -33.00 1 69 16.00 -33.00,2 0 1 33.00 -1.00 1 99 16.00 -1.00,2 0 9 33.00 15.00 1 91 16.00 15.00,2 0 28 22.00 16.00 1 72 5.00 16.00,2 0 72 12.00 18.00 1 28 -5.00 18.00,2 0 51 17.00 27.00 1 49 0.00 27.00,2 0 51 17.00 33.00 1 49 0.00 33.00,2 0 30 28.00 27.00 1 70 11.00 27.00,2 0 31 33.00 33.00 1 69 16.00 33.00,</value>
+		</meshList>
+	</Model>
+	<cellmapNames>
+		<value>color_bar.ssce</value>
+	</cellmapNames>
+	<animeList>
+		<anime>
+			<name>Setup</name>
+			<overrideSettings>1</overrideSettings>
+			<settings>
+				<fps>60</fps>
+				<frameCount>1</frameCount>
+				<sortMode>prio</sortMode>
+				<canvasSize>1280 720</canvasSize>
+				<pivot>0 0</pivot>
+				<bgColor>FF323232</bgColor>
+				<gridSize>32</gridSize>
+				<gridColor>FF808080</gridColor>
+				<ik_depth>3</ik_depth>
+				<startFrame>0</startFrame>
+				<endFrame>0</endFrame>
+				<outStartNum>0</outStartNum>
+				<frontImagePath></frontImagePath>
+				<frontImageDisp>1</frontImageDisp>
+				<frontImageOffset>0 0</frontImageOffset>
+				<frontImageCanvas>0 0</frontImageCanvas>
+				<frontImagePivot>0 0</frontImagePivot>
+				<backImagePath></backImagePath>
+				<backImageDisp>1</backImageDisp>
+				<backImageOffset>0 0</backImageOffset>
+				<backImageCanvas>0 0</backImageCanvas>
+				<backImagePivot>0 0</backImagePivot>
+			</settings>
+			<labels />
+			<isSetup>1</isSetup>
+			<partAnimes>
+				<partAnime>
+					<partName>root</partName>
+					<attributes>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>joint_1</partName>
+					<attributes>
+						<attribute tag="POSX">
+							<key time="0">
+								<value>-2.33333325386047</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0">
+								<value>-1.33333337306976</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLX">
+							<key time="0">
+								<value>3</value>
+							</key>
+						</attribute>
+						<attribute tag="SCLY">
+							<key time="0">
+								<value>3</value>
+							</key>
+						</attribute>
+						<attribute tag="PRIO">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>bone_1</partName>
+					<attributes>
+						<attribute tag="PRIO">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>bone_2</partName>
+					<attributes>
+						<attribute tag="PRIO">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>NewCell_17</partName>
+					<attributes>
+						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>0</mapId>
+									<name>NewCell_17</name>
+								</value>
+							</key>
+						</attribute>
+						<attribute tag="POSX">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="POSY">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="ROTZ">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="PRIO">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+			</partAnimes>
+		</anime>
+		<anime>
+			<name>anime_1</name>
+			<overrideSettings>1</overrideSettings>
+			<settings>
+				<fps>60</fps>
+				<frameCount>60</frameCount>
+				<sortMode>prio</sortMode>
+				<canvasSize>1280 720</canvasSize>
+				<pivot>0 0</pivot>
+				<bgColor>FF323232</bgColor>
+				<gridSize>32</gridSize>
+				<gridColor>FF808080</gridColor>
+				<ik_depth>3</ik_depth>
+				<startFrame>0</startFrame>
+				<endFrame>59</endFrame>
+				<outStartNum>0</outStartNum>
+				<frontImagePath></frontImagePath>
+				<frontImageDisp>1</frontImageDisp>
+				<frontImageOffset>0 0</frontImageOffset>
+				<frontImageCanvas>0 0</frontImageCanvas>
+				<frontImagePivot>0 0</frontImagePivot>
+				<backImagePath></backImagePath>
+				<backImageDisp>1</backImageDisp>
+				<backImageOffset>0 0</backImageOffset>
+				<backImageCanvas>0 0</backImageCanvas>
+				<backImagePivot>0 0</backImagePivot>
+			</settings>
+			<labels />
+			<isSetup>0</isSetup>
+			<partAnimes>
+				<partAnime>
+					<partName>root</partName>
+					<attributes>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>bone_1</partName>
+					<attributes>
+						<attribute tag="HIDE">
+							<key time="0">
+								<value>0</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>bone_2</partName>
+					<attributes>
+						<attribute tag="ROTZ">
+							<key time="0" ipType="linear">
+								<value>0</value>
+							</key>
+							<key time="59" ipType="linear">
+								<value>-67.7722549438477</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+				<partAnime>
+					<partName>NewCell_17</partName>
+					<attributes>
+						<attribute tag="DEFM">
+							<key time="0" ipType="linear">
+								<value>
+									<vsize>0</vsize>
+									<vchg>0 </vchg>
+								</value>
+							</key>
+							<key time="30" ipType="linear">
+								<value>
+									<vsize>52</vsize>
+									<vchg>6 0 -23.33 -15.00 14 21.33 -24.00 17 24.00 -1.67 25 -29.33 2.00 43 15.33 16.67 51 -17.33 15.33 </vchg>
+								</value>
+							</key>
+							<key time="59" ipType="linear">
+								<value>
+									<vsize>52</vsize>
+									<vchg>25 0 -23.33 -15.00 8 0.67 -10.67 10 5.00 -4.67 12 2.67 -6.67 13 8.33 -7.67 14 21.33 -24.00 16 9.00 -1.33 17 24.00 -1.67 18 15.33 -0.33 19 5.33 -3.33 20 3.00 -5.33 23 -6.33 -2.00 24 -9.33 0.33 25 -29.33 2.00 30 5.33 0.00 31 3.00 5.33 32 -1.33 3.33 33 3.67 9.33 34 1.33 4.33 37 7.00 -2.00 42 7.33 4.67 43 15.33 16.67 46 -4.67 5.67 47 -5.00 -0.67 51 -17.33 15.33 </vchg>
+								</value>
+							</key>
+						</attribute>
+					</attributes>
+				</partAnime>
+			</partAnimes>
+		</anime>
+	</animeList>
+</SpriteStudioAnimePack>

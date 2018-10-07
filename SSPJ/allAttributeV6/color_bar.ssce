@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<SpriteStudioCellMap version="1.00.00">
+<SpriteStudioCellMap version="2.00.00">
 	<name>color_bar</name>
 	<exportPath></exportPath>
+	<generator>SpriteStudio</generator>
+	<packed>0</packed>
 	<imagePath>color_bar.png</imagePath>
 	<pixelSize>256 256</pixelSize>
 	<overrideTexSettings>0</overrideTexSettings>
@@ -25,6 +27,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_1</name>
@@ -34,6 +42,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_10</name>
@@ -43,6 +57,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_11</name>
@@ -52,6 +72,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_12</name>
@@ -61,6 +87,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_13</name>
@@ -70,6 +102,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_14</name>
@@ -79,6 +117,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_15</name>
@@ -88,6 +132,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_16</name>
@@ -97,6 +147,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_2</name>
@@ -106,6 +162,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_3</name>
@@ -115,6 +177,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_4</name>
@@ -124,6 +192,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_5</name>
@@ -133,6 +207,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_6</name>
@@ -142,6 +222,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_7</name>
@@ -151,6 +237,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_8</name>
@@ -160,6 +252,12 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
 		</cell>
 		<cell>
 			<name>NewCell_9</name>
@@ -169,6 +267,221 @@
 			<rotated>0</rotated>
 			<orgImageName></orgImageName>
 			<posStable>0</posStable>
+			<ismesh>0</ismesh>
+			<divtype>unknown</divtype>
+			<innerPoint />
+			<outerPoint />
+			<meshPointList />
+			<meshTriList />
+		</cell>
+		<cell>
+			<name>NewCell_17</name>
+			<pos>96 176</pos>
+			<size>64 64</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+			<ismesh>1</ismesh>
+			<divtype>polyline</divtype>
+			<innerPoint>
+				<value>4 59</value>
+				<value>15 59</value>
+				<value>32 48</value>
+				<value>48 54</value>
+				<value>59 48</value>
+				<value>59 59</value>
+				<value>21 37</value>
+				<value>32 21</value>
+				<value>16 10</value>
+				<value>5 15</value>
+				<value>5 4</value>
+				<value>54 15</value>
+				<value>49 4</value>
+				<value>59 4</value>
+				<value>26 57</value>
+				<value>22 48</value>
+				<value>28 35</value>
+				<value>41 39</value>
+				<value>52 33</value>
+				<value>37 55</value>
+				<value>50 22</value>
+				<value>45 13</value>
+				<value>38 8</value>
+				<value>27 10</value>
+				<value>23 22</value>
+				<value>14 20</value>
+				<value>8 28</value>
+				<value>6 39</value>
+				<value>11 48</value>
+				<value>49 47</value>
+				<value>17 29</value>
+				<value>34 31</value>
+				<value>41 27</value>
+				<value>50 40</value>
+				<value>58 38</value>
+				<value>60 23</value>
+			</innerPoint>
+			<outerPoint>
+				<value>-1 -1</value>
+				<value>-1 15</value>
+				<value>-1 32</value>
+				<value>-1 48</value>
+				<value>-1 65</value>
+				<value>15 65</value>
+				<value>32 65</value>
+				<value>48 65</value>
+				<value>65 65</value>
+				<value>65 49</value>
+				<value>65 32</value>
+				<value>65 16</value>
+				<value>65 -1</value>
+				<value>49 -1</value>
+				<value>33 -1</value>
+				<value>17 -1</value>
+			</outerPoint>
+			<meshPointList>
+				<value>-1 65</value>
+				<value>4 59</value>
+				<value>15 65</value>
+				<value>-1 48</value>
+				<value>11 48</value>
+				<value>15 59</value>
+				<value>26 57</value>
+				<value>32 65</value>
+				<value>37 55</value>
+				<value>48 65</value>
+				<value>48 54</value>
+				<value>49 47</value>
+				<value>59 48</value>
+				<value>59 59</value>
+				<value>65 65</value>
+				<value>65 49</value>
+				<value>58 38</value>
+				<value>65 32</value>
+				<value>52 33</value>
+				<value>50 40</value>
+				<value>41 39</value>
+				<value>32 48</value>
+				<value>22 48</value>
+				<value>21 37</value>
+				<value>6 39</value>
+				<value>-1 32</value>
+				<value>8 28</value>
+				<value>17 29</value>
+				<value>28 35</value>
+				<value>34 31</value>
+				<value>41 27</value>
+				<value>32 21</value>
+				<value>23 22</value>
+				<value>27 10</value>
+				<value>38 8</value>
+				<value>45 13</value>
+				<value>50 22</value>
+				<value>60 23</value>
+				<value>65 16</value>
+				<value>54 15</value>
+				<value>49 4</value>
+				<value>49 -1</value>
+				<value>59 4</value>
+				<value>65 -1</value>
+				<value>33 -1</value>
+				<value>17 -1</value>
+				<value>16 10</value>
+				<value>14 20</value>
+				<value>5 15</value>
+				<value>-1 15</value>
+				<value>5 4</value>
+				<value>-1 -1</value>
+			</meshPointList>
+			<meshTriList>
+				<value>0 1 2</value>
+				<value>0 3 1</value>
+				<value>1 3 4</value>
+				<value>1 4 5</value>
+				<value>1 5 2</value>
+				<value>2 5 6</value>
+				<value>2 6 7</value>
+				<value>7 6 8</value>
+				<value>7 8 9</value>
+				<value>8 10 9</value>
+				<value>10 8 11</value>
+				<value>10 11 12</value>
+				<value>13 10 12</value>
+				<value>9 10 13</value>
+				<value>9 13 14</value>
+				<value>13 15 14</value>
+				<value>13 12 15</value>
+				<value>15 12 16</value>
+				<value>15 16 17</value>
+				<value>16 18 17</value>
+				<value>19 18 16</value>
+				<value>19 20 18</value>
+				<value>11 20 19</value>
+				<value>20 11 8</value>
+				<value>8 21 20</value>
+				<value>6 21 8</value>
+				<value>6 22 21</value>
+				<value>5 22 6</value>
+				<value>5 4 22</value>
+				<value>4 23 22</value>
+				<value>4 24 23</value>
+				<value>3 24 4</value>
+				<value>3 25 24</value>
+				<value>24 25 26</value>
+				<value>24 26 27</value>
+				<value>24 27 23</value>
+				<value>23 27 28</value>
+				<value>22 23 28</value>
+				<value>22 28 21</value>
+				<value>20 21 28</value>
+				<value>20 28 29</value>
+				<value>29 30 20</value>
+				<value>29 31 30</value>
+				<value>32 31 29</value>
+				<value>31 32 33</value>
+				<value>31 33 34</value>
+				<value>31 34 35</value>
+				<value>30 31 35</value>
+				<value>36 30 35</value>
+				<value>30 36 18</value>
+				<value>20 30 18</value>
+				<value>18 36 37</value>
+				<value>18 37 17</value>
+				<value>37 38 17</value>
+				<value>37 39 38</value>
+				<value>36 39 37</value>
+				<value>36 35 39</value>
+				<value>35 40 39</value>
+				<value>35 34 40</value>
+				<value>40 34 41</value>
+				<value>42 40 41</value>
+				<value>39 40 42</value>
+				<value>39 42 38</value>
+				<value>42 43 38</value>
+				<value>43 42 41</value>
+				<value>34 44 41</value>
+				<value>34 33 44</value>
+				<value>44 33 45</value>
+				<value>33 46 45</value>
+				<value>46 33 32</value>
+				<value>32 47 46</value>
+				<value>27 47 32</value>
+				<value>26 47 27</value>
+				<value>26 48 47</value>
+				<value>26 49 48</value>
+				<value>26 25 49</value>
+				<value>48 49 50</value>
+				<value>46 48 50</value>
+				<value>47 48 46</value>
+				<value>46 50 45</value>
+				<value>50 51 45</value>
+				<value>49 51 50</value>
+				<value>27 32 28</value>
+				<value>28 32 29</value>
+				<value>11 19 12</value>
+				<value>19 16 12</value>
+			</meshTriList>
 		</cell>
 	</cells>
 </SpriteStudioCellMap>
