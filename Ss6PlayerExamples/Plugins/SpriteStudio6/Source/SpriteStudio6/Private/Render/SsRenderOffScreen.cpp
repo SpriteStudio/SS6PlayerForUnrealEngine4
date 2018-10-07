@@ -227,10 +227,6 @@ namespace
 					// Effect
 					OutColorBlend.X = 5.01f;
 				} break;
-			case SsBlendType::MixVertex:
-				{
-					OutColorBlend.X = 6.01f;
-				} break;
 			case SsBlendType::Mask:
 				{
 					OutColorBlend.X = 0.01f;

@@ -427,9 +427,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 
 	OutRenderPart.PartIndex = State->index;
 	OutRenderPart.Texture = bHideParts ? nullptr : State->cellValue.texture;	// 座標計算だけを行う非表示パーツはテクスチャをNULLにしておき、これを基準に描画をスキップする. 
-	OutRenderPart.ColorBlendType = ((SsBlendType::Mix == State->partsColorValue.blendType) && (State->is_parts_color) && (State->partsColorValue.target == SsColorBlendTarget::Vertex))
-			? SsBlendType::MixVertex
-			: State->partsColorValue.blendType;
+	OutRenderPart.ColorBlendType = State->partsColorValue.blendType;
 	OutRenderPart.AlphaBlendType = State->alphaBlendType;
 	OutRenderPart.bMaskInfluence = State->maskInfluence;
 
@@ -581,26 +579,41 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			}
 			else
 			{
-				for(int32 i = 0; i < 4; ++i)
+				if(SsBlendType::Mix == State->partsColorValue.blendType)
 				{
-					const SsColorBlendValue& cbv = State->partsColorValue.colors[i];
-					VertexColors[i].R = cbv.rgba.r;
-					VertexColors[i].G = cbv.rgba.g;
-					VertexColors[i].B = cbv.rgba.b;
-					VertexColors[i].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
-					ColorBlendRate[i] = cbv.rate;
+					for(int32 i = 0; i < 4; ++i)
+					{
+						const SsColorBlendValue& cbv = State->partsColorValue.colors[i];
+						VertexColors[i].R = cbv.rgba.r;
+						VertexColors[i].G = cbv.rgba.g;
+						VertexColors[i].B = cbv.rgba.b;
+						VertexColors[i].A = (uint8)(255 * Alpha * HideAlpha);
+						ColorBlendRate[i] = (float)(cbv.rgba.a / 255.f);
+					}
 				}
-				if( 5 <= VertCnt)
+				else
+				{
+					for(int32 i = 0; i < 4; ++i)
+					{
+						const SsColorBlendValue& cbv = State->partsColorValue.colors[i];
+						VertexColors[i].R = cbv.rgba.r;
+						VertexColors[i].G = cbv.rgba.g;
+						VertexColors[i].B = cbv.rgba.b;
+						VertexColors[i].A = (uint8)(cbv.rgba.a * Alpha * HideAlpha);
+						ColorBlendRate[i] = cbv.rate;
+					}
+				}
+				if(5 <= VertCnt)
 				{
 					uint32 R(0), G(0), B(0), A(0);
 					float Rate(0.f);
 					for (int i = 0; i < 4; i++)
 					{
-						R += State->partsColorValue.colors[i].rgba.r;
-						G += State->partsColorValue.colors[i].rgba.g;
-						B += State->partsColorValue.colors[i].rgba.b;
-						A += State->partsColorValue.colors[i].rgba.a;
-						Rate += State->partsColorValue.colors[i].rate;
+						R += VertexColors[i].R;
+						G += VertexColors[i].G;
+						B += VertexColors[i].B;
+						A += VertexColors[i].A;
+						Rate += ColorBlendRate[i];
 					}
 					VertexColors[4].R = R / 4;
 					VertexColors[4].G = G / 4;

@@ -22,7 +22,6 @@ namespace
 			case SsBlendType::Sub: { return 3; }
 			case SsBlendType::Invalid:   { return 4; }
 			case SsBlendType::Effect:    { return 5; }
-			case SsBlendType::MixVertex: { return 6; }
 		}
 		check(false);
 		return 0;
@@ -70,7 +69,6 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartSub;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartInv;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartEffect;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartMixVertex;
 
 		FConstructorStatics()
 			: OffScreenBase(TEXT("/SpriteStudio6/SsMaterial_UMGDefault"))
@@ -80,7 +78,6 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 			, PartSub(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Sub"))
 			, PartInv(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Inv"))
 			, PartEffect(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Effect"))
-			, PartMixVertex(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_MixVertex"))
 		{}
 	};
 	static FConstructorStatics CS;
@@ -93,7 +90,6 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 	BasePartsMaterials[3] = CS.PartSub.Object;
 	BasePartsMaterials[4] = CS.PartInv.Object;
 	BasePartsMaterials[5] = CS.PartEffect.Object;
-	BasePartsMaterials[6] = CS.PartMixVertex.Object;
 }
 
 // Destroy 

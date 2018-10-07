@@ -307,7 +307,6 @@ namespace SsBlendType
 
 		// 以下、Playerでの処理分岐用 
 		Effect,			///    エフェクト用カラーブレンドタイプ
-		MixVertex,		///    カラーブレンドMixで頂点毎指定の場合
 		Mask,			///    マスクパーツ用
 
 		Num,

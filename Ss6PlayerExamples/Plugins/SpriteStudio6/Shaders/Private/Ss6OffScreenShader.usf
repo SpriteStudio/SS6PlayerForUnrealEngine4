@@ -65,18 +65,17 @@ float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, InTexCoord);
 
 	float ColorBlendRate = InColorBlend.y;
-	float4 BlendColor[7];
-	BlendColor[0] = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate);						// Mix(Whole)
+	float4 BlendColor[6];
+	BlendColor[0] = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate);						// Mix
 	BlendColor[1] = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate);		// Mul
 	BlendColor[2] = TextureColor + (InColor * ColorBlendRate);													// Add
 	BlendColor[3] = TextureColor - (InColor * ColorBlendRate);													// Sub
 	BlendColor[4] = TextureColor;																				// Invalid
 	BlendColor[5] = BlendColor[1] * TextureColor.a;																// Effect
-	BlendColor[6] = (TextureColor * (1.0 - InColor.a))     + (InColor * InColor.a);								// Mix(Vertex) 
 
 	uint ColorBlendType = uint(InColorBlend.x);
 	float4 OutColor = BlendColor[ColorBlendType];
-	OutColor.a = (6 != ColorBlendType) ? (TextureColor.a * InColor.a) : (TextureColor.a);
+	OutColor.a = TextureColor.a * InColor.a;
 
 	return OutColor;
 }
