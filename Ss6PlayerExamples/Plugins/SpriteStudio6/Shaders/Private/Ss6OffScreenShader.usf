@@ -76,7 +76,7 @@ float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 
 	uint ColorBlendType = uint(InColorBlend.x);
 	float4 OutColor = BlendColor[ColorBlendType];
-	OutColor.a = TextureColor.a * InColor.a;
+	OutColor.a = (6 != ColorBlendType) ? (TextureColor.a * InColor.a) : (TextureColor.a);
 
 	return OutColor;
 }
