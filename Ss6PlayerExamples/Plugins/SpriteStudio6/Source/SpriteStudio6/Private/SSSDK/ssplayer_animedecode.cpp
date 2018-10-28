@@ -1134,7 +1134,10 @@ void	SsAnimeDecoder::updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartSt
 			sx *= state->localscale.X;
 			sy *= state->localscale.Y;
 		}
-		ScaleMatrixM(pmat, sx, sy, 1.0f);
+		if ((sx != 1.f) || (sy != 1.f))
+		{
+			ScaleMatrixM(pmat, sx, sy, 1.0f);
+		}
 	}
 	if (num == 1)
 	{
