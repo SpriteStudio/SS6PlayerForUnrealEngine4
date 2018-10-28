@@ -829,7 +829,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	int idx = 0;
 	for (idx = 0; idx < 2; idx++)
 	{
-		TArray<FSsAttribute> attList;
+		TArray<FSsAttribute>* attList = nullptr;
 
 		if (idx == 0)
 		{
@@ -842,7 +842,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 			{
 				continue;
 			}
-			attList = setupAnime->Attributes;
+			attList = &setupAnime->Attributes;
 		}
 		else
 		{
@@ -855,9 +855,9 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 			{
 				continue;
 			}
-			attList = anime->Attributes;
+			attList = &anime->Attributes;
 		}
-		for(auto e = attList.CreateIterator(); e; ++e)
+		for(auto e = attList->CreateIterator(); e; ++e)
 		{
 			FSsAttribute* attr = &(*e);
 			switch( attr->Tag )
