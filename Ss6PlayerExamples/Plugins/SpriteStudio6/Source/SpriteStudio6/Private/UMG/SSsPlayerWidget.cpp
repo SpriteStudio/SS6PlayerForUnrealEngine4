@@ -441,10 +441,101 @@ void SSsPlayerWidget::PaintInternal(
 		FSlateResourceHandle RenderResourceHandle;
 	};
 
+	FSlateMaterialBrush* BkBrush;
+	SsBlendType::Type BkAlphaBlendType;
+
+	int32 RenderDataCount = 0;
+	BkBrush = nullptr;
+	BkAlphaBlendType = SsBlendType::Invalid;
+	bool bEnableData = false;
+	for(auto It = InRenderParts.CreateConstIterator(); It; ++It)
+	{
+		if(	   (nullptr == It->Brush.Get())
+			|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
+			)
+		{
+			continue;
+		}
+		if((0 != It.GetIndex())
+			&& (   (It->Brush.Get() != BkBrush)
+				|| (It->AlphaBlendType != BkAlphaBlendType)
+				)
+			)
+		{
+			if(bEnableData)
+			{
+				bEnableData = false;
+				++RenderDataCount;
+			}
+		}
+
+		bEnableData = true;
+		BkBrush = It->Brush.Get();
+		BkAlphaBlendType = It->AlphaBlendType;
+	}
+	if(bEnableData)
+	{
+		++RenderDataCount;
+	}
+
+
 	TArray<FRenderData> RenderDataArray;
-	FRenderData RenderData;
-	FSlateMaterialBrush* BkBrush = nullptr;
-	SsBlendType::Type BkAlphaBlendType = SsBlendType::Invalid;
+	RenderDataArray.AddZeroed(RenderDataCount);
+
+	int32 RenderDataIndex = 0;
+	int32 VertexCount = 0;
+	int32 IndexCount = 0;
+	for(auto It = InRenderParts.CreateConstIterator(); It; ++It)
+	{
+		if(	   (nullptr == It->Brush.Get())
+			|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
+			)
+		{
+			continue;
+		}
+		if((0 != It.GetIndex())
+			&& (   (It->Brush.Get() != BkBrush)
+				|| (It->AlphaBlendType != BkAlphaBlendType)
+				)
+			)
+		{
+			if(0 < IndexCount)
+			{
+				RenderDataArray[RenderDataIndex].Vertices.Reset(VertexCount);
+				RenderDataArray[RenderDataIndex].Indices.Reset(IndexCount);
+
+				++RenderDataIndex;
+				VertexCount = 0;
+				IndexCount = 0;
+			}
+		}
+
+		// 通常パーツ 
+		if(0 == It->Mesh.Num())
+		{
+			VertexCount += 4;
+			IndexCount  += 6;
+		}
+		// メッシュパーツ 
+		else
+		{
+			for(auto ItMesh = It->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+			{
+				VertexCount += ItMesh->Vertices.Num();
+				IndexCount  += ItMesh->Indices.Num();
+			}
+		}
+
+		BkBrush = It->Brush.Get();
+		BkAlphaBlendType = It->AlphaBlendType;	// そもそもアルファブレンドモードはサポート出来なさげ 
+	}
+	if(0 < IndexCount)
+	{
+		RenderDataArray[RenderDataIndex].Vertices.Reset(VertexCount);
+		RenderDataArray[RenderDataIndex].Indices.Reset(IndexCount);
+	}
+
+	RenderDataIndex = 0;
 	for(auto It = InRenderParts.CreateConstIterator(); It; ++It)
 	{
 		if(	   (nullptr == It->Brush.Get())
@@ -459,12 +550,13 @@ void SSsPlayerWidget::PaintInternal(
 			   )
 			)
 		{
-			if(0 < RenderData.Indices.Num())
+			if(0 < RenderDataArray[RenderDataIndex].Indices.Num())
 			{
-				RenderDataArray.Add(RenderData);
-				RenderData = FRenderData();
+				++RenderDataIndex;
 			}
 		}
+
+		FRenderData& RenderData = RenderDataArray[RenderDataIndex];
 
 		// 通常パーツ 
 		if(0 == It->Mesh.Num())
@@ -565,10 +657,6 @@ void SSsPlayerWidget::PaintInternal(
 
 		BkBrush = It->Brush.Get();
 		BkAlphaBlendType = It->AlphaBlendType;	// そもそもアルファブレンドモードはサポート出来なさげ 
-	}
-	if(0 < RenderData.Indices.Num())
-	{
-		RenderDataArray.Add(RenderData);
 	}
 
 	for(auto It = RenderDataArray.CreateConstIterator(); It; ++It)
