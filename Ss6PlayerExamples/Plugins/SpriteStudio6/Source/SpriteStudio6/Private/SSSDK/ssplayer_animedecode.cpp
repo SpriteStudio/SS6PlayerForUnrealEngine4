@@ -524,13 +524,25 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 
 void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey , const FSsKeyframe* rightkey , SsCellValue& v )
 {
-	SsRefCell cell;
-	GetSsRefCell( leftkey , cell );
+//	SsRefCell cell;
+//	GetSsRefCell( leftkey , cell );
+//
+//	getCellValue(	this->curCellMapManager ,
+//		cell.mapid , cell.name , v );
 
-	getCellValue(	this->curCellMapManager ,
-					cell.mapid , cell.name , v );
 
-
+	SsRefCell* pcell = RefCellCache.Find(leftkey);
+	if(pcell)
+	{
+		getCellValue(this->curCellMapManager, pcell->mapid , pcell->name , v);
+	}
+	else
+	{
+		SsRefCell cell;
+		GetSsRefCell( leftkey , cell );
+		RefCellCache.Add(leftkey, cell);
+		getCellValue(this->curCellMapManager, cell.mapid , cell.name , v);
+	}
 }
 
 //インスタンスアニメデータ

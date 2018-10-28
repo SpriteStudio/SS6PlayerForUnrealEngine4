@@ -154,6 +154,9 @@ public:
 	void setMaskParentSetting(bool flg);							//親のマスク対象を設定する
 	bool getMaskParentSetting(void) { return maskParentSetting; };	//設定された親のマスク対象を取得する
 
+
+private:
+	TMap<const FSsKeyframe*, SsRefCell> RefCellCache;
 };
 
 
