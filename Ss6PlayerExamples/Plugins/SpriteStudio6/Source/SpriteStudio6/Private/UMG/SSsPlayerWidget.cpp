@@ -459,8 +459,11 @@ void SSsPlayerWidget::PaintInternal(
 			   )
 			)
 		{
-			RenderDataArray.Add(RenderData);
-			RenderData = FRenderData();
+			if(0 < RenderData.Indices.Num())
+			{
+				RenderDataArray.Add(RenderData);
+				RenderData = FRenderData();
+			}
 		}
 
 		// 通常パーツ 
@@ -563,14 +566,13 @@ void SSsPlayerWidget::PaintInternal(
 		BkBrush = It->Brush.Get();
 		BkAlphaBlendType = It->AlphaBlendType;	// そもそもアルファブレンドモードはサポート出来なさげ 
 	}
-	RenderDataArray.Add(RenderData);
+	if(0 < RenderData.Indices.Num())
+	{
+		RenderDataArray.Add(RenderData);
+	}
 
 	for(auto It = RenderDataArray.CreateConstIterator(); It; ++It)
 	{
-		if(0 == (*It).Indices.Num())
-		{
-			continue;
-		}
 		FSlateDrawElement::MakeCustomVerts(
 			OutDrawElements,
 			LayerId,
