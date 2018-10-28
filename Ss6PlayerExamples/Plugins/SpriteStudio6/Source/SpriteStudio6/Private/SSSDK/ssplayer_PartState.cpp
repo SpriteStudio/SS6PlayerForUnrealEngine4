@@ -5,6 +5,14 @@
 #include "ssplayer_PartState.h"
 #include "ssplayer_effect2.h"
 
+
+namespace
+{
+	static const FName ConstName_Start("_start");
+	static const FName ConstName_End("_end");
+}
+
+
 SsPartState::SsPartState() : index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::Invalid),	refAnime(0), refEffect(0), meshPart(0) {
 	init();
 	effectValue.attrInitialized = false;
@@ -85,9 +93,9 @@ void	SsPartState::init()
 	instanceValue.independent = false;
 	instanceValue.loopflag = 0;
 	instanceValue.loopNum = 1;
-	instanceValue.startLabel = "_start";
+	instanceValue.startLabel = ConstName_Start;
 	instanceValue.startOffset = 0;
-	instanceValue.endLabel = "_end";
+	instanceValue.endLabel = ConstName_End;
 	instanceValue.endOffset = 0;
 	instanceValue.curKeyframe = 0;
 	instanceValue.speed = 1.0f;
