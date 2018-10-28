@@ -198,7 +198,7 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 	Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
 
 	// 描画情報更新 
-	RenderParts.Empty();
+	RenderParts.Reset();
 	CreateRenderParts(Decoder, GetAnimCanvasSize(), GetAnimPivot());
 
 	// 水平反転 
