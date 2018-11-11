@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-
+#include "GameFramework/HUD.h"
 #include "SsHUD.generated.h"
 
 

@@ -4,6 +4,8 @@ namespace UnrealBuildTool.Rules
 	{
 		public SpriteStudio6Ed(ReadOnlyTargetRules Target) : base(Target)
 		{
+			PrivatePCHHeaderFile = "Private/SpriteStudio6EdPrivatePCH.h";
+
 			DynamicallyLoadedModuleNames.AddRange(
 				new string[] {
 					"PropertyEditor",

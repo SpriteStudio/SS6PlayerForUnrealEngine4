@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "ActorFactories/ActorFactory.h"
 #include "SsPlayerActorFactory.generated.h"
 
 UCLASS()
