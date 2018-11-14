@@ -169,7 +169,6 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 
 	RenderOffScreen = new FSsRenderOffScreen();
 	RenderOffScreen->Initialize(2048, 2048, MaxVertexNum, MaxIndexNum, SsProject->ContainsMaskParts());
-	RenderOffScreen->bSupportAlphaBlendMode = true;
 
 	ExtendToolbar();
 	RegenerateMenusAndToolbars();

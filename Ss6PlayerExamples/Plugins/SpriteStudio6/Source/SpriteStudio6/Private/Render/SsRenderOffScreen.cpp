@@ -84,8 +84,7 @@ void FSsOffScreenIndexBuffer::ReleaseDynamicRHI()
 
 
 FSsRenderOffScreen::FSsRenderOffScreen()
-	: bSupportAlphaBlendMode(false)
-	, ClearColor(0,0,0,0)
+	: ClearColor(0,0,0,0)
 	, bInitialized(false)
 	, bTerminating(false)
 	, VertexNum(0)
@@ -785,13 +784,6 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 		for(int32 i = 0; i < InRenderParts.Num(); ++i)
 		{
 			RenderParts.RenderParts.Add(InRenderParts[i]);
-		}
-		if(!bSupportAlphaBlendMode)
-		{
-			for(int32 i = 0; i < InRenderParts.Num(); ++i)
-			{
-				RenderParts.RenderParts[i].AlphaBlendType = SsBlendType::Mix;
-			}
 		}
 	}
 

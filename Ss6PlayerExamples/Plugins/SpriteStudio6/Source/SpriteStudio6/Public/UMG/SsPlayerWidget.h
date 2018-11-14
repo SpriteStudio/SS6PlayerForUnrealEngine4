@@ -187,6 +187,10 @@ public:
 	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadOnly)
 	FVector2D OffScreenRenderResolution;
 
+	// オフスクリーンレンダリングの際のクリアカラー 
+	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadWrite)
+	FColor OffScreenClearColor;
+
 	// 親Widgetのアルファ値を反映するか 
 	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadOnly)
 	bool bReflectParentAlpha;

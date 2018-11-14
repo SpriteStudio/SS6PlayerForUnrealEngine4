@@ -201,6 +201,10 @@ public:
 	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadOnly)
 	FVector2D OffScreenRenderResolution;
 
+	// オフスクリーンレンダリングの際のクリアカラー 
+	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadWrite)
+	FColor OffScreenClearColor;
+
 	// アニメーションのCanvasサイズに対する、メッシュ描画サイズ 
 	UPROPERTY(Category=SpriteStudioRenderSettings, EditAnywhere, BlueprintReadOnly)
 	float UUPerPixel;

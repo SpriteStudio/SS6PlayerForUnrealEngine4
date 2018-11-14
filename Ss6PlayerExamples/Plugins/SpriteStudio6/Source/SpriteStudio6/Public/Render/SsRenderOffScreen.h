@@ -38,15 +38,6 @@ public:
 	UTextureRenderTarget2D* GetRenderTarget() { return RenderTarget.Get(); }
 
 public:
-	//
-	// Mix以外のアルファブレンドモードをサポートするかどうか 
-	//     オフスクリーンレンダリングの場合、あくまでRenderTarget上のカラーとしかブレンド出来ません 
-	//     RenderTarget内に書き込まれたアルファ値がシーンに適用される際のブレンド方法は、その用途に依存することになります 
-	//     そのため、本プラグインでのデフォルトの動作としては、オフスクリーンレンダリングでは アルファブレンドモード Mul/Add/Sub をサポートせず、全てMixとして扱います 
-	//     但し、ビューアでのみ、背景色を設定し各種アルファブレンドをプレビュー出来るようにします 
-	//     もしソースコードを編集してオフスクリーンでのブレンドモードを使用する場合は、FSsRenderOffScreenのコンストラクタでこの値をtrueに初期化して下さい 
-	//
-	bool bSupportAlphaBlendMode;
 	FColor ClearColor;
 
 private:

@@ -98,12 +98,14 @@ void SSsPlayerWidget::SetRenderParts_Default(const TArray<FSsRenderPartWithSlate
 //
 void SSsPlayerWidget::SetRenderParts_OffScreen(
 	const TArray<FSsRenderPart>& InRenderParts,
-	TSharedPtr<FSlateMaterialBrush>& InOffscreenBrush
+	TSharedPtr<FSlateMaterialBrush>& InOffscreenBrush,
+	const FColor& ClearColor
 	)
 {
 	RenderParts_OffScreen = InRenderParts;
 	if(RenderOffScreen)
 	{
+		RenderOffScreen->ClearColor = ClearColor;
 		RenderOffScreen->Render(RenderParts_OffScreen);
 	}
 	OffScreenBrush = InOffscreenBrush;

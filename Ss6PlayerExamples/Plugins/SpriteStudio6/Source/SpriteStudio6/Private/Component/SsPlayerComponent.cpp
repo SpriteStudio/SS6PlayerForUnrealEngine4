@@ -46,6 +46,7 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 	, BaseMaterial(NULL)
 	, OffScreenPlaneMID(NULL)
 	, OffScreenRenderResolution(512.f, 512.f)
+	, OffScreenClearColor(0, 0, 0, 0)
 	, UUPerPixel(0.3f)
 	, SsBoundsScale(2.f)
 {
@@ -656,6 +657,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 			// オフスクリーンレンダリングの描画命令発行
 			if(NULL != RenderOffScreen)
 			{
+				RenderOffScreen->ClearColor = OffScreenClearColor;
 				RenderOffScreen->Render(Player.GetRenderParts());
 			}
 		}
