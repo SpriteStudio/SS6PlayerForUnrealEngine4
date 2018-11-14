@@ -45,7 +45,7 @@ class FSsPartVertexFactoryShaderParameters : public FVertexFactoryShaderParamete
 public:
 	virtual void Bind(const class FShaderParameterMap& ParameterMap) override {}
 	virtual void Serialize(FArchive& Ar) override {}
-	virtual void SetMesh(FRHICommandList& RHICmdList, FShader* Shader,const class FVertexFactory* VertexFactory,const class FSceneView& View,const struct FMeshBatchElement& BatchElement,uint32 DataFlags) const override;
+	virtual void SetMesh(FRHICommandList& RHICmdList, FShader* Shader,const class FVertexFactory* VertexFactory,const class FSceneView& View,const struct FMeshBatchElement& BatchElement,uint32 DataFlags) const override {}
 	virtual uint32 GetSize() const override { return sizeof(*this); }
 };
 
