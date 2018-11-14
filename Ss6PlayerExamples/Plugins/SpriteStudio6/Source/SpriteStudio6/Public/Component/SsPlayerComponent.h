@@ -36,13 +36,6 @@ namespace ESsPlayerComponentRenderMode
 		// オフスクリーンレンダリングのみを行い、ゲーム画面への描画は行いません 
 		// GetRenderTargetでレンダリング結果のテクスチャを取得し、自由に利用出来ます 
 		OffScreenOnly,
-
-		// HUDのCanvasにレンダリングするための描画モードです 
-		// 3D空間上には何も描画しません 
-		// SsHUD を継承したHUDクラスでの描画に使用されます 
-		// アルファ値はテクスチャのアルファのみ反映されます 
-		// アルファブレンドモード/カラーブレンドモードは反映されません 
-		Canvas,
 	};
 }
 
@@ -93,9 +86,6 @@ public:
 	// パーツのアタッチ用Transformを取得 
 	UFUNCTION(Category=SpriteStudio, BlueprintCallable)
 	bool GetPartAttachTransform(int32 PartIndex, FTransform& OutTransform) const;
-
-	// Canvasへの描画 
-	void RenderToCanvas(UCanvas* Canvas, FVector2D Location, float Rotation, FVector2D Scale);
 
 #if WITH_EDITOR
 	// コード上で直接SsProjectをセットした場合に呼び出す 
