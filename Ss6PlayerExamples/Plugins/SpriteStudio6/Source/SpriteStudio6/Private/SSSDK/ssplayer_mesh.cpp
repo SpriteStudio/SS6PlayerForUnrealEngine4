@@ -213,14 +213,14 @@ void    SsMeshPart::updateTransformMesh()
 				FMatrix mtx;
 
 				// ボーンにより影響を受けた座標(ローカル座標)
-				FVector   out;
+				FVector   out2;
 				//mtx.pushMatrix(myPartState->matrix);
 				FMemory::Memcpy(mtx.M, myPartState->matrix, sizeof(float)*16);
 
 				//mtx.inverseMatrix();
-				//mtx.TransformVector3(outtotal, out);
+				//mtx.TransformVector3(outtotal, out2);
 				mtx = mtx.Inverse();
-				out = mtx.TransformVector(outtotal);
+				out2 = mtx.TransformVector(outtotal);
 
 				// デフォームによる影響(ローカル座標)
 				FVector   vec;
@@ -228,15 +228,15 @@ void    SsMeshPart::updateTransformMesh()
 				vec.Y = getOffsetLocalVertices(i).Y;
 				vec.Z = 0.0f;
 
-				outtotal = FVector(out.X + vec.X, out.Y + vec.Y, out.Z + vec.Z);
+				outtotal = FVector(out2.X + vec.X, out2.Y + vec.Y, out2.Z + vec.Z);
 
 				// ワールド座標に変換
 				//mtx.pushMatrix(myPartState->matrix);
-				//mtx.TransformVector3(outtotal, out);
+				//mtx.TransformVector3(outtotal, out2);
 				FMemory::Memcpy(mtx.M, myPartState->matrix, sizeof(float)*16);
-				out = mtx.TransformVector(outtotal);
+				out2 = mtx.TransformVector(outtotal);
 
-				outtotal = out;
+				outtotal = out2;
 			}
 
 			draw_vertices[i * 3 + 0] = outtotal.X * 1.0f;

@@ -38,9 +38,10 @@ namespace
 SSsPlayerWidget::SSsPlayerWidget()
 	: SPanel()
 	, AnimCanvasSize(0.f, 0.f)
+	, Children(this)
 	, bRenderOffScreen(false)
 	, RenderOffScreen(nullptr)
-	, Children(this)
+	
 {
 }
 SSsPlayerWidget::~SSsPlayerWidget()
