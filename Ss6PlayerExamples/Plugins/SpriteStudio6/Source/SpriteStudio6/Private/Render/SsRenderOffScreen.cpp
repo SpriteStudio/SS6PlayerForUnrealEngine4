@@ -10,6 +10,8 @@
 #include "Ss6Project.h"
 
 
+DECLARE_GPU_STAT_NAMED(StatName_Ss6RenderOffScreen, TEXT("SpriteStudio6 RenderOffScreen") );
+
 //
 // 開放予約された FSsRenderOffScreen を監視し、開放可能な状態になったらdeleteする 
 //
@@ -359,6 +361,9 @@ namespace
 	// 描画 
 	void RenderPartsToRenderTarget(FRHICommandListImmediate& RHICmdList, FSsRenderPartsForSendingRenderThread& RenderParts)
 	{
+		SCOPED_DRAW_EVENT(RHICmdList, StatName_Ss6RenderOffScreen);
+		SCOPED_GPU_STAT(RHICmdList, StatName_Ss6RenderOffScreen);
+
 		check(IsInRenderingThread());
 
 		float SurfaceWidth  = RenderParts.RenderTarget->GetSurfaceWidth();
