@@ -61,20 +61,18 @@ VertexOutMasked MainMaskedVS(
 
 float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 {
-	float4 TextureColor;
-	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, InTexCoord);
-
+	float4 TextureColor = Texture2DSample(CellTexture, CellTextureSampler, InTexCoord);
 	float ColorBlendRate = InColorBlend.y;
-	float4 BlendColor[6];
-	BlendColor[0] = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate);						// Mix
-	BlendColor[1] = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate);		// Mul
-	BlendColor[2] = TextureColor + (InColor * ColorBlendRate);													// Add
-	BlendColor[3] = TextureColor - (InColor * ColorBlendRate);													// Sub
-	BlendColor[4] = TextureColor;																				// Invalid
-	BlendColor[5] = BlendColor[1] * TextureColor.a;																// Effect
-
 	uint ColorBlendType = uint(InColorBlend.x);
-	float4 OutColor = BlendColor[ColorBlendType];
+
+	float4 OutColor;
+	     if(0 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate); }									// Mix
+	else if(1 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate); }						// Mul
+	else if(2 == ColorBlendType){ OutColor = TextureColor + (InColor * ColorBlendRate); }																// Add
+	else if(3 == ColorBlendType){ OutColor = TextureColor - (InColor * ColorBlendRate); }																// Sub
+	else if(4 == ColorBlendType){ OutColor = TextureColor; }																							// Invalid
+	else if(5 == ColorBlendType){ OutColor = ((TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate)) * TextureColor.a; }	// Effect
+
 	OutColor.a = TextureColor.a * InColor.a;
 
 	return OutColor;
