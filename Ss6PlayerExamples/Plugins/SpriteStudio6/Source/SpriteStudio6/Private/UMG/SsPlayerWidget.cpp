@@ -323,56 +323,56 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 				{
 					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_Default);
 
-					TArray<FSsRenderPartWithSlateBrush>& RenderPartWithSlateBrush = PlayerWidget->GetRenderPartsDefaultRef();
-					const TArray<FSsRenderPart>& RenderParts = Player.GetRenderParts();
-					RenderPartWithSlateBrush.Reset(RenderParts.Num());
+					PlayerWidget->RenderParts = &Player.GetRenderParts();
+					const TArray<FSsRenderPart>& RenderParts = *PlayerWidget->RenderParts;
+					PlayerWidget->DefaultBrush.Reset(RenderParts.Num());
 
 					for(int32 i = 0; i < RenderParts.Num(); ++i)
 					{
-						if(SsBlendType::Mask == RenderParts[i].ColorBlendType)
-						{
-							continue;
-						}
+						TSharedPtr<FSlateMaterialBrush> Brush;
 
-						FSsRenderPartWithSlateBrush& Part = RenderPartWithSlateBrush.AddZeroed_GetRef();
-						Part.CopyFrom(&(RenderParts[i]));
-
-						uint32 MatIdx = UMGMatIndex(RenderParts[i].ColorBlendType);
-						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
-						if((NULL == ppMID) || (NULL == *ppMID))
+						if(SsBlendType::Mask != RenderParts[i].ColorBlendType)
 						{
-							if(nullptr != RenderParts[i].Texture)
-							{
-								UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(BasePartsMaterials[MatIdx], GetTransientPackage());
-								if(NewMID)
-								{
-									PartsMIDRef.Add(NewMID);
-									NewMID->SetFlags(RF_Transient);
-									NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
-									ppMID = &(PartsMIDMap[MatIdx].Add(RenderParts[i].Texture, NewMID));
-								}
-							}
-						}
-
-						if(nullptr != ppMID)
-						{
-							TSharedPtr<FSlateMaterialBrush>* pBrush = BrushMap.Find(*ppMID);
-							if(pBrush)
-							{
-								Part.Brush = *pBrush;
-							}
-							else
+							uint32 MatIdx = UMGMatIndex(RenderParts[i].ColorBlendType);
+							UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
+							if((NULL == ppMID) || (NULL == *ppMID))
 							{
 								if(nullptr != RenderParts[i].Texture)
 								{
-									Part.Brush = MakeShareable(new FSlateMaterialBrush(**ppMID, FVector2D(64, 64)));
-									BrushMap.Add(*ppMID, Part.Brush);
+									UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(BasePartsMaterials[MatIdx], GetTransientPackage());
+									if(NewMID)
+									{
+										PartsMIDRef.Add(NewMID);
+										NewMID->SetFlags(RF_Transient);
+										NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
+										ppMID = &(PartsMIDMap[MatIdx].Add(RenderParts[i].Texture, NewMID));
+									}
+								}
+							}
+
+							if(nullptr != ppMID)
+							{
+								TSharedPtr<FSlateMaterialBrush>* pBrush = BrushMap.Find(*ppMID);
+								if(pBrush)
+								{
+									Brush = *pBrush;
+								}
+								else
+								{
+									if(nullptr != RenderParts[i].Texture)
+									{
+										Brush = MakeShareable(new FSlateMaterialBrush(**ppMID, FVector2D(64, 64)));
+										BrushMap.Add(*ppMID, Brush);
+									}
 								}
 							}
 						}
+
+						PlayerWidget->DefaultBrush.Add(Brush);
 					}
 
 					PlayerWidget->SetAnimCanvasSize(Player.GetAnimCanvasSize());
+					check(PlayerWidget->RenderParts->Num() == PlayerWidget->DefaultBrush.Num());
 				} break;
 
 			case ESsPlayerWidgetRenderMode::UMG_OffScreen:
@@ -400,7 +400,12 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 						Brush = BrushMap.Find(OffScreenMID);
 					}
 
-					PlayerWidget->SetRenderParts_OffScreen(Player.GetRenderParts(), *Brush);
+					PlayerWidget->RenderParts = &Player.GetRenderParts();
+					PlayerWidget->OffScreenBrush = *Brush;
+					if(nullptr != PlayerWidget->GetRenderOffScreen())
+					{
+						PlayerWidget->GetRenderOffScreen()->Render(*PlayerWidget->RenderParts);
+					}
 					PlayerWidget->SetAnimCanvasSize(Player.GetAnimCanvasSize());
 				} break;
 		}

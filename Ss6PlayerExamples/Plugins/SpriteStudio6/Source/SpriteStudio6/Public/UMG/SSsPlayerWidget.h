@@ -56,7 +56,6 @@ public:
 		);
 
 	void SetAnimCanvasSize(const FVector2D& InSize) { AnimCanvasSize = InSize; }
-	void SetRenderParts_OffScreen(const TArray<FSsRenderPart>& InRenderParts, TSharedPtr<FSlateMaterialBrush>& InOffscreenBrush);
 
 	// SWidget interface 
 	virtual FVector2D ComputeDesiredSize(float LayoutScaleMultiplier) const override;
@@ -82,14 +81,6 @@ public:
 	virtual void OnArrangeChildren(const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren) const;
 
 private:
-	template<class T>
-	void ArrangeChildrenInternal(
-		const TArray<T>& InRenderParts,
-		const FGeometry& AllottedGeometry,
-		FArrangedChildren& ArrangedChildren
-		) const;
-
-private:
 	TPanelChildren<FSlot> Children;
 
 
@@ -102,11 +93,10 @@ public:
 	UTexture* GetRenderTarget();
 	FSsRenderOffScreen* GetRenderOffScreen();
 
-	TArray<FSsRenderPartWithSlateBrush>& GetRenderPartsDefaultRef(){ return RenderParts_Default; }
-
 private:
 	void PaintInternal(
-		const TArray<FSsRenderPartWithSlateBrush>& InRenderParts,
+		const TArray<FSsRenderPart>* InRenderParts,
+		const TArray<TSharedPtr<FSlateMaterialBrush>>& InBrush,
 		const FGeometry& AllottedGeometry,
 		const FSlateRect& MyClippingRect,
 		FSlateWindowElementList& OutDrawElements,
@@ -116,14 +106,12 @@ private:
 
 public:
 	bool bReflectParentAlpha;
+	const TArray<FSsRenderPart>* RenderParts;
+	TArray<TSharedPtr<FSlateMaterialBrush>> DefaultBrush;
+	TSharedPtr<FSlateMaterialBrush> OffScreenBrush;
 
 private:
 	bool bRenderOffScreen;
-	TSharedPtr<FSlateMaterialBrush> OffScreenBrush;
-
-	TArray<FSsRenderPartWithSlateBrush> RenderParts_Default;
-
-	TArray<FSsRenderPart> RenderParts_OffScreen;
 	FSsRenderOffScreen* RenderOffScreen;
 };
 

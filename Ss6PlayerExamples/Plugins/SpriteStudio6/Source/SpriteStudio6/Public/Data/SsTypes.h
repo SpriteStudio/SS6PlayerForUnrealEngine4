@@ -796,9 +796,3 @@ struct FSsRenderPart
 	}
 };
 
-// SlateBrush付き描画用のパーツ情報
-struct FSsRenderPartWithSlateBrush : public FSsRenderPart
-{
-	TSharedPtr<struct FSlateMaterialBrush> Brush;
-};
-
