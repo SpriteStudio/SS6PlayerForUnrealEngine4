@@ -750,13 +750,13 @@ void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, c
 					DrawData.id = n;
 					DrawData.pid = 0;
 
-					CreateEffectRenderPart(RenderParts, State, CanvasSize, Pivot, Emitter, (Effect->targetFrame - DrawData.stime), Emitter->_parent, &DrawData);
+					CreateEffectRenderPart(OutRenderParts, State, CanvasSize, Pivot, Emitter, (Effect->targetFrame - DrawData.stime), Emitter->_parent, &DrawData);
 				}
 			}
 		}
 		else
 		{
-			CreateEffectRenderPart(RenderParts, State, CanvasSize, Pivot, Emitter, Effect->targetFrame);
+			CreateEffectRenderPart(OutRenderParts, State, CanvasSize, Pivot, Emitter, Effect->targetFrame);
 		}
 	}
 }
