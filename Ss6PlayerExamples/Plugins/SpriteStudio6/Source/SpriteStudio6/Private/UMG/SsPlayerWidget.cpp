@@ -323,9 +323,9 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 				{
 					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_Default);
 
-					TArray<FSsRenderPartWithSlateBrush> RenderPartWithSlateBrush;
+					TArray<FSsRenderPartWithSlateBrush>& RenderPartWithSlateBrush = PlayerWidget->GetRenderPartsDefaultRef();
 					const TArray<FSsRenderPart>& RenderParts = Player.GetRenderParts();
-					RenderPartWithSlateBrush.Reserve(RenderParts.Num());
+					RenderPartWithSlateBrush.Reset(RenderParts.Num());
 
 					for(int32 i = 0; i < RenderParts.Num(); ++i)
 					{
@@ -374,7 +374,6 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 						RenderPartWithSlateBrush.Add(Part);
 					}
 
-					PlayerWidget->SetRenderParts_Default(RenderPartWithSlateBrush);
 					PlayerWidget->SetAnimCanvasSize(Player.GetAnimCanvasSize());
 				} break;
 

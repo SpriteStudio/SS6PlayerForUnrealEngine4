@@ -56,7 +56,6 @@ public:
 		);
 
 	void SetAnimCanvasSize(const FVector2D& InSize) { AnimCanvasSize = InSize; }
-	void SetRenderParts_Default(const TArray<FSsRenderPartWithSlateBrush>& InRenderParts);
 	void SetRenderParts_OffScreen(const TArray<FSsRenderPart>& InRenderParts, TSharedPtr<FSlateMaterialBrush>& InOffscreenBrush);
 
 	// SWidget interface 
@@ -102,6 +101,8 @@ public:
 
 	UTexture* GetRenderTarget();
 	FSsRenderOffScreen* GetRenderOffScreen();
+
+	TArray<FSsRenderPartWithSlateBrush>& GetRenderPartsDefaultRef(){ return RenderParts_Default; }
 
 private:
 	void PaintInternal(

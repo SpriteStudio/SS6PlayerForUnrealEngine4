@@ -87,14 +87,6 @@ void SSsPlayerWidget::Terminate_OffScreen()
 
 
 //
-// 描画用パーツ情報の登録 (Default) 
-//
-void SSsPlayerWidget::SetRenderParts_Default(const TArray<FSsRenderPartWithSlateBrush>& InRenderParts)
-{
-	RenderParts_Default = InRenderParts;
-}
-
-//
 // 描画用パーツ情報の登録 (OffScreen) 
 //
 void SSsPlayerWidget::SetRenderParts_OffScreen(
@@ -102,6 +94,8 @@ void SSsPlayerWidget::SetRenderParts_OffScreen(
 	TSharedPtr<FSlateMaterialBrush>& InOffscreenBrush
 	)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SSsPlayerWidget_SetRenderParts_OffScreen);
+
 	RenderParts_OffScreen = InRenderParts;
 	if(RenderOffScreen)
 	{
@@ -151,6 +145,7 @@ void SSsPlayerWidget::OnArrangeChildren(
 {	
 	if(!bRenderOffScreen)
 	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SSsPlayerWidget_OnArrangeChilderen_Default);
 		ArrangeChildrenInternal<FSsRenderPartWithSlateBrush>(
 			RenderParts_Default,
 			AllottedGeometry,
@@ -159,6 +154,7 @@ void SSsPlayerWidget::OnArrangeChildren(
 	}
 	else
 	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SSsPlayerWidget_OnArrangeChilderen_OffScreen);
 		ArrangeChildrenInternal<FSsRenderPart>(
 			RenderParts_OffScreen,
 			AllottedGeometry,
@@ -266,6 +262,8 @@ int32 SSsPlayerWidget::OnPaint(
 	bool bParentEnabled
 	) const
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SSsPlayerWidget_OnPaint);
+
 	FSlateRect MyClippingRect = FSlateRect(
 		FVector2D(AllottedGeometry.AbsolutePosition.X, AllottedGeometry.AbsolutePosition.Y),
 		FVector2D(
@@ -428,6 +426,8 @@ void SSsPlayerWidget::PaintInternal(
 	const FWidgetStyle& InWidgetStyle
 	) const
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SSsPlayerWidget_PaintInternal);
+
 	if(0 == InRenderParts.Num())
 	{
 		return;
