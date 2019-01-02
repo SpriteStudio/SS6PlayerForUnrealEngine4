@@ -313,6 +313,8 @@ void USsPlayerComponent::InitializeComponent()
 // 更新
 void USsPlayerComponent::TickComponent(float DeltaTime, enum ELevelTick /*TickType*/, FActorComponentTickFunction* /*ThisTickFunction*/)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_Tick);
+
 #if WITH_EDITOR
 	// SsProjectがReimportされたら、ActorComponentを再登録させる
 	if(Player.GetSsProject().IsStale())
@@ -330,6 +332,8 @@ void USsPlayerComponent::TickComponent(float DeltaTime, enum ELevelTick /*TickTy
 
 void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_SetRenderDynamicData_Concurrent);
+
 	if(NULL == SceneProxy)
 	{
 		return;
@@ -619,6 +623,8 @@ FBoxSphereBounds USsPlayerComponent::CalcBounds(const FTransform& LocalToWorld) 
 // アニメーションの更新 
 void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_UpdatePlayer);
+
 	if(!bIsActive)
 	{
 		return;
@@ -665,6 +671,8 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 	{
 		case ESsPlayerComponentRenderMode::Default:
 			{
+				QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_UpdatePlayer_Default);
+
 				// パーツ描画用MIDの確保 
 				const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
 				for(int32 i = 0; i < RenderParts.Num(); ++i)
@@ -692,6 +700,8 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 			} // not break
 		case ESsPlayerComponentRenderMode::OffScreenPlane:
 			{
+				QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_UpdatePlayer_OffScreenPlane);
+
 				// 描画更新 
 				MarkRenderDynamicDataDirty();
 

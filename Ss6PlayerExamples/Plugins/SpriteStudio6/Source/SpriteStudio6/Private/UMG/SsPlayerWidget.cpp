@@ -192,6 +192,8 @@ void USsPlayerWidget::SynchronizeProperties()
 // 更新 
 void USsPlayerWidget::Tick(float DeltaTime)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_Tick);
+
 #if WITH_EDITOR
 	// SsProjectがReimportされたら、再初期化する 
 	if(Player.GetSsProject().IsStale())
@@ -281,6 +283,8 @@ void USsPlayerWidget::OnSlotRemoved(UPanelSlot* InSlot)
 
 void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer);
+
 	FSsPlayerTickResult Result = Player.Tick(DeltaSeconds);
 
 	if(Result.bUpdate)
@@ -317,6 +321,8 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 		{
 			case ESsPlayerWidgetRenderMode::UMG_Default:
 				{
+					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_Default);
+
 					TArray<FSsRenderPartWithSlateBrush> RenderPartWithSlateBrush;
 					const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
 					RenderPartWithSlateBrush.Reserve(RenderParts.Num());
@@ -374,6 +380,8 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 
 			case ESsPlayerWidgetRenderMode::UMG_OffScreen:
 				{
+					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_OffScreen);
+
 					if(nullptr == PlayerWidget->GetRenderOffScreen())
 					{
 						break;

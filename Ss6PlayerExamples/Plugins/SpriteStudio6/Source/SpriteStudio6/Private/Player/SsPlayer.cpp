@@ -66,6 +66,8 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 // 更新
 FSsPlayerTickResult FSsPlayer::Tick(float DeltaSeconds)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_Tick);
+
 	FSsPlayerTickResult Result;
 
 	if(bPlaying)
@@ -79,6 +81,8 @@ FSsPlayerTickResult FSsPlayer::Tick(float DeltaSeconds)
 // アニメーションの更新
 void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_TickAnimation);
+
 	if(nullptr == Decoder)
 	{
 		return;
@@ -194,8 +198,12 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 	}
 
 	// Decoder更新 
-	Decoder->setPlayFrame( AnimeFrame );
-	Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
+	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_Tick_UpdateDecoder);
+
+		Decoder->setPlayFrame( AnimeFrame );
+		Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
+	}
 
 	// 描画情報更新 
 	RenderParts.Reset();
@@ -260,6 +268,8 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 //   Start < Key <= End
 void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start, float End)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_FindUserDataInInterval);
+
 	float IntervalMin = FMath::Min(Start, End);
 	float IntervalMax = FMath::Max(Start, End);
 
@@ -349,6 +359,8 @@ void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start,
 // 描画用パーツデータの作成 
 void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateRenderParts);
+
 	for(auto It = RenderDecoder->sortList.CreateConstIterator(); It; ++It)
 	{
 		SsPartState* State = (*It);
@@ -381,6 +393,8 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 // 描画用パーツデータの作成（１パーツ分） 
 bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateRenderPart);
+
 	if(nullptr == State){ return false; }
 	float Alpha = (State->localalpha == 1.f) ? State->alpha : State->localalpha;
 	float HideAlpha = 1.f;
@@ -701,6 +715,8 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 // エフェクト描画用パーツデータの作成 
 void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateEffectRenderParts);
+
 	if(nullptr == State){ return; }
 	if(nullptr == State->refEffect){ return; }
 	if(State->refEffect->nowFrame < 0){ return; }
@@ -748,6 +764,8 @@ void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, c
 // エフェクト描画用パーツデータの作成（１パーツ分） 
 void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent, const particleDrawData* DrawData)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateEffectRenderPart);
+
 	// 参照：SsEffectRenderV2::particleDraw()
 
 	if(nullptr == State){ return; }

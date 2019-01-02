@@ -104,6 +104,7 @@ FSsRenderOffScreen::~FSsRenderOffScreen()
 // レンダラの初期化 
 void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum, bool bNeedMask)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_Initialize);
 	check(!bInitialized);
 
 	RenderTarget = NewObject<UTextureRenderTarget2D>(UTextureRenderTarget2D::StaticClass());
@@ -251,6 +252,8 @@ namespace
 		int32 CurrentPartIndex
 		)
 	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_RenderMaskBuffer);
+
 		if(nullptr == RenderParts.MaskRenderTarget)
 		{
 			return;
@@ -361,6 +364,7 @@ namespace
 	// 描画 
 	void RenderPartsToRenderTarget(FRHICommandListImmediate& RHICmdList, FSsRenderPartsForSendingRenderThread& RenderParts)
 	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_RenderPartsToRenderTarget);
 		SCOPED_DRAW_EVENT(RHICmdList, StatName_Ss6RenderOffScreen);
 		SCOPED_GPU_STAT(RHICmdList, StatName_Ss6RenderOffScreen);
 
@@ -768,6 +772,7 @@ namespace
 // ゲームスレッドからの描画命令発行 
 void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_Render);
 	check(IsInGameThread());
 	
 	if(!RenderTarget.IsValid())
