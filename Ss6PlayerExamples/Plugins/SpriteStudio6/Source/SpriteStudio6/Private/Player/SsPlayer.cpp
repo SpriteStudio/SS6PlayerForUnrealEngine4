@@ -381,10 +381,10 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 		}
 		else
 		{
-			FSsRenderPart RenderPart;
-			if(CreateRenderPart(RenderPart, State, CanvasSize, Pivot, bInstance))
+			FSsRenderPart& RenderPart = RenderParts.AddZeroed_GetRef();
+			if(!CreateRenderPart(RenderPart, State, CanvasSize, Pivot, bInstance))
 			{
-				RenderParts.Add(RenderPart);
+				RenderParts.RemoveAt(RenderParts.Num()-1, 1, false);
 			}
 		}
 	}
@@ -827,13 +827,6 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 			fcolor.fromARGB(lp.color.ToARGB());
 
 
-			FSsRenderPart RenderPart;
-			RenderPart.PartIndex = State->index;
-			RenderPart.Texture = Emitter->dispCell.texture;
-			RenderPart.AlphaBlendType = SsRenderBlendTypeToBlendType(Emitter->refData->BlendType);
-			RenderPart.ColorBlendType = SsBlendType::Effect;
-			RenderPart.bMaskInfluence = State->maskInfluence;
-
 			{
 				float matrix[4 * 4];
 				IdentityMatrix(matrix);
@@ -879,6 +872,13 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						FVector((dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
 					};
 
+					FSsRenderPart& RenderPart = OutRenderParts.AddZeroed_GetRef();
+					RenderPart.PartIndex = State->index;
+					RenderPart.Texture = Emitter->dispCell.texture;
+					RenderPart.AlphaBlendType = SsRenderBlendTypeToBlendType(Emitter->refData->BlendType);
+					RenderPart.ColorBlendType = SsBlendType::Effect;
+					RenderPart.bMaskInfluence = State->maskInfluence;
+
 					RenderPart.Vertices.AddUninitialized(4);
 					for (int32 i = 0; i < 4; ++i)
 					{
@@ -890,8 +890,6 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * ParentAlpha));
 						RenderPart.Vertices[i].ColorBlendRate = (Emitter->particle.useColor || Emitter->particle.useTransColor) ? 1.f : 0.f;
 					}
-
-					OutRenderParts.Add(RenderPart);
 				}
 			}
 		}
