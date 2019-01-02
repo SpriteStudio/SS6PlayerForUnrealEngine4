@@ -334,7 +334,7 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 							continue;
 						}
 
-						FSsRenderPartWithSlateBrush Part;
+						FSsRenderPartWithSlateBrush& Part = RenderPartWithSlateBrush.AddZeroed_GetRef();
 						Part.CopyFrom(&(RenderParts[i]));
 
 						uint32 MatIdx = UMGMatIndex(RenderParts[i].ColorBlendType);
@@ -370,8 +370,6 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 								}
 							}
 						}
-
-						RenderPartWithSlateBrush.Add(Part);
 					}
 
 					PlayerWidget->SetAnimCanvasSize(Player.GetAnimCanvasSize());
