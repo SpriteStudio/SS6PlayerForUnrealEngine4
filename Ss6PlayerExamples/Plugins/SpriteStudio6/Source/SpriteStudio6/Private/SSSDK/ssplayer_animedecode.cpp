@@ -594,14 +594,14 @@ void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, 
 	//スタートとエンドの頂点数を比較し、多い方に合わせる(足りない部分は0とみなす)
 	int numPoints = FMath::Max<int>(startValue.verticeChgList.Num(), endValue.verticeChgList.Num());
 
-	TArray<FVector2D> start = startValue.verticeChgList;
+	TArray<FVector2D>& start = startValue.verticeChgList;
 	//start.resize(numPoints);
 	for (int i = start.Num(); i < numPoints; i++)
 	{
 		start.Add(FVector2D(0, 0));
 	}
 
-	TArray<FVector2D> end = endValue.verticeChgList;
+	TArray<FVector2D>& end = endValue.verticeChgList;
 	//end.resize(numPoints);
 	for (int i = end.Num(); i < numPoints; i++)
 	{
@@ -705,10 +705,10 @@ template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int t
 			FSsPartAnime* setupAnime = setupPartAnimeDic.Contains(part->PartName) ? setupPartAnimeDic[part->PartName] : nullptr;
 			if ((setupAnime) && (0 != setupAnime->Attributes.Num()))
 			{
-				TArray<FSsAttribute>& attList = setupAnime->Attributes;
-				for(auto e = attList.CreateIterator(); e; ++e)
+				const TArray<FSsAttribute>& attList = setupAnime->Attributes;
+				for(auto e = attList.CreateConstIterator(); e; ++e)
 				{
-					FSsAttribute* setupattr = &(*e);
+					const FSsAttribute* setupattr = &(*e);
 					if (setupattr->Tag == attr->Tag)
 					{
 						lkey = setupattr->FirstKey();

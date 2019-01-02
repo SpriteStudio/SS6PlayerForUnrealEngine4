@@ -324,7 +324,7 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_Default);
 
 					TArray<FSsRenderPartWithSlateBrush> RenderPartWithSlateBrush;
-					const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
+					const TArray<FSsRenderPart>& RenderParts = Player.GetRenderParts();
 					RenderPartWithSlateBrush.Reserve(RenderParts.Num());
 
 					for(int32 i = 0; i < RenderParts.Num(); ++i)

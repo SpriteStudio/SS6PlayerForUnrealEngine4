@@ -167,6 +167,7 @@ void USsPlayerComponent::QuerySupportedSockets(TArray<FComponentSocketDescriptio
 		if((0 <= AnimPackIndex) && (0 <= AnimationIndex))
 		{
 			FSsAnimation& Animation = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex];
+			OutSockets.Reserve(Animation.PartAnimes.Num());
 			for(int32 i = 0; i < Animation.PartAnimes.Num(); ++i)
 			{
 				OutSockets.Add(
@@ -347,7 +348,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 				TArray<uint32> RenderIndices;
 				TArray<FSsRenderPartsProxy::FSsPartPrimitive> RenderPrimitives;
 				{
-					const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
+					const TArray<FSsRenderPart>& RenderParts = Player.GetRenderParts();
 					FVector2D Pivot = Player.GetAnimPivot();
 					FVector2D CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
 
@@ -674,7 +675,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 				QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_UpdatePlayer_Default);
 
 				// パーツ描画用MIDの確保 
-				const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
+				const TArray<FSsRenderPart>& RenderParts = Player.GetRenderParts();
 				for(int32 i = 0; i < RenderParts.Num(); ++i)
 				{
 					// マスクパーツ（未対応） 
