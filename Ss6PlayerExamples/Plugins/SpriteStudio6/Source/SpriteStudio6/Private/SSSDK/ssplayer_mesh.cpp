@@ -404,7 +404,7 @@ void	SsMeshAnimator::update()
 }
 
 
-void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , TArray<SsPartState*>& boneListLocal )
+void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , const TArray<SsPartState*>& boneListLocal )
 {
 
 	int bnum = (int)boneListLocal.Num();

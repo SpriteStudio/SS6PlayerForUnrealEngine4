@@ -142,7 +142,7 @@ public:
 
 	void	update();
 	void	makeMeshBoneList();
-	void	copyToSsMeshPart(FSsMeshBind* src, SsMeshPart* dst, TArray<SsPartState*>& boneList);
+	void	copyToSsMeshPart(FSsMeshBind* src, SsMeshPart* dst, const TArray<SsPartState*>& boneList);
 
 };
 
