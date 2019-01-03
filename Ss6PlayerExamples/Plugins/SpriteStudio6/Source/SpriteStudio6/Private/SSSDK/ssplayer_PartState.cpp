@@ -42,7 +42,7 @@ void	SsPartState::destroy()
 void	SsPartState::init()
 {
 	memset( vertices , 0 , sizeof( vertices ) );
-	memset( colors , 0 , sizeof( colors ) );
+//	memset( colors , 0 , sizeof( colors ) );
 	memset( uvs , 0 , sizeof( uvs ) );
 	memset( matrix , 0 , sizeof( matrix ) );
 	//cell = 0;

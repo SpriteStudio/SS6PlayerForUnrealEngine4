@@ -1049,14 +1049,14 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	// カラー値だけアニメが無いと設定されないので初期値を入れておく。
 	// alpha はupdateで初期化されるのでOK
 	// 当たり判定パーツ用のカラー。赤の半透明にする
-	static const float sColorsForBoundsParts[] = {0.5f, 0.f, 0.f, 1.f};
-	for (int i = 0; i < (4*4) ; ++i)
-	{
-		if (state->noCells)
-			state->colors[i] = sColorsForBoundsParts[i & 3];
-		else
-			state->colors[i] = 1.f;
-	}
+//	static const float sColorsForBoundsParts[] = {0.5f, 0.f, 0.f, 1.f};
+//	for (int i = 0; i < (4*4) ; ++i)
+//	{
+//		if (state->noCells)
+//			state->colors[i] = sColorsForBoundsParts[i & 3];
+//		else
+//			state->colors[i] = 1.f;
+//	}
 
 	// 非表示キーがないか、先頭の非表示キーより手前の場合は常に非表示にする。
 	// 継承する場合は継承を優先するため先に処理する
