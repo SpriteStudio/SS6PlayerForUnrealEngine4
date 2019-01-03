@@ -70,10 +70,10 @@ struct SsPartState
 	SsAnimeDecoder*		refAnime;
 	SsEffectRenderV2*	refEffect;
 
-	//V4互換計算用
-	FVector			_temp_position;
-	FVector			_temp_rotation;
-	FVector2D		_temp_scale;
+//	//V4互換計算用
+//	FVector			_temp_position;
+//	FVector			_temp_rotation;
+//	FVector2D		_temp_scale;
 
 	SsPartType::Type partType;
 
