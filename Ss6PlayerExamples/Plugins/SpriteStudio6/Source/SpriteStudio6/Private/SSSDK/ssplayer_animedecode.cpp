@@ -1129,12 +1129,12 @@ void	SsAnimeDecoder::updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartSt
 		}
 
 		// アンカー
-		if ( state->parent )
-		{
-			const FVector2D& parentSize = state->parent->size;
-			state->position.X = state->position.X + state->parent->size.X * state->anchor.X;
-			state->position.Y = state->position.Y + state->parent->size.Y * state->anchor.Y;
-		}
+//		if ( state->parent )
+//		{
+//			const FVector2D& parentSize = state->parent->size;
+//			state->position.X = state->position.X + state->parent->size.X * state->anchor.X;
+//			state->position.Y = state->position.Y + state->parent->size.Y * state->anchor.Y;
+//		}
 
 		TranslationMatrixM( pmat , state->position.X, state->position.Y, state->position.Z );//
 		RotationXYZMatrixM( pmat , DegreeToRadian(state->rotation.X) , DegreeToRadian(state->rotation.Y) , DegreeToRadian( state->rotation.Z) );

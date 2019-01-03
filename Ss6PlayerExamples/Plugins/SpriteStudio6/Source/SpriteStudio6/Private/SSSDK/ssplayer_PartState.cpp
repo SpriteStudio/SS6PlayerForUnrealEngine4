@@ -59,7 +59,7 @@ void	SsPartState::init()
 	hide = false;
 
 	pivotOffset = FVector2D(0, 0);
-	anchor = FVector2D( 0 , 0 );
+//	anchor = FVector2D( 0 , 0 );
 	size = FVector2D( 1 , 1 );
 
 	imageFlipH = false;

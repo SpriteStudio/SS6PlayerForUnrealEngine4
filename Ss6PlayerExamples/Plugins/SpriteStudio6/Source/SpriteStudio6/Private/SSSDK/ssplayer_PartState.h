@@ -38,7 +38,7 @@ struct SsPartState
 //	bool			vFlip;			///< 垂直反転　※Ver6では非対応
 	bool			hide;			///< 非表示にする
 	FVector2D		pivotOffset;	///< 原点のオフセット。旧SSの原点は左上基準にしたこの値に相当する。0,0が中央+0.5,+0.5が右上になる。参照セルがある場合はセルの原点に＋する＝オフセット扱いになる。
-	FVector2D		anchor;			///< アンカーポイント。親パーツのどの位置に引っ付けるか？0,0が中央+0.5,+0.5が右上になる。　※Ver6では非対応
+//	FVector2D		anchor;			///< アンカーポイント。親パーツのどの位置に引っ付けるか？0,0が中央+0.5,+0.5が右上になる。　※Ver6では非対応
 	FVector2D		size;			///< 表示サイズ	
 	bool			imageFlipH;		///　セル画像を水平反転するか
  	bool			imageFlipV;		///	 セル画像を垂直反転するか
