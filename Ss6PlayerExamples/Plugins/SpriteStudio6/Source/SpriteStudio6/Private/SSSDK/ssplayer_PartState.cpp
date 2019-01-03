@@ -84,7 +84,7 @@ void	SsPartState::init()
 	effectValue.startTime = 0;
 	effectValue.curKeyframe = 0;
 
-	effectseed = 0;
+//	effectseed = 0;
 	effectTime = 0;
 
 	instanceValue.infinity = false;

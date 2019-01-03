@@ -54,7 +54,7 @@ struct SsPartState
 	SsEffectAttr	effectValue;	///< エフェクトの値
 	int				effectTime;
 	float			effectTimeTotal;
-	int				effectseed;
+//	int				effectseed;
 
 	bool			noCells;				/// セル参照が見つからない
 	bool			is_parts_color;			/// パーツカラーが使用される 
