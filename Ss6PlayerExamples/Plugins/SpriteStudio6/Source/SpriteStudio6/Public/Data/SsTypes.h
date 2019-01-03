@@ -784,15 +784,5 @@ struct FSsRenderPart
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
 	bool bMaskInfluence;
-
-	void CopyFrom(const FSsRenderPart* Other)
-	{
-		PartIndex = Other->PartIndex;
-		Vertices = Other->Vertices;
-		Mesh = Other->Mesh;
-		Texture = Other->Texture;
-		AlphaBlendType = Other->AlphaBlendType;
-		ColorBlendType = Other->ColorBlendType;
-	}
 };
 
