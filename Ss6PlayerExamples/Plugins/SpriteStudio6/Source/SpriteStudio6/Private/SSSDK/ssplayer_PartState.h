@@ -45,7 +45,7 @@ struct SsPartState
 	FVector2D		uvTranslate;	///< UV 平行移動
 	float			uvRotation;		///< UV 回転
 	FVector2D		uvScale;		///< UV スケール
-	float			boundingRadius;	///< 当たり判定用の円の半径
+//	float			boundingRadius;	///< 当たり判定用の円の半径
 
 	SsCellValue		cellValue;		///< セルアニメの値
 	SsPartsColorAnime partsColorValue;///< カラーアニメの値

@@ -68,7 +68,7 @@ void	SsPartState::init()
 	uvRotation = 0;
 	uvScale = FVector2D( 1 , 1 );
 
-	boundingRadius = 0;
+//	boundingRadius = 0;
 
 	is_parts_color = false;
 	is_color_blend = false;

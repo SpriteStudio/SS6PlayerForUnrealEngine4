@@ -997,9 +997,9 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 				case SsAttributeKind::Uvsy:		///< UVアニメ.スケール.Y
 					SsGetKeyValue( part, nowTime , attr , state->uvScale.Y );
 					break;
-				case SsAttributeKind::Boundr:	///< 当たり判定用の半径
-					SsGetKeyValue( part, nowTime , attr , state->boundingRadius );
-					break;
+//				case SsAttributeKind::Boundr:	///< 当たり判定用の半径
+//					SsGetKeyValue( part, nowTime , attr , state->boundingRadius );
+//					break;
 				case SsAttributeKind::User:		///< Ver.4 互換ユーザーデータ
 					break;
 				case SsAttributeKind::Instance:	///インスタンスパラメータ
