@@ -824,7 +824,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 
 	state->is_vertex_transform = false;
 	state->is_parts_color = false;
-	state->is_color_blend = false;
+//	state->is_color_blend = false;
 	state->alphaBlendType = part->AlphaBlendType;
 
 	bool hidekey_find = false;
