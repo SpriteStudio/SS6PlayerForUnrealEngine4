@@ -1173,11 +1173,11 @@ void	SsAnimeDecoder::updateVertices(FSsPart* part , FSsPartAnime* anime , SsPart
 		// セルに設定された原点オフセットを適用する
 		// ※セルの原点は中央が0,0で＋が右上方向になっている
 		float cpx = cell->Pivot.X + 0.5f;
-		if (state->hFlip) cpx = 1 - cpx;	// 水平フリップによって原点を入れ替える
+//		if (state->hFlip) cpx = 1 - cpx;	// 水平フリップによって原点を入れ替える
 		pivot.X = cpx * state->size.X;
 		// 上が＋で入っているのでここで反転する。
 		float cpy = -cell->Pivot.Y + 0.5f;
-		if (state->vFlip) cpy = 1 - cpy;	// 垂直フリップによって原点を入れ替える
+//		if (state->vFlip) cpy = 1 - cpy;	// 垂直フリップによって原点を入れ替える
 		pivot.Y = cpy * state->size.Y;
 	}
 	else

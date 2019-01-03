@@ -34,8 +34,8 @@ struct SsPartState
 	float			alpha;			///< 不透明度 0~1
 	float			localalpha;		///< ローカル不透明度 0~1
 	int				prio;			///< 優先度
-	bool			hFlip;			///< 水平反転　※Ver6では非対応
-	bool			vFlip;			///< 垂直反転　※Ver6では非対応
+//	bool			hFlip;			///< 水平反転　※Ver6では非対応
+//	bool			vFlip;			///< 垂直反転　※Ver6では非対応
 	bool			hide;			///< 非表示にする
 	FVector2D		pivotOffset;	///< 原点のオフセット。旧SSの原点は左上基準にしたこの値に相当する。0,0が中央+0.5,+0.5が右上になる。参照セルがある場合はセルの原点に＋する＝オフセット扱いになる。
 	FVector2D		anchor;			///< アンカーポイント。親パーツのどの位置に引っ付けるか？0,0が中央+0.5,+0.5が右上になる。　※Ver6では非対応

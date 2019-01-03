@@ -54,8 +54,8 @@ void	SsPartState::init()
 	alpha = 1.0f;
 	localalpha = 1.0f;
 	prio = 0;
-	hFlip = false;
-	vFlip = false;
+//	hFlip = false;
+//	vFlip = false;
 	hide = false;
 
 	pivotOffset = FVector2D(0, 0);

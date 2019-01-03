@@ -474,28 +474,6 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			Vertices2D[i] = FVector2D(V.X + OffX, -V.Y + OffY);
 		}
 
-		// 上下反転，左右反転
-		if(State->hFlip)
-		{
-			FVector2D tmp;
-			tmp = Vertices2D[0];
-			Vertices2D[0] = Vertices2D[1];
-			Vertices2D[1] = tmp;
-			tmp = Vertices2D[2];
-			Vertices2D[2] = Vertices2D[3];
-			Vertices2D[3] = tmp;
-		}
-		if(State->vFlip)
-		{
-			FVector2D tmp;
-			tmp = Vertices2D[0];
-			Vertices2D[0] = Vertices2D[2];
-			Vertices2D[2] = tmp;
-			tmp = Vertices2D[1];
-			Vertices2D[1] = Vertices2D[3];
-			Vertices2D[3] = tmp;
-		}
-
 		// UV
 		FVector2D UVs[5];
 		for(int i = 0; i < 4; ++i)
