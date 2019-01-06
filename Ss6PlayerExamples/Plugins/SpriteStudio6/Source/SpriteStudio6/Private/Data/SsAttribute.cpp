@@ -55,7 +55,7 @@ const FSsKeyframe*	FSsAttribute::FirstKey() const
 }
 
 ///時間から左側のキーを取得
-const FSsKeyframe*	FSsAttribute::FindLeftKey( int time )
+const FSsKeyframe*	FSsAttribute::FindLeftKey( int time ) const
 {
 	if ( 0 == Key.Num() )
 		return 0;
@@ -65,7 +65,7 @@ const FSsKeyframe*	FSsAttribute::FindLeftKey( int time )
 	{
 		return &Key[Key.Num()-1];
 	}
-	FSsKeyframe* Keyframe = &(Key[KeyIndex]);
+	const FSsKeyframe* Keyframe = &(Key[KeyIndex]);
 
 	if ( Keyframe->Time == time ) return Keyframe;
 	if ( 0 == KeyIndex )
@@ -82,7 +82,7 @@ const FSsKeyframe*	FSsAttribute::FindLeftKey( int time )
 }
 
 //時間から右側のキーを取得する
-const FSsKeyframe*	FSsAttribute::FindRightKey( int time )
+const FSsKeyframe*	FSsAttribute::FindRightKey( int time ) const
 {
 	if ( 0 == Key.Num() )
 		return 0;
@@ -96,7 +96,7 @@ const FSsKeyframe*	FSsAttribute::FindRightKey( int time )
 }
 
 
-int32 FSsAttribute::GetLowerBoundKeyIndex(int32 Time)
+int32 FSsAttribute::GetLowerBoundKeyIndex(int32 Time) const
 {
 	for(int32 i = 0; i < Key.Num(); ++i)
 	{
@@ -107,7 +107,7 @@ int32 FSsAttribute::GetLowerBoundKeyIndex(int32 Time)
 	}
 	return -1;
 }
-int32 FSsAttribute::GetUpperBoundKeyIndex(int32 Time)
+int32 FSsAttribute::GetUpperBoundKeyIndex(int32 Time) const
 {
 	for(int32 i = 0; i < Key.Num(); ++i)
 	{

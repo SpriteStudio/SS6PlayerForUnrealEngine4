@@ -49,7 +49,7 @@ public:
 	TArray<FSsKeyframe> Key;
 
 public:
-	bool isEmpty()
+	bool isEmpty() const
 	{
 		return 0 == Key.Num();
 	}
@@ -57,14 +57,14 @@ public:
 	const FSsKeyframe* FirstKey() const;
 
 	///時間から左側のキーを取得
-	const FSsKeyframe* FindLeftKey(int time);
+	const FSsKeyframe* FindLeftKey(int time) const;
 
 	//時間から右側のキーを取得する
-	const FSsKeyframe* FindRightKey(int time);
+	const FSsKeyframe* FindRightKey(int time) const;
 
 private:
-	int32 GetLowerBoundKeyIndex(int32 Time);	// std::map::lower_bound()代替
-	int32 GetUpperBoundKeyIndex(int32 Time);	// std::map::upper_bound()代替
+	int32 GetLowerBoundKeyIndex(int32 Time) const;	// std::map::lower_bound()代替
+	int32 GetUpperBoundKeyIndex(int32 Time) const;	// std::map::upper_bound()代替
 
 };
 

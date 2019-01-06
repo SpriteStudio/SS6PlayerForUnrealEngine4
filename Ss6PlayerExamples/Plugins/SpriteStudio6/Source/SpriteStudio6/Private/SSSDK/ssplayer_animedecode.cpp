@@ -684,7 +684,7 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 
 
 
-template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int time , FSsAttribute* attr , mytype&  value )
+template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int time , const FSsAttribute* attr , mytype&  value )
 {
 	int	useTime = 0;
 
@@ -801,7 +801,11 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	state->init();
 	state->inheritRates = part->InheritRates;
 
-	FSsPartAnime* setupAnime = setupPartAnimeDic.Contains(part->PartName) ? setupPartAnimeDic[part->PartName] : nullptr;	//セットアップアニメを取得する
+	FSsPartAnime* setupAnime;
+	{
+		FSsPartAnime** ppSetupAnime = setupPartAnimeDic.Find(part->PartName);
+		setupAnime = (nullptr == ppSetupAnime) ? nullptr : *ppSetupAnime;	//セットアップアニメを取得する
+	}
 
 	if ( ( anime == 0 ) && ( setupAnime == 0 ) ){
 		state->hide = true;
@@ -869,9 +873,9 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 			}
 			attList = &anime->Attributes;
 		}
-		for(auto e = attList->CreateIterator(); e; ++e)
+		for(auto e = attList->CreateConstIterator(); e; ++e)
 		{
-			FSsAttribute* attr = &(*e);
+			const FSsAttribute* attr = &(*e);
 			switch( attr->Tag )
 			{
 				case SsAttributeKind::Invalid:	///< 無効値。旧データからの変換時など
@@ -1008,8 +1012,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 						//先頭にキーが無い場合
 						if ( t  > nowTime )
 						{
-							SsInstanceAttr d;
-							state->instanceValue = d;
+							state->instanceValue = SsInstanceAttr();
 						}
 					}
 					break;
@@ -1021,8 +1024,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 						//先頭にキーが無い場合
 						if ( t > nowTime )
 						{
-							SsEffectAttr d;
-							state->effectValue = d;
+							state->effectValue = SsEffectAttr();
 						}else{
 							state->effectTime = t;
 							if ( !state->effectValue.attrInitialized )
@@ -1121,11 +1123,13 @@ void	SsAnimeDecoder::updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartSt
 			pmat = state->matrixLocal;	//自分だけに適用するローカルマトリクス
 		}
 
-		IdentityMatrix( pmat );
-
 		if (state->parent)	//親パーツがある場合は親のマトリクスを継承する
 		{
 			memcpy( pmat , state->parent->matrix , sizeof( float ) * 16 );
+		}
+		else
+		{
+			IdentityMatrix( pmat );
 		}
 
 		// アンカー

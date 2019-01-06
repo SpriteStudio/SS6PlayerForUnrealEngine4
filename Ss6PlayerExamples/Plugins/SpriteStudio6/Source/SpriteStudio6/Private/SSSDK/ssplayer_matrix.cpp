@@ -10,7 +10,7 @@
 void	IdentityMatrix( float* matrix )
 {
 
-	float ident[] = {
+	static const float ident[] = {
 		1.0f , 0.0f , 0.0f , 0.0f ,
 		0.0f , 1.0f , 0.0f , 0.0f ,
 		0.0f , 0.0f , 1.0f , 0.0f ,
@@ -36,7 +36,7 @@ void    ScaleMatrix( float* _matrix , const float x , const float y , const floa
 
 void    TranslationMatrix( float* _matrix , const float x , const float y , const float z )
 {
-	memset( _matrix , 0 , sizeof(float) * 16 );
+	memset( _matrix , 0 , sizeof(float) * 12 );
 
 	_matrix[ 0 ] = 1.0f;
 	_matrix[ 5 ] = 1.0f;
