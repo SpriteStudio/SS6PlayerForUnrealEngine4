@@ -393,8 +393,6 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 // 描画用パーツデータの作成（１パーツ分） 
 bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
 {
-	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateRenderPart);
-
 	if(nullptr == State){ return false; }
 	float Alpha = (State->localalpha == 1.f) ? State->alpha : State->localalpha;
 	float HideAlpha = 1.f;
