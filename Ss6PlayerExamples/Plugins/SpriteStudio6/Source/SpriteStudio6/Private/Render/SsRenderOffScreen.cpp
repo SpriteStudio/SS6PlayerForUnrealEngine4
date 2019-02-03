@@ -76,7 +76,7 @@ void FSsOffScreenIndexBuffer::InitDynamicRHI()
 	if(0 < IndexNum)
 	{
 		FRHIResourceCreateInfo CreateInfo;
-		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint32), IndexNum * sizeof(uint32), BUF_Dynamic, CreateInfo);
+		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), IndexNum * sizeof(uint16), BUF_Dynamic, CreateInfo);
 	}
 }
 void FSsOffScreenIndexBuffer::ReleaseDynamicRHI()
@@ -489,7 +489,7 @@ namespace
 				void* IndicesPtr = RHILockIndexBuffer(
 					RenderParts.IndexBuffer->IndexBufferRHI,
 					0,
-					RenderParts.IndexBuffer->IndexNum * sizeof(uint32),
+					RenderParts.IndexBuffer->IndexNum * sizeof(uint16),
 					RLM_WriteOnly
 					);
 
@@ -509,35 +509,35 @@ namespace
 						check((4 == ItPart->Vertices.Num()) || (5 == ItPart->Vertices.Num()));
 						if(4 == ItPart->Vertices.Num())
 						{
-							check((IndexCnt + 6) <= (int32)RenderParts.IndexBuffer->IndexNum);
-							((uint32*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
-							((uint32*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
+							check((uint32)(IndexCnt + 6) <= RenderParts.IndexBuffer->IndexNum);
+							((uint16*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
+							((uint16*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
 
-							((uint32*)IndicesPtr)[IndexCnt + 3] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt + 4] = VertexCnt + 3;
-							((uint32*)IndicesPtr)[IndexCnt + 5] = VertexCnt + 2;
+							((uint16*)IndicesPtr)[IndexCnt + 3] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt + 4] = VertexCnt + 3;
+							((uint16*)IndicesPtr)[IndexCnt + 5] = VertexCnt + 2;
 
 							VertexCnt += 4;
 							IndexCnt  += 6;
 						}
 						else
 						{
-							((uint32*)IndicesPtr)[IndexCnt +  0] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt +  1] = VertexCnt + 1;
-							((uint32*)IndicesPtr)[IndexCnt +  2] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  0] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt +  1] = VertexCnt + 1;
+							((uint16*)IndicesPtr)[IndexCnt +  2] = VertexCnt + 4;
 
-							((uint32*)IndicesPtr)[IndexCnt +  3] = VertexCnt + 1;
-							((uint32*)IndicesPtr)[IndexCnt +  4] = VertexCnt + 3;
-							((uint32*)IndicesPtr)[IndexCnt +  5] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  3] = VertexCnt + 1;
+							((uint16*)IndicesPtr)[IndexCnt +  4] = VertexCnt + 3;
+							((uint16*)IndicesPtr)[IndexCnt +  5] = VertexCnt + 4;
 
-							((uint32*)IndicesPtr)[IndexCnt +  6] = VertexCnt + 3;
-							((uint32*)IndicesPtr)[IndexCnt +  7] = VertexCnt + 2;
-							((uint32*)IndicesPtr)[IndexCnt +  8] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  6] = VertexCnt + 3;
+							((uint16*)IndicesPtr)[IndexCnt +  7] = VertexCnt + 2;
+							((uint16*)IndicesPtr)[IndexCnt +  8] = VertexCnt + 4;
 
-							((uint32*)IndicesPtr)[IndexCnt +  9] = VertexCnt + 2;
-							((uint32*)IndicesPtr)[IndexCnt + 10] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt + 11] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  9] = VertexCnt + 2;
+							((uint16*)IndicesPtr)[IndexCnt + 10] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt + 11] = VertexCnt + 4;
 
 							VertexCnt += 5;
 							IndexCnt  += 12;
@@ -548,10 +548,10 @@ namespace
 					{
 						for(auto ItMesh = ItPart->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
 						{
-							check((IndexCnt + ItMesh->Indices.Num()) <= (int32)RenderParts.IndexBuffer->IndexNum);
+							check((uint32)(IndexCnt + ItMesh->Indices.Num()) <= RenderParts.IndexBuffer->IndexNum);
 							for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
 							{
-								((uint32*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = VertexCnt + *ItIndex;
+								((uint16*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = VertexCnt + *ItIndex;
 							}
 							VertexCnt += ItMesh->Vertices.Num();
 							IndexCnt  += ItMesh->Indices.Num();

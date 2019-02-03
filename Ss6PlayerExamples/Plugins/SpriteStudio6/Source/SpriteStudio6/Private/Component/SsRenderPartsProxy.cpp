@@ -54,7 +54,7 @@ void FSsPartsIndexBuffer::InitRHI()
 	if(0 < NumIndices)
 	{
 		FRHIResourceCreateInfo CreateInfo;
-		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint32), NumIndices * sizeof(uint32), BUF_Dynamic, CreateInfo);
+		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), NumIndices * sizeof(uint16), BUF_Dynamic, CreateInfo);
 	}
 }
 
@@ -289,7 +289,7 @@ uint32 FSsRenderPartsProxy::GetMemoryFootprint() const
 
 void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 	const TArray<FSsPartVertex>& InRenderVertices,
-	const TArray<uint32>& InRenderIndices,
+	const TArray<uint16>& InRenderIndices,
 	const TArray<FSsPartPrimitive>& InRenderPrimitives
 	)
 {
@@ -347,8 +347,8 @@ void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 	}
 
 	{
-		void* IndexBufferData = RHILockIndexBuffer(IndexBuffer.IndexBufferRHI, 0, InRenderIndices.Num() * sizeof(uint32), RLM_WriteOnly);
-		FMemory::Memcpy(IndexBufferData, InRenderIndices.GetData(), InRenderIndices.Num() * sizeof(uint32));
+		void* IndexBufferData = RHILockIndexBuffer(IndexBuffer.IndexBufferRHI, 0, InRenderIndices.Num() * sizeof(uint16), RLM_WriteOnly);
+		FMemory::Memcpy(IndexBufferData, InRenderIndices.GetData(), InRenderIndices.Num() * sizeof(uint16));
 		RHIUnlockIndexBuffer(IndexBuffer.IndexBufferRHI);
 	}
 }

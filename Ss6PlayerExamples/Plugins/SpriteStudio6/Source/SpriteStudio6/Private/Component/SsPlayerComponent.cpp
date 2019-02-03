@@ -345,7 +345,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 		case ESsPlayerComponentRenderMode::Default:
 			{
 				TArray<FSsRenderPartsProxy::FSsPartVertex> RenderVertices;
-				TArray<uint32> RenderIndices;
+				TArray<uint16> RenderIndices;
 				TArray<FSsRenderPartsProxy::FSsPartPrimitive> RenderPrimitives;
 				{
 					const TArray<FSsRenderPart>& RenderParts = Player.GetRenderParts();
@@ -537,7 +537,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 					FSendSsRenderData,
 					FSsRenderPartsProxy*, SsPartsProxy, (FSsRenderPartsProxy*)SceneProxy,
 					TArray<FSsRenderPartsProxy::FSsPartVertex>, InRenderVertices, RenderVertices,
-					TArray<uint32>, InRenderIndices, RenderIndices,
+					TArray<uint16>, InRenderIndices, RenderIndices,
 					TArray<FSsRenderPartsProxy::FSsPartPrimitive>, InRenderPrimitives, RenderPrimitives,
 				{
 						SsPartsProxy->SetDynamicData_RenderThread(InRenderVertices, InRenderIndices, InRenderPrimitives);

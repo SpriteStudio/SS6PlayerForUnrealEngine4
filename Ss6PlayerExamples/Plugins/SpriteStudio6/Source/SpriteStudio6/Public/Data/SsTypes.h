@@ -769,7 +769,7 @@ struct FSsRenderMeshVertex
 struct FSsRenderMesh
 {
 	TArray<FSsRenderMeshVertex> Vertices;
-	TArray<uint32> Indices;
+	TArray<uint16> Indices;
 	FColor Color;
 	float ColorBlendRate;
 };

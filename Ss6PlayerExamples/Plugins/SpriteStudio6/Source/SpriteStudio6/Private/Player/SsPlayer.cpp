@@ -675,7 +675,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		RenderMesh.Indices.AddUninitialized(State->meshPart->tri_size * 3);
 		for(int32 i = 0; i < (State->meshPart->tri_size * 3); ++i)
 		{
-			RenderMesh.Indices[i] = (uint32)State->meshPart->indices[i];
+			RenderMesh.Indices[i] = (uint16)State->meshPart->indices[i];
 		}
 
 		RenderMesh.Color.R = State->partsColorValue.color.rgba.r;
