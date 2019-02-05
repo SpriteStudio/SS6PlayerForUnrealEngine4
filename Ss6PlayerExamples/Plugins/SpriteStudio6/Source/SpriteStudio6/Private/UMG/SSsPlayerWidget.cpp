@@ -386,108 +386,65 @@ void SSsPlayerWidget::PaintInternal(
 
 	FVector2D LocalSize = AllottedGeometry.GetLocalSize();
 
-	struct FRenderData
-	{
-		TArray<FSlateVertex> Vertices;
-		TArray<SlateIndex> Indices;
-		FSlateResourceHandle RenderResourceHandle;
-	};
 
-	FSlateMaterialBrush* BkBrush;
-	SsBlendType::Type BkAlphaBlendType;
+	FSlateMaterialBrush* BkBrush = nullptr;
 
-	int32 RenderDataCount = 0;
-	BkBrush = nullptr;
-	BkAlphaBlendType = SsBlendType::Invalid;
-	bool bEnableData = false;
-	for(auto It = InRenderParts->CreateConstIterator(); It; ++It)
-	{
-		if(	   (nullptr == InBrush[It.GetIndex()].Get())
-			|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
-			)
-		{
-			continue;
-		}
-		if((0 != It.GetIndex())
-			&& (   (InBrush[It.GetIndex()].Get() != BkBrush)
-				|| (It->AlphaBlendType != BkAlphaBlendType)
-				)
-			)
-		{
-			if(bEnableData)
-			{
-				bEnableData = false;
-				++RenderDataCount;
-			}
-		}
-
-		bEnableData = true;
-		BkBrush = InBrush[It.GetIndex()].Get();
-		BkAlphaBlendType = It->AlphaBlendType;
-	}
-	if(bEnableData)
-	{
-		++RenderDataCount;
-	}
-
-
-	TArray<FRenderData> RenderDataArray;
-	RenderDataArray.AddZeroed(RenderDataCount);
-
-	int32 RenderDataIndex = 0;
 	int32 VertexCount = 0;
 	int32 IndexCount = 0;
-	for(auto It = InRenderParts->CreateConstIterator(); It; ++It)
 	{
-		if(	   (nullptr == InBrush[It.GetIndex()].Get())
-			|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
-			)
+		int32 VertexCountTmp = 0;
+		int32 IndexCountTmp = 0;
+		for(auto It = InRenderParts->CreateConstIterator(); It; ++It)
 		{
-			continue;
-		}
-		if((0 != It.GetIndex())
-			&& (   (InBrush[It.GetIndex()].Get() != BkBrush)
-				|| (It->AlphaBlendType != BkAlphaBlendType)
+			if(	   (nullptr == InBrush[It.GetIndex()].Get())
+				|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
 				)
-			)
-		{
-			if(0 < IndexCount)
 			{
-				RenderDataArray[RenderDataIndex].Vertices.Reset(VertexCount);
-				RenderDataArray[RenderDataIndex].Indices.Reset(IndexCount);
-
-				++RenderDataIndex;
-				VertexCount = 0;
-				IndexCount = 0;
+				continue;
 			}
-		}
-
-		// 通常パーツ 
-		if(0 == It->Mesh.Num())
-		{
-			VertexCount += 4;
-			IndexCount  += 6;
-		}
-		// メッシュパーツ 
-		else
-		{
-			for(auto ItMesh = It->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+			if((0 != It.GetIndex()) && (InBrush[It.GetIndex()].Get() != BkBrush))
 			{
-				VertexCount += ItMesh->Vertices.Num();
-				IndexCount  += ItMesh->Indices.Num();
+				VertexCount = FMath::Max(VertexCount, VertexCountTmp);
+				IndexCount = FMath::Max(IndexCount, IndexCountTmp);
+				VertexCountTmp = IndexCountTmp = 0;
 			}
+
+			// 通常パーツ 
+			if(0 == It->Mesh.Num())
+			{
+				check((4 == It->Vertices.Num()) || (5 == It->Vertices.Num()));
+				if(4 == It->Vertices.Num())
+				{
+					IndexCountTmp += 6;
+				}
+				else
+				{
+					IndexCountTmp += 12;
+				}
+
+				VertexCountTmp += It->Vertices.Num();
+			}
+			// メッシュパーツ 
+			else
+			{
+				for(auto ItMesh = It->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+				{
+					IndexCountTmp += ItMesh->Indices.Num();
+					VertexCountTmp += ItMesh->Vertices.Num();
+				}
+			}
+
+			BkBrush = InBrush[It.GetIndex()].Get();
 		}
-
-		BkBrush = InBrush[It.GetIndex()].Get();
-		BkAlphaBlendType = It->AlphaBlendType;	// そもそもアルファブレンドモードはサポート出来なさげ 
-	}
-	if(0 < IndexCount)
-	{
-		RenderDataArray[RenderDataIndex].Vertices.Reset(VertexCount);
-		RenderDataArray[RenderDataIndex].Indices.Reset(IndexCount);
+		VertexCount = FMath::Max(VertexCount, VertexCountTmp);
+		IndexCount = FMath::Max(IndexCount, IndexCountTmp);
 	}
 
-	RenderDataIndex = 0;
+
+	TArray<FSlateVertex> Vertices;
+	TArray<SlateIndex> Indices;
+	Vertices.Reserve(VertexCount);
+	Indices.Reserve(IndexCount);
 	for(auto It = InRenderParts->CreateConstIterator(); It; ++It)
 	{
 		if(	   (nullptr == InBrush[It.GetIndex()].Get())
@@ -496,19 +453,23 @@ void SSsPlayerWidget::PaintInternal(
 		{
 			continue;
 		}
-		if((0 != It.GetIndex())
-		   && (   (InBrush[It.GetIndex()].Get() != BkBrush)
-			   || (It->AlphaBlendType != BkAlphaBlendType)
-			   )
-			)
+		if((0 != It.GetIndex()) && (InBrush[It.GetIndex()].Get() != BkBrush) && (0 < Indices.Num()))
 		{
-			if(0 < RenderDataArray[RenderDataIndex].Indices.Num())
+			FSlateResourceHandle RenderResourceHandle = FSlateApplication::Get().GetRenderer()->GetResourceHandle(*(BkBrush));
+			if(RenderResourceHandle.IsValid())
 			{
-				++RenderDataIndex;
+				FSlateDrawElement::MakeCustomVerts(
+					OutDrawElements,
+					LayerId,
+					RenderResourceHandle,
+					Vertices,
+					Indices,
+					nullptr, 0, 0
+				);
 			}
+			Vertices.Empty(VertexCount);
+			Indices.Empty(IndexCount);
 		}
-
-		FRenderData& RenderData = RenderDataArray[RenderDataIndex];
 
 		// 通常パーツ 
 		if(0 == It->Mesh.Num())
@@ -516,55 +477,63 @@ void SSsPlayerWidget::PaintInternal(
 			check((4 == It->Vertices.Num()) || (5 == It->Vertices.Num()));
 			if(4 == It->Vertices.Num())
 			{
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
+				int32 Base = Indices.Num();
+				Indices.AddUninitialized(6);
 
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
+				Indices[Base + 0] = Vertices.Num() + 0;
+				Indices[Base + 1] = Vertices.Num() + 1;
+				Indices[Base + 2] = Vertices.Num() + 3;
+
+				Indices[Base + 3] = Vertices.Num() + 0;
+				Indices[Base + 4] = Vertices.Num() + 3;
+				Indices[Base + 5] = Vertices.Num() + 2;
 			}
 			else
 			{
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+				int32 Base = Indices.Num();
+				Indices.AddUninitialized(12);
 
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 1);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+				Indices[Base +  0] = Vertices.Num() + 0;
+				Indices[Base +  1] = Vertices.Num() + 1;
+				Indices[Base +  2] = Vertices.Num() + 4;
 
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 3);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+				Indices[Base +  3] = Vertices.Num() + 1;
+				Indices[Base +  4] = Vertices.Num() + 3;
+				Indices[Base +  5] = Vertices.Num() + 4;
 
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 2);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 0);
-				RenderData.Indices.Add(RenderData.Vertices.Num() + 4);
+				Indices[Base +  6] = Vertices.Num() + 3;
+				Indices[Base +  7] = Vertices.Num() + 2;
+				Indices[Base +  8] = Vertices.Num() + 4;
+
+				Indices[Base +  9] = Vertices.Num() + 2;
+				Indices[Base + 10] = Vertices.Num() + 0;
+				Indices[Base + 11] = Vertices.Num() + 4;
 			}
 
-			for (int32 i = 0; i < It->Vertices.Num(); ++i)
 			{
-				FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
-					FVector2D(
-						It->Vertices[i].Position.X * LocalSize.X,
-						It->Vertices[i].Position.Y * LocalSize.Y
-						));
-				FSlateVertex Vert;
-				Vert.Position.X = TransPosition.X;
-				Vert.Position.Y = TransPosition.Y;
-				Vert.TexCoords[0] = It->Vertices[i].TexCoord.X;
-				Vert.TexCoords[1] = It->Vertices[i].TexCoord.Y;
-				Vert.TexCoords[2] = 0.f;
-				Vert.TexCoords[3] = It->Vertices[i].ColorBlendRate;
-				Vert.MaterialTexCoords[0] = Vert.MaterialTexCoords[1] = 0.f;
-				Vert.Color = It->Vertices[i].Color;
-				if(bReflectParentAlpha)
+				int32 Base = Vertices.Num();
+				Vertices.AddUninitialized(It->Vertices.Num());
+				for (int32 i = 0; i < It->Vertices.Num(); ++i)
 				{
-					Vert.Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+					FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
+						FVector2D(
+							It->Vertices[i].Position.X * LocalSize.X,
+							It->Vertices[i].Position.Y * LocalSize.Y
+							));
+					int32 Idx = Base + i;
+					Vertices[Idx].Position.X = TransPosition.X;
+					Vertices[Idx].Position.Y = TransPosition.Y;
+					Vertices[Idx].TexCoords[0] = It->Vertices[i].TexCoord.X;
+					Vertices[Idx].TexCoords[1] = It->Vertices[i].TexCoord.Y;
+					Vertices[Idx].TexCoords[2] = 0.f;
+					Vertices[Idx].TexCoords[3] = It->Vertices[i].ColorBlendRate;
+					Vertices[Idx].MaterialTexCoords[0] = Vertices[Idx].MaterialTexCoords[1] = 0.f;
+					Vertices[Idx].Color = It->Vertices[i].Color;
+					if(bReflectParentAlpha)
+					{
+						Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+					}
 				}
-
-				RenderData.Vertices.Add(Vert);
 			}
 		}
 		// メッシュパーツ 
@@ -572,57 +541,57 @@ void SSsPlayerWidget::PaintInternal(
 		{
 			for(auto ItMesh = It->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
 			{
-				for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
 				{
-					RenderData.Indices.Add(RenderData.Vertices.Num() + *ItIndex);
-				}
-				for(auto ItVertex = ItMesh->Vertices.CreateConstIterator(); ItVertex; ++ItVertex)
-				{
-					FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
-						FVector2D(
-							ItVertex->Position.X * LocalSize.X,
-							ItVertex->Position.Y * LocalSize.Y
-						));
-					FSlateVertex Vert;
-					Vert.Position.X = TransPosition.X;
-					Vert.Position.Y = TransPosition.Y;
-					Vert.TexCoords[0] = ItVertex->TexCoord.X;
-					Vert.TexCoords[1] = ItVertex->TexCoord.Y;
-					Vert.TexCoords[2] = 0.f;
-					Vert.TexCoords[3] = ItMesh->ColorBlendRate;
-					Vert.MaterialTexCoords[0] = Vert.MaterialTexCoords[1] = 0.f;
-					Vert.Color = ItMesh->Color;
-					if(bReflectParentAlpha)
+					int32 Base = Indices.Num();
+					Indices.AddUninitialized(ItMesh->Indices.Num());
+					for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
 					{
-						Vert.Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+						Indices[Base + ItIndex.GetIndex()] = Vertices.Num() + *ItIndex;
 					}
-
-					RenderData.Vertices.Add(Vert);
+				}
+				{
+					int32 Base = Vertices.Num();
+					Vertices.AddUninitialized(ItMesh->Vertices.Num());
+					for(auto ItVertex = ItMesh->Vertices.CreateConstIterator(); ItVertex; ++ItVertex)
+					{
+						FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
+							FVector2D(
+								ItVertex->Position.X * LocalSize.X,
+								ItVertex->Position.Y * LocalSize.Y
+							));
+						int32 Idx = Base + ItVertex.GetIndex();
+						Vertices[Idx].Position.X = TransPosition.X;
+						Vertices[Idx].Position.Y = TransPosition.Y;
+						Vertices[Idx].TexCoords[0] = ItVertex->TexCoord.X;
+						Vertices[Idx].TexCoords[1] = ItVertex->TexCoord.Y;
+						Vertices[Idx].TexCoords[2] = 0.f;
+						Vertices[Idx].TexCoords[3] = ItMesh->ColorBlendRate;
+						Vertices[Idx].MaterialTexCoords[0] = Vertices[Idx].MaterialTexCoords[1] = 0.f;
+						Vertices[Idx].Color = ItMesh->Color;
+						if(bReflectParentAlpha)
+						{
+							Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+						}
+					}
 				}
 			}
 		}
 
-		RenderData.RenderResourceHandle =
-			FSlateApplication::Get().GetRenderer()->GetResourceHandle(
-				*(InBrush[It.GetIndex()].Get())
-				);
-
 		BkBrush = InBrush[It.GetIndex()].Get();
-		BkAlphaBlendType = It->AlphaBlendType;	// そもそもアルファブレンドモードはサポート出来なさげ 
 	}
 
-	for(auto It = RenderDataArray.CreateConstIterator(); It; ++It)
 	{
-		if((*It).RenderResourceHandle.IsValid())
+		FSlateResourceHandle RenderResourceHandle = FSlateApplication::Get().GetRenderer()->GetResourceHandle(*(BkBrush));
+		if(RenderResourceHandle.IsValid())
 		{
 			FSlateDrawElement::MakeCustomVerts(
 				OutDrawElements,
 				LayerId,
-				(*It).RenderResourceHandle,
-				(*It).Vertices,
-				(*It).Indices,
+				RenderResourceHandle,
+				Vertices,
+				Indices,
 				nullptr, 0, 0
-				);
+			);
 		}
 	}
 }
