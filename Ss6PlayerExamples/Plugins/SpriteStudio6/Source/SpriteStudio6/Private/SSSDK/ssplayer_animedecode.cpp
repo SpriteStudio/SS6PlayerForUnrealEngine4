@@ -1141,7 +1141,7 @@ void	SsAnimeDecoder::updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartSt
 //		}
 
 		TranslationMatrixM( pmat , state->position.X, state->position.Y, state->position.Z );//
-		RotationXYZMatrixM( pmat , DegreeToRadian(state->rotation.X) , DegreeToRadian(state->rotation.Y) , DegreeToRadian( state->rotation.Z) );
+		RotationXYZMatrixM( pmat , FMath::DegreesToRadians(state->rotation.X) , FMath::DegreesToRadians(state->rotation.Y) , FMath::DegreesToRadians( state->rotation.Z) );
 		float sx = state->scale.X;
 		float sy = state->scale.Y;
 		if (matcnt > 0)
