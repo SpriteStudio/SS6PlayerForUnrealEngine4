@@ -156,7 +156,7 @@ public:
 
 
 private:
-	TMap<const FSsKeyframe*, SsRefCell> RefCellCache;
+	TMap<const FSsKeyframe*, SsCellValue> RefCellCache;
 };
 
 

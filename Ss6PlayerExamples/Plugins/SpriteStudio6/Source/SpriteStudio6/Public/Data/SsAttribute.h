@@ -63,8 +63,8 @@ public:
 	const FSsKeyframe* FindRightKey(int time) const;
 
 private:
-	int32 GetLowerBoundKeyIndex(int32 Time) const;	// std::map::lower_bound()代替
-	int32 GetUpperBoundKeyIndex(int32 Time) const;	// std::map::upper_bound()代替
+//	int32 GetLowerBoundKeyIndex(int32 Time) const;	// std::map::lower_bound()代替
+//	int32 GetUpperBoundKeyIndex(int32 Time) const;	// std::map::upper_bound()代替
 
 };
 

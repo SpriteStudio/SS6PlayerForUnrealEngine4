@@ -531,17 +531,17 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 //		cell.mapid , cell.name , v );
 
 
-	SsRefCell* pcell = RefCellCache.Find(leftkey);
-	if(pcell)
+	SsCellValue* pcellvalue = RefCellCache.Find(leftkey);
+	if(pcellvalue)
 	{
-		getCellValue(this->curCellMapManager, pcell->mapid , pcell->name , v);
+		v = *pcellvalue;
 	}
 	else
 	{
 		SsRefCell cell;
 		GetSsRefCell( leftkey , cell );
-		RefCellCache.Add(leftkey, cell);
 		getCellValue(this->curCellMapManager, cell.mapid , cell.name , v);
+		RefCellCache.Add(leftkey, v);
 	}
 }
 
@@ -845,7 +845,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	int idx = 0;
 	for (idx = 0; idx < 2; idx++)
 	{
-		TArray<FSsAttribute>* attList = nullptr;
+		const TArray<FSsAttribute>* attList = nullptr;
 
 		if (idx == 0)
 		{
