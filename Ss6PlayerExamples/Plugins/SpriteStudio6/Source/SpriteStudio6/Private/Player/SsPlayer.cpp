@@ -650,16 +650,16 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 
 		RenderMesh.Vertices.AddUninitialized(State->meshPart->ver_size);
 		check((0 == State->deformValue.verticeChgList.Num()) || (State->meshPart->ver_size == State->deformValue.verticeChgList.Num()));
-		bool bDeform = 0 < State->deformValue.verticeChgList.Num();
 		for(int32 i = 0; i < State->meshPart->ver_size; ++i)
 		{
 			if(State->meshPart->isBind)
 			{
-				RenderMesh.Vertices[i].Position.X = ( State->meshPart->draw_vertices[i*3 + 0] + (bDeform ? State->deformValue.verticeChgList[i].X : 0.f) + OffX) / CanvasSize.X;
-				RenderMesh.Vertices[i].Position.Y = (-State->meshPart->draw_vertices[i*3 + 1] + (bDeform ? State->deformValue.verticeChgList[i].Y : 0.f) + OffY) / CanvasSize.Y;
+				RenderMesh.Vertices[i].Position.X = ( State->meshPart->draw_vertices[i*3 + 0] + OffX) / CanvasSize.X;
+				RenderMesh.Vertices[i].Position.Y = (-State->meshPart->draw_vertices[i*3 + 1] + OffY) / CanvasSize.Y;
 			}
 			else
 			{
+				bool bDeform = 0 < State->deformValue.verticeChgList.Num();
 				FVector4 V = ViewMatrix.TransformPosition(FVector(
 					State->meshPart->vertices[i*3 + 0] + (bDeform ? State->deformValue.verticeChgList[i].X : 0.f),
 					State->meshPart->vertices[i*3 + 1] + (bDeform ? State->deformValue.verticeChgList[i].Y : 0.f),
