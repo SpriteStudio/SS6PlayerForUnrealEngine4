@@ -193,6 +193,8 @@ void USsPlayerWidget::SynchronizeProperties()
 // 更新 
 void USsPlayerWidget::Tick(float DeltaTime)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_Tick);
+
 #if WITH_EDITOR
 	// SsProjectがReimportされたら、再初期化する 
 	if(Player.GetSsProject().IsStale())
@@ -282,6 +284,8 @@ void USsPlayerWidget::OnSlotRemoved(UPanelSlot* InSlot)
 
 void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer);
+
 	FSsPlayerTickResult Result = Player.Tick(DeltaSeconds);
 
 	if(Result.bUpdate)
@@ -318,20 +322,18 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 		{
 			case ESsPlayerWidgetRenderMode::UMG_Default:
 				{
-					TArray<FSsRenderPartWithSlateBrush> RenderPartWithSlateBrush;
-					const TArray<FSsRenderPart> RenderParts = Player.GetRenderParts();
-					RenderPartWithSlateBrush.Reserve(RenderParts.Num());
+					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_Default);
+
+					PlayerWidget->RenderParts = &Player.GetRenderParts();
+					const TArray<FSsRenderPart>& RenderParts = *PlayerWidget->RenderParts;
+					PlayerWidget->DefaultBrush.Reset(RenderParts.Num());
 
 					for(int32 i = 0; i < RenderParts.Num(); ++i)
 					{
-						if(SsBlendType::Mask == RenderParts[i].ColorBlendType)
+						TSharedPtr<FSlateMaterialBrush> Brush;
+
+						if(SsBlendType::Mask != RenderParts[i].ColorBlendType)
 						{
-							continue;
-						}
-
-						FSsRenderPartWithSlateBrush Part;
-						Part.CopyFrom(&(RenderParts[i]));
-
 						uint32 MatIdx = UMGMatIndex(RenderParts[i].ColorBlendType);
 						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
 						if((NULL == ppMID) || (NULL == *ppMID))
@@ -354,27 +356,30 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 							TSharedPtr<FSlateMaterialBrush>* pBrush = BrushMap.Find(*ppMID);
 							if(pBrush)
 							{
-								Part.Brush = *pBrush;
+									Brush = *pBrush;
 							}
 							else
 							{
 								if(nullptr != RenderParts[i].Texture)
 								{
-									Part.Brush = MakeShareable(new FSlateMaterialBrush(**ppMID, FVector2D(64, 64)));
-									BrushMap.Add(*ppMID, Part.Brush);
+										Brush = MakeShareable(new FSlateMaterialBrush(**ppMID, FVector2D(64, 64)));
+										BrushMap.Add(*ppMID, Brush);
 								}
 							}
 						}
+						}
 
-						RenderPartWithSlateBrush.Add(Part);
+						PlayerWidget->DefaultBrush.Add(Brush);
 					}
 
-					PlayerWidget->SetRenderParts_Default(RenderPartWithSlateBrush);
 					PlayerWidget->SetAnimCanvasSize(Player.GetAnimCanvasSize());
+					check(PlayerWidget->RenderParts->Num() == PlayerWidget->DefaultBrush.Num());
 				} break;
 
 			case ESsPlayerWidgetRenderMode::UMG_OffScreen:
 				{
+					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_OffScreen);
+
 					if(nullptr == PlayerWidget->GetRenderOffScreen())
 					{
 						break;
@@ -396,7 +401,13 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 						Brush = BrushMap.Find(OffScreenMID);
 					}
 
-					PlayerWidget->SetRenderParts_OffScreen(Player.GetRenderParts(), *Brush, OffScreenClearColor);
+					PlayerWidget->RenderParts = &Player.GetRenderParts();
+					PlayerWidget->OffScreenBrush = *Brush;
+					if(nullptr != PlayerWidget->GetRenderOffScreen())
+					{
+						RenderOffScreen->ClearColor = OffScreenClearColor;
+						PlayerWidget->GetRenderOffScreen()->Render(*PlayerWidget->RenderParts);
+					}
 					PlayerWidget->SetAnimCanvasSize(Player.GetAnimCanvasSize());
 				} break;
 		}

@@ -10,7 +10,7 @@
 void	IdentityMatrix( float* matrix )
 {
 
-	float ident[] = {
+	static const float ident[] = {
 		1.0f , 0.0f , 0.0f , 0.0f ,
 		0.0f , 1.0f , 0.0f , 0.0f ,
 		0.0f , 0.0f , 1.0f , 0.0f ,
@@ -21,7 +21,7 @@ void	IdentityMatrix( float* matrix )
 
 }
 
-
+/*
 void    ScaleMatrix( float* _matrix , const float x , const float y , const float z)
 {
 	memset( _matrix , 0 , sizeof(float) * 16 );
@@ -33,10 +33,11 @@ void    ScaleMatrix( float* _matrix , const float x , const float y , const floa
 
 
 }
-
+*/
+/*
 void    TranslationMatrix( float* _matrix , const float x , const float y , const float z )
 {
-	memset( _matrix , 0 , sizeof(float) * 16 );
+	memset( _matrix , 0 , sizeof(float) * 12 );
 
 	_matrix[ 0 ] = 1.0f;
 	_matrix[ 5 ] = 1.0f;
@@ -49,7 +50,7 @@ void    TranslationMatrix( float* _matrix , const float x , const float y , cons
 	_matrix[ 15 ] = 1.0f;
 
 }
-
+*/
 
 void MultiplyMatrix(const float *m0, const float *m1, float *matrix)
 {
@@ -74,6 +75,8 @@ void MultiplyMatrix(const float *m0, const float *m1, float *matrix)
 
 void    Matrix4RotationX( float* _matrix ,const float radians )
 {
+	float s,c;
+	FMath::SinCos(&s, &c, radians);
 
 	_matrix[0] = 1.0f;
 	_matrix[1] = 0.0f;
@@ -81,13 +84,13 @@ void    Matrix4RotationX( float* _matrix ,const float radians )
 	_matrix[3] = 0.0f;
 
 	_matrix[4] = 0.0f;
-	_matrix[5] = cosf(radians);
-	_matrix[6] = sinf(radians);
+	_matrix[5] = c;
+	_matrix[6] = s;
 	_matrix[7] = 0.0f;
 
 	_matrix[8] = 0.0f;
-	_matrix[9] = -sinf(radians);
-	_matrix[10] = cosf(radians);
+	_matrix[9] = -s;
+	_matrix[10] = c;
 	_matrix[11] = 0.0f;
 
 	_matrix[12] = 0.0f;
@@ -101,10 +104,12 @@ void    Matrix4RotationX( float* _matrix ,const float radians )
 
 void    Matrix4RotationY( float* _matrix ,const float radians )
 {
+	float s,c;
+	FMath::SinCos(&s, &c, radians);
 
-	_matrix[0] = cosf(radians);
+	_matrix[0] = c;
 	_matrix[1] = 0.0f;
-	_matrix[2] = -sinf(radians);
+	_matrix[2] = -s;
 	_matrix[3] = 0.0f;
 
 	_matrix[4] = 0.0f;
@@ -112,9 +117,9 @@ void    Matrix4RotationY( float* _matrix ,const float radians )
 	_matrix[6] = 0.0f;
 	_matrix[7] = 0.0f;
 
-	_matrix[8] = sinf(radians);
+	_matrix[8] = s;
 	_matrix[9] = 0.0f;
-	_matrix[10] = cosf(radians);
+	_matrix[10] = c;
 	_matrix[11] = 0.0f;
 
 	_matrix[12] = 0.0f;
@@ -129,13 +134,16 @@ void    Matrix4RotationY( float* _matrix ,const float radians )
 
 void    Matrix4RotationZ( float* _matrix ,const float radians )
 {
-	_matrix[0] = cosf(radians);
-	_matrix[1] = sinf(radians);
+	float s,c;
+	FMath::SinCos(&s, &c, radians);
+
+	_matrix[0] = c;
+	_matrix[1] = s;
 	_matrix[2] = 0.0f;
 	_matrix[3] = 0.0f;
 
-	_matrix[4] = -sinf(radians);
-	_matrix[5] = cosf(radians);
+	_matrix[4] = -s;
+	_matrix[5] = c;
 	_matrix[6] = 0.0f;
 	_matrix[7] = 0.0f;
 

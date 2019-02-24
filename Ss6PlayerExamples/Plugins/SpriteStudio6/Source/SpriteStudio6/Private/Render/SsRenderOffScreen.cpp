@@ -10,6 +10,8 @@
 #include "Ss6Project.h"
 
 
+DECLARE_GPU_STAT_NAMED(StatName_Ss6RenderOffScreen, TEXT("SpriteStudio6 RenderOffScreen") );
+
 //
 // 開放予約された FSsRenderOffScreen を監視し、開放可能な状態になったらdeleteする 
 //
@@ -74,7 +76,7 @@ void FSsOffScreenIndexBuffer::InitDynamicRHI()
 	if(0 < IndexNum)
 	{
 		FRHIResourceCreateInfo CreateInfo;
-		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint32), IndexNum * sizeof(uint32), BUF_Dynamic, CreateInfo);
+		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), IndexNum * sizeof(uint16), BUF_Dynamic, CreateInfo);
 	}
 }
 void FSsOffScreenIndexBuffer::ReleaseDynamicRHI()
@@ -101,6 +103,7 @@ FSsRenderOffScreen::~FSsRenderOffScreen()
 // レンダラの初期化 
 void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, uint32 InVertexNum, uint32 InIndexNum, bool bNeedMask)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_Initialize);
 	check(!bInitialized);
 
 	RenderTarget = NewObject<UTextureRenderTarget2D>(UTextureRenderTarget2D::StaticClass());
@@ -248,6 +251,8 @@ namespace
 		int32 CurrentPartIndex
 		)
 	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_RenderMaskBuffer);
+
 		if(nullptr == RenderParts.MaskRenderTarget)
 		{
 			return;
@@ -358,6 +363,10 @@ namespace
 	// 描画 
 	void RenderPartsToRenderTarget(FRHICommandListImmediate& RHICmdList, FSsRenderPartsForSendingRenderThread& RenderParts)
 	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_RenderPartsToRenderTarget);
+		SCOPED_DRAW_EVENT(RHICmdList, StatName_Ss6RenderOffScreen);
+		SCOPED_GPU_STAT(RHICmdList, StatName_Ss6RenderOffScreen);
+
 		check(IsInRenderingThread());
 
 		float SurfaceWidth  = RenderParts.RenderTarget->GetSurfaceWidth();
@@ -479,7 +488,7 @@ namespace
 				void* IndicesPtr = RHILockIndexBuffer(
 					RenderParts.IndexBuffer->IndexBufferRHI,
 					0,
-					RenderParts.IndexBuffer->IndexNum * sizeof(uint32),
+					RenderParts.IndexBuffer->IndexNum * sizeof(uint16),
 					RLM_WriteOnly
 					);
 
@@ -499,35 +508,35 @@ namespace
 						check((4 == ItPart->Vertices.Num()) || (5 == ItPart->Vertices.Num()));
 						if(4 == ItPart->Vertices.Num())
 						{
-							check((IndexCnt + 6) <= (int32)RenderParts.IndexBuffer->IndexNum);
-							((uint32*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
-							((uint32*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
+							check((uint32)(IndexCnt + 6) <= RenderParts.IndexBuffer->IndexNum);
+							((uint16*)IndicesPtr)[IndexCnt + 0] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt + 1] = VertexCnt + 1;
+							((uint16*)IndicesPtr)[IndexCnt + 2] = VertexCnt + 3;
 
-							((uint32*)IndicesPtr)[IndexCnt + 3] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt + 4] = VertexCnt + 3;
-							((uint32*)IndicesPtr)[IndexCnt + 5] = VertexCnt + 2;
+							((uint16*)IndicesPtr)[IndexCnt + 3] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt + 4] = VertexCnt + 3;
+							((uint16*)IndicesPtr)[IndexCnt + 5] = VertexCnt + 2;
 
 							VertexCnt += 4;
 							IndexCnt  += 6;
 						}
 						else
 						{
-							((uint32*)IndicesPtr)[IndexCnt +  0] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt +  1] = VertexCnt + 1;
-							((uint32*)IndicesPtr)[IndexCnt +  2] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  0] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt +  1] = VertexCnt + 1;
+							((uint16*)IndicesPtr)[IndexCnt +  2] = VertexCnt + 4;
 
-							((uint32*)IndicesPtr)[IndexCnt +  3] = VertexCnt + 1;
-							((uint32*)IndicesPtr)[IndexCnt +  4] = VertexCnt + 3;
-							((uint32*)IndicesPtr)[IndexCnt +  5] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  3] = VertexCnt + 1;
+							((uint16*)IndicesPtr)[IndexCnt +  4] = VertexCnt + 3;
+							((uint16*)IndicesPtr)[IndexCnt +  5] = VertexCnt + 4;
 
-							((uint32*)IndicesPtr)[IndexCnt +  6] = VertexCnt + 3;
-							((uint32*)IndicesPtr)[IndexCnt +  7] = VertexCnt + 2;
-							((uint32*)IndicesPtr)[IndexCnt +  8] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  6] = VertexCnt + 3;
+							((uint16*)IndicesPtr)[IndexCnt +  7] = VertexCnt + 2;
+							((uint16*)IndicesPtr)[IndexCnt +  8] = VertexCnt + 4;
 
-							((uint32*)IndicesPtr)[IndexCnt +  9] = VertexCnt + 2;
-							((uint32*)IndicesPtr)[IndexCnt + 10] = VertexCnt + 0;
-							((uint32*)IndicesPtr)[IndexCnt + 11] = VertexCnt + 4;
+							((uint16*)IndicesPtr)[IndexCnt +  9] = VertexCnt + 2;
+							((uint16*)IndicesPtr)[IndexCnt + 10] = VertexCnt + 0;
+							((uint16*)IndicesPtr)[IndexCnt + 11] = VertexCnt + 4;
 
 							VertexCnt += 5;
 							IndexCnt  += 12;
@@ -538,10 +547,10 @@ namespace
 					{
 						for(auto ItMesh = ItPart->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
 						{
-							check((IndexCnt + ItMesh->Indices.Num()) <= (int32)RenderParts.IndexBuffer->IndexNum);
+							check((uint32)(IndexCnt + ItMesh->Indices.Num()) <= RenderParts.IndexBuffer->IndexNum);
 							for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
 							{
-								((uint32*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = VertexCnt + *ItIndex;
+								((uint16*)IndicesPtr)[IndexCnt + ItIndex.GetIndex()] = VertexCnt + *ItIndex;
 							}
 							VertexCnt += ItMesh->Vertices.Num();
 							IndexCnt  += ItMesh->Indices.Num();
@@ -762,6 +771,7 @@ namespace
 // ゲームスレッドからの描画命令発行 
 void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_Render);
 	check(IsInGameThread());
 	
 	if(!RenderTarget.IsValid())

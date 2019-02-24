@@ -83,14 +83,6 @@ public:
 	virtual void OnArrangeChildren(const FGeometry& AllottedGeometry, FArrangedChildren& ArrangedChildren) const;
 
 private:
-	template<class T>
-	void ArrangeChildrenInternal(
-		const TArray<T>& InRenderParts,
-		const FGeometry& AllottedGeometry,
-		FArrangedChildren& ArrangedChildren
-		) const;
-
-private:
 	TPanelChildren<FSlot> Children;
 
 
@@ -105,7 +97,8 @@ public:
 
 private:
 	void PaintInternal(
-		const TArray<FSsRenderPartWithSlateBrush>& InRenderParts,
+		const TArray<FSsRenderPart>* InRenderParts,
+		const TArray<TSharedPtr<FSlateMaterialBrush>>& InBrush,
 		const FGeometry& AllottedGeometry,
 		const FSlateRect& MyClippingRect,
 		FSlateWindowElementList& OutDrawElements,
@@ -115,14 +108,12 @@ private:
 
 public:
 	bool bReflectParentAlpha;
+	const TArray<FSsRenderPart>* RenderParts;
+	TArray<TSharedPtr<FSlateMaterialBrush>> DefaultBrush;
+	TSharedPtr<FSlateMaterialBrush> OffScreenBrush;
 
 private:
 	bool bRenderOffScreen;
-	TSharedPtr<FSlateMaterialBrush> OffScreenBrush;
-
-	TArray<FSsRenderPartWithSlateBrush> RenderParts_Default;
-
-	TArray<FSsRenderPart> RenderParts_OffScreen;
 	FSsRenderOffScreen* RenderOffScreen;
 };
 

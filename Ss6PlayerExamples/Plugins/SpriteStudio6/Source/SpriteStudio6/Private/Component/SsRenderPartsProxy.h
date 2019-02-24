@@ -81,7 +81,7 @@ public:
 	virtual FPrimitiveViewRelevance GetViewRelevance(const FSceneView* View) const override;
 	virtual uint32 GetMemoryFootprint() const override;
 
-	void SetDynamicData_RenderThread(const TArray<FSsPartVertex>& InRenderVertices, const TArray<uint32>& InRenderIndices, const TArray<FSsPartPrimitive>& InRenderPrimitives);
+	void SetDynamicData_RenderThread(const TArray<FSsPartVertex>& InRenderVertices, const TArray<uint16>& InRenderIndices, const TArray<FSsPartPrimitive>& InRenderPrimitives);
 
 private:
 	USsPlayerComponent* Component;

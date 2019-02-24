@@ -372,7 +372,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 			updateParticle( time + 1.0f , &dp , true );
 			p->direc =  get_angle_360(
 								FVector2D( 1 , 0 ) ,
-								FVector2D(p->x - dp.x, p->y - dp.y) ) + DegreeToRadian(90) + DegreeToRadian(particle.direcRotAdd);
+								FVector2D(p->x - dp.x, p->y - dp.y) ) + FMath::DegreesToRadians(90) + FMath::DegreesToRadians(particle.direcRotAdd);
 		}
 	}
 

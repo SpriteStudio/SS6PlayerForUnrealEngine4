@@ -195,8 +195,8 @@ public:
 		e->particle.speed = source->Speed.GetMinValue();
 		e->particle.speed2 = source->Speed.GetMaxValue() - source->Speed.GetMinValue();
 
-		e->particle.angle = DegreeToRadian( (source->Angle+90.0f) );
-		e->particle.angleVariance = DegreeToRadian( source->AngleVariance );
+		e->particle.angle = FMath::DegreesToRadians( (source->Angle+90.0f) );
+		e->particle.angleVariance = FMath::DegreesToRadians( source->AngleVariance );
 
 		e->particle.useTanAccel = false;
 

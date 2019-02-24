@@ -42,7 +42,7 @@ void	SsPartState::destroy()
 void	SsPartState::init()
 {
 	memset( vertices , 0 , sizeof( vertices ) );
-	memset( colors , 0 , sizeof( colors ) );
+//	memset( colors , 0 , sizeof( colors ) );
 	memset( uvs , 0 , sizeof( uvs ) );
 	memset( matrix , 0 , sizeof( matrix ) );
 	//cell = 0;
@@ -54,12 +54,12 @@ void	SsPartState::init()
 	alpha = 1.0f;
 	localalpha = 1.0f;
 	prio = 0;
-	hFlip = false;
-	vFlip = false;
+//	hFlip = false;
+//	vFlip = false;
 	hide = false;
 
 	pivotOffset = FVector2D(0, 0);
-	anchor = FVector2D( 0 , 0 );
+//	anchor = FVector2D( 0 , 0 );
 	size = FVector2D( 1 , 1 );
 
 	imageFlipH = false;
@@ -68,10 +68,10 @@ void	SsPartState::init()
 	uvRotation = 0;
 	uvScale = FVector2D( 1 , 1 );
 
-	boundingRadius = 0;
+//	boundingRadius = 0;
 
 	is_parts_color = false;
-	is_color_blend = false;
+//	is_color_blend = false;
 	is_vertex_transform = false;
 	inheritRates = 0; 
 
@@ -84,7 +84,7 @@ void	SsPartState::init()
 	effectValue.startTime = 0;
 	effectValue.curKeyframe = 0;
 
-	effectseed = 0;
+//	effectseed = 0;
 	effectTime = 0;
 
 	instanceValue.infinity = false;

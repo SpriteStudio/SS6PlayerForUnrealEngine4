@@ -769,7 +769,7 @@ struct FSsRenderMeshVertex
 struct FSsRenderMesh
 {
 	TArray<FSsRenderMeshVertex> Vertices;
-	TArray<uint32> Indices;
+	TArray<uint16> Indices;
 	FColor Color;
 	float ColorBlendRate;
 };
@@ -784,21 +784,5 @@ struct FSsRenderPart
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
 	bool bMaskInfluence;
-
-	void CopyFrom(const FSsRenderPart* Other)
-	{
-		PartIndex = Other->PartIndex;
-		Vertices = Other->Vertices;
-		Mesh = Other->Mesh;
-		Texture = Other->Texture;
-		AlphaBlendType = Other->AlphaBlendType;
-		ColorBlendType = Other->ColorBlendType;
-	}
-};
-
-// SlateBrush付き描画用のパーツ情報
-struct FSsRenderPartWithSlateBrush : public FSsRenderPart
-{
-	TSharedPtr<struct FSlateMaterialBrush> Brush;
 };
 

@@ -66,6 +66,8 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 // 更新
 FSsPlayerTickResult FSsPlayer::Tick(float DeltaSeconds)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_Tick);
+
 	FSsPlayerTickResult Result;
 
 	if(bPlaying)
@@ -79,6 +81,8 @@ FSsPlayerTickResult FSsPlayer::Tick(float DeltaSeconds)
 // アニメーションの更新
 void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_TickAnimation);
+
 	if(nullptr == Decoder)
 	{
 		return;
@@ -194,8 +198,12 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 	}
 
 	// Decoder更新 
-	Decoder->setPlayFrame( AnimeFrame );
-	Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
+	{
+		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_Tick_UpdateDecoder);
+
+		Decoder->setPlayFrame( AnimeFrame );
+		Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
+	}
 
 	// 描画情報更新 
 	RenderParts.Reset();
@@ -260,6 +268,8 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 //   Start < Key <= End
 void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start, float End)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_FindUserDataInInterval);
+
 	float IntervalMin = FMath::Min(Start, End);
 	float IntervalMax = FMath::Max(Start, End);
 
@@ -349,6 +359,8 @@ void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start,
 // 描画用パーツデータの作成 
 void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateRenderParts);
+
 	for(auto It = RenderDecoder->sortList.CreateConstIterator(); It; ++It)
 	{
 		SsPartState* State = (*It);
@@ -369,10 +381,10 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 		}
 		else
 		{
-			FSsRenderPart RenderPart;
-			if(CreateRenderPart(RenderPart, State, CanvasSize, Pivot, bInstance))
+			FSsRenderPart& RenderPart = RenderParts.AddZeroed_GetRef();
+			if(!CreateRenderPart(RenderPart, State, CanvasSize, Pivot, bInstance))
 			{
-				RenderParts.Add(RenderPart);
+				RenderParts.RemoveAt(RenderParts.Num()-1, 1, false);
 			}
 		}
 	}
@@ -458,28 +470,6 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				State->vertices[i*3 + 2]
 			));
 			Vertices2D[i] = FVector2D(V.X + OffX, -V.Y + OffY);
-		}
-
-		// 上下反転，左右反転
-		if(State->hFlip)
-		{
-			FVector2D tmp;
-			tmp = Vertices2D[0];
-			Vertices2D[0] = Vertices2D[1];
-			Vertices2D[1] = tmp;
-			tmp = Vertices2D[2];
-			Vertices2D[2] = Vertices2D[3];
-			Vertices2D[3] = tmp;
-		}
-		if(State->vFlip)
-		{
-			FVector2D tmp;
-			tmp = Vertices2D[0];
-			Vertices2D[0] = Vertices2D[2];
-			Vertices2D[2] = tmp;
-			tmp = Vertices2D[1];
-			Vertices2D[1] = Vertices2D[3];
-			Vertices2D[3] = tmp;
 		}
 
 		// UV
@@ -685,7 +675,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		RenderMesh.Indices.AddUninitialized(State->meshPart->tri_size * 3);
 		for(int32 i = 0; i < (State->meshPart->tri_size * 3); ++i)
 		{
-			RenderMesh.Indices[i] = (uint32)State->meshPart->indices[i];
+			RenderMesh.Indices[i] = (uint16)State->meshPart->indices[i];
 		}
 
 		RenderMesh.Color.R = State->partsColorValue.color.rgba.r;
@@ -701,6 +691,8 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 // エフェクト描画用パーツデータの作成 
 void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateEffectRenderParts);
+
 	if(nullptr == State){ return; }
 	if(nullptr == State->refEffect){ return; }
 	if(State->refEffect->nowFrame < 0){ return; }
@@ -734,13 +726,13 @@ void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, c
 					DrawData.id = n;
 					DrawData.pid = 0;
 
-					CreateEffectRenderPart(RenderParts, State, CanvasSize, Pivot, Emitter, (Effect->targetFrame - DrawData.stime), Emitter->_parent, &DrawData);
+					CreateEffectRenderPart(OutRenderParts, State, CanvasSize, Pivot, Emitter, (Effect->targetFrame - DrawData.stime), Emitter->_parent, &DrawData);
 				}
 			}
 		}
 		else
 		{
-			CreateEffectRenderPart(RenderParts, State, CanvasSize, Pivot, Emitter, Effect->targetFrame);
+			CreateEffectRenderPart(OutRenderParts, State, CanvasSize, Pivot, Emitter, Effect->targetFrame);
 		}
 	}
 }
@@ -748,6 +740,8 @@ void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, c
 // エフェクト描画用パーツデータの作成（１パーツ分） 
 void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent, const particleDrawData* DrawData)
 {
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateEffectRenderPart);
+
 	// 参照：SsEffectRenderV2::particleDraw()
 
 	if(nullptr == State){ return; }
@@ -809,13 +803,6 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 			fcolor.fromARGB(lp.color.ToARGB());
 
 
-			FSsRenderPart RenderPart;
-			RenderPart.PartIndex = State->index;
-			RenderPart.Texture = Emitter->dispCell.texture;
-			RenderPart.AlphaBlendType = SsRenderBlendTypeToBlendType(Emitter->refData->BlendType);
-			RenderPart.ColorBlendType = SsBlendType::Effect;
-			RenderPart.bMaskInfluence = State->maskInfluence;
-
 			{
 				float matrix[4 * 4];
 				IdentityMatrix(matrix);
@@ -861,6 +848,13 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						FVector((dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
 					};
 
+					FSsRenderPart& RenderPart = OutRenderParts.AddZeroed_GetRef();
+					RenderPart.PartIndex = State->index;
+					RenderPart.Texture = Emitter->dispCell.texture;
+					RenderPart.AlphaBlendType = SsRenderBlendTypeToBlendType(Emitter->refData->BlendType);
+					RenderPart.ColorBlendType = SsBlendType::Effect;
+					RenderPart.bMaskInfluence = State->maskInfluence;
+
 					RenderPart.Vertices.AddUninitialized(4);
 					for (int32 i = 0; i < 4; ++i)
 					{
@@ -872,8 +866,6 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * ParentAlpha));
 						RenderPart.Vertices[i].ColorBlendRate = (Emitter->particle.useColor || Emitter->particle.useTransColor) ? 1.f : 0.f;
 					}
-
-					OutRenderParts.Add(RenderPart);
 				}
 			}
 		}

@@ -531,17 +531,17 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 //		cell.mapid , cell.name , v );
 
 
-	SsRefCell* pcell = RefCellCache.Find(leftkey);
-	if(pcell)
+	SsCellValue* pcellvalue = RefCellCache.Find(leftkey);
+	if(pcellvalue)
 	{
-		getCellValue(this->curCellMapManager, pcell->mapid , pcell->name , v);
+		v = *pcellvalue;
 	}
 	else
 	{
 		SsRefCell cell;
 		GetSsRefCell( leftkey , cell );
-		RefCellCache.Add(leftkey, cell);
 		getCellValue(this->curCellMapManager, cell.mapid , cell.name , v);
+		RefCellCache.Add(leftkey, v);
 	}
 }
 
@@ -594,14 +594,14 @@ void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, 
 	//スタートとエンドの頂点数を比較し、多い方に合わせる(足りない部分は0とみなす)
 	int numPoints = FMath::Max<int>(startValue.verticeChgList.Num(), endValue.verticeChgList.Num());
 
-	TArray<FVector2D> start = startValue.verticeChgList;
+	TArray<FVector2D>& start = startValue.verticeChgList;
 	//start.resize(numPoints);
 	for (int i = start.Num(); i < numPoints; i++)
 	{
 		start.Add(FVector2D(0, 0));
 	}
 
-	TArray<FVector2D> end = endValue.verticeChgList;
+	TArray<FVector2D>& end = endValue.verticeChgList;
 	//end.resize(numPoints);
 	for (int i = end.Num(); i < numPoints; i++)
 	{
@@ -684,7 +684,7 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 
 
 
-template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int time , FSsAttribute* attr , mytype&  value )
+template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int time , const FSsAttribute* attr , mytype&  value )
 {
 	int	useTime = 0;
 
@@ -705,10 +705,10 @@ template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int t
 			FSsPartAnime* setupAnime = setupPartAnimeDic.Contains(part->PartName) ? setupPartAnimeDic[part->PartName] : nullptr;
 			if ((setupAnime) && (0 != setupAnime->Attributes.Num()))
 			{
-				TArray<FSsAttribute>& attList = setupAnime->Attributes;
-				for(auto e = attList.CreateIterator(); e; ++e)
+				const TArray<FSsAttribute>& attList = setupAnime->Attributes;
+				for(auto e = attList.CreateConstIterator(); e; ++e)
 				{
-					FSsAttribute* setupattr = &(*e);
+					const FSsAttribute* setupattr = &(*e);
 					if (setupattr->Tag == attr->Tag)
 					{
 						lkey = setupattr->FirstKey();
@@ -801,7 +801,11 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	state->init();
 	state->inheritRates = part->InheritRates;
 
-	FSsPartAnime* setupAnime = setupPartAnimeDic.Contains(part->PartName) ? setupPartAnimeDic[part->PartName] : nullptr;	//セットアップアニメを取得する
+	FSsPartAnime* setupAnime;
+	{
+		FSsPartAnime** ppSetupAnime = setupPartAnimeDic.Find(part->PartName);
+		setupAnime = (nullptr == ppSetupAnime) ? nullptr : *ppSetupAnime;	//セットアップアニメを取得する
+	}
 
 	if ( ( anime == 0 ) && ( setupAnime == 0 ) ){
 		state->hide = true;
@@ -824,7 +828,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 
 	state->is_vertex_transform = false;
 	state->is_parts_color = false;
-	state->is_color_blend = false;
+//	state->is_color_blend = false;
 	state->alphaBlendType = part->AlphaBlendType;
 
 	bool hidekey_find = false;
@@ -841,7 +845,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	int idx = 0;
 	for (idx = 0; idx < 2; idx++)
 	{
-		TArray<FSsAttribute>* attList = nullptr;
+		const TArray<FSsAttribute>* attList = nullptr;
 
 		if (idx == 0)
 		{
@@ -869,9 +873,9 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 			}
 			attList = &anime->Attributes;
 		}
-		for(auto e = attList->CreateIterator(); e; ++e)
+		for(auto e = attList->CreateConstIterator(); e; ++e)
 		{
-			FSsAttribute* attr = &(*e);
+			const FSsAttribute* attr = &(*e);
 			switch( attr->Tag )
 			{
 				case SsAttributeKind::Invalid:	///< 無効値。旧データからの変換時など
@@ -997,9 +1001,9 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 				case SsAttributeKind::Uvsy:		///< UVアニメ.スケール.Y
 					SsGetKeyValue( part, nowTime , attr , state->uvScale.Y );
 					break;
-				case SsAttributeKind::Boundr:	///< 当たり判定用の半径
-					SsGetKeyValue( part, nowTime , attr , state->boundingRadius );
-					break;
+//				case SsAttributeKind::Boundr:	///< 当たり判定用の半径
+//					SsGetKeyValue( part, nowTime , attr , state->boundingRadius );
+//					break;
 				case SsAttributeKind::User:		///< Ver.4 互換ユーザーデータ
 					break;
 				case SsAttributeKind::Instance:	///インスタンスパラメータ
@@ -1008,8 +1012,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 						//先頭にキーが無い場合
 						if ( t  > nowTime )
 						{
-							SsInstanceAttr d;
-							state->instanceValue = d;
+							state->instanceValue = SsInstanceAttr();
 						}
 					}
 					break;
@@ -1021,8 +1024,7 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 						//先頭にキーが無い場合
 						if ( t > nowTime )
 						{
-							SsEffectAttr d;
-							state->effectValue = d;
+							state->effectValue = SsEffectAttr();
 						}else{
 							state->effectTime = t;
 							if ( !state->effectValue.attrInitialized )
@@ -1049,14 +1051,14 @@ void	SsAnimeDecoder::updateState( int nowTime , FSsPart* part , FSsPartAnime* an
 	// カラー値だけアニメが無いと設定されないので初期値を入れておく。
 	// alpha はupdateで初期化されるのでOK
 	// 当たり判定パーツ用のカラー。赤の半透明にする
-	static const float sColorsForBoundsParts[] = {0.5f, 0.f, 0.f, 1.f};
-	for (int i = 0; i < (4*4) ; ++i)
-	{
-		if (state->noCells)
-			state->colors[i] = sColorsForBoundsParts[i & 3];
-		else
-			state->colors[i] = 1.f;
-	}
+//	static const float sColorsForBoundsParts[] = {0.5f, 0.f, 0.f, 1.f};
+//	for (int i = 0; i < (4*4) ; ++i)
+//	{
+//		if (state->noCells)
+//			state->colors[i] = sColorsForBoundsParts[i & 3];
+//		else
+//			state->colors[i] = 1.f;
+//	}
 
 	// 非表示キーがないか、先頭の非表示キーより手前の場合は常に非表示にする。
 	// 継承する場合は継承を優先するため先に処理する
@@ -1121,23 +1123,25 @@ void	SsAnimeDecoder::updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartSt
 			pmat = state->matrixLocal;	//自分だけに適用するローカルマトリクス
 		}
 
-		IdentityMatrix( pmat );
-
 		if (state->parent)	//親パーツがある場合は親のマトリクスを継承する
 		{
 			memcpy( pmat , state->parent->matrix , sizeof( float ) * 16 );
 		}
-
-		// アンカー
-		if ( state->parent )
+		else
 		{
-			const FVector2D& parentSize = state->parent->size;
-			state->position.X = state->position.X + state->parent->size.X * state->anchor.X;
-			state->position.Y = state->position.Y + state->parent->size.Y * state->anchor.Y;
+			IdentityMatrix( pmat );
 		}
 
+		// アンカー
+//		if ( state->parent )
+//		{
+//			const FVector2D& parentSize = state->parent->size;
+//			state->position.X = state->position.X + state->parent->size.X * state->anchor.X;
+//			state->position.Y = state->position.Y + state->parent->size.Y * state->anchor.Y;
+//		}
+
 		TranslationMatrixM( pmat , state->position.X, state->position.Y, state->position.Z );//
-		RotationXYZMatrixM( pmat , DegreeToRadian(state->rotation.X) , DegreeToRadian(state->rotation.Y) , DegreeToRadian( state->rotation.Z) );
+		RotationXYZMatrixM( pmat , FMath::DegreesToRadians(state->rotation.X) , FMath::DegreesToRadians(state->rotation.Y) , FMath::DegreesToRadians( state->rotation.Z) );
 		float sx = state->scale.X;
 		float sy = state->scale.Y;
 		if (matcnt > 0)
@@ -1173,11 +1177,11 @@ void	SsAnimeDecoder::updateVertices(FSsPart* part , FSsPartAnime* anime , SsPart
 		// セルに設定された原点オフセットを適用する
 		// ※セルの原点は中央が0,0で＋が右上方向になっている
 		float cpx = cell->Pivot.X + 0.5f;
-		if (state->hFlip) cpx = 1 - cpx;	// 水平フリップによって原点を入れ替える
+//		if (state->hFlip) cpx = 1 - cpx;	// 水平フリップによって原点を入れ替える
 		pivot.X = cpx * state->size.X;
 		// 上が＋で入っているのでここで反転する。
 		float cpy = -cell->Pivot.Y + 0.5f;
-		if (state->vFlip) cpy = 1 - cpy;	// 垂直フリップによって原点を入れ替える
+//		if (state->vFlip) cpy = 1 - cpy;	// 垂直フリップによって原点を入れ替える
 		pivot.Y = cpy * state->size.Y;
 	}
 	else
