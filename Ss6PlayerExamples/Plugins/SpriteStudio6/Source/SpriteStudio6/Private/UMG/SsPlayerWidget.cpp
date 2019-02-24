@@ -405,7 +405,7 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 					PlayerWidget->OffScreenBrush = *Brush;
 					if(nullptr != PlayerWidget->GetRenderOffScreen())
 					{
-						RenderOffScreen->ClearColor = OffScreenClearColor;
+						PlayerWidget->GetRenderOffScreen()->ClearColor = OffScreenClearColor;
 						PlayerWidget->GetRenderOffScreen()->Render(*PlayerWidget->RenderParts);
 					}
 					PlayerWidget->SetAnimCanvasSize(Player.GetAnimCanvasSize());

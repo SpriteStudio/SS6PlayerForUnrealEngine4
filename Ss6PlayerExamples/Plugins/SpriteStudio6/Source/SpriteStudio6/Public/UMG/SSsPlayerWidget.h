@@ -56,8 +56,6 @@ public:
 		);
 
 	void SetAnimCanvasSize(const FVector2D& InSize) { AnimCanvasSize = InSize; }
-	void SetRenderParts_Default(const TArray<FSsRenderPartWithSlateBrush>& InRenderParts);
-	void SetRenderParts_OffScreen(const TArray<FSsRenderPart>& InRenderParts, TSharedPtr<FSlateMaterialBrush>& InOffscreenBrush, const FColor& ClearColor);
 
 	// SWidget interface 
 	virtual FVector2D ComputeDesiredSize(float LayoutScaleMultiplier) const override;

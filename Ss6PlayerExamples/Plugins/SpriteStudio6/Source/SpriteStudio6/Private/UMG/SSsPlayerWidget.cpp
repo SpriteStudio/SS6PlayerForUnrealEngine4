@@ -38,6 +38,9 @@ namespace
 SSsPlayerWidget::SSsPlayerWidget()
 	: SPanel()
 	, AnimCanvasSize(0.f, 0.f)
+	, Children(this)
+	, bReflectParentAlpha(false)
+	, RenderParts(nullptr)
 	, bRenderOffScreen(false)
 	, RenderOffScreen(nullptr)
 	
@@ -82,34 +85,6 @@ void SSsPlayerWidget::Terminate_OffScreen()
 		RenderOffScreen->ReserveTerminate();
 		RenderOffScreen = nullptr;
 	}
-}
-
-
-
-//
-// 描画用パーツ情報の登録 (Default) 
-//
-void SSsPlayerWidget::SetRenderParts_Default(const TArray<FSsRenderPartWithSlateBrush>& InRenderParts)
-{
-	RenderParts_Default = InRenderParts;
-}
-
-//
-// 描画用パーツ情報の登録 (OffScreen) 
-//
-void SSsPlayerWidget::SetRenderParts_OffScreen(
-	const TArray<FSsRenderPart>& InRenderParts,
-	TSharedPtr<FSlateMaterialBrush>& InOffscreenBrush,
-	const FColor& ClearColor
-	)
-{
-	RenderParts_OffScreen = InRenderParts;
-	if(RenderOffScreen)
-	{
-		RenderOffScreen->ClearColor = ClearColor;
-		RenderOffScreen->Render(RenderParts_OffScreen);
-	}
-	OffScreenBrush = InOffscreenBrush;
 }
 
 FVector2D SSsPlayerWidget::ComputeDesiredSize(float LayoutScaleMultiplier) const
