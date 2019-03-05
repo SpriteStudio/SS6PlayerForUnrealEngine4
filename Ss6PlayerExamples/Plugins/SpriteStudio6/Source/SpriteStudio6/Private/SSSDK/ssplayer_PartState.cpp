@@ -45,6 +45,7 @@ void	SsPartState::init()
 //	memset( colors , 0 , sizeof( colors ) );
 	memset( uvs , 0 , sizeof( uvs ) );
 	memset( matrix , 0 , sizeof( matrix ) );
+	memset( matrixLocal , 0 , sizeof( matrixLocal ) );
 	//cell = 0;
 	position = FVector( 0.0f , 0.0f, 0.0f );
 	rotation = FVector( 0.0f , 0.0f , 0.0f );
