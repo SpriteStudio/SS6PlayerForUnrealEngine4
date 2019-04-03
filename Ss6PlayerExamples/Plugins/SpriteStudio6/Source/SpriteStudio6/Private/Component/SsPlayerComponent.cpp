@@ -534,34 +534,31 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 					}
 				}
 
-				ENQUEUE_UNIQUE_RENDER_COMMAND_FOURPARAMETER(
-					FSendSsRenderData,
-					FSsRenderPartsProxy*, SsPartsProxy, (FSsRenderPartsProxy*)SceneProxy,
-					TArray<FSsRenderPartsProxy::FSsPartVertex>, InRenderVertices, RenderVertices,
-					TArray<uint16>, InRenderIndices, RenderIndices,
-					TArray<FSsRenderPartsProxy::FSsPartPrimitive>, InRenderPrimitives, RenderPrimitives,
-				{
-						SsPartsProxy->SetDynamicData_RenderThread(InRenderVertices, InRenderIndices, InRenderPrimitives);
-				});
+				FSsRenderPartsProxy* SsPartsProxy = (FSsRenderPartsProxy*)SceneProxy;
+				ENQUEUE_RENDER_COMMAND(FSendSsRenderData)(
+					[SsPartsProxy, RenderVertices, RenderIndices, RenderPrimitives](FRHICommandListImmediate& RHICmdList)
+					{
+						SsPartsProxy->SetDynamicData_RenderThread(RenderVertices, RenderIndices, RenderPrimitives);
+					});
 
 			} break;
 		case ESsPlayerComponentRenderMode::OffScreenPlane:
 			{
-				ENQUEUE_UNIQUE_RENDER_COMMAND_FOURPARAMETER(
-					FSendSsPlaneData,
-					FSsRenderPlaneProxy*, SsPlaneProxy, (FSsRenderPlaneProxy*)SceneProxy,
-					UMaterialInterface*,  Material, OffScreenPlaneMID,
-					FVector2D, Pivot, Player.GetAnimPivot(),
-					FVector2D, CanvasSizeUU, (Player.GetAnimCanvasSize() * UUPerPixel),
-				{
-					if(Material)
+				FSsRenderPlaneProxy* SsPlaneProxy = (FSsRenderPlaneProxy*)SceneProxy;
+				UMaterialInterface* Material = OffScreenPlaneMID;
+				FVector2D Pivot(Player.GetAnimPivot());
+				FVector2D CanvasSizeUU(Player.GetAnimCanvasSize() * UUPerPixel);
+				ENQUEUE_RENDER_COMMAND(FSendSsPlaneData)(
+					[SsPlaneProxy, Material, Pivot, CanvasSizeUU](FRHICommandListImmediate& RHICmdList)
 					{
-						SsPlaneProxy->SetMaterial(Material);
-					}
-					SsPlaneProxy->CanvasSizeUU = CanvasSizeUU;
-					SsPlaneProxy->SetPivot(Pivot);
-					SsPlaneProxy->SetDynamicData_RenderThread();
-				});
+						if(Material)
+						{
+							SsPlaneProxy->SetMaterial(Material);
+						}
+						SsPlaneProxy->CanvasSizeUU = CanvasSizeUU;
+						SsPlaneProxy->SetPivot(Pivot);
+						SsPlaneProxy->SetDynamicData_RenderThread();
+					});
 			} break;
 	}
 }

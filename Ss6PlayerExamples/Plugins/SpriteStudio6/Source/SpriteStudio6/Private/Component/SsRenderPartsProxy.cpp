@@ -58,18 +58,6 @@ void FSsPartsIndexBuffer::InitRHI()
 	}
 }
 
-//
-// VertexFactory 
-//
-IMPLEMENT_VERTEX_FACTORY_TYPE(FSsPartsVertexFactory,"/Engine/Private/LocalVertexFactory.ush",true,true,true,true,true);
-
-FVertexFactoryShaderParameters* FSsPartsVertexFactory::ConstructShaderParameters(EShaderFrequency ShaderFrequency)
-{
-	return (ShaderFrequency == SF_Pixel)
-		? (FVertexFactoryShaderParameters*)new FSsPartVertexFactoryShaderParameters()
-		: FLocalVertexFactory::ConstructShaderParameters(ShaderFrequency);
-}
-
 
 // コンストラクタ
 FSsRenderPartsProxy::FSsRenderPartsProxy(USsPlayerComponent* InComponent, uint32 InMaxVertexNum, uint32 InMaxIndexNum)
@@ -116,8 +104,8 @@ void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 	FMaterialRenderProxy* MaterialProxy = NULL;
 	if(bWireframe)
 	{
-		auto WireframeMaterialInstance = new FColoredMaterialRenderProxy(
-			GEngine->WireframeMaterial ? GEngine->WireframeMaterial->GetRenderProxy(IsSelected()) : NULL,
+		FColoredMaterialRenderProxy* WireframeMaterialInstance = new FColoredMaterialRenderProxy(
+			GEngine->WireframeMaterial ? GEngine->WireframeMaterial->GetRenderProxy() : NULL,
 			FLinearColor(0, 0.5f, 1.f)
 			);
 		Collector.RegisterOneFrameMaterialProxy(WireframeMaterialInstance);
@@ -138,7 +126,7 @@ void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 					{
 						continue;
 					}
-					MaterialProxy = ItPrim->Material->GetRenderProxy(IsSelected());
+					MaterialProxy = ItPrim->Material->GetRenderProxy();
 				}
 
 				// Draw the mesh. 
@@ -158,9 +146,24 @@ void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 				BatchElement.MinVertexIndex = ItPrim->MinVertexIndex;
 				BatchElement.MaxVertexIndex = ItPrim->MaxVertexIndex;
 				BatchElement.NumPrimitives  = ItPrim->NumPrimitives;
-				BatchElement.PrimitiveUniformBufferResource = &GetUniformBuffer();
+
+				bool bHasPrecomputedVolumetricLightmap;
+				FMatrix PreviousLocalToWorld;
+				int32 SingleCaptureIndex;
+				GetScene().GetPrimitiveUniformShaderParameters_RenderThread(GetPrimitiveSceneInfo(), bHasPrecomputedVolumetricLightmap, PreviousLocalToWorld, SingleCaptureIndex);
+
+				FDynamicPrimitiveUniformBuffer& DynamicPrimitiveUniformBuffer = Collector.AllocateOneFrameResource<FDynamicPrimitiveUniformBuffer>();
+				DynamicPrimitiveUniformBuffer.Set(GetLocalToWorld(), PreviousLocalToWorld, GetBounds(), GetLocalBounds(), true, bHasPrecomputedVolumetricLightmap, UseEditorDepthTest());
+				BatchElement.PrimitiveUniformBufferResource = &DynamicPrimitiveUniformBuffer.UniformBuffer;
 
 				Collector.AddMesh(ViewIndex, Mesh);
+
+				//TODO:
+				// 本来はAddMesh内でこうなるハズ
+				// VertexFactory.GetPrimitiveIdStreamIndex() が-1を返すのがおかしい？ 
+				// CableComponentでは1が返ってた
+				// DebugEditorで追わないとワカラン
+				//BatchElement.PrimitiveIdMode = PrimID_DynamicPrimitiveShaderData;
 
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST)
 				// Render bounds

@@ -67,8 +67,8 @@ void FSsRenderPlaneProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 	FMaterialRenderProxy* MaterialProxy = NULL;
 	if(bWireframe)
 	{
-		auto WireframeMaterialInstance = new FColoredMaterialRenderProxy(
-			GEngine->WireframeMaterial ? GEngine->WireframeMaterial->GetRenderProxy(IsSelected()) : NULL,
+		FColoredMaterialRenderProxy* WireframeMaterialInstance = new FColoredMaterialRenderProxy(
+			GEngine->WireframeMaterial ? GEngine->WireframeMaterial->GetRenderProxy() : NULL,
 			FLinearColor(0, 0.5f, 1.f)
 			);
 		Collector.RegisterOneFrameMaterialProxy(WireframeMaterialInstance);
@@ -80,7 +80,7 @@ void FSsRenderPlaneProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 		{
 			return;
 		}
-		MaterialProxy = Material->GetRenderProxy(IsSelected());
+		MaterialProxy = Material->GetRenderProxy();
 	}
 
 	for(int32 ViewIndex = 0; ViewIndex < Views.Num(); ViewIndex++)
@@ -106,7 +106,15 @@ void FSsRenderPlaneProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 			BatchElement.MinVertexIndex = 0;
 			BatchElement.MaxVertexIndex = 3;
 			BatchElement.NumPrimitives  = 2;
-			BatchElement.PrimitiveUniformBufferResource = &GetUniformBuffer();
+
+			bool bHasPrecomputedVolumetricLightmap;
+			FMatrix PreviousLocalToWorld;
+			int32 SingleCaptureIndex;
+			GetScene().GetPrimitiveUniformShaderParameters_RenderThread(GetPrimitiveSceneInfo(), bHasPrecomputedVolumetricLightmap, PreviousLocalToWorld, SingleCaptureIndex);
+
+			FDynamicPrimitiveUniformBuffer& DynamicPrimitiveUniformBuffer = Collector.AllocateOneFrameResource<FDynamicPrimitiveUniformBuffer>();
+			DynamicPrimitiveUniformBuffer.Set(GetLocalToWorld(), PreviousLocalToWorld, GetBounds(), GetLocalBounds(), true, bHasPrecomputedVolumetricLightmap, UseEditorDepthTest());
+			BatchElement.PrimitiveUniformBufferResource = &DynamicPrimitiveUniformBuffer.UniformBuffer;
 
 			Collector.AddMesh(ViewIndex, Mesh);
 

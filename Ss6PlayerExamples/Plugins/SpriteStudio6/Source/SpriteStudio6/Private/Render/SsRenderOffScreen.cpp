@@ -247,7 +247,7 @@ namespace
 	// マスクバッファの描画 
 	void RenderMaskBuffer(
 		FRHICommandListImmediate& RHICmdList,
-		FSsRenderPartsForSendingRenderThread& RenderParts,
+		const FSsRenderPartsForSendingRenderThread& RenderParts,
 		int32 CurrentPartIndex
 		)
 	{
@@ -259,11 +259,13 @@ namespace
 		}
 
 		// RenderTarget切り替え
-		SetRenderTarget(
-			RHICmdList,
-			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetTextureRHI(),
-			FTextureRHIParamRef()
-		);
+		FRHIRenderPassInfo RPInfo(
+			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
+			ERenderTargetActions::DontLoad_Store,
+			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetTextureRHI()
+			);
+		RHICmdList.BeginRenderPass(RPInfo, TEXT("Ss6RenderMaskBuffer"));
+
 		DrawClearQuad(RHICmdList, FLinearColor::Black);
 
 
@@ -287,7 +289,7 @@ namespace
 		uint32 BaseIndexIndex  = 0;
 		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
 		{
-			FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
+			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
 			if(nullptr == RenderPart.Texture)
 			{
 				continue;
@@ -345,7 +347,6 @@ namespace
 				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
 				RHICmdList.DrawIndexedPrimitive(
 					RenderParts.IndexBuffer->IndexBufferRHI,
-					PT_TriangleList,
 					0,						//BaseVertexIndex
 					BaseVertexIndex,		//MinIndex
 					NumRenderVertices,		//NumVertices
@@ -358,10 +359,12 @@ namespace
 			BaseVertexIndex += NumRenderVertices;
 			BaseIndexIndex  += NumRenderIndices;
 		}
+
+		RHICmdList.EndRenderPass();
 	}
 
 	// 描画 
-	void RenderPartsToRenderTarget(FRHICommandListImmediate& RHICmdList, FSsRenderPartsForSendingRenderThread& RenderParts)
+	void RenderPartsToRenderTarget(FRHICommandListImmediate& RHICmdList, const FSsRenderPartsForSendingRenderThread& RenderParts)
 	{
 		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_RenderPartsToRenderTarget);
 		SCOPED_DRAW_EVENT(RHICmdList, StatName_Ss6RenderOffScreen);
@@ -372,12 +375,12 @@ namespace
 		float SurfaceWidth  = RenderParts.RenderTarget->GetSurfaceWidth();
 		float SurfaceHeight = RenderParts.RenderTarget->GetSurfaceHeight();
 
-		SetRenderTarget(
-			RHICmdList,
-			static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI(),
-			FTextureRHIParamRef()
-			);
-
+		FRHIRenderPassInfo RPInfo(
+			static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
+			ERenderTargetActions::DontLoad_Store,
+			static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI()
+		);
+		RHICmdList.BeginRenderPass(RPInfo, TEXT("Ss6RenderOffScreen"));
 		RHICmdList.SetScissorRect(false, 0, 0, 0, 0);
 		RHICmdList.SetViewport(0, 0, 0.f, SurfaceWidth, SurfaceHeight, 1.f);
 
@@ -588,7 +591,7 @@ namespace
 		uint32 NumRenderIndices  = 0;
 		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
 		{
-			FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
+			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
 			if(nullptr == RenderPart.Texture)
 			{
 				continue;
@@ -642,12 +645,10 @@ namespace
 			// マスクバッファの描画
 			if(bNeedUpdateMask && RenderPart.bMaskInfluence)
 			{
+				RHICmdList.EndRenderPass();
 				RenderMaskBuffer(RHICmdList, RenderParts, i);
-				SetRenderTarget(
-					RHICmdList,
-					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI(),
-					FTextureRHIParamRef()
-				);
+				RHICmdList.BeginRenderPass(RPInfo, TEXT("Ss6RenderOffScreen"));
+
 				bNeedUpdateMask = false;
 			}
 
@@ -751,7 +752,6 @@ namespace
 			RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
 			RHICmdList.DrawIndexedPrimitive(
 				RenderParts.IndexBuffer->IndexBufferRHI,
-				PT_TriangleList,
 				0,						//BaseVertexIndex
 				BaseVertexIndex,		//MinIndex
 				NumRenderVertices,		//NumVertices
@@ -765,6 +765,8 @@ namespace
 			NumRenderVertices = 0;
 			NumRenderIndices  = 0;
 		}
+
+		RHICmdList.EndRenderPass();
 	}
 }
 
@@ -797,10 +799,10 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 		}
 	}
 
-	ENQUEUE_UNIQUE_RENDER_COMMAND_ONEPARAMETER(
-		FSsRenderOffScreenRunner,
-		FSsRenderPartsForSendingRenderThread, InRenderParts, RenderParts,
+	ENQUEUE_RENDER_COMMAND(FSsRenderOffScreenRunner)(
+		[RenderParts](FRHICommandListImmediate& RHICmdList)
 		{
-			RenderPartsToRenderTarget(RHICmdList, InRenderParts);
-		});
+			RenderPartsToRenderTarget(RHICmdList, RenderParts);
+		}
+		);
 }
