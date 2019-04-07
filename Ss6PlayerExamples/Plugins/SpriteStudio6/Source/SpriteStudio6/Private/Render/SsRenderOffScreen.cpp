@@ -442,7 +442,11 @@ namespace
 							Vert.Position.X = Position.X;
 							Vert.Position.Y = Position.Y;
 					
+#if PLATFORM_SWITCH
+							Vert.Color = FColor(ItPart->Vertices[v].Color.B, ItPart->Vertices[v].Color.G, ItPart->Vertices[v].Color.R, ItPart->Vertices[v].Color.A);
+#else
 							Vert.Color = ItPart->Vertices[v].Color;
+#endif
 							Vert.TexCoord = ItPart->Vertices[v].TexCoord;
 					
 							// カラーブレンドモードの設定 
