@@ -107,15 +107,6 @@ void FSsRenderPlaneProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 			BatchElement.MaxVertexIndex = 3;
 			BatchElement.NumPrimitives  = 2;
 
-			bool bHasPrecomputedVolumetricLightmap;
-			FMatrix PreviousLocalToWorld;
-			int32 SingleCaptureIndex;
-			GetScene().GetPrimitiveUniformShaderParameters_RenderThread(GetPrimitiveSceneInfo(), bHasPrecomputedVolumetricLightmap, PreviousLocalToWorld, SingleCaptureIndex);
-
-			FDynamicPrimitiveUniformBuffer& DynamicPrimitiveUniformBuffer = Collector.AllocateOneFrameResource<FDynamicPrimitiveUniformBuffer>();
-			DynamicPrimitiveUniformBuffer.Set(GetLocalToWorld(), PreviousLocalToWorld, GetBounds(), GetLocalBounds(), true, bHasPrecomputedVolumetricLightmap, UseEditorDepthTest());
-			BatchElement.PrimitiveUniformBufferResource = &DynamicPrimitiveUniformBuffer.UniformBuffer;
-
 			Collector.AddMesh(ViewIndex, Mesh);
 
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST)
