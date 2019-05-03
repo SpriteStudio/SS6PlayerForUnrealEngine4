@@ -158,13 +158,6 @@ void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 
 				Collector.AddMesh(ViewIndex, Mesh);
 
-				//TODO:
-				// 本来はAddMesh内でこうなるハズ
-				// VertexFactory.GetPrimitiveIdStreamIndex() が-1を返すのがおかしい？ 
-				// CableComponentでは1が返ってた
-				// DebugEditorで追わないとワカラン
-				//BatchElement.PrimitiveIdMode = PrimID_DynamicPrimitiveShaderData;
-
 #if !(UE_BUILD_SHIPPING || UE_BUILD_TEST)
 				// Render bounds
 				RenderBounds(Collector.GetPDI(ViewIndex), ViewFamily.EngineShowFlags, GetBounds(), IsSelected());
