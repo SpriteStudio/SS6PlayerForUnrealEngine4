@@ -7,45 +7,6 @@
 #include "SsPlayerComponent.h"
 
 
-namespace
-{
-	static SsBlendType::Type TypeMix = SsBlendType::Mix;
-	static SsBlendType::Type TypeMul = SsBlendType::Mul;
-	static SsBlendType::Type TypeAdd = SsBlendType::Add;
-	static SsBlendType::Type TypeSub = SsBlendType::Sub;
-	static SsBlendType::Type TypeMulAlpha  = SsBlendType::MulAlpha;
-	static SsBlendType::Type TypeScreen    = SsBlendType::Screen;
-	static SsBlendType::Type TypeExclusion = SsBlendType::Exclusion;
-	static SsBlendType::Type TypeInvert    = SsBlendType::Invert;
-	void* GetBlendTypeAddr(SsBlendType::Type Type)
-	{
-		switch(Type)
-		{
-			case SsBlendType::Mix: { return &TypeMix; }
-			case SsBlendType::Mul: { return &TypeMul; }
-			case SsBlendType::Add: { return &TypeAdd; }
-			case SsBlendType::Sub: { return &TypeSub; }
-			case SsBlendType::MulAlpha:  { return &TypeMulAlpha;  }
-			case SsBlendType::Screen:    { return &TypeScreen;    }
-			case SsBlendType::Exclusion: { return &TypeExclusion; }
-			case SsBlendType::Invert:    { return &TypeInvert;    }
-		}
-		return NULL;
-	}
-	SsBlendType::Type GetBlendTypeFromAddr(const void* Addr)
-	{
-		if(Addr == &TypeMix){ return SsBlendType::Mix; }
-		if(Addr == &TypeMul){ return SsBlendType::Mul; }
-		if(Addr == &TypeAdd){ return SsBlendType::Add; }
-		if(Addr == &TypeSub){ return SsBlendType::Sub; }
-		if(Addr == &TypeMulAlpha) { return SsBlendType::MulAlpha;  }
-		if(Addr == &TypeScreen)   { return SsBlendType::Screen;    }
-		if(Addr == &TypeExclusion){ return SsBlendType::Exclusion; }
-		if(Addr == &TypeInvert)   { return SsBlendType::Invert;    }
-		return SsBlendType::Mix;
-	}
-};
-
 //
 // IndexBuffer 
 //
