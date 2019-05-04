@@ -26,21 +26,41 @@ namespace
 		check(false);
 		return nullptr;
 	}
-	UMaterialInterface* GetBaseMaterialUMG(SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
+	UMaterialInterface* GetBaseMaterialUMG(ESsPlayerWidgetRenderMode::Type RenderMode, SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
 	{
-		switch(AlphaBlendMode)
+		switch(RenderMode)
 		{
-			case SsBlendType::Mix:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Mix,       ColorBlendMode);
-			case SsBlendType::Mul:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Mul,       ColorBlendMode);
-			case SsBlendType::Add:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Add,       ColorBlendMode);
-			case SsBlendType::Sub:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Sub,       ColorBlendMode);
-			case SsBlendType::MulAlpha:  return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.MulAlpha,  ColorBlendMode);
-			case SsBlendType::Screen:    return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Screen,    ColorBlendMode);
-			case SsBlendType::Exclusion: return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Exclusion, ColorBlendMode);
-			case SsBlendType::Invert:    return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Invert,    ColorBlendMode);
-			case SsBlendType::Invalid:   return nullptr;
+			case ESsPlayerWidgetRenderMode::UMG_Default:
+				{
+					switch(AlphaBlendMode)
+					{
+						case SsBlendType::Mix:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Mix,       ColorBlendMode);
+						case SsBlendType::Mul:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Mul,       ColorBlendMode);
+						case SsBlendType::Add:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Add,       ColorBlendMode);
+						case SsBlendType::Sub:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Sub,       ColorBlendMode);
+						case SsBlendType::MulAlpha:  return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.MulAlpha,  ColorBlendMode);
+						case SsBlendType::Screen:    return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Screen,    ColorBlendMode);
+						case SsBlendType::Exclusion: return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Exclusion, ColorBlendMode);
+						case SsBlendType::Invert:    return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Default.Invert,    ColorBlendMode);
+						case SsBlendType::Invalid:   return nullptr;
+					}
+				} break;
+			case ESsPlayerWidgetRenderMode::UMG_Masked:
+				{
+					switch(AlphaBlendMode)
+					{
+						case SsBlendType::Mix:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.Mix,       ColorBlendMode);
+						case SsBlendType::Mul:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.Mul,       ColorBlendMode);
+						case SsBlendType::Add:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.Add,       ColorBlendMode);
+						case SsBlendType::Sub:       return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.Sub,       ColorBlendMode);
+						case SsBlendType::MulAlpha:  return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.MulAlpha,  ColorBlendMode);
+						case SsBlendType::Screen:    return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.Screen,    ColorBlendMode);
+						case SsBlendType::Exclusion: return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.Exclusion, ColorBlendMode);
+						case SsBlendType::Invert:    return GetBaseMaterialUMGInternal(GetDefault<USsGameSettings>()->UMG_Masked.Invert,    ColorBlendMode);
+						case SsBlendType::Invalid:   return nullptr;
+					}
+				} break;
 		}
-
 		check(false);
 		return nullptr;
 	}
@@ -148,6 +168,7 @@ void USsPlayerWidget::SynchronizeProperties()
 		switch(RenderMode)
 		{
 			case ESsPlayerWidgetRenderMode::UMG_Default:
+			case ESsPlayerWidgetRenderMode::UMG_Masked:
 				{
 					PlayerWidget->Initialize_Default();
 				} break;
@@ -305,6 +326,7 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 		switch(RenderMode)
 		{
 			case ESsPlayerWidgetRenderMode::UMG_Default:
+			case ESsPlayerWidgetRenderMode::UMG_Masked:
 				{
 					QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_UpdatePlayer_UMG_Default);
 
@@ -320,7 +342,7 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 						{
 							UMaterialInstanceDynamic** ppMID = nullptr;
 							{
-								UMaterialInterface* PartBaseMaterial = GetBaseMaterialUMG(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+								UMaterialInterface* PartBaseMaterial = GetBaseMaterialUMG(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
 								if(nullptr != PartBaseMaterial)
 								{
 									TMap<UTexture*, UMaterialInstanceDynamic*>& PartsMIDMap = PartsMIDMaps.FindOrAdd(PartBaseMaterial);

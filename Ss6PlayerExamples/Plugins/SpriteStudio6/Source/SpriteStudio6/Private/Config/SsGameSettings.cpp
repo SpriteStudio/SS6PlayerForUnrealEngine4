@@ -32,6 +32,13 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGDefault_Sub;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGDefault_Eff;
 
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGMasked_Inv;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGMasked_Mix;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGMasked_Mul;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGMasked_Add;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGMasked_Sub;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGMasked_Eff;
+
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGOffScreen;
 
 		FConstructorStatics()
@@ -54,6 +61,12 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 			, UMGDefault_Add (TEXT("/SpriteStudio6/UMG_Default/M_Ss_UMG_Default_Add"))
 			, UMGDefault_Sub (TEXT("/SpriteStudio6/UMG_Default/M_Ss_UMG_Default_Sub"))
 			, UMGDefault_Eff (TEXT("/SpriteStudio6/UMG_Default/M_Ss_UMG_Default_Eff"))
+			, UMGMasked_Inv (TEXT("/SpriteStudio6/UMG_Masked/M_Ss_UMG_Masked_Inv"))
+			, UMGMasked_Mix (TEXT("/SpriteStudio6/UMG_Masked/M_Ss_UMG_Masked_Mix"))
+			, UMGMasked_Mul (TEXT("/SpriteStudio6/UMG_Masked/M_Ss_UMG_Masked_Mul"))
+			, UMGMasked_Add (TEXT("/SpriteStudio6/UMG_Masked/M_Ss_UMG_Masked_Add"))
+			, UMGMasked_Sub (TEXT("/SpriteStudio6/UMG_Masked/M_Ss_UMG_Masked_Sub"))
+			, UMGMasked_Eff (TEXT("/SpriteStudio6/UMG_Masked/M_Ss_UMG_Masked_Eff"))
 			, UMGOffScreen   (TEXT("/SpriteStudio6/UMG_OffScreen/M_Ss_UMG_OffScreen"))
 		{}
 	};
@@ -244,6 +257,67 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 	UMG_Default.Exclusion.Eff =
 	UMG_Default.Invert.Eff =
 		CS.UMGDefault_Eff.Object;
+
+	// UMG Masked 
+	UMG_Masked.Mix.Inv = 
+	UMG_Masked.Mul.Inv = 
+	UMG_Masked.Add.Inv =
+	UMG_Masked.Sub.Inv =
+	UMG_Masked.MulAlpha.Inv =
+	UMG_Masked.Screen.Inv =
+	UMG_Masked.Exclusion.Inv =
+	UMG_Masked.Invert.Inv =
+		CS.UMGMasked_Inv.Object;
+
+	UMG_Masked.Mix.Mix = 
+	UMG_Masked.Mul.Mix = 
+	UMG_Masked.Add.Mix =
+	UMG_Masked.Sub.Mix =
+	UMG_Masked.MulAlpha.Mix =
+	UMG_Masked.Screen.Mix =
+	UMG_Masked.Exclusion.Mix =
+	UMG_Masked.Invert.Mix =
+		CS.UMGMasked_Mix.Object;
+
+	UMG_Masked.Mix.Mul = 
+	UMG_Masked.Mul.Mul = 
+	UMG_Masked.Add.Mul =
+	UMG_Masked.Sub.Mul =
+	UMG_Masked.MulAlpha.Mul =
+	UMG_Masked.Screen.Mul =
+	UMG_Masked.Exclusion.Mul =
+	UMG_Masked.Invert.Mul =
+		CS.UMGMasked_Mul.Object;
+
+	UMG_Masked.Mix.Add = 
+	UMG_Masked.Mul.Add = 
+	UMG_Masked.Add.Add =
+	UMG_Masked.Sub.Add =
+	UMG_Masked.MulAlpha.Add =
+	UMG_Masked.Screen.Add =
+	UMG_Masked.Exclusion.Add =
+	UMG_Masked.Invert.Add =
+		CS.UMGMasked_Add.Object;
+
+	UMG_Masked.Mix.Sub = 
+	UMG_Masked.Mul.Sub = 
+	UMG_Masked.Add.Sub =
+	UMG_Masked.Sub.Sub =
+	UMG_Masked.MulAlpha.Sub =
+	UMG_Masked.Screen.Sub =
+	UMG_Masked.Exclusion.Sub =
+	UMG_Masked.Invert.Sub =
+		CS.UMGMasked_Sub.Object;
+
+	UMG_Masked.Mix.Eff = 
+	UMG_Masked.Mul.Eff = 
+	UMG_Masked.Add.Eff =
+	UMG_Masked.Sub.Eff =
+	UMG_Masked.MulAlpha.Eff =
+	UMG_Masked.Screen.Eff =
+	UMG_Masked.Exclusion.Eff =
+	UMG_Masked.Invert.Eff =
+		CS.UMGMasked_Eff.Object;
 
 	// UMG OffScreen 
 	UMG_OffScreen = CS.UMGOffScreen.Object;

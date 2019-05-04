@@ -95,6 +95,10 @@ public:
 	UPROPERTY(EditAnywhere, config, Category="Base Materials per RenderMode")
 	FSsAlphaBlendModeMaterials UMG_Default;
 
+	// UMGの「UMG_Masked」で描画される際のマテリアルを設定します 
+	UPROPERTY(EditAnywhere, config, Category="Base Materials per RenderMode")
+	FSsAlphaBlendModeMaterials UMG_Masked;
+
 	UPROPERTY(Transient)
 	UMaterialInterface* Component_OffScreen;
 

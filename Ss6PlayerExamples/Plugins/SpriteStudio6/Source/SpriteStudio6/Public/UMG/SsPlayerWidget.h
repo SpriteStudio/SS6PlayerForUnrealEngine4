@@ -27,6 +27,11 @@ namespace ESsPlayerWidgetRenderMode
 		// OffScreenに比べて高速です。 
 		UMG_Default,
 
+		// 描画方法はUMG_Defaultと同等ですが、Maskedマテリアルを使用します 
+		// 半透明が反映されない代わりに高速です 
+		// 半透明を使用しない場合はこのモードを使用して下さい 
+		UMG_Masked,
+
 		// 一旦オフスクリーンレンダリングしたテクスチャを描画します。 
 		// UMG_Defaultに比べて処理が重くなりますが、BaseMaterilを変更することで、特殊な効果を実装することが可能です。 
 		// 子Widgetのアタッチがサポートされません 
