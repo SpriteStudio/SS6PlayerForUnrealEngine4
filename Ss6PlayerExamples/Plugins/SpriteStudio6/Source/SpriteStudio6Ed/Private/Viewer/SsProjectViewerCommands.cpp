@@ -1,7 +1,7 @@
 ﻿#include "SpriteStudio6EdPrivatePCH.h"
 #include "SsProjectViewerCommands.h"
 
-#define LOCTEXT_NAMESPACE ""
+#define LOCTEXT_NAMESPACE "SpriteStudio6Ed"
 
 void FSsProjectViewerCommands::RegisterCommands()
 {

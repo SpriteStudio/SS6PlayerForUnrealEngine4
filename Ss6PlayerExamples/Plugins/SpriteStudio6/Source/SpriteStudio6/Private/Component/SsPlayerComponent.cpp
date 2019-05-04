@@ -1,6 +1,7 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsPlayerComponent.h"
 
+#include "SsGameSettings.h"
 #include "Ss6Project.h"
 #include "SsAnimePack.h"
 #include "SsPlayer.h"
@@ -11,20 +12,37 @@
 
 namespace
 {
-	// BasePartsMaterials/PartsMIDMap のインデックスを取得
-	inline uint32 PartsMatIndex(SsBlendType::Type ColorBlendMode)
+	UMaterialInterface* GetBaseMaterialInternal(const FSsColorBlendModeMaterials& Mats, SsBlendType::Type ColorBlendMode)
 	{
 		switch(ColorBlendMode)
 		{
-			case SsBlendType::Mix: { return 0; }
-			case SsBlendType::Mul: { return 1; }
-			case SsBlendType::Add: { return 2; }
-			case SsBlendType::Sub: { return 3; }
-			case SsBlendType::Invalid:   { return 4; }
-			case SsBlendType::Effect:    { return 5; }
+			case SsBlendType::Invalid: return Mats.Inv;
+			case SsBlendType::Mix:     return Mats.Mix;
+			case SsBlendType::Mul:     return Mats.Mul;
+			case SsBlendType::Add:     return Mats.Add;
+			case SsBlendType::Sub:     return Mats.Sub;
+			case SsBlendType::Effect:  return Mats.Eff;
 		}
 		check(false);
-		return 0;
+		return nullptr;
+	}
+	UMaterialInterface* GetBaseMaterial(SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
+	{
+		switch(AlphaBlendMode)
+		{
+			case SsBlendType::Mix:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.Mix,       ColorBlendMode);
+			case SsBlendType::Mul:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.Mul,       ColorBlendMode);
+			case SsBlendType::Add:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.Add,       ColorBlendMode);
+			case SsBlendType::Sub:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.Sub,       ColorBlendMode);
+			case SsBlendType::MulAlpha:  return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.MulAlpha,  ColorBlendMode);
+			case SsBlendType::Screen:    return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.Screen,    ColorBlendMode);
+			case SsBlendType::Exclusion: return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.Exclusion, ColorBlendMode);
+			case SsBlendType::Invert:    return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->Component_Default.Invert,    ColorBlendMode);
+			case SsBlendType::Invalid:   return nullptr;
+		}
+
+		check(false);
+		return nullptr;
 	}
 };
 
@@ -62,41 +80,7 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 	bCanEverAffectNavigation = false;
 
 
-	// 各種マテリアル参照の取得
-	// 参照：https://docs.unrealengine.com/latest/INT/Programming/UnrealArchitecture/Reference/Classes/index.html#assetreferences
-	struct FConstructorStatics
-	{
-		// メッシュ用デフォルトマテリアル
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> MeshBase;
-
-		// パーツ描画用 (ColorBlendMode毎) 
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartMix;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartMul;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartAdd;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartSub;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartInv;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartEffect;
-
-		FConstructorStatics()
-			: MeshBase(TEXT("/SpriteStudio6/SsMaterial_MeshDefault"))
-			, PartMix(TEXT("/SpriteStudio6/PartMaterials/SsPart_Mix"))
-			, PartMul(TEXT("/SpriteStudio6/PartMaterials/SsPart_Mul"))
-			, PartAdd(TEXT("/SpriteStudio6/PartMaterials/SsPart_Add"))
-			, PartSub(TEXT("/SpriteStudio6/PartMaterials/SsPart_Sub"))
-			, PartInv(TEXT("/SpriteStudio6/PartMaterials/SsPart_Inv"))
-			, PartEffect(TEXT("/SpriteStudio6/PartMaterials/SsPart_Effect"))
-		{}
-	};
-	static FConstructorStatics CS;
-
-	BaseMaterial = CS.MeshBase.Object;
-
-	BasePartsMaterials[0] = CS.PartMix.Object;
-	BasePartsMaterials[1] = CS.PartMul.Object;
-	BasePartsMaterials[2] = CS.PartAdd.Object;
-	BasePartsMaterials[3] = CS.PartSub.Object;
-	BasePartsMaterials[4] = CS.PartInv.Object;
-	BasePartsMaterials[5] = CS.PartEffect.Object;
+	BaseMaterial = GetDefault<USsGameSettings>()->Component_OffScreen;
 }
 
 // シリアライズ 
@@ -292,10 +276,7 @@ void USsPlayerComponent::OnUnregister()
 {
 	Super::OnUnregister();
 
-	for(int32 i = 0; i < 6; ++i)
-	{
-		PartsMIDMap[i].Empty();
-	}
+	PartsMIDMaps.Empty();
 	PartsMIDRef.Empty();
 	OffScreenPlaneMID = NULL;
 
@@ -364,8 +345,18 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 						}
 						else
 						{
-							uint32 MatIdx = PartsMatIndex(ItPart->ColorBlendType);
-							UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(ItPart->Texture);
+							UMaterialInstanceDynamic** ppMID = nullptr;
+							{
+								UMaterialInterface* PartBaseMaterial = GetBaseMaterial(ItPart->AlphaBlendType, ItPart->ColorBlendType);
+								if(nullptr != PartBaseMaterial)
+								{
+									TMap<UTexture*, UMaterialInstanceDynamic*>* PartsMIDMap = PartsMIDMaps.Find(PartBaseMaterial);
+									if(nullptr != PartsMIDMap)
+									{
+										ppMID = PartsMIDMap->Find(ItPart->Texture);
+									}
+								}
+							}
 							PartsMaterials.Add((ppMID && *ppMID) ? *ppMID : nullptr);
 						}
 					}
@@ -683,17 +674,21 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 						continue;
 					}
 
-					uint32 MatIdx = PartsMatIndex(RenderParts[i].ColorBlendType);
-					UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
-					if((NULL == ppMID) || (NULL == *ppMID))
+					UMaterialInterface* PartBaseMaterial = GetBaseMaterial(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+					if(nullptr != PartBaseMaterial)
 					{
-						UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(BasePartsMaterials[MatIdx], GetTransientPackage());
-						if(NewMID)
+						TMap<UTexture*, UMaterialInstanceDynamic*>& PartsMIDMap = PartsMIDMaps.FindOrAdd(PartBaseMaterial);
+						UMaterialInstanceDynamic** ppMID = PartsMIDMap.Find(RenderParts[i].Texture);
+						if((nullptr == ppMID) || (nullptr == *ppMID))
 						{
-							PartsMIDRef.Add(NewMID);
-							NewMID->SetFlags(RF_Transient);
-							NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
-							PartsMIDMap[MatIdx].Add(RenderParts[i].Texture, NewMID);
+							UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(PartBaseMaterial, GetTransientPackage());
+							if(NewMID)
+							{
+								PartsMIDRef.Add(NewMID);
+								NewMID->SetFlags(RF_Transient);
+								NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
+								PartsMIDMap.Add(RenderParts[i].Texture, NewMID);
+							}
 						}
 					}
 				}

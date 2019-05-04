@@ -3,6 +3,7 @@
 
 #include "SlateMaterialBrush.h"
 
+#include "SsGameSettings.h"
 #include "SSsPlayerWidget.h"
 #include "SsPlayerSlot.h"
 #include "Ss6Project.h"
@@ -11,20 +12,37 @@
 
 namespace
 {
-	// BasePartsMaterials/PartsMIDMap のインデックスを取得
-	inline uint32 UMGMatIndex(SsBlendType::Type ColorBlendMode)
+	UMaterialInterface* GetBaseMaterialInternal(const FSsColorBlendModeMaterials& Mats, SsBlendType::Type ColorBlendMode)
 	{
-		switch (ColorBlendMode)
+		switch(ColorBlendMode)
 		{
-			case SsBlendType::Mix: { return 0; }
-			case SsBlendType::Mul: { return 1; }
-			case SsBlendType::Add: { return 2; }
-			case SsBlendType::Sub: { return 3; }
-			case SsBlendType::Invalid:   { return 4; }
-			case SsBlendType::Effect:    { return 5; }
+			case SsBlendType::Invalid: return Mats.Inv;
+			case SsBlendType::Mix:     return Mats.Mix;
+			case SsBlendType::Mul:     return Mats.Mul;
+			case SsBlendType::Add:     return Mats.Add;
+			case SsBlendType::Sub:     return Mats.Sub;
+			case SsBlendType::Effect:  return Mats.Eff;
 		}
 		check(false);
-		return 0;
+		return nullptr;
+	}
+	UMaterialInterface* GetBaseMaterial(SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
+	{
+		switch(AlphaBlendMode)
+		{
+			case SsBlendType::Mix:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.Mix,       ColorBlendMode);
+			case SsBlendType::Mul:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.Mul,       ColorBlendMode);
+			case SsBlendType::Add:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.Add,       ColorBlendMode);
+			case SsBlendType::Sub:       return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.Sub,       ColorBlendMode);
+			case SsBlendType::MulAlpha:  return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.MulAlpha,  ColorBlendMode);
+			case SsBlendType::Screen:    return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.Screen,    ColorBlendMode);
+			case SsBlendType::Exclusion: return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.Exclusion, ColorBlendMode);
+			case SsBlendType::Invert:    return GetBaseMaterialInternal(GetDefault<USsGameSettings>()->UMG_Default.Invert,    ColorBlendMode);
+			case SsBlendType::Invalid:   return nullptr;
+		}
+
+		check(false);
+		return nullptr;
 	}
 };
 
@@ -56,41 +74,7 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 
 	Player.SetCalcHideParts(true);
 
-	// 各種マテリアル参照の取得
-	// 参照：https://docs.unrealengine.com/latest/INT/Programming/UnrealArchitecture/Reference/Classes/index.html#assetreferences
-	struct FConstructorStatics
-	{
-		// オフスクリーン用デフォルトマテリアル 
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> OffScreenBase;
-
-		// パーツ描画用 (ColorBlendMode毎) 
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartMix;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartMul;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartAdd;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartSub;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartInv;
-		ConstructorHelpers::FObjectFinder<UMaterialInterface> PartEffect;
-
-		FConstructorStatics()
-			: OffScreenBase(TEXT("/SpriteStudio6/SsMaterial_UMGDefault"))
-			, PartMix(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Mix"))
-			, PartMul(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Mul"))
-			, PartAdd(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Add"))
-			, PartSub(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Sub"))
-			, PartInv(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Inv"))
-			, PartEffect(TEXT("/SpriteStudio6/UMGMaterials/SsUMG_Effect"))
-		{}
-	};
-	static FConstructorStatics CS;
-
-	BaseMaterial = CS.OffScreenBase.Object;
-
-	BasePartsMaterials[0] = CS.PartMix.Object;
-	BasePartsMaterials[1] = CS.PartMul.Object;
-	BasePartsMaterials[2] = CS.PartAdd.Object;
-	BasePartsMaterials[3] = CS.PartSub.Object;
-	BasePartsMaterials[4] = CS.PartInv.Object;
-	BasePartsMaterials[5] = CS.PartEffect.Object;
+	BaseMaterial = GetDefault<USsGameSettings>()->UMG_OffScreen;
 }
 
 // Destroy 
@@ -334,39 +318,43 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 
 						if(SsBlendType::Mask != RenderParts[i].ColorBlendType)
 						{
-						uint32 MatIdx = UMGMatIndex(RenderParts[i].ColorBlendType);
-						UMaterialInstanceDynamic** ppMID = PartsMIDMap[MatIdx].Find(RenderParts[i].Texture);
-						if((NULL == ppMID) || (NULL == *ppMID))
-						{
-							if(nullptr != RenderParts[i].Texture)
+							UMaterialInstanceDynamic** ppMID = nullptr;
 							{
-								UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(BasePartsMaterials[MatIdx], GetTransientPackage());
-								if(NewMID)
+								UMaterialInterface* PartBaseMaterial = GetBaseMaterial(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+								if(nullptr != PartBaseMaterial)
 								{
-									PartsMIDRef.Add(NewMID);
-									NewMID->SetFlags(RF_Transient);
-									NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
-									ppMID = &(PartsMIDMap[MatIdx].Add(RenderParts[i].Texture, NewMID));
+									TMap<UTexture*, UMaterialInstanceDynamic*>& PartsMIDMap = PartsMIDMaps.FindOrAdd(PartBaseMaterial);
+									ppMID = PartsMIDMap.Find(RenderParts[i].Texture);
+									if((nullptr == ppMID) || (nullptr == *ppMID))
+									{
+										UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(PartBaseMaterial, GetTransientPackage());
+										if(NewMID)
+										{
+											PartsMIDRef.Add(NewMID);
+											NewMID->SetFlags(RF_Transient);
+											NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
+											ppMID = &PartsMIDMap.Add(RenderParts[i].Texture, NewMID);
+										}
+									}
 								}
 							}
-						}
 
-						if(nullptr != ppMID)
-						{
-							TSharedPtr<FSlateMaterialBrush>* pBrush = BrushMap.Find(*ppMID);
-							if(pBrush)
+							if(nullptr != ppMID)
 							{
-									Brush = *pBrush;
-							}
-							else
-							{
-								if(nullptr != RenderParts[i].Texture)
+								TSharedPtr<FSlateMaterialBrush>* pBrush = BrushMap.Find(*ppMID);
+								if(pBrush)
 								{
+									Brush = *pBrush;
+								}
+								else
+								{
+									if(nullptr != RenderParts[i].Texture)
+									{
 										Brush = MakeShareable(new FSlateMaterialBrush(**ppMID, FVector2D(64, 64)));
 										BrushMap.Add(*ppMID, Brush);
+									}
 								}
 							}
-						}
 						}
 
 						PlayerWidget->DefaultBrush.Add(Brush);

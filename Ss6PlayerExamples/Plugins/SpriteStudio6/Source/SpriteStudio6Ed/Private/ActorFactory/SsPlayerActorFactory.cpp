@@ -6,7 +6,7 @@
 #include "SsPlayerComponent.h"
 
 
-#define LOCTEXT_NAMESPACE "SsPlayerActorFactory"
+#define LOCTEXT_NAMESPACE "SpriteStudio6Ed"
 
 
 USsPlayerActorFactory::USsPlayerActorFactory(const FObjectInitializer& ObjectInitializer)

@@ -7,7 +7,7 @@
 #include "SsImportSettings.h"
 
 DEFINE_LOG_CATEGORY(LogSpriteStudioEd);
-#define LOCTEXT_NAMESPACE ""
+#define LOCTEXT_NAMESPACE "SpriteStudio6Ed"
 
 class FSpriteStudio6Ed : public ISpriteStudio6Ed
 {
@@ -36,8 +36,8 @@ void FSpriteStudio6Ed::StartupModule()
 	if(ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
 	{
 		SettingsModule->RegisterSettings("Editor", "Plugins", "SpriteStudio6",
-			LOCTEXT("SsImportSettingsName", "SpriteStudio6"),
-			LOCTEXT("SsImportSettingsDescription", "SpriteStudio Import Settings"),
+			LOCTEXT("SsImportSettingsName", "Sprite Studio 6"),
+			LOCTEXT("SsImportSettingsDescription", "Sprite Studio 6 Import Settings"),
 			GetMutableDefault<USsImportSettings>()
 			);
 	}

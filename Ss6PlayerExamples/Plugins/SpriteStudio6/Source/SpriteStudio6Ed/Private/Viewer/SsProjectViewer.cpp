@@ -14,7 +14,7 @@
 #include "SsRenderOffScreen.h"
 
 
-#define LOCTEXT_NAMESPACE "SsProjectViewer"
+#define LOCTEXT_NAMESPACE "SpriteStudio6Ed"
 
 
 namespace

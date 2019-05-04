@@ -3,7 +3,7 @@
 #include "Ss6Project.h"
 #include "SsProjectViewer.h"
 
-#define LOCTEXT_NAMESPACE "AssetTypeActions"
+#define LOCTEXT_NAMESPACE "SpriteStudio6Ed"
 
 
 UClass* FAssetTypeActions_SsProject::GetSupportedClass() const
