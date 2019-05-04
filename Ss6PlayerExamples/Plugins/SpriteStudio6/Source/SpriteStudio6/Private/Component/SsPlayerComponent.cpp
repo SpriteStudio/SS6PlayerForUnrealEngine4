@@ -26,21 +26,41 @@ namespace
 		check(false);
 		return nullptr;
 	}
-	UMaterialInterface* GetBaseMaterialComp(SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
+	UMaterialInterface* GetBaseMaterialComp(ESsPlayerComponentRenderMode::Type RenderMode, SsBlendType::Type AlphaBlendMode, SsBlendType::Type ColorBlendMode)
 	{
-		switch(AlphaBlendMode)
+		switch(RenderMode)
 		{
-			case SsBlendType::Mix:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Mix,       ColorBlendMode);
-			case SsBlendType::Mul:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Mul,       ColorBlendMode);
-			case SsBlendType::Add:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Add,       ColorBlendMode);
-			case SsBlendType::Sub:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Sub,       ColorBlendMode);
-			case SsBlendType::MulAlpha:  return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.MulAlpha,  ColorBlendMode);
-			case SsBlendType::Screen:    return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Screen,    ColorBlendMode);
-			case SsBlendType::Exclusion: return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Exclusion, ColorBlendMode);
-			case SsBlendType::Invert:    return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Invert,    ColorBlendMode);
-			case SsBlendType::Invalid:   return nullptr;
+			case ESsPlayerComponentRenderMode::Default:
+				{
+					switch(AlphaBlendMode)
+					{
+						case SsBlendType::Mix:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Mix,       ColorBlendMode);
+						case SsBlendType::Mul:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Mul,       ColorBlendMode);
+						case SsBlendType::Add:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Add,       ColorBlendMode);
+						case SsBlendType::Sub:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Sub,       ColorBlendMode);
+						case SsBlendType::MulAlpha:  return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.MulAlpha,  ColorBlendMode);
+						case SsBlendType::Screen:    return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Screen,    ColorBlendMode);
+						case SsBlendType::Exclusion: return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Exclusion, ColorBlendMode);
+						case SsBlendType::Invert:    return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Default.Invert,    ColorBlendMode);
+						case SsBlendType::Invalid:   return nullptr;
+					}
+				} break;
+			case ESsPlayerComponentRenderMode::Masked:
+				{
+					switch(AlphaBlendMode)
+					{
+						case SsBlendType::Mix:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.Mix,       ColorBlendMode);
+						case SsBlendType::Mul:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.Mul,       ColorBlendMode);
+						case SsBlendType::Add:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.Add,       ColorBlendMode);
+						case SsBlendType::Sub:       return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.Sub,       ColorBlendMode);
+						case SsBlendType::MulAlpha:  return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.MulAlpha,  ColorBlendMode);
+						case SsBlendType::Screen:    return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.Screen,    ColorBlendMode);
+						case SsBlendType::Exclusion: return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.Exclusion, ColorBlendMode);
+						case SsBlendType::Invert:    return GetBaseMaterialCompInternal(GetDefault<USsGameSettings>()->Component_Masked.Invert,    ColorBlendMode);
+						case SsBlendType::Invalid:   return nullptr;
+					}
+				} break;
 		}
-
 		check(false);
 		return nullptr;
 	}
@@ -61,6 +81,7 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 	, AutoPlayLoopCount(0)
 	, bAutoPlayRoundTrip(false)
 	, RenderMode(ESsPlayerComponentRenderMode::Default)
+	, PixelDepthOffsetPerPart(0.01f)
 	, BaseMaterial(NULL)
 	, OffScreenPlaneMID(NULL)
 	, OffScreenRenderResolution(512.f, 512.f)
@@ -325,6 +346,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 	switch(RenderMode)
 	{
 		case ESsPlayerComponentRenderMode::Default:
+		case ESsPlayerComponentRenderMode::Masked:
 			{
 				TArray<FSsRenderPartsProxy::FSsPartVertex> RenderVertices;
 				TArray<uint16> RenderIndices;
@@ -347,7 +369,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 						{
 							UMaterialInstanceDynamic** ppMID = nullptr;
 							{
-								UMaterialInterface* PartBaseMaterial = GetBaseMaterialComp(ItPart->AlphaBlendType, ItPart->ColorBlendType);
+								UMaterialInterface* PartBaseMaterial = GetBaseMaterialComp(RenderMode, ItPart->AlphaBlendType, ItPart->ColorBlendType);
 								if(nullptr != PartBaseMaterial)
 								{
 									TMap<UTexture*, UMaterialInstanceDynamic*>* PartsMIDMap = PartsMIDMaps.Find(PartBaseMaterial);
@@ -391,7 +413,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 									);
 								Vertex.TexCoord   = ItPart->Vertices[v].TexCoord;
 								Vertex.Color      = ItPart->Vertices[v].Color;
-								Vertex.ColorBlend = FVector2D(0.f, ItPart->Vertices[v].ColorBlendRate);
+								Vertex.ColorBlend = FVector2D((RenderParts.Num() - ItPart.GetIndex()) * PixelDepthOffsetPerPart, ItPart->Vertices[v].ColorBlendRate);
 								RenderVertices.Add(Vertex);
 							}
 
@@ -443,7 +465,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 										);
 									Vertex.TexCoord   = ItVert->TexCoord;
 									Vertex.Color      = ItMesh->Color;
-									Vertex.ColorBlend = FVector2D(0.f, ItMesh->ColorBlendRate);
+									Vertex.ColorBlend = FVector2D((RenderParts.Num() - ItPart.GetIndex()) * PixelDepthOffsetPerPart, ItMesh->ColorBlendRate);
 									RenderVertices.Add(Vertex);
 								}
 								for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
@@ -562,6 +584,7 @@ FPrimitiveSceneProxy* USsPlayerComponent::CreateSceneProxy()
 		switch(RenderMode)
 		{
 			case ESsPlayerComponentRenderMode::Default:
+			case ESsPlayerComponentRenderMode::Masked:
 				{
 					uint32 MaxVertexNum, MaxIndexNum;
 					SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
@@ -586,6 +609,7 @@ FBoxSphereBounds USsPlayerComponent::CalcBounds(const FTransform& LocalToWorld) 
 	switch(RenderMode)
 	{
 		case ESsPlayerComponentRenderMode::Default:
+		case ESsPlayerComponentRenderMode::Masked:
 			{
 				LocalBoundsScale = SsBoundsScale;
 			} //not break
@@ -661,6 +685,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 	switch(RenderMode)
 	{
 		case ESsPlayerComponentRenderMode::Default:
+		case ESsPlayerComponentRenderMode::Masked:
 			{
 				QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_UpdatePlayer_Default);
 
@@ -674,7 +699,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 						continue;
 					}
 
-					UMaterialInterface* PartBaseMaterial = GetBaseMaterialComp(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+					UMaterialInterface* PartBaseMaterial = GetBaseMaterialComp(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
 					if(nullptr != PartBaseMaterial)
 					{
 						TMap<UTexture*, UMaterialInstanceDynamic*>& PartsMIDMap = PartsMIDMaps.FindOrAdd(PartBaseMaterial);

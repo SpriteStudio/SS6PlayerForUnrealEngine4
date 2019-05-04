@@ -24,7 +24,7 @@ public:
 		FVector Position;
 		FVector2D TexCoord;
 		FColor Color;
-		FVector2D ColorBlend;	// [1]:ColorBlendRate 
+		FVector2D ColorBlend;	// [0]:PixelDepthOffset, [1]:ColorBlendRate 
 	};
 	struct FSsPartPrimitive
 	{

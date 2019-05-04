@@ -16,6 +16,13 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_Sub;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_Eff;
 
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_Inv;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_Mix;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_Mul;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_Add;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_Sub;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_Eff;
+
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompOffScreen;
 
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> UMGDefault_Inv;
@@ -34,6 +41,12 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 			, CompDefault_Add(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_Add"))
 			, CompDefault_Sub(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_Sub"))
 			, CompDefault_Eff(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_Eff"))
+			, CompMasked_Inv (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_Inv"))
+			, CompMasked_Mix (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_Mix"))
+			, CompMasked_Mul (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_Mul"))
+			, CompMasked_Add (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_Add"))
+			, CompMasked_Sub (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_Sub"))
+			, CompMasked_Eff (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_Eff"))
 			, CompOffScreen  (TEXT("/SpriteStudio6/Component_OffScreen/M_Ss_Component_OffScreen"))
 			, UMGDefault_Inv (TEXT("/SpriteStudio6/UMG_Default/M_Ss_UMG_Default_Inv"))
 			, UMGDefault_Mix (TEXT("/SpriteStudio6/UMG_Default/M_Ss_UMG_Default_Mix"))
@@ -46,6 +59,7 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 	};
 	static FConstructorStatics CS;
 
+	// Component Default 
 	Component_Default.Mix.Inv = 
 	Component_Default.Mul.Inv = 
 	Component_Default.Add.Inv =
@@ -106,10 +120,71 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 	Component_Default.Invert.Eff =
 		CS.CompDefault_Eff.Object;
 
+	// Component Masked 
+	Component_Masked.Mix.Inv = 
+	Component_Masked.Mul.Inv = 
+	Component_Masked.Add.Inv =
+	Component_Masked.Sub.Inv =
+	Component_Masked.MulAlpha.Inv =
+	Component_Masked.Screen.Inv =
+	Component_Masked.Exclusion.Inv =
+	Component_Masked.Invert.Inv =
+		CS.CompMasked_Inv.Object;
 
+	Component_Masked.Mix.Mix = 
+	Component_Masked.Mul.Mix = 
+	Component_Masked.Add.Mix =
+	Component_Masked.Sub.Mix =
+	Component_Masked.MulAlpha.Mix =
+	Component_Masked.Screen.Mix =
+	Component_Masked.Exclusion.Mix =
+	Component_Masked.Invert.Mix =
+		CS.CompMasked_Mix.Object;
+
+	Component_Masked.Mix.Mul = 
+	Component_Masked.Mul.Mul = 
+	Component_Masked.Add.Mul =
+	Component_Masked.Sub.Mul =
+	Component_Masked.MulAlpha.Mul =
+	Component_Masked.Screen.Mul =
+	Component_Masked.Exclusion.Mul =
+	Component_Masked.Invert.Mul =
+		CS.CompMasked_Mul.Object;
+
+	Component_Masked.Mix.Add = 
+	Component_Masked.Mul.Add = 
+	Component_Masked.Add.Add =
+	Component_Masked.Sub.Add =
+	Component_Masked.MulAlpha.Add =
+	Component_Masked.Screen.Add =
+	Component_Masked.Exclusion.Add =
+	Component_Masked.Invert.Add =
+		CS.CompMasked_Add.Object;
+
+	Component_Masked.Mix.Sub = 
+	Component_Masked.Mul.Sub = 
+	Component_Masked.Add.Sub =
+	Component_Masked.Sub.Sub =
+	Component_Masked.MulAlpha.Sub =
+	Component_Masked.Screen.Sub =
+	Component_Masked.Exclusion.Sub =
+	Component_Masked.Invert.Sub =
+		CS.CompMasked_Sub.Object;
+
+	Component_Masked.Mix.Eff = 
+	Component_Masked.Mul.Eff = 
+	Component_Masked.Add.Eff =
+	Component_Masked.Sub.Eff =
+	Component_Masked.MulAlpha.Eff =
+	Component_Masked.Screen.Eff =
+	Component_Masked.Exclusion.Eff =
+	Component_Masked.Invert.Eff =
+		CS.CompMasked_Eff.Object;
+
+	// Component OffScreen 
 	Component_OffScreen = CS.CompOffScreen.Object;
 
-
+	// UMG Default 
 	UMG_Default.Mix.Inv = 
 	UMG_Default.Mul.Inv = 
 	UMG_Default.Add.Inv =
@@ -170,7 +245,7 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 	UMG_Default.Invert.Eff =
 		CS.UMGDefault_Eff.Object;
 
-
+	// UMG OffScreen 
 	UMG_OffScreen = CS.UMGOffScreen.Object;
 }
 

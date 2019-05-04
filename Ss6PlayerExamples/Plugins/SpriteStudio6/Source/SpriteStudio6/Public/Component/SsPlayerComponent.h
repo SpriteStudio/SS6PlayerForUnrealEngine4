@@ -23,10 +23,15 @@ namespace ESsPlayerComponentRenderMode
 	{
 		// デフォルトの描画モードです 
 		// パーツ毎のポリゴンを3D空間上に描画します 
-		// 描画は最も高速です 
 		// アルファブレンドモード 乗算/加算/減算 には対応しておらず、全て ミックス として扱われます 
 		// 通常はこのモードを使用して下さい 
 		Default,
+
+		// 描画方法はDefaultと同等ですが、Maskedマテリアルを使用します 
+		// 半透明が反映されない代わりに高速です 
+		// アルファブレンドモード 乗算/加算/減算 には対応しておらず、全て ミックス として扱われます 
+		// 半透明を使用しない場合はこのモードを使用して下さい 
+		Masked,
 
 		// 一旦オフスクリーンレンダリングしたテクスチャを、板ポリに貼り付けます 
 		// 板ポリに貼り付ける際のマテリアルを上書き可能です 
@@ -174,7 +179,12 @@ public:
 	// 描画モード 
 	UPROPERTY(Category="SpriteStudioRenderSettings", EditAnywhere, BlueprintReadOnly)
 	TEnumAsByte<ESsPlayerComponentRenderMode::Type> RenderMode;
-	
+
+	// Masked描画モードでのZファイト防止用の、１パーツあたりのPixelDepthOffset値 
+	// カメラとの距離などによってZファイトが発生するようであれば、大きな値を設定して下さい 
+	UPROPERTY(Category="SpriteStudioRenderSettings", EditAnywhere, BlueprintReadWrite, AdvancedDisplay)
+	float PixelDepthOffsetPerPart;
+
 	// OffScreen描画モードでの、メッシュを描画する際のベースマテリアル 
 	UPROPERTY(Category="SpriteStudioRenderSettings", EditAnywhere, BlueprintReadOnly, meta=(DisplayName="OffScreen Material", DisplayThumbnail="true"), AdvancedDisplay)
 	UMaterialInterface* BaseMaterial;
