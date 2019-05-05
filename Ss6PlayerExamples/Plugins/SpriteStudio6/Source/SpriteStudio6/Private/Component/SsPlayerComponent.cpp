@@ -299,6 +299,7 @@ void USsPlayerComponent::OnUnregister()
 
 	PartsMIDMaps.Empty();
 	PartsMIDRef.Empty();
+	MaterialReplacementMap.Empty();
 	OffScreenPlaneMID = NULL;
 
 	if(RenderOffScreen)
@@ -369,7 +370,8 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 						{
 							UMaterialInstanceDynamic** ppMID = nullptr;
 							{
-								UMaterialInterface* PartBaseMaterial = GetBaseMaterialComp(RenderMode, ItPart->AlphaBlendType, ItPart->ColorBlendType);
+								UMaterialInterface** ppReplaceBaseMaterial = MaterialReplacementMap.Find(ItPart->PartIndex);
+								UMaterialInterface* PartBaseMaterial = (nullptr != ppReplaceBaseMaterial) ? *ppReplaceBaseMaterial : GetBaseMaterialComp(RenderMode, ItPart->AlphaBlendType, ItPart->ColorBlendType);
 								if(nullptr != PartBaseMaterial)
 								{
 									TMap<UTexture*, UMaterialInstanceDynamic*>* PartsMIDMap = PartsMIDMaps.Find(PartBaseMaterial);
@@ -699,7 +701,8 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 						continue;
 					}
 
-					UMaterialInterface* PartBaseMaterial = GetBaseMaterialComp(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+					UMaterialInterface** ppReplaceBaseMaterial = MaterialReplacementMap.Find(RenderParts[i].PartIndex);
+					UMaterialInterface* PartBaseMaterial = (nullptr != ppReplaceBaseMaterial) ? *ppReplaceBaseMaterial : GetBaseMaterialComp(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
 					if(nullptr != PartBaseMaterial)
 					{
 						TMap<UTexture*, UMaterialInstanceDynamic*>& PartsMIDMap = PartsMIDMaps.FindOrAdd(PartBaseMaterial);
@@ -983,6 +986,35 @@ void USsPlayerComponent::RemoveTextureReplacementByIndex(int32 PartIndex)
 void USsPlayerComponent::RemoveTextureReplacementAll()
 {
 	Player.TextureReplacements.Empty();
+}
+
+void USsPlayerComponent::AddMaterialReplacement(FName PartName, UMaterialInterface* InBaseMaterial)
+{
+	int32 PartIndex = Player.GetPartIndexFromName(PartName);
+	if(0 <= PartIndex)
+	{
+		MaterialReplacementMap.Add(PartIndex, InBaseMaterial);
+	}
+}
+void USsPlayerComponent::AddMaterialReplacementByIndex(int32 PartIndex, UMaterialInterface* InBaseMaterial)
+{
+	MaterialReplacementMap.Add(PartIndex, InBaseMaterial);
+}
+void USsPlayerComponent::RemoveMaterialReplacement(FName PartName)
+{
+	int32 PartIndex = Player.GetPartIndexFromName(PartName);
+	if(0 <= PartIndex)
+	{
+		MaterialReplacementMap.Remove(PartIndex);
+	}
+}
+void USsPlayerComponent::RemoveMaterialReplacementByIndex(int32 PartIndex)
+{
+	MaterialReplacementMap.Remove(PartIndex);
+}
+void USsPlayerComponent::RemoveMaterialReplacementAll()
+{
+	MaterialReplacementMap.Empty();
 }
 
 FName USsPlayerComponent::GetPartColorLabel(FName PartName)

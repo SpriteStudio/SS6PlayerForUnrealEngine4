@@ -342,7 +342,8 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 						{
 							UMaterialInstanceDynamic** ppMID = nullptr;
 							{
-								UMaterialInterface* PartBaseMaterial = GetBaseMaterialUMG(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
+								UMaterialInterface** ppReplaceBaseMaterial = MaterialReplacementMap.Find(RenderParts[i].PartIndex);
+								UMaterialInterface* PartBaseMaterial = (nullptr != ppReplaceBaseMaterial) ? *ppReplaceBaseMaterial : GetBaseMaterialUMG(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
 								if(nullptr != PartBaseMaterial)
 								{
 									TMap<UTexture*, UMaterialInstanceDynamic*>& PartsMIDMap = PartsMIDMaps.FindOrAdd(PartBaseMaterial);
@@ -612,6 +613,35 @@ void USsPlayerWidget::RemoveTextureReplacementByIndex(int32 PartIndex)
 void USsPlayerWidget::RemoveTextureReplacementAll()
 {
 	Player.TextureReplacements.Empty();
+}
+
+void USsPlayerWidget::AddMaterialReplacement(FName PartName, UMaterialInterface* InBaseMaterial)
+{
+	int32 PartIndex = Player.GetPartIndexFromName(PartName);
+	if(0 <= PartIndex)
+	{
+		MaterialReplacementMap.Add(PartIndex, InBaseMaterial);
+	}
+}
+void USsPlayerWidget::AddMaterialReplacementByIndex(int32 PartIndex, UMaterialInterface* InBaseMaterial)
+{
+	MaterialReplacementMap.Add(PartIndex, InBaseMaterial);
+}
+void USsPlayerWidget::RemoveMaterialReplacement(FName PartName)
+{
+	int32 PartIndex = Player.GetPartIndexFromName(PartName);
+	if(0 <= PartIndex)
+	{
+		MaterialReplacementMap.Remove(PartIndex);
+	}
+}
+void USsPlayerWidget::RemoveMaterialReplacementByIndex(int32 PartIndex)
+{
+	MaterialReplacementMap.Remove(PartIndex);
+}
+void USsPlayerWidget::RemoveMaterialReplacementAll()
+{
+	MaterialReplacementMap.Empty();
 }
 
 FName USsPlayerWidget::GetPartColorLabel(FName PartName)

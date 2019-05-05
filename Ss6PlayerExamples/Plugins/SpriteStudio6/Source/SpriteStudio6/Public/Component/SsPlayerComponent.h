@@ -106,6 +106,8 @@ private:
 
 	TMap<UMaterialInterface*, TMap<UTexture*, UMaterialInstanceDynamic*>> PartsMIDMaps;
 
+	UPROPERTY(Transient)
+	TMap<int32, UMaterialInterface*> MaterialReplacementMap;
 
 public:
 	// 公開PROPERTY 
@@ -335,6 +337,26 @@ public:
 	// 全ての置き換えテクスチャの登録解除 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void RemoveTextureReplacementAll();
+
+	// 置き換えマテリアルの登録 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void AddMaterialReplacement(FName PartName, UMaterialInterface* InBaseMaterial);
+
+	// 置き換えマテリアルの登録(インデックス指定) 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void AddMaterialReplacementByIndex(int32 PartIndex, UMaterialInterface* InBaseMaterial);
+
+	// 置き換えマテリアルの登録解除 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void RemoveMaterialReplacement(FName PartName);
+
+	// 置き換えマテリアルの登録解除(インデックス指定) 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void RemoveMaterialReplacementByIndex(int32 PartIndex);
+
+	// 全ての置き換えマテリアルの登録解除 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void RemoveMaterialReplacementAll();
 
 	// パーツのカラーラベルを取得 
 	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
