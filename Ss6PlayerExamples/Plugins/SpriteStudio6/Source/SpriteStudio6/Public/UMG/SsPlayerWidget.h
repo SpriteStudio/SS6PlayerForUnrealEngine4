@@ -23,12 +23,12 @@ namespace ESsPlayerWidgetRenderMode
 	enum Type
 	{
 		// UMGデフォルトの描画モードです 
-		// アルファブレンドモードはMIXのみの対応となります。 
-		// OffScreenに比べて高速です。 
+		// アルファブレンドモードはミックス/加算のみ反映されます 
 		UMG_Default,
 
 		// 描画方法はUMG_Defaultと同等ですが、Maskedマテリアルを使用します 
 		// 半透明が反映されない代わりに高速です 
+		// アルファブレンドモードはミックスのみ反映されます 
 		// 半透明を使用しない場合はこのモードを使用して下さい 
 		UMG_Masked,
 
