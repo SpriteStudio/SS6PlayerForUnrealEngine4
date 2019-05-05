@@ -237,60 +237,11 @@ int32 SSsPlayerWidget::OnPaint(
 
 	if(nullptr != RenderParts)
 	{
-	if(!bRenderOffScreen)
-	{
-		PaintInternal(
-				RenderParts,
-				DefaultBrush,
-			AllottedGeometry,
-			MyClippingRect,
-			OutDrawElements,
-			LayerId,
-			InWidgetStyle
-			);
-	}
-	else
-	{
-			if((0 < RenderParts->Num()) && (nullptr != OffScreenBrush.Get()))
+		if(!bRenderOffScreen)
 		{
-				TArray<FSsRenderPart> Parts;
-				FSsRenderPart& Part = Parts.AddZeroed_GetRef();
-			Part.Vertices.AddUninitialized(4);
-			Part.PartIndex = -1;
-			Part.Vertices[0].Position.X = 0.f;
-			Part.Vertices[0].Position.Y = 0.f;
-			Part.Vertices[0].TexCoord.X = 0.f;
-			Part.Vertices[0].TexCoord.Y = 0.f;
-			Part.Vertices[0].Color = FColor::White;
-			Part.Vertices[0].ColorBlendRate = 0.f;
-			Part.Vertices[1].Position.X = 1.f;
-			Part.Vertices[1].Position.Y = 0.f;
-			Part.Vertices[1].TexCoord.X = 1.f;
-			Part.Vertices[1].TexCoord.Y = 0.f;
-			Part.Vertices[1].Color = FColor::White;
-			Part.Vertices[1].ColorBlendRate = 0.f;
-			Part.Vertices[2].Position.X = 0.f;
-			Part.Vertices[2].Position.Y = 1.f;
-			Part.Vertices[2].TexCoord.X = 0.f;
-			Part.Vertices[2].TexCoord.Y = 1.f;
-			Part.Vertices[2].Color = FColor::White;
-			Part.Vertices[2].ColorBlendRate = 0.f;
-			Part.Vertices[3].Position.X = 1.f;
-			Part.Vertices[3].Position.Y = 1.f;
-			Part.Vertices[3].TexCoord.X = 1.f;
-			Part.Vertices[3].TexCoord.Y = 1.f;
-			Part.Vertices[3].Color = FColor::White;
-			Part.Vertices[3].ColorBlendRate = 0.f;
-			Part.ColorBlendType = SsBlendType::Mix;
-			Part.AlphaBlendType = SsBlendType::Mix;
-			Part.Texture  = nullptr;
-
-				TArray<TSharedPtr<FSlateMaterialBrush>> Brush;
-				Brush.Add(OffScreenBrush);
-
 			PaintInternal(
-					&Parts,
-					Brush,
+					RenderParts,
+					DefaultBrush,
 				AllottedGeometry,
 				MyClippingRect,
 				OutDrawElements,
@@ -298,7 +249,56 @@ int32 SSsPlayerWidget::OnPaint(
 				InWidgetStyle
 				);
 		}
-	}
+		else
+		{
+			if((0 < RenderParts->Num()) && (nullptr != OffScreenBrush.Get()))
+			{
+				TArray<FSsRenderPart> Parts;
+				FSsRenderPart& Part = Parts.AddZeroed_GetRef();
+				Part.Vertices.AddUninitialized(4);
+				Part.PartIndex = -1;
+				Part.Vertices[0].Position.X = 0.f;
+				Part.Vertices[0].Position.Y = 0.f;
+				Part.Vertices[0].TexCoord.X = 0.f;
+				Part.Vertices[0].TexCoord.Y = 0.f;
+				Part.Vertices[0].Color = FColor::White;
+				Part.Vertices[0].ColorBlendRate = 0.f;
+				Part.Vertices[1].Position.X = 1.f;
+				Part.Vertices[1].Position.Y = 0.f;
+				Part.Vertices[1].TexCoord.X = 1.f;
+				Part.Vertices[1].TexCoord.Y = 0.f;
+				Part.Vertices[1].Color = FColor::White;
+				Part.Vertices[1].ColorBlendRate = 0.f;
+				Part.Vertices[2].Position.X = 0.f;
+				Part.Vertices[2].Position.Y = 1.f;
+				Part.Vertices[2].TexCoord.X = 0.f;
+				Part.Vertices[2].TexCoord.Y = 1.f;
+				Part.Vertices[2].Color = FColor::White;
+				Part.Vertices[2].ColorBlendRate = 0.f;
+				Part.Vertices[3].Position.X = 1.f;
+				Part.Vertices[3].Position.Y = 1.f;
+				Part.Vertices[3].TexCoord.X = 1.f;
+				Part.Vertices[3].TexCoord.Y = 1.f;
+				Part.Vertices[3].Color = FColor::White;
+				Part.Vertices[3].ColorBlendRate = 0.f;
+				Part.ColorBlendType = SsBlendType::Mix;
+				Part.AlphaBlendType = SsBlendType::Mix;
+				Part.Texture  = nullptr;
+
+				TArray<TSharedPtr<FSlateMaterialBrush>> Brush;
+				Brush.Add(OffScreenBrush);
+
+				PaintInternal(
+						&Parts,
+						Brush,
+					AllottedGeometry,
+					MyClippingRect,
+					OutDrawElements,
+					LayerId,
+					InWidgetStyle
+					);
+			}
+		}
 	}
 
 
@@ -332,18 +332,18 @@ int32 SSsPlayerWidget::OnPaint(
 				float Alpha = 1.f;
 				for(auto It = RenderParts->CreateConstIterator(); It; ++It)
 				{
-						if(It->PartIndex == Children[ChildIndex].PartIndexAttr.Get())
+					if(It->PartIndex == Children[ChildIndex].PartIndexAttr.Get())
+					{
+						if(Children[ChildIndex].ReflectPartAlphaAttr.Get())
 						{
-							if(Children[ChildIndex].ReflectPartAlphaAttr.Get())
+							for(int32 v = 0; v < It->Vertices.Num(); ++v)
 							{
-								for(int32 v = 0; v < It->Vertices.Num(); ++v)
-								{
-									Alpha = FMath::Min<float>(Alpha, (float)It->Vertices[v].Color.A / 255.f);
-								}
+								Alpha = FMath::Min<float>(Alpha, (float)It->Vertices[v].Color.A / 255.f);
 							}
-							break;
 						}
+						break;
 					}
+				}
 				WidgetStyle.BlendColorAndOpacityTint(FLinearColor(1.f, 1.f, 1.f, Alpha));
 			}
 
@@ -397,13 +397,13 @@ void SSsPlayerWidget::PaintInternal(
 		for(auto It = InRenderParts->CreateConstIterator(); It; ++It)
 		{
 			if(	   (nullptr == InBrush[It.GetIndex()].Get())
-			|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
-			)
-		{
-			continue;
-		}
+				|| (SsBlendType::Mask == It->ColorBlendType)	// マスクパーツ（未対応） 
+				)
+			{
+				continue;
+			}
 			if((0 != It.GetIndex()) && (InBrush[It.GetIndex()].Get() != BkBrush))
-		{
+			{
 				VertexCount = FMath::Max(VertexCount, VertexCountTmp);
 				IndexCount = FMath::Max(IndexCount, IndexCountTmp);
 				VertexCountTmp = IndexCountTmp = 0;
@@ -411,31 +411,31 @@ void SSsPlayerWidget::PaintInternal(
 
 			// 通常パーツ 
 			if(0 == It->Mesh.Num())
-	{
+			{
 				check((4 == It->Vertices.Num()) || (5 == It->Vertices.Num()));
 				if(4 == It->Vertices.Num())
-	{
+				{
 					IndexCountTmp += 6;
-		}
+				}
 				else
-		{
+				{
 					IndexCountTmp += 12;
-			}
+				}
 
 				VertexCountTmp += It->Vertices.Num();
-		}
-		// メッシュパーツ 
-		else
-		{
-			for(auto ItMesh = It->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+			}
+			// メッシュパーツ 
+			else
 			{
+				for(auto ItMesh = It->Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+				{
 					IndexCountTmp += ItMesh->Indices.Num();
 					VertexCountTmp += ItMesh->Vertices.Num();
+				}
 			}
-		}
 
 			BkBrush = InBrush[It.GetIndex()].Get();
-	}
+		}
 		VertexCount = FMath::Max(VertexCount, VertexCountTmp);
 		IndexCount = FMath::Max(IndexCount, IndexCountTmp);
 	}
@@ -513,28 +513,28 @@ void SSsPlayerWidget::PaintInternal(
 			{
 				int32 Base = Vertices.Num();
 				Vertices.AddUninitialized(It->Vertices.Num());
-			for (int32 i = 0; i < It->Vertices.Num(); ++i)
-			{
-				FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
-					FVector2D(
-						It->Vertices[i].Position.X * LocalSize.X,
-						It->Vertices[i].Position.Y * LocalSize.Y
-						));
-					int32 Idx = Base + i;
-					Vertices[Idx].Position.X = TransPosition.X;
-					Vertices[Idx].Position.Y = TransPosition.Y;
-					Vertices[Idx].TexCoords[0] = It->Vertices[i].TexCoord.X;
-					Vertices[Idx].TexCoords[1] = It->Vertices[i].TexCoord.Y;
-					Vertices[Idx].TexCoords[2] = 0.f;
-					Vertices[Idx].TexCoords[3] = It->Vertices[i].ColorBlendRate;
-					Vertices[Idx].MaterialTexCoords[0] = Vertices[Idx].MaterialTexCoords[1] = 0.f;
-					Vertices[Idx].Color = It->Vertices[i].Color;
-				if(bReflectParentAlpha)
+				for (int32 i = 0; i < It->Vertices.Num(); ++i)
 				{
-						Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+					FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
+						FVector2D(
+							It->Vertices[i].Position.X * LocalSize.X,
+							It->Vertices[i].Position.Y * LocalSize.Y
+							));
+						int32 Idx = Base + i;
+						Vertices[Idx].Position.X = TransPosition.X;
+						Vertices[Idx].Position.Y = TransPosition.Y;
+						Vertices[Idx].TexCoords[0] = It->Vertices[i].TexCoord.X;
+						Vertices[Idx].TexCoords[1] = It->Vertices[i].TexCoord.Y;
+						Vertices[Idx].TexCoords[2] = 0.f;
+						Vertices[Idx].TexCoords[3] = It->Vertices[i].ColorBlendRate;
+						Vertices[Idx].MaterialTexCoords[0] = Vertices[Idx].MaterialTexCoords[1] = 0.f;
+						Vertices[Idx].Color = It->Vertices[i].Color;
+					if(bReflectParentAlpha)
+					{
+							Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+					}
 				}
 			}
-		}
 		}
 		// メッシュパーツ 
 		else
@@ -544,21 +544,21 @@ void SSsPlayerWidget::PaintInternal(
 				{
 					int32 Base = Indices.Num();
 					Indices.AddUninitialized(ItMesh->Indices.Num());
-				for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
-				{
+					for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
+					{
 						Indices[Base + ItIndex.GetIndex()] = Vertices.Num() + *ItIndex;
-				}
+					}
 				}
 				{
 					int32 Base = Vertices.Num();
 					Vertices.AddUninitialized(ItMesh->Vertices.Num());
-				for(auto ItVertex = ItMesh->Vertices.CreateConstIterator(); ItVertex; ++ItVertex)
-				{
-					FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
-						FVector2D(
-							ItVertex->Position.X * LocalSize.X,
-							ItVertex->Position.Y * LocalSize.Y
-						));
+					for(auto ItVertex = ItMesh->Vertices.CreateConstIterator(); ItVertex; ++ItVertex)
+					{
+						FVector2D TransPosition = AllottedGeometry.GetAccumulatedRenderTransform().TransformPoint(
+							FVector2D(
+								ItVertex->Position.X * LocalSize.X,
+								ItVertex->Position.Y * LocalSize.Y
+							));
 						int32 Idx = Base + ItVertex.GetIndex();
 						Vertices[Idx].Position.X = TransPosition.X;
 						Vertices[Idx].Position.Y = TransPosition.Y;
@@ -568,13 +568,13 @@ void SSsPlayerWidget::PaintInternal(
 						Vertices[Idx].TexCoords[3] = ItMesh->ColorBlendRate;
 						Vertices[Idx].MaterialTexCoords[0] = Vertices[Idx].MaterialTexCoords[1] = 0.f;
 						Vertices[Idx].Color = ItMesh->Color;
-					if(bReflectParentAlpha)
-					{
+						if(bReflectParentAlpha)
+						{
 							Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+						}
 					}
 				}
 			}
-		}
 		}
 
 		BkBrush = InBrush[It.GetIndex()].Get();
@@ -584,15 +584,15 @@ void SSsPlayerWidget::PaintInternal(
 		FSlateResourceHandle RenderResourceHandle = FSlateApplication::Get().GetRenderer()->GetResourceHandle(*(BkBrush));
 		if(RenderResourceHandle.IsValid())
 		{
-		FSlateDrawElement::MakeCustomVerts(
-			OutDrawElements,
-			LayerId,
-				RenderResourceHandle,
-				Vertices,
-				Indices,
-			nullptr, 0, 0
-			);
-	}
+			FSlateDrawElement::MakeCustomVerts(
+				OutDrawElements,
+				LayerId,
+					RenderResourceHandle,
+					Vertices,
+					Indices,
+				nullptr, 0, 0
+				);
+		}
 	}
 }
 
