@@ -4,6 +4,7 @@
 #include "ISettingsModule.h"
 
 #include "AssetTypeActions_SsProject.h"
+#include "SsGameSettings.h"
 #include "SsImportSettings.h"
 
 DEFINE_LOG_CATEGORY(LogSpriteStudioEd);
@@ -35,6 +36,11 @@ void FSpriteStudio6Ed::StartupModule()
 
 	if(ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
 	{
+		SettingsModule->RegisterSettings("Project", "Plugins", "SpriteStudio6",
+			LOCTEXT("SsGameSettingsName", "Sprite Studio 6"),
+			LOCTEXT("SsGameSettingsDescription", "Sprite Studio 6 Game Settings"),
+			GetMutableDefault<USsGameSettings>()
+			);
 		SettingsModule->RegisterSettings("Editor", "Plugins", "SpriteStudio6",
 			LOCTEXT("SsImportSettingsName", "Sprite Studio 6"),
 			LOCTEXT("SsImportSettingsDescription", "Sprite Studio 6 Import Settings"),
@@ -61,6 +67,7 @@ void FSpriteStudio6Ed::ShutdownModule()
 
 	if(ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
 	{
+		SettingsModule->UnregisterSettings("Project", "Plugins", "SpriteStudio6");
 		SettingsModule->UnregisterSettings("Editor", "Plugins", "SpriteStudio6");
 	}
 }

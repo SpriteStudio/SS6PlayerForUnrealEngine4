@@ -6,7 +6,7 @@ class UMaterialInterface;
 
 
 USTRUCT()
-struct FSsColorBlendModeMaterials
+struct SPRITESTUDIO6_API FSsColorBlendModeMaterials
 {
 	GENERATED_BODY()
 
@@ -37,7 +37,7 @@ public:
 };
 
 USTRUCT()
-struct FSsAlphaBlendModeMaterials
+struct SPRITESTUDIO6_API FSsAlphaBlendModeMaterials
 {
 	GENERATED_BODY()
 
@@ -78,7 +78,7 @@ public:
 
 
 UCLASS(config=Game, defaultconfig)
-class USsGameSettings : public UObject
+class SPRITESTUDIO6_API USsGameSettings : public UObject
 {
 	GENERATED_UCLASS_BODY()
 
