@@ -147,14 +147,7 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 	Component_Default.Add.Sub = CS.CompDefault_AddSub.Object;
 	Component_Default.Sub.Sub = CS.CompDefault_SubSub.Object;
 
-	Component_Default.Mix.Eff = 
-	Component_Default.Mul.Eff = 
-	Component_Default.Sub.Eff =
-	Component_Default.MulAlpha.Eff =
-	Component_Default.Screen.Eff =
-	Component_Default.Exclusion.Eff =
-	Component_Default.Invert.Eff =
-		CS.CompDefault_MixEff.Object;
+	Component_Default.Mix.Eff = CS.CompDefault_MixEff.Object;
 	Component_Default.Add.Eff = CS.CompDefault_AddEff.Object;
 
 	// Component Masked 
@@ -209,13 +202,7 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 		CS.CompMasked_MixSub.Object;
 
 	Component_Masked.Mix.Eff = 
-	Component_Masked.Mul.Eff = 
 	Component_Masked.Add.Eff =
-	Component_Masked.Sub.Eff =
-	Component_Masked.MulAlpha.Eff =
-	Component_Masked.Screen.Eff =
-	Component_Masked.Exclusion.Eff =
-	Component_Masked.Invert.Eff =
 		CS.CompMasked_MixEff.Object;
 
 	// Component OffScreen 
@@ -273,13 +260,7 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 		CS.UMGDefault_MixSub.Object;
 
 	UMG_Default.Mix.Eff = 
-	UMG_Default.Mul.Eff = 
 	UMG_Default.Add.Eff =
-	UMG_Default.Sub.Eff =
-	UMG_Default.MulAlpha.Eff =
-	UMG_Default.Screen.Eff =
-	UMG_Default.Exclusion.Eff =
-	UMG_Default.Invert.Eff =
 		CS.UMGDefault_MixEff.Object;
 
 	// UMG Masked 
@@ -334,13 +315,7 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 		CS.UMGMasked_MixSub.Object;
 
 	UMG_Masked.Mix.Eff = 
-	UMG_Masked.Mul.Eff = 
 	UMG_Masked.Add.Eff =
-	UMG_Masked.Sub.Eff =
-	UMG_Masked.MulAlpha.Eff =
-	UMG_Masked.Screen.Eff =
-	UMG_Masked.Exclusion.Eff =
-	UMG_Masked.Invert.Eff =
 		CS.UMGMasked_MixEff.Object;
 
 	// UMG OffScreen 
