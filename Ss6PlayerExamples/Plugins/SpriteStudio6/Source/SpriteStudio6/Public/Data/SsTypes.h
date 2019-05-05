@@ -201,7 +201,15 @@ public:
 	UPROPERTY(VisibleAnywhere, Category=SsCurve)
 	bool SyncStartEnd;		///< [編集用パラメータ]カーブエディタでの編集時に始点・終点ハンドルを同期して動かすか？
 
-	FSsCurve() : StartTime(0.f), StartValue(0.f), EndTime(0.f), EndValue(0.f), StartKeyTime(0.f), EndKeyTime(0.f){}
+	FSsCurve()
+		: StartTime(0.f)
+		, StartValue(0.f)
+		, EndTime(0.f)
+		, EndValue(0.f)
+		, StartKeyTime(0.f)
+		, EndKeyTime(0.f)
+		, SyncStartEnd(false)
+	{}
 
 };
 

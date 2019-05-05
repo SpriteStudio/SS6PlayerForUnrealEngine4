@@ -78,6 +78,7 @@ public:
 		: ArrayIndex(0)
 		, ParentIndex(0)
 		, Type(SsEffectNodeType::Invalid)
+		, Visible(false)
 	{}
 
 	SsEffectNodeType::Type GetType(){ return Type; }
@@ -123,6 +124,9 @@ public:
 public:
 	FSsEffectModel()
 		: Root(nullptr)
+		, LockRandSeed(0)
+		, IsLockRandSeed(false)
+		, FPS(0)
 		, LayoutScaleX(100)
 		, LayoutScaleY(100)
 	{}

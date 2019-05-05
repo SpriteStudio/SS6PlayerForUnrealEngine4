@@ -55,7 +55,13 @@ public:
 	bool Bool_temp;
 
 
-	FSsValue() : Type(SsValueType::Unkown) , _Str(0){}
+	FSsValue()
+		: Type(SsValueType::Unkown)
+		, _Str(0)
+		, Int_temp(0)
+		, Float_temp(0.f)
+		, Bool_temp(false)
+	{}
 
 	explicit FSsValue(bool b) : Type(SsValueType::BooleanType){ _Boolean = b; }
 	explicit FSsValue(int n) : Type(SsValueType::IntType){ _Int = n; }

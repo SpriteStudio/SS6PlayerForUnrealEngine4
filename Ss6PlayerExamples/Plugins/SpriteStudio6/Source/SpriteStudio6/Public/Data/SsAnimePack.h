@@ -113,7 +113,16 @@ public:
 
 public:
 	FSsPart()
-		: PartName(TEXT("")), ArrayIndex(0), ParentIndex(0), Show(0), Locked(0), MaskInfluence(true)
+		: PartName(NAME_None)
+		, ArrayIndex(0)
+		, ParentIndex(0)
+		, Type(SsPartType::Invalid)
+		, BoundsType(SsBoundsType::Invalid)
+		, InheritType(SsInheritType::Invalid)
+		, AlphaBlendType(SsBlendType::Invalid)
+		, Show(0)
+		, Locked(0)
+		, MaskInfluence(true)
 	{
 		BoneLength = 0;
 		BonePosition = FVector2D::ZeroVector;

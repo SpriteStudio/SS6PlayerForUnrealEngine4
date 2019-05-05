@@ -76,7 +76,7 @@ public:
 	float SubValue;
 
 public:
-	FSsVarianceValueFloat(){}
+	FSsVarianceValueFloat() : RangeType(SsVarianceValueRangeType::None), Value(0.f), SubValue(0.f) {}
 	FSsVarianceValueFloat(float v)
 	{
 		Value = SubValue = v;
@@ -133,7 +133,7 @@ public:
 	int32 SubValue;
 
 public:
-	FSsVarianceValueInt(){}
+	FSsVarianceValueInt() : RangeType(SsVarianceValueRangeType::None), Value(0), SubValue(0) {}
 	FSsVarianceValueInt(int32 v)
 	{
 		Value = SubValue = v;
@@ -190,7 +190,7 @@ public:
 	FSsU8Color SubValue;
 
 public:
-	FSsVarianceValueColor(){}
+	FSsVarianceValueColor() : RangeType(SsVarianceValueRangeType::None) {}
 	FSsVarianceValueColor(FSsU8Color v)
 	{
 		Value = SubValue = v;
