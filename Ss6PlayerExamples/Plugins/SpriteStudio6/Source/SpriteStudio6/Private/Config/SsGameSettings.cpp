@@ -23,6 +23,12 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_AddSub;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_AddEff;
 
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_SubInv;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_SubMix;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_SubMul;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_SubAdd;
+		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompDefault_SubSub;
+
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_MixInv;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_MixMix;
 		ConstructorHelpers::FObjectFinder<UMaterialInterface> CompMasked_MixMul;
@@ -61,6 +67,11 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 			, CompDefault_AddAdd(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_AddAdd"))
 			, CompDefault_AddSub(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_AddSub"))
 			, CompDefault_AddEff(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_AddEff"))
+			, CompDefault_SubInv(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_SubInv"))
+			, CompDefault_SubMix(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_SubMix"))
+			, CompDefault_SubMul(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_SubMul"))
+			, CompDefault_SubAdd(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_SubAdd"))
+			, CompDefault_SubSub(TEXT("/SpriteStudio6/Component_Default/M_Ss_Component_Default_SubSub"))
 			, CompMasked_MixInv (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_MixInv"))
 			, CompMasked_MixMix (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_MixMix"))
 			, CompMasked_MixMul (TEXT("/SpriteStudio6/Component_Masked/M_Ss_Component_Masked_MixMul"))
@@ -88,53 +99,53 @@ USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
 	// Component Default 
 	Component_Default.Mix.Inv = 
 	Component_Default.Mul.Inv = 
-	Component_Default.Sub.Inv =
 	Component_Default.MulAlpha.Inv =
 	Component_Default.Screen.Inv =
 	Component_Default.Exclusion.Inv =
 	Component_Default.Invert.Inv =
 		CS.CompDefault_MixInv.Object;
 	Component_Default.Add.Inv = CS.CompDefault_AddInv.Object;
+	Component_Default.Sub.Inv = CS.CompDefault_SubInv.Object;
 
 	Component_Default.Mix.Mix = 
-	Component_Default.Mul.Mix = 
-	Component_Default.Sub.Mix =
+	Component_Default.Mul.Mix =
 	Component_Default.MulAlpha.Mix =
 	Component_Default.Screen.Mix =
 	Component_Default.Exclusion.Mix =
 	Component_Default.Invert.Mix =
 		CS.CompDefault_MixMix.Object;
 	Component_Default.Add.Mix = CS.CompDefault_AddMix.Object;
+	Component_Default.Sub.Mix = CS.CompDefault_SubMix.Object;
 
 	Component_Default.Mix.Mul = 
 	Component_Default.Mul.Mul =
-	Component_Default.Sub.Mul =
 	Component_Default.MulAlpha.Mul =
 	Component_Default.Screen.Mul =
 	Component_Default.Exclusion.Mul =
 	Component_Default.Invert.Mul =
 		CS.CompDefault_MixMul.Object;
 	Component_Default.Add.Mul = CS.CompDefault_AddMul.Object;
+	Component_Default.Sub.Mul = CS.CompDefault_SubMul.Object;
 
 	Component_Default.Mix.Add = 
-	Component_Default.Mul.Add = 
-	Component_Default.Sub.Add =
+	Component_Default.Mul.Add =
 	Component_Default.MulAlpha.Add =
 	Component_Default.Screen.Add =
 	Component_Default.Exclusion.Add =
 	Component_Default.Invert.Add =
 		CS.CompDefault_MixAdd.Object;
 	Component_Default.Add.Add = CS.CompDefault_AddAdd.Object;
+	Component_Default.Sub.Add = CS.CompDefault_SubAdd.Object;
 
 	Component_Default.Mix.Sub = 
 	Component_Default.Mul.Sub =
-	Component_Default.Sub.Sub =
 	Component_Default.MulAlpha.Sub =
 	Component_Default.Screen.Sub =
 	Component_Default.Exclusion.Sub =
 	Component_Default.Invert.Sub =
 		CS.CompDefault_MixSub.Object;
 	Component_Default.Add.Sub = CS.CompDefault_AddSub.Object;
+	Component_Default.Sub.Sub = CS.CompDefault_SubSub.Object;
 
 	Component_Default.Mix.Eff = 
 	Component_Default.Mul.Eff = 
