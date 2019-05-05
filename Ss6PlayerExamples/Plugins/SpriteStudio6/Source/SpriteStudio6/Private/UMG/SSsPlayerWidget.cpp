@@ -240,8 +240,8 @@ int32 SSsPlayerWidget::OnPaint(
 		if(!bRenderOffScreen)
 		{
 			PaintInternal(
-					RenderParts,
-					DefaultBrush,
+				RenderParts,
+				DefaultBrush,
 				AllottedGeometry,
 				MyClippingRect,
 				OutDrawElements,
@@ -382,7 +382,10 @@ void SSsPlayerWidget::PaintInternal(
 	{
 		return;
 	}
-	check(InRenderParts->Num() == InBrush.Num());
+	if(InRenderParts->Num() != InBrush.Num())
+	{
+		return;
+	}
 
 	FVector2D LocalSize = AllottedGeometry.GetLocalSize();
 
@@ -580,6 +583,7 @@ void SSsPlayerWidget::PaintInternal(
 		BkBrush = InBrush[It.GetIndex()].Get();
 	}
 
+	if(nullptr != BkBrush)
 	{
 		FSlateResourceHandle RenderResourceHandle = FSlateApplication::Get().GetRenderer()->GetResourceHandle(*(BkBrush));
 		if(RenderResourceHandle.IsValid())
@@ -587,9 +591,9 @@ void SSsPlayerWidget::PaintInternal(
 			FSlateDrawElement::MakeCustomVerts(
 				OutDrawElements,
 				LayerId,
-					RenderResourceHandle,
-					Vertices,
-					Indices,
+				RenderResourceHandle,
+				Vertices,
+				Indices,
 				nullptr, 0, 0
 				);
 		}
