@@ -796,11 +796,7 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 		RenderParts.VertexBuffer     = &VertexBuffer;
 		RenderParts.IndexBuffer      = &IndexBuffer;
 		RenderParts.ClearColor       = ClearColor;
-
-		for(int32 i = 0; i < InRenderParts.Num(); ++i)
-		{
-			RenderParts.RenderParts.Add(InRenderParts[i]);
-		}
+		RenderParts.RenderParts      = InRenderParts;
 	}
 
 	ENQUEUE_RENDER_COMMAND(FSsRenderOffScreenRunner)(
