@@ -154,10 +154,10 @@ void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 
 	if ( target == SsColorBlendTarget::Vertex )
 	{
-		SsHash lt = key->Value[ConstName_LT].get<SsHash>();
-		SsHash rt = key->Value[ConstName_RT].get<SsHash>();
-		SsHash lb = key->Value[ConstName_LB].get<SsHash>();
-		SsHash rb = key->Value[ConstName_RB].get<SsHash>();
+		const SsHash& lt = key->Value[ConstName_LT].get<SsHash>();
+		const SsHash& rt = key->Value[ConstName_RT].get<SsHash>();
+		const SsHash& lb = key->Value[ConstName_LB].get<SsHash>();
+		const SsHash& rb = key->Value[ConstName_RB].get<SsHash>();
 
 		ConvertStringToSsColor( lt[ConstName_RGBA].get<FString>() , v.colors[0].rgba);
 		v.colors[0].rate = lt[ConstName_Rate].get<float>();
@@ -172,7 +172,7 @@ void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 		v.colors[3].rate = rb[ConstName_Rate].get<float>();
 
 	}else{
-		SsHash color = key->Value[ConstName_Color].get<SsHash>();
+		const SsHash& color = key->Value[ConstName_Color].get<SsHash>();
 
 		ConvertStringToSsColor( color[ConstName_RGBA].get<FString>() , v.color.rgba);
 		v.color.rate = color[ConstName_Rate].get<float>();
