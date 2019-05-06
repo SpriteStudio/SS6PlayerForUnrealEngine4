@@ -110,22 +110,30 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		addr = ( accel / c ) * _t;
 	}
 
-	float x = cos(rad + addr) * speed * (float)_t;
-	float y = sin(rad + addr) * speed * (float)_t;
+	//float x = cos(rad + addr) * speed * (float)_t;
+	//float y = sin(rad + addr) * speed * (float)_t;
+	float s, c;
+	FMath::SinCos(&s, &c, rad + addr);
+	float x = c * speed * (float)_t;
+	float y = s * speed * (float)_t;
 
 	if ( particle.useTransSpeed )
 	{
 		float transspeed = particle.transSpeed + ( particle.transSpeed2 * rand.genrand_float32() );
         float speedadd = transspeed / _life;
 
-		float addtx =  cos(rad + addr) * speed;
-		float addtx_trans =  cos(rad + addr) * speedadd;
+		//float addtx =  cos(rad + addr) * speed;
+		//float addtx_trans =  cos(rad + addr) * speedadd;
+		float addtx =  c * speed;
+		float addtx_trans =  c * speedadd;
 
 		float addx = (( addtx_trans * _t ) + addtx ) * (_t+1.0f) / 2.0f;
 
 
-		float addty =  sin(rad + addr) * speed;
-		float addty_trans =  sin(rad + addr) * speedadd;
+		//float addty =  sin(rad + addr) * speed;
+		//float addty_trans =  sin(rad + addr) * speedadd;
+		float addty =  s * speed;
+		float addty_trans =  s * speedadd;
 
 		float addy = (( addty_trans * _t ) + addty ) * ( _t+1.0f) / 2.0f;
 
@@ -294,8 +302,8 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 	{
 
 		//生成地点からの距離
-		FVector2D v = FVector2D(  particle.gravityPos.X - (ox + position.X) ,
-                         particle.gravityPos.Y - (oy + position.Y) );
+		FVector2D v(  particle.gravityPos.X - (ox + position.X) ,
+                      particle.gravityPos.Y - (oy + position.Y) );
 
 
 		FVector2D nv = v;

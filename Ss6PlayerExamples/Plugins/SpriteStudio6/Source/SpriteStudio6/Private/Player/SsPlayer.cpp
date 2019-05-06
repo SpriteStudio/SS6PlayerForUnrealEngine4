@@ -753,6 +753,18 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 
 	Emitter->updateEmitter(Time, Slide);
 
+	float ParentMatrix[4 * 4];
+	float ParentAlpha = 1.f;
+	if(Effect->parentState)
+	{
+		memcpy(ParentMatrix, Effect->parentState->matrixLocal, sizeof(float)*16);
+		ParentAlpha = (Effect->parentState->localalpha == 1.f) ? Effect->parentState->alpha : Effect->parentState->localalpha;
+	}
+	else
+	{
+		IdentityMatrix(ParentMatrix);
+	}
+
 	for(int32 Id = 0; Id < ParticleNum; ++Id)
 	{
 		const particleExistSt* ExistSt = Emitter->getParticleDataFromID(Id);
@@ -804,14 +816,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 
 			{
 				float matrix[4 * 4];
-				IdentityMatrix(matrix);
-
-				float ParentAlpha = 1.f;
-				if(Effect->parentState)
-				{
-					memcpy(matrix, Effect->parentState->matrixLocal, sizeof(float)*16);
-					ParentAlpha = (Effect->parentState->localalpha == 1.f) ? Effect->parentState->alpha : Effect->parentState->localalpha;
-				}
+				memcpy(matrix, ParentMatrix, sizeof(float) * 16);
 
 				TranslationMatrixM(matrix, lp.x * Effect->layoutScale.X, lp.y * Effect->layoutScale.Y, 0.f);
 				RotationXYZMatrixM(matrix, 0.f, 0.f, FMath::DegreesToRadians(lp.rot) + lp.direc);
