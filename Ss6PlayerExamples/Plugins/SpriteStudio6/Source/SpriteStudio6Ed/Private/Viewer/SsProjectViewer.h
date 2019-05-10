@@ -44,6 +44,8 @@ private:
 	bool IsPlaying() const;
 	void OnPrevFrame();
 	void OnNextFrame();
+	void OnLoop();
+	bool IsLooping() const;
 	void OnAnimePackChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type);
 	void OnAnimationChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type);
 	void OnSetFrame(int32 Frame, ETextCommit::Type);
@@ -75,4 +77,6 @@ private:
 	TSharedPtr<class SColorBlock> GridColorBlock;
 	TSharedPtr<class SColorBlock> BackColorBlock;
 	TSharedPtr<class STextBlock>  MaxFrameText;
+
+	bool bLoop;
 };

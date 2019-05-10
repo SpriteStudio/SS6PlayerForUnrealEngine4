@@ -174,6 +174,8 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 	RegenerateMenusAndToolbars();
 
 	Viewport->SetPlayer(&Player, RenderOffScreen);
+	
+	bLoop = true;
 	Player.Play(0, 0);
 }
 
@@ -248,6 +250,14 @@ void FSsProjectViewer::ExtendToolbar()
 					TAttribute<FText>(),
 					TAttribute<FText>(),
 					FSlateIcon(ISpriteStudio6Ed::Get().Style->GetStyleSetName(), "NextIcon"),
+					NAME_None
+					);
+				ToolbarBuilder.AddToolBarButton(
+					FSsProjectViewerCommands::Get().Loop,
+					NAME_None,
+					TAttribute<FText>(),
+					TAttribute<FText>(),
+					FSlateIcon(ISpriteStudio6Ed::Get().Style->GetStyleSetName(), "LoopIcon"),
 					NAME_None
 					);
 
@@ -445,6 +455,12 @@ void FSsProjectViewer::BindCommands()
 		FExecuteAction::CreateSP(this, &FSsProjectViewer::OnNextFrame)
 		);
 	ToolkitCommands->MapAction(
+		Commands.Loop,
+		FExecuteAction::CreateSP(this, &FSsProjectViewer::OnLoop),
+		FCanExecuteAction(),
+		FIsActionChecked::CreateSP(this, &FSsProjectViewer::IsLooping)
+		);
+	ToolkitCommands->MapAction(
 		Commands.DrawGrid,
 		FExecuteAction::CreateSP(this, &FSsProjectViewer::OnChangeDrawGrid),
 		FCanExecuteAction(),
@@ -460,6 +476,11 @@ void FSsProjectViewer::OnPlay()
 	}
 	else
 	{
+		if(Player.GetPlayFrame() == Player.GetAnimeEndFrame())
+		{
+			Player.SetPlayFrame(0.f);
+		}
+		Player.LoopCount = bLoop ? 0 : 1;
 		Player.Resume();
 	}
 }
@@ -504,6 +525,16 @@ void FSsProjectViewer::OnNextFrame()
 	}
 }
 
+void FSsProjectViewer::OnLoop()
+{
+	bLoop = !bLoop;
+	Player.LoopCount = bLoop ? 0 : 1;
+}
+bool FSsProjectViewer::IsLooping() const
+{
+	return bLoop;
+}
+
 void FSsProjectViewer::OnAnimePackChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type)
 {
 	if(NewSelection.IsValid() && SsProject)
@@ -538,7 +569,7 @@ void FSsProjectViewer::OnAnimationChanged(TSharedPtr<FString> NewSelection, ESel
 			if(Player.GetAnimationIndex(CurrentAnimePack->AnimePackName, AnimationName, AnimPackIndex, AnimationIndex))
 			{
 				bool bPlaying =  Player.IsPlaying();
-				Player.Play(AnimPackIndex, AnimationIndex);
+				Player.Play(AnimPackIndex, AnimationIndex, 0, 1.f, bLoop ? 0 : 1);
 				Player.Tick(0.f);
 				if(!bPlaying)
 				{
