@@ -4,6 +4,7 @@
 #include "ssplayer_animedecode.h"
 #include "ssplayer_PartState.h"
 #include "ssplayer_effect2.h"
+#include "ssplayer_mesh.h"
 
 
 namespace
@@ -36,6 +37,11 @@ void	SsPartState::destroy()
 	{
 		delete refEffect;
 		refEffect = 0;
+	}
+	if ( meshPart )
+	{
+		delete meshPart;
+		meshPart = 0;
 	}
 }
 
