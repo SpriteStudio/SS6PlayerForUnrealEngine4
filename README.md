@@ -28,3 +28,9 @@ UE4.22
 - Component/Widgetの描画モードに「Masked」を追加しました。アルファ値を反映せずMakedマテリアルで描画します。
 - Component/Widgetにパーツのマテリアルを動的に差し替える機能を追加しました。(AddMaterialReplacement等)
 - ProjectSettingsから、描画モード，アルファブレンドモード，パーツカラーモードに応じてデフォルトマテリアルを上書き出来るようになりました。
+
+※ v1.4.1_UE4.22 での追加機能について
+- メッシュパーツを使用したアニメーション再生時のメモリリークを修正しました。
+- Component/Widgetに、ブレンドモード単位でマテリアルを動的に差し替える機能を追加しました。
+- Component/Widgetに、実際に描画に使用されているMaterialInstanceDynamicのリストを取得できるプロパティを追加しました。
+
