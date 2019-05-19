@@ -325,6 +325,36 @@ namespace SsBlendType
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsBlendType::Type> n);
 void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsBlendType::Type>& out);
 
+
+/// UPROPERTY利用のためのBlendMode再定義 
+
+UENUM()
+enum class EAlphaBlendType : uint8
+{
+	Mix       = SsBlendType::Mix,
+	Mul       = SsBlendType::Mul,
+	Add       = SsBlendType::Add,
+	Sub       = SsBlendType::Sub,
+	MulAlpha  = SsBlendType::MulAlpha,
+	Screen    = SsBlendType::Screen,
+	Exclusion = SsBlendType::Exclusion,
+	Invert    = SsBlendType::Invert,
+};
+
+UENUM()
+enum class EColorBlendType : uint8
+{
+	Invalid = SsBlendType::Invalid,
+	Mix     = SsBlendType::Mix,
+	Mul     = SsBlendType::Mul,
+	Add     = SsBlendType::Add,
+	Sub     = SsBlendType::Sub,
+	Effect  = SsBlendType::Effect,
+};
+
+#define SS_BlendTypeKey(_AlphaBlendType, _ColorBlendType) (((int32)_AlphaBlendType << 8) | (int32)_ColorBlendType)
+
+
 ///カラーブレンドキーが使用されている際のカラー適用範囲の定義
 UENUM()
 namespace SsColorBlendTarget

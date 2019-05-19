@@ -282,6 +282,7 @@ void USsPlayerComponent::OnRegister()
 				{
 					OffScreenPlaneMID->SetFlags(RF_Transient);
 					OffScreenPlaneMID->SetTextureParameterValue(FName(TEXT("SsRenderTarget")), RenderOffScreen->GetRenderTarget());
+					RenderMIDs.Add(OffScreenPlaneMID);
 
 					if(SceneProxy)
 					{
@@ -300,6 +301,7 @@ void USsPlayerComponent::OnUnregister()
 	PartsMIDMaps.Empty();
 	PartsMIDRef.Empty();
 	MaterialReplacementMap.Empty();
+	MapterialReplacementMapPerBlendMode.Empty();
 	OffScreenPlaneMID = NULL;
 
 	if(RenderOffScreen)
@@ -371,6 +373,10 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 							UMaterialInstanceDynamic** ppMID = nullptr;
 							{
 								UMaterialInterface** ppReplaceBaseMaterial = MaterialReplacementMap.Find(ItPart->PartIndex);
+								if(nullptr == ppReplaceBaseMaterial)
+								{
+									ppReplaceBaseMaterial = MapterialReplacementMapPerBlendMode.Find(SS_BlendTypeKey(ItPart->AlphaBlendType, ItPart->ColorBlendType));
+								}
 								UMaterialInterface* PartBaseMaterial = (nullptr != ppReplaceBaseMaterial) ? *ppReplaceBaseMaterial : GetBaseMaterialComp(RenderMode, ItPart->AlphaBlendType, ItPart->ColorBlendType);
 								if(nullptr != PartBaseMaterial)
 								{
@@ -702,6 +708,10 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 					}
 
 					UMaterialInterface** ppReplaceBaseMaterial = MaterialReplacementMap.Find(RenderParts[i].PartIndex);
+					if(nullptr == ppReplaceBaseMaterial)
+					{
+						ppReplaceBaseMaterial = MapterialReplacementMapPerBlendMode.Find(SS_BlendTypeKey(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType));
+					}
 					UMaterialInterface* PartBaseMaterial = (nullptr != ppReplaceBaseMaterial) ? *ppReplaceBaseMaterial : GetBaseMaterialComp(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
 					if(nullptr != PartBaseMaterial)
 					{
@@ -716,6 +726,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 								NewMID->SetFlags(RF_Transient);
 								NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
 								PartsMIDMap.Add(RenderParts[i].Texture, NewMID);
+								RenderMIDs.Add(NewMID);
 							}
 						}
 					}
@@ -1015,6 +1026,19 @@ void USsPlayerComponent::RemoveMaterialReplacementByIndex(int32 PartIndex)
 void USsPlayerComponent::RemoveMaterialReplacementAll()
 {
 	MaterialReplacementMap.Empty();
+}
+
+void USsPlayerComponent::AddMaterialReplacementPerBlendMode(EAlphaBlendType AlphaBlendMode, EColorBlendType ColorBlendMode, UMaterialInterface* InBaseMaterial)
+{
+	MapterialReplacementMapPerBlendMode.Add(SS_BlendTypeKey(AlphaBlendMode, ColorBlendMode), InBaseMaterial);
+}
+void USsPlayerComponent::RemoveMaterialReplacementPerBlendMode(EAlphaBlendType AlphaBlendMode, EColorBlendType ColorBlendMode)
+{
+	MapterialReplacementMapPerBlendMode.Remove(SS_BlendTypeKey(AlphaBlendMode, ColorBlendMode));
+}
+void USsPlayerComponent::RemoveMaterialReplacementAllPerBlendMode()
+{
+	MapterialReplacementMapPerBlendMode.Empty();
 }
 
 FName USsPlayerComponent::GetPartColorLabel(FName PartName)

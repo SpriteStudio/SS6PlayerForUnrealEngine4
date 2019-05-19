@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "SsTypes.h"
 #include "SsPlayerTickResult.h"
 #include "SsPlayer.h"
 #include "SsPlayPropertySync.h"
@@ -106,6 +107,10 @@ private:
 
 	UPROPERTY(Transient)
 	TMap<int32, UMaterialInterface*> MaterialReplacementMap;
+
+	UPROPERTY(Transient)
+	TMap<int32, UMaterialInterface*> MapterialReplacementMapPerBlendMode;
+
 
 public:
 	// 公開PROPERTY 
@@ -225,6 +230,15 @@ public:
 	FSsUserDataSignature OnSsUserData;
 
 
+	//
+	// Misc 
+	//
+
+	// 実際に描画に使用されているMaterialInstanceDynamic 
+	UPROPERTY(Transient, BlueprintReadOnly, Category="SpriteStudio")
+	TArray<UMaterialInstanceDynamic*> RenderMIDs;
+
+
 public:
 	// Blueprint公開関数 
 
@@ -336,25 +350,38 @@ public:
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void RemoveTextureReplacementAll();
 
-	// 置き換えマテリアルの登録 
+	// 置き換えマテリアルの登録(パーツ単位) 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void AddMaterialReplacement(FName PartName, UMaterialInterface* InBaseMaterial);
 
-	// 置き換えマテリアルの登録(インデックス指定) 
+	// 置き換えマテリアルの登録(パーツ単位)(インデックス指定) 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void AddMaterialReplacementByIndex(int32 PartIndex, UMaterialInterface* InBaseMaterial);
 
-	// 置き換えマテリアルの登録解除 
+	// 置き換えマテリアルの登録解除(パーツ単位) 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void RemoveMaterialReplacement(FName PartName);
 
-	// 置き換えマテリアルの登録解除(インデックス指定) 
+	// 置き換えマテリアルの登録解除(パーツ単位)(インデックス指定) 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void RemoveMaterialReplacementByIndex(int32 PartIndex);
 
-	// 全ての置き換えマテリアルの登録解除 
+	// 全ての置き換えマテリアルの登録解除(パーツ単位) 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void RemoveMaterialReplacementAll();
+
+	// 置き換えマテリアルの登録(ブレンドモード単位) 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void AddMaterialReplacementPerBlendMode(EAlphaBlendType AlphaBlendMode, EColorBlendType ColorBlendMode, UMaterialInterface* InBaseMaterial);
+
+	// 置き換えマテリアルの登録解除(ブレンドモード単位) 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void RemoveMaterialReplacementPerBlendMode(EAlphaBlendType AlphaBlendMode, EColorBlendType ColorBlendMode);
+
+	// 全ての置き換えマテリアルの登録解除(ブレンドモード単位) 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void RemoveMaterialReplacementAllPerBlendMode();
+
 
 	// パーツのカラーラベルを取得 
 	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
