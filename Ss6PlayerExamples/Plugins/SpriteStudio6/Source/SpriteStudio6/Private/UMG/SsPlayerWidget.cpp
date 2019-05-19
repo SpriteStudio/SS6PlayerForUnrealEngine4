@@ -343,6 +343,10 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 							UMaterialInstanceDynamic** ppMID = nullptr;
 							{
 								UMaterialInterface** ppReplaceBaseMaterial = MaterialReplacementMap.Find(RenderParts[i].PartIndex);
+								if(nullptr == ppReplaceBaseMaterial)
+								{
+									ppReplaceBaseMaterial = MaterialReplacementMapPerBlendMode.Find(SS_BlendTypeKey(RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType));
+								}
 								UMaterialInterface* PartBaseMaterial = (nullptr != ppReplaceBaseMaterial) ? *ppReplaceBaseMaterial : GetBaseMaterialUMG(RenderMode, RenderParts[i].AlphaBlendType, RenderParts[i].ColorBlendType);
 								if(nullptr != PartBaseMaterial)
 								{
@@ -353,10 +357,10 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 										UMaterialInstanceDynamic* NewMID = UMaterialInstanceDynamic::Create(PartBaseMaterial, GetTransientPackage());
 										if(NewMID)
 										{
-											PartsMIDRef.Add(NewMID);
 											NewMID->SetFlags(RF_Transient);
 											NewMID->SetTextureParameterValue(FName(TEXT("SsCellTexture")), RenderParts[i].Texture);
 											ppMID = &PartsMIDMap.Add(RenderParts[i].Texture, NewMID);
+											RenderMIDs.Add(NewMID);
 										}
 									}
 								}
@@ -400,6 +404,7 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 						OffScreenMID = UMaterialInstanceDynamic::Create(BaseMaterial, GetTransientPackage());
 						OffScreenMID->SetFlags(RF_Transient);
 						OffScreenMID->SetTextureParameterValue(FName(TEXT("SsRenderTarget")), PlayerWidget->GetRenderOffScreen()->GetRenderTarget());
+						RenderMIDs.Add(OffScreenMID);
 					}
 
 					TSharedPtr<FSlateMaterialBrush>* Brush = BrushMap.Find(OffScreenMID);
@@ -642,6 +647,19 @@ void USsPlayerWidget::RemoveMaterialReplacementByIndex(int32 PartIndex)
 void USsPlayerWidget::RemoveMaterialReplacementAll()
 {
 	MaterialReplacementMap.Empty();
+}
+
+void USsPlayerWidget::AddMaterialReplacementPerBlendMode(EAlphaBlendType AlphaBlendMode, EColorBlendType ColorBlendMode, UMaterialInterface* InBaseMaterial)
+{
+	MaterialReplacementMapPerBlendMode.Add(SS_BlendTypeKey(AlphaBlendMode, ColorBlendMode), InBaseMaterial);
+}
+void USsPlayerWidget::RemoveMaterialReplacementPerBlendMode(EAlphaBlendType AlphaBlendMode, EColorBlendType ColorBlendMode)
+{
+	MaterialReplacementMapPerBlendMode.Remove(SS_BlendTypeKey(AlphaBlendMode, ColorBlendMode));
+}
+void USsPlayerWidget::RemoveMaterialReplacementAllPerBlendMode()
+{
+	MaterialReplacementMapPerBlendMode.Empty();
 }
 
 FName USsPlayerWidget::GetPartColorLabel(FName PartName)
