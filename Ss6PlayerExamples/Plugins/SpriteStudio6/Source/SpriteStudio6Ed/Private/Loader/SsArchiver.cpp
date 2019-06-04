@@ -496,7 +496,13 @@ void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
 }
 void SerializeStruct(FSsMeshBind& Value, SsXmlIArchiver* ar)
 {
-	FString Str(babel::utf8_to_sjis( ar->getxml()->GetText() ).c_str());
+	const char* Text = ar->getxml()->GetText();
+	if(nullptr == Text)
+	{
+		return;
+	}
+
+	FString Str(babel::utf8_to_sjis(Text).c_str());
 
 	TArray<FString> MeshBindInfoStrs;
 	Str.ParseIntoArray(MeshBindInfoStrs, TEXT(","));
@@ -510,14 +516,16 @@ void SerializeStruct(FSsMeshBind& Value, SsXmlIArchiver* ar)
 
 			FMemory::Memset(Info.Weight,    0, SSMESHPART_BONEMAX * sizeof(float));
 			FMemory::Memset(Info.BoneIndex, 0, SSMESHPART_BONEMAX * sizeof(int32));
+			FMemory::Memset(Info.Offset,    0, SSMESHPART_BONEMAX * sizeof(FVector));
 
-			Info.BindBoneNum = FCString::Atoi(*Tok[0]);
+			Info.BindBoneNum = (0 < Tok.Num()) ? FCString::Atoi(*Tok[0]) : 0;
 			for(int32 i = 0; i < Info.BindBoneNum; ++i)
 			{
-				Info.BoneIndex[i] = FCString::Atoi(*Tok[1 + (i*4) + 0]);
-				Info.Weight[i]    = FCString::Atoi(*Tok[1 + (i*4) + 1]);
-				Info.Offset[i].X  = FCString::Atof(*Tok[1 + (i*4) + 2]);
-				Info.Offset[i].Y  = FCString::Atof(*Tok[1 + (i*4) + 3]);
+				int32 idx = 1 + (i*4);
+				Info.BoneIndex[i] = (idx < Tok.Num()) ? FCString::Atoi(*Tok[idx]) : 0;   ++idx;
+				Info.Weight[i]    = (idx < Tok.Num()) ? FCString::Atoi(*Tok[idx]) : 0.f; ++idx;
+				Info.Offset[i].X  = (idx < Tok.Num()) ? FCString::Atof(*Tok[idx]) : 0.f; ++idx;
+				Info.Offset[i].Y  = (idx < Tok.Num()) ? FCString::Atof(*Tok[idx]) : 0.f;
 			}
 		}
 		Value.MeshVerticesBindArray.Add(Info);
