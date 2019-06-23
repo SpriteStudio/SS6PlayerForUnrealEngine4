@@ -19,29 +19,14 @@ void FAssetTypeActions_SsProject::OpenAssetEditor( const TArray<UObject*>& InObj
 	}
 }
 
-void FAssetTypeActions_SsProject::GetActions(const TArray<UObject*>& InObjects, FMenuBuilder& MenuBuilder)
+void FAssetTypeActions_SsProject::GetResolvedSourceFilePaths(const TArray<UObject*>& TypeAssets, TArray<FString>& OutSourceFilePaths) const
 {
-	auto SsProjectImports = GetTypedWeakObjectPtrs<USs6Project>(InObjects);
-
-	MenuBuilder.AddMenuEntry(
-		LOCTEXT("SsProject_Reimport", "Reimport"),
-		LOCTEXT("SsProject_ReimportTooltip", "reimport sspj."),
-		FSlateIcon(),
-		FUIAction(
-		FExecuteAction::CreateSP(this, &FAssetTypeActions_SsProject::ExecuteReimport, SsProjectImports),
-		FCanExecuteAction()
-		)
-	);
-}
-
-void FAssetTypeActions_SsProject::ExecuteReimport(TArray<TWeakObjectPtr<USs6Project>> Objects)
-{
-	for (auto ObjIt = Objects.CreateConstIterator(); ObjIt; ++ObjIt)
+	for(auto& Asset : TypeAssets)
 	{
-		auto Object = (*ObjIt).Get();
-		if (Object)
+		const USs6Project* SsProject = CastChecked<USs6Project>(Asset);
+		if(SsProject->AssetImportData)
 		{
-			FReimportManager::Instance()->Reimport(Object, /*bAskForNewFileIfMissing=*/true);
+			SsProject->AssetImportData->ExtractFilenames(OutSourceFilePaths);
 		}
 	}
 }
