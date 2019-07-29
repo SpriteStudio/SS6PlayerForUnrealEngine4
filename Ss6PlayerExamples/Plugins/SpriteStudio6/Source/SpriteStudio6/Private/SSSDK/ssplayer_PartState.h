@@ -84,6 +84,8 @@ struct SsPartState
 
 	SsDeformAttr	deformValue;
 
+	FSsPart*		part;
+
 	SsPartState();
 
 	virtual ~SsPartState();

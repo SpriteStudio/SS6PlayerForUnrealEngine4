@@ -131,7 +131,7 @@ public:
 	SsAnimeDecoder* bindAnime;
 
 	TArray<SsPartState*>    	meshList;
-	TArray<SsPartState*>    	boneList;
+	TArray<SsPartState*>    	animeboneList;
 	TArray<SsPartState*>    	jointList;
 
 public:
@@ -142,7 +142,7 @@ public:
 
 	void	update();
 	void	makeMeshBoneList();
-	void	copyToSsMeshPart(FSsMeshBind* src, SsMeshPart* dst, const TArray<SsPartState*>& boneList);
+	void	copyToSsMeshPart(FSsMeshBind* src, SsMeshPart* dst, const TMap<int32, SsPartState*>& boneIdxList);
 
 };
 

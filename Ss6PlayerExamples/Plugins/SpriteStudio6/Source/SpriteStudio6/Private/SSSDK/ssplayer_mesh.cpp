@@ -361,7 +361,7 @@ void	SsMeshAnimator::makeMeshBoneList()
 {
 	if (bindAnime == 0)return;
 	meshList.Empty();
-	boneList.Empty();
+	animeboneList.Empty();
 	jointList.Empty();
 
 
@@ -375,7 +375,7 @@ void	SsMeshAnimator::makeMeshBoneList()
 		}
 		if (indexState[i].partType == SsPartType::Armature)
 		{
-			boneList.Add(&indexState[i]);
+			animeboneList.Add(&indexState[i]);
 		}
 		if (indexState[i].partType == SsPartType::Joint)
 		{
@@ -404,13 +404,11 @@ void	SsMeshAnimator::update()
 }
 
 
-void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , const TArray<SsPartState*>& boneListLocal )
+void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , const TMap<int32, SsPartState*>& boneIdxListLocal )
 {
 
-	int bnum = (int)boneListLocal.Num();
+	int bnum = (int)boneIdxListLocal.Num();
 	bool isbind = false;	//バインドするボーンが存在するか？
-
-
 
 	for (size_t i = 0; i < src->MeshVerticesBindArray.Num(); i++)
 	{
@@ -425,9 +423,9 @@ void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , const
 				dst->bindBoneInfo[i].weight[n] = bi.Weight[n];
 
 				//
-				if (bnum > bi.BoneIndex[n])
+				if (boneIdxListLocal.Contains(bi.BoneIndex[n]))
 				{
-					dst->bindBoneInfo[i].bone[n] = boneListLocal[bi.BoneIndex[n]];
+					dst->bindBoneInfo[i].bone[n] = boneIdxListLocal[bi.BoneIndex[n]];
 					isbind = true;	//バインドするボーンがある
 					cntBone++;
 				}
@@ -448,17 +446,26 @@ void	SsMeshAnimator::modelLoad()
 {
 	if (bindAnime == 0)return;
 	if (meshList.Num() == 0) return;
-	if (boneList.Num() == 0) return;
+	if (animeboneList.Num() == 0) return;
 	if (jointList.Num() == 0) return;
 
-
 	FSsModel* model = bindAnime->getMyModel();
+
+	TMap<FName, int32>& boneListRef = model->BoneList;
+
+	TMap<int32, SsPartState*> boneIdxList;
+	
+	for( size_t i = 0; i < animeboneList.Num(); i++)
+	{
+		int idx = boneListRef[animeboneList[i]->part->PartName];
+		boneIdxList.Add(idx, animeboneList[i]);
+	}
 
 	if (meshList.Num() == model->MeshList.Num() )
 	{
 		for (size_t i = 0; i < model->MeshList.Num(); i++)
 		{
-			copyToSsMeshPart(&model->MeshList[i], meshList[i]->meshPart, boneList);
+			copyToSsMeshPart(&model->MeshList[i], meshList[i]->meshPart, boneIdxList);
 
 		}
 

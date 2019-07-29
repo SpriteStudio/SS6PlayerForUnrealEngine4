@@ -182,6 +182,7 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 		}else{
 			partState[i].parent = 0;
 		}
+		partState[i].part = p;
 
 		//継承率の設定
 		partState[i].inheritRates = p->InheritRates;
