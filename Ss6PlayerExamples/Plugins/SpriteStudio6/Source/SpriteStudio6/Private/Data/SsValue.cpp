@@ -3,7 +3,7 @@
 
 
 // UE4シリアライズ
-void FSsValue::Serialize(FArchive& Ar)
+void FSsValue::Serialize(FArchive& Ar, bool bForceColorValue)
 {
 	switch(Type)
 	{
@@ -11,11 +11,29 @@ void FSsValue::Serialize(FArchive& Ar)
 		{} break;
 	case SsValueType::StringType:
 		{
-			if(Ar.IsLoading())
+			if(Ar.IsLoading() && bForceColorValue)
 			{
-				_Str = new FString();
+				// 旧データ互換用 
+				FString TempStr;
+				Ar << TempStr;
+				_Color = new SsColor();
+				ConvertStringToSsColor(TempStr, *_Color);
+				Type = SsValueType::ColorType;
 			}
-			Ar << *_Str;
+			else
+			{
+				if(Ar.IsLoading())
+				{
+					_Str = new FString();
+				}
+				Ar << *_Str;
+
+				if(0 == _Str->Compare("FFF30000"))
+				{
+					int32 bp = 0;
+					++bp;
+				}
+			}
 		} break;
 	case SsValueType::IntType:
 		{
@@ -41,11 +59,13 @@ void FSsValue::Serialize(FArchive& Ar)
 					_Hash = new SsHash();
 					for(int32 i = 0; i < NumHash; ++i)
 					{
+						static const FName ConstName_RGBA("rgba");
+
 						FName Key;
 						Ar << Key;
 						FSsValue& AddValue = _Hash->Add(Key);
 						AddValue.StaticStruct()->SerializeTaggedProperties(Ar, (uint8*)&AddValue, NULL, NULL);
-						AddValue.Serialize(Ar);
+						AddValue.Serialize(Ar, ConstName_RGBA == Key);
 					}
 				}
 			}
@@ -93,6 +113,17 @@ void FSsValue::Serialize(FArchive& Ar)
 					SerValue.Serialize(Ar);
 				}
 			}
+		} break;
+	case SsValueType::ColorType:
+		{
+			if(Ar.IsLoading())
+			{
+				_Color = new SsColor();
+			}
+			Ar << _Color->r;
+			Ar << _Color->g;
+			Ar << _Color->b;
+			Ar << _Color->a;
 		} break;
 	}
 }

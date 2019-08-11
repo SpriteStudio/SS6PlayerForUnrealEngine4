@@ -20,6 +20,7 @@ namespace SsValueType
 		BooleanType,
 		HashType,
 		ArrayType,
+		ColorType,
 	};
 }
 
@@ -27,14 +28,11 @@ USTRUCT()
 struct FSsValue
 {
 	GENERATED_USTRUCT_BODY()
-	void Serialize(FArchive& Ar);
+	void Serialize(FArchive& Ar, bool bForceColorValue=false);
 
 public:
 	UPROPERTY(VisibleAnywhere, Category=SsValue)
 	TEnumAsByte<SsValueType::Type> Type;
-
-	UPROPERTY(VisibleAnywhere, Category=SsValue)
-	FString		ValueName;
 
 	union{
 		FString*	_Str;
@@ -43,6 +41,7 @@ public:
 		bool		_Boolean;
 		SsArray*	_Array;
 		SsHash*		_Hash;
+		SsColor*	_Color;
 	};
 
 	UPROPERTY()
@@ -74,6 +73,11 @@ public:
 		_Array = new SsArray(n);
 	}
 	explicit FSsValue(SsHash& n){ Type = SsValueType::HashType; _Hash = new SsHash(n); }
+	explicit FSsValue(SsColor& n)
+	{
+		Type = SsValueType::ColorType;
+		_Color = new SsColor(n);
+	}
 
 
 	FSsValue(const FSsValue& x)
@@ -104,6 +108,9 @@ public:
 			case SsValueType::HashType:
 				_Hash = new SsHash( *x._Hash);
 				break;
+			case SsValueType::ColorType:
+				_Color = new SsColor( *x._Color);
+				break;
 		}
 		Type = x.Type;
 	}
@@ -112,7 +119,6 @@ public:
 		if(this != &x)
 		{
 			this->release();
-			ValueName.Empty();
 			new (this) FSsValue(x);
 		}
 		return *this;
@@ -135,6 +141,11 @@ public:
 		if(Type == SsValueType::HashType && _Hash)
 		{
 			delete _Hash;
+			return;
+		}
+		if(Type == SsValueType::ColorType && _Color)
+		{
+			delete _Color;
 			return;
 		}
 	}
@@ -271,6 +282,14 @@ template <> inline SsHash& FSsValue::get<SsHash>()
 {
 	return *_Hash;
 }
+template <> inline const SsColor& FSsValue::get<SsColor>() const
+{
+	return *_Color;
+}
+template <> inline SsColor& FSsValue::get<SsColor>()
+{
+	return *_Color;
+}
 template <> inline bool FSsValue::is<bool>() const
 {
 	return Type == SsValueType::BooleanType;
@@ -294,4 +313,8 @@ template <> inline bool FSsValue::is<SsArray>() const
 template <> inline bool FSsValue::is<SsHash>() const
 {
 	return Type == SsValueType::HashType;
+}
+template <> inline bool FSsValue::is<SsColor>() const
+{
+	return Type == SsValueType::ColorType;
 }

@@ -159,22 +159,22 @@ void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 		const SsHash& lb = key->Value[ConstName_LB].get<SsHash>();
 		const SsHash& rb = key->Value[ConstName_RB].get<SsHash>();
 
-		ConvertStringToSsColor( lt[ConstName_RGBA].get<FString>() , v.colors[0].rgba);
+		v.colors[0].rgba = lt[ConstName_RGBA].get<SsColor>();
 		v.colors[0].rate = lt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rt[ConstName_RGBA].get<FString>() , v.colors[1].rgba);
+		v.colors[1].rgba = rt[ConstName_RGBA].get<SsColor>();
 		v.colors[1].rate = rt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( lb[ConstName_RGBA].get<FString>() , v.colors[2].rgba);
+		v.colors[2].rgba = lb[ConstName_RGBA].get<SsColor>();
 		v.colors[2].rate = lb[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rb[ConstName_RGBA].get<FString>() , v.colors[3].rgba);
+		v.colors[3].rgba = rb[ConstName_RGBA].get<SsColor>();
 		v.colors[3].rate = rb[ConstName_Rate].get<float>();
 
 	}else{
 		const SsHash& color = key->Value[ConstName_Color].get<SsHash>();
 
-		ConvertStringToSsColor( color[ConstName_RGBA].get<FString>() , v.color.rgba);
+		v.color.rgba = color[ConstName_RGBA].get<SsColor>();
 		v.color.rate = color[ConstName_Rate].get<float>();
 	}
 
@@ -198,21 +198,22 @@ void	GetSsColorValue( const FSsKeyframe* key , SsColorAnime& v )
 		SsHash lb = key->Value[ConstName_LB].get<SsHash>();
 		SsHash rb = key->Value[ConstName_RB].get<SsHash>();
 
-		ConvertStringToSsColor( lt[ConstName_RGBA].get<FString>() , v.colors[0].rgba);
+		v.colors[0].rgba = lt[ConstName_RGBA].get<SsColor>();
 		v.colors[0].rate = lt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rt[ConstName_RGBA].get<FString>() , v.colors[1].rgba);
+		v.colors[1].rgba = rt[ConstName_RGBA].get<SsColor>();
 		v.colors[1].rate = rt[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( lb[ConstName_RGBA].get<FString>() , v.colors[2].rgba);
+		v.colors[2].rgba = lb[ConstName_RGBA].get<SsColor>();
 		v.colors[2].rate = lb[ConstName_Rate].get<float>();
 
-		ConvertStringToSsColor( rb[ConstName_RGBA].get<FString>() , v.colors[3].rgba);
+		v.colors[3].rgba = rb[ConstName_RGBA].get<SsColor>();
 		v.colors[3].rate = rb[ConstName_Rate].get<float>();
 
 	}else{
 		SsHash color = key->Value[ConstName_Color].get<SsHash>();
-		ConvertStringToSsColor( color[ConstName_RGBA].get<FString>() , v.color.rgba);
+
+		v.color.rgba = color[ConstName_RGBA].get<SsColor>();
 		v.color.rate = color[ConstName_Rate].get<float>();
 	}
 
