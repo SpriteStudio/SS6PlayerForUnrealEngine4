@@ -28,7 +28,7 @@ USTRUCT()
 struct FSsValue
 {
 	GENERATED_USTRUCT_BODY()
-	void Serialize(FArchive& Ar, bool bForceColorValue=false);
+	void Serialize(FArchive& Ar, FName HashKey = NAME_None);
 
 public:
 	UPROPERTY(VisibleAnywhere, Category=SsValue)

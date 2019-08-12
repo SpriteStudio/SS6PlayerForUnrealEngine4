@@ -316,16 +316,16 @@ bool SsNeedsCurveParams(SsInterpolationType::Type type)
 }
 
 
-FSsValue SsValueSeriarizer__MakeValue(const char* v, bool bColorValue = false, bool bForceString = false)
+FSsValue SsValueSeriarizer__MakeValue(const char* v, FName HashKey = NAME_None)
 {
 	FString temp(v);
-	if(bColorValue)
+	if(HashKey == FName("rgba"))
 	{
 		SsColor Color;
 		ConvertStringToSsColor(temp, Color);
 		return FSsValue(Color);
 	}
-	else if(temp.IsNumeric() && !bForceString)
+	else if(temp.IsNumeric() && (HashKey != FName("name")))
 	{
 		return FSsValue((float)atof(v));
 	}
@@ -333,6 +333,23 @@ FSsValue SsValueSeriarizer__MakeValue(const char* v, bool bColorValue = false, b
 	{
 		FString ValueStr(babel::utf8_to_sjis(v).c_str());
 		CheckReplaceJapaneseString(v, ValueStr);
+
+		// ランタイムでパースする必要のあるアトリビュートは、シリアライズ時にintに変換しておく 
+		if(HashKey == FName("target"))
+		{
+			TEnumAsByte<SsColorBlendTarget::Type> Target;
+			__StringToEnum_(ValueStr, Target);
+			int32 EnumValue = static_cast<int32>(Target);
+			return FSsValue(EnumValue);
+		}
+		if(HashKey == FName("blendType"))
+		{
+			TEnumAsByte<SsBlendType::Type> BlendType;
+			__StringToEnum_(ValueStr, BlendType);
+			int32 EnumValue = static_cast<int32>(BlendType);
+			return FSsValue(EnumValue);
+		}
+
 		return FSsValue(ValueStr);
 	}
 }
@@ -389,7 +406,7 @@ void SsValueSeriarizer(ISsXmlArchiver* ar , FSsValue& v , const FString key = "v
 				const char* str = ce->GetText();
 				if ( str != 0 )
 				{
-					hash[fceName] = SsValueSeriarizer__MakeValue(str, (fceName == FName("rgba")), (fceName == FName("name")));
+					hash[fceName] = SsValueSeriarizer__MakeValue(str, fceName);
 					ce = (XMLElement*)ce->NextSibling();
 				}else{
 					//さらに子構造があるようだ

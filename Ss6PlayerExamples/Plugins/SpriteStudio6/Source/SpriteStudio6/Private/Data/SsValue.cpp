@@ -2,8 +2,15 @@
 #include "SsValue.h"
 
 
+namespace
+{
+	static const FName ConstName_RGBA("rgba");
+	static const FName ConstName_Target("target");
+	static const FName ConstName_BlendType("blendType");
+}
+
 // UE4シリアライズ
-void FSsValue::Serialize(FArchive& Ar, bool bForceColorValue)
+void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 {
 	switch(Type)
 	{
@@ -11,21 +18,50 @@ void FSsValue::Serialize(FArchive& Ar, bool bForceColorValue)
 		{} break;
 	case SsValueType::StringType:
 		{
-			if(Ar.IsLoading() && bForceColorValue)
+			if(Ar.IsLoading())
 			{
+				/////////////////////////////////////////
 				// 旧データ互換用 
-				FString TempStr;
-				Ar << TempStr;
-				_Color = new SsColor();
-				ConvertStringToSsColor(TempStr, *_Color);
-				Type = SsValueType::ColorType;
+				if(ConstName_RGBA == HashKey)
+				{
+					FString TempStr;
+					Ar << TempStr;
+					_Color = new SsColor();
+					ConvertStringToSsColor(TempStr, *_Color);
+					Type = SsValueType::ColorType;
+				}
+				else if(ConstName_Target == HashKey)
+				{
+					FString TempStr;
+					Ar << TempStr;
+
+					TEnumAsByte<SsColorBlendTarget::Type> Target;
+					__StringToEnum_(TempStr, Target);
+					_Int = static_cast<int32>(Target);
+					Type = SsValueType::IntType;
+				}
+				else if(ConstName_BlendType == HashKey)
+				{
+					FString TempStr;
+					Ar << TempStr;
+
+					TEnumAsByte<SsBlendType::Type> BlendType;
+					__StringToEnum_(TempStr, BlendType);
+					_Int = static_cast<int32>(BlendType);
+					Type = SsValueType::IntType;
+				}
+				/////////////////////////////////////////
+				else
+				{
+					if(Ar.IsLoading())
+					{
+						_Str = new FString();
+					}
+					Ar << *_Str;
+				}
 			}
 			else
 			{
-				if(Ar.IsLoading())
-				{
-					_Str = new FString();
-				}
 				Ar << *_Str;
 			}
 		} break;
@@ -53,13 +89,11 @@ void FSsValue::Serialize(FArchive& Ar, bool bForceColorValue)
 					_Hash = new SsHash();
 					for(int32 i = 0; i < NumHash; ++i)
 					{
-						static const FName ConstName_RGBA("rgba");
-
 						FName Key;
 						Ar << Key;
 						FSsValue& AddValue = _Hash->Add(Key);
 						AddValue.StaticStruct()->SerializeTaggedProperties(Ar, (uint8*)&AddValue, NULL, NULL);
-						AddValue.Serialize(Ar, ConstName_RGBA == Key);
+						AddValue.Serialize(Ar, Key);
 					}
 				}
 			}
@@ -73,7 +107,7 @@ void FSsValue::Serialize(FArchive& Ar, bool bForceColorValue)
 					Ar << Keys[i];
 					FSsValue& SerValue = (*_Hash)[Keys[i]];
 					SerValue.StaticStruct()->SerializeTaggedProperties(Ar, (uint8*)&(*_Hash)[Keys[i]], NULL, NULL);
-					SerValue.Serialize(Ar);
+					SerValue.Serialize(Ar, Keys[i]);
 				}
 			}
 		} break;

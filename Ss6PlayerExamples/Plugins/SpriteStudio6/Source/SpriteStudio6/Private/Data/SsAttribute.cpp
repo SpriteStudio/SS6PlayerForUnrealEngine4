@@ -144,15 +144,11 @@ int32 FSsAttribute::GetUpperBoundKeyIndex(int32 Time) const
 //頂点カラーアニメデータの取得
 void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 {
-	TEnumAsByte<SsColorBlendTarget::Type> target;
-	__StringToEnum_( key->Value[ConstName_Target].get<FString>() , target );
-	TEnumAsByte<SsBlendType::Type> blendtype;
-	__StringToEnum_( key->Value[ConstName_BlendType].get<FString>() , blendtype);
+	v.target = static_cast<TEnumAsByte<SsColorBlendTarget::Type>>(key->Value[ConstName_Target].get<int32>());
+	v.blendType = static_cast<TEnumAsByte<SsBlendType::Type>>(key->Value[ConstName_BlendType].get<int32>());
 
-	v.blendType = blendtype;
-	v.target = target;
 
-	if ( target == SsColorBlendTarget::Vertex )
+	if ( v.target == SsColorBlendTarget::Vertex )
 	{
 		const SsHash& lt = key->Value[ConstName_LT].get<SsHash>();
 		const SsHash& rt = key->Value[ConstName_RT].get<SsHash>();
@@ -183,15 +179,11 @@ void	GetSsPartsColorValue( const FSsKeyframe* key , SsPartsColorAnime& v )
 //頂点カラーアニメデータの取得
 void	GetSsColorValue( const FSsKeyframe* key , SsColorAnime& v )
 {
-	TEnumAsByte<SsColorBlendTarget::Type> target;
-	__StringToEnum_( key->Value[ConstName_Target].get<FString>() , target );
-	TEnumAsByte<SsBlendType::Type> blendtype;
-	__StringToEnum_( key->Value[ConstName_BlendType].get<FString>() , blendtype);
+	v.target = static_cast<TEnumAsByte<SsColorBlendTarget::Type>>(key->Value[ConstName_Target].get<int32>());
+	v.blendType = static_cast<TEnumAsByte<SsBlendType::Type>>(key->Value[ConstName_BlendType].get<int32>());
 
-	v.blendType = blendtype;
-	v.target = target;
 
-	if ( target == SsColorBlendTarget::Vertex )
+	if ( v.target == SsColorBlendTarget::Vertex )
 	{
 		SsHash lt = key->Value[ConstName_LT].get<SsHash>();
 		SsHash rt = key->Value[ConstName_RT].get<SsHash>();
