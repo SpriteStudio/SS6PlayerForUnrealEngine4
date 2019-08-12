@@ -27,12 +27,6 @@ void FSsValue::Serialize(FArchive& Ar, bool bForceColorValue)
 					_Str = new FString();
 				}
 				Ar << *_Str;
-
-				if(0 == _Str->Compare("FFF30000"))
-				{
-					int32 bp = 0;
-					++bp;
-				}
 			}
 		} break;
 	case SsValueType::IntType:
