@@ -4,9 +4,9 @@
 
 namespace
 {
-	static const FName ConstName_RGBA("rgba");
-	static const FName ConstName_Target("target");
-	static const FName ConstName_BlendType("blendType");
+	static const FName ConstName_SsValue_RGBA("rgba");
+	static const FName ConstName_SsValue_Target("target");
+	static const FName ConstName_SsValue_BlendType("blendType");
 }
 
 // UE4シリアライズ
@@ -22,7 +22,7 @@ void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 			{
 				/////////////////////////////////////////
 				// 旧データ互換用 
-				if(ConstName_RGBA == HashKey)
+				if(ConstName_SsValue_RGBA == HashKey)
 				{
 					FString TempStr;
 					Ar << TempStr;
@@ -30,7 +30,7 @@ void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 					ConvertStringToSsColor(TempStr, *_Color);
 					Type = SsValueType::ColorType;
 				}
-				else if(ConstName_Target == HashKey)
+				else if(ConstName_SsValue_Target == HashKey)
 				{
 					FString TempStr;
 					Ar << TempStr;
@@ -40,7 +40,7 @@ void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 					_Int = static_cast<int32>(Target);
 					Type = SsValueType::IntType;
 				}
-				else if(ConstName_BlendType == HashKey)
+				else if(ConstName_SsValue_BlendType == HashKey)
 				{
 					FString TempStr;
 					Ar << TempStr;
