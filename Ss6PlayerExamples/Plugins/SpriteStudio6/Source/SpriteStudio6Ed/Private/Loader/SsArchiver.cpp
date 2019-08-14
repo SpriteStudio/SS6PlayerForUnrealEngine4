@@ -349,6 +349,16 @@ FSsValue SsValueSeriarizer__MakeValue(const char* v, FName HashKey = NAME_None)
 			int32 EnumValue = static_cast<int32>(BlendType);
 			return FSsValue(EnumValue);
 		}
+		if(    (HashKey == "LT")
+			|| (HashKey == "RT")
+			|| (HashKey == "LB")
+			|| (HashKey == "RB")
+			)
+		{
+			FVector2D Point;
+			StringToPoint2(ValueStr, Point);
+			return FSsValue(Point);
+		}
 
 		return FSsValue(ValueStr);
 	}

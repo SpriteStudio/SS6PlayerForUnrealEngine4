@@ -213,16 +213,10 @@ void	GetSsColorValue( const FSsKeyframe* key , SsColorAnime& v )
 
 void	GetSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
 {
-	const FString& sLT = key->Value[ConstName_LT].get<FString>();
-	const FString& sRT = key->Value[ConstName_RT].get<FString>();
-	const FString& sLB = key->Value[ConstName_LB].get<FString>();
-	const FString& sRB = key->Value[ConstName_RB].get<FString>();
-	
-	StringToPoint2( sLT , v.Offsets[0] );
-	StringToPoint2( sRT , v.Offsets[1] );
-	StringToPoint2( sLB , v.Offsets[2] );
-	StringToPoint2( sRB , v.Offsets[3] );
-
+	v.Offsets[0] = key->Value[ConstName_LT].get<FVector2D>();
+	v.Offsets[1] = key->Value[ConstName_RT].get<FVector2D>();
+	v.Offsets[2] = key->Value[ConstName_LB].get<FVector2D>();
+	v.Offsets[3] = key->Value[ConstName_RB].get<FVector2D>();
 }
 
 

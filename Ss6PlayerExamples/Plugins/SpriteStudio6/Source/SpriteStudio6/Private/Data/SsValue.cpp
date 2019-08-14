@@ -1,5 +1,6 @@
 ﻿#include "SpriteStudio6PrivatePCH.h"
 #include "SsValue.h"
+#include "SsAttribute.h"
 
 
 namespace
@@ -7,6 +8,10 @@ namespace
 	static const FName ConstName_SsValue_RGBA("rgba");
 	static const FName ConstName_SsValue_Target("target");
 	static const FName ConstName_SsValue_BlendType("blendType");
+	static const FName ConstName_SsValue_LT("LT");
+	static const FName ConstName_SsValue_RT("RT");
+	static const FName ConstName_SsValue_LB("LB");
+	static const FName ConstName_SsValue_RB("RB");
 }
 
 // UE4シリアライズ
@@ -49,6 +54,18 @@ void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 					__StringToEnum_(TempStr, BlendType);
 					_Int = static_cast<int32>(BlendType);
 					Type = SsValueType::IntType;
+				}
+				else if(   (ConstName_SsValue_LT == HashKey)
+						|| (ConstName_SsValue_RT == HashKey)
+						|| (ConstName_SsValue_LB == HashKey)
+						|| (ConstName_SsValue_RB == HashKey)
+					)
+				{
+					FString TempStr;
+					Ar << TempStr;
+					_Point2 = new FVector2D();
+					StringToPoint2(TempStr, *_Point2);
+					Type = SsValueType::Point2Type;
 				}
 				/////////////////////////////////////////
 				else
@@ -141,6 +158,15 @@ void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 					SerValue.Serialize(Ar);
 				}
 			}
+		} break;
+	case SsValueType::Point2Type:
+		{
+			if(Ar.IsLoading())
+			{
+				_Point2 = new FVector2D();
+			}
+			Ar << _Point2->X;
+			Ar << _Point2->Y;
 		} break;
 	case SsValueType::ColorType:
 		{
