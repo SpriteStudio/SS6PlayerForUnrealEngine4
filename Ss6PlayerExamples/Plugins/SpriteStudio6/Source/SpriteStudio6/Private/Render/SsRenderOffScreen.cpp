@@ -52,7 +52,7 @@ public:
 private:
 	TArray<FSsRenderOffScreen*> DestroyRenderArray;
 };
-FSsOffScreenRenderDestroyer* GSs6OffScreenRenderDestroyer(nullptr);
+FSsOffScreenRenderDestroyer GSs6OffScreenRenderDestroyer;
 
 
 
@@ -140,7 +140,7 @@ void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, 
 void FSsRenderOffScreen::ReserveTerminate()
 {
 	BeginTerminate();
-	GSs6OffScreenRenderDestroyer->Add(this);
+	GSs6OffScreenRenderDestroyer.Add(this);
 }
 
 // レンダラの後処理の開始 
@@ -805,17 +805,4 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 			RenderPartsToRenderTarget(RHICmdList, RenderParts);
 		}
 		);
-}
-
-
-void FSsRenderOffScreen::Startup()
-{
-	GSs6OffScreenRenderDestroyer = new FSsOffScreenRenderDestroyer;
-	check(GSs6OffScreenRenderDestroyer);
-}
-void FSsRenderOffScreen::Shutdown()
-{
-	check(GSs6OffScreenRenderDestroyer);
-	delete GSs6OffScreenRenderDestroyer;
-	GSs6OffScreenRenderDestroyer = nullptr;
 }

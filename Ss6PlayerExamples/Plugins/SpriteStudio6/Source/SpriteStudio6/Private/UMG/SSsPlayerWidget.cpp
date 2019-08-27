@@ -173,7 +173,7 @@ void SSsPlayerWidget::OnArrangeChildren(
 					if(Children[i].WidgetSlot && Children[i].WidgetSlot->Content)
 					{
 						Children[i].WidgetSlot->Content->SetRenderTransformPivot(FVector2D::ZeroVector);
-						Children[i].WidgetSlot->Content->SetRenderTransformAngle(FMath::RadiansToDegrees(a01));
+						Children[i].WidgetSlot->Content->SetRenderAngle(FMath::RadiansToDegrees(a01));
 						Children[i].WidgetSlot->Content->SetRenderShear(
 							FVector2D(FMath::RadiansToDegrees((PI/2.f)- sub_a02_01), 0.f)
 							);

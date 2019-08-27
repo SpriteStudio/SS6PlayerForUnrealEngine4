@@ -56,9 +56,5 @@ private:
 	TWeakObjectPtr<UTextureRenderTarget2D> MaskRenderTarget;
 	FSsOffScreenVertexBuffer VertexBuffer;
 	FSsOffScreenIndexBuffer  IndexBuffer;
-
-public:
-	static void Startup();
-	static void Shutdown();
 };
 

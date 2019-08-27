@@ -5,7 +5,6 @@
 #include "Misc/AssertionMacros.h"
 
 #include "SsGameSettings.h"
-#include "Render/SsRenderOffScreen.h"
 
 
 DEFINE_LOG_CATEGORY(LogSpriteStudio);
@@ -33,13 +32,10 @@ void FSpriteStudio6::StartupModule()
 {
 	FString PluginShaderDir = FPaths::Combine(IPluginManager::Get().FindPlugin(TEXT("SpriteStudio6"))->GetBaseDir(), TEXT("Shaders"));
 	AddShaderSourceDirectoryMapping(TEXT("/Plugin/SpriteStudio6"), PluginShaderDir);
-
-	FSsRenderOffScreen::Startup();
 }
 
 void FSpriteStudio6::ShutdownModule()
 {
-	FSsRenderOffScreen::Shutdown();
 }
 
 
