@@ -80,7 +80,11 @@ public:
 //			delete tex;
 	}
 
-	FSsCell*	findCell( const FName& name ){ return CellDic[name]; }
+	FSsCell*	findCell( const FName& name )
+	{
+		FSsCell** ppCell = CellDic.Find(name);
+		return (nullptr != ppCell) ? *ppCell : nullptr;
+	}
 	
 };
 

@@ -145,6 +145,12 @@ void	SsMeshPart::Cleanup()
 
 void    SsMeshPart::updateTransformMesh()
 {
+	if(nullptr == bindBoneInfo)
+	{
+
+		return;
+	}
+
 //	float matrix[16];
 	for (int i = 0; i < ver_size; i++)
 	{
@@ -397,7 +403,7 @@ void	SsMeshAnimator::update()
 		SsPartState* state = (*it);
 
 		SsMeshPart* meshPart = (*it)->meshPart;
-		if (meshPart)
+		if (meshPart && meshPart->vertices)
 			meshPart->updateTransformMesh();
 	}
 

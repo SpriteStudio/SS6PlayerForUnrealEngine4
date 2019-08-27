@@ -86,9 +86,15 @@ void	SsAnimeDecoder::restart()
 
 bool	SsAnimeDecoder::getFirstCell(FSsPart* part , SsCellValue& out)
 {
+	FSsPartAnime** ppSetupAnime = setupPartAnimeDic.Find(part->PartName);
+	if(nullptr == ppSetupAnime)
+	{
+		return false;
+	}
+
 	bool	retFlag = false;
 
-	FSsPartAnime* setupAnime = setupPartAnimeDic[part->PartName];
+	FSsPartAnime* setupAnime = *ppSetupAnime;
 	if (setupAnime && !(0 == setupAnime->Attributes.Num()))
 	{
 		for(auto e = setupAnime->Attributes.CreateIterator(); e; ++e)

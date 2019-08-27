@@ -643,7 +643,10 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	// メッシュパーツ 
 	else
 	{
-		check(nullptr != State->meshPart);
+		if((nullptr == State->meshPart) || (nullptr == State->meshPart->vertices))
+		{
+			return false;
+		}
 		int32 Idx = OutRenderPart.Mesh.Add(FSsRenderMesh());
 		check(0 == Idx);
 		FSsRenderMesh& RenderMesh = OutRenderPart.Mesh[Idx];
