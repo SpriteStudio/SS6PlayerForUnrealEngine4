@@ -55,8 +55,8 @@ void	SsMeshPart::makeMesh()
 
 	ver_size = targetCell->MeshPointList.Num();
 
-	float txsizew = this->targetTexture->GetSurfaceWidth();
-	float txsizeh = this->targetTexture->GetSurfaceHeight();
+	float txsizew = targetTexture ? targetTexture->GetSurfaceWidth()  : 1.f;
+	float txsizeh = targetTexture ? targetTexture->GetSurfaceHeight() : 1.f;
 
 	float uvpixel_x = 1.0f / txsizew;
 	float uvpixel_y = 1.0f / txsizeh;

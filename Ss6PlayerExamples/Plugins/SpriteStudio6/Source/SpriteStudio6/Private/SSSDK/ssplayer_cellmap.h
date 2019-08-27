@@ -66,7 +66,7 @@ public:
 		}
 */
 		tex = cellmap->Texture;
-		if(nullptr == tex->Resource)
+		if((nullptr != tex) && (nullptr == tex->Resource))
 		{
 			tex->UpdateResource();
 		}

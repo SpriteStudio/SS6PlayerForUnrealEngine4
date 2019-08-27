@@ -57,6 +57,7 @@ UClass* USspjFactory::ResolveSupportedClass()
 UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, FName InName, EObjectFlags Flags, UObject* Context, const TCHAR* Type, const uint8*& Buffer, const uint8* InBufferEnd, FFeedbackContext* Warn)
 {
 	FAssetToolsModule& AssetToolsModule = FModuleManager::LoadModuleChecked<FAssetToolsModule>("AssetTools");
+	bool bError = false;
 
 	// インポート設定の取得 
 	const USsImportSettings* ImportSettings = GetDefault<USsImportSettings>();
@@ -289,6 +290,18 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 						ImportedTexture = NewTexture;
 					}
 				}
+				else
+				{
+					if(FileName.Contains(FString("Replaced")))
+					{
+						UE_LOG(LogSpriteStudioEd, Error, TEXT("Failed Load Texture (テクスチャファイルパスに日本語が含まれるためロード出来ませんでした)"));
+					}
+					else
+					{
+						UE_LOG(LogSpriteStudioEd, Error, TEXT("Failed Load Texture : %s"), *FileName);
+					}
+					bError = true;
+				}
 
 				if(ImportedTexture)
 				{
@@ -308,5 +321,5 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 
 	// インポート終了
 	GEditor->GetEditorSubsystem<UImportSubsystem>()->BroadcastAssetPostImport(this, NewProject);
-	return NewProject;
+	return bError ? nullptr : NewProject;
 }
