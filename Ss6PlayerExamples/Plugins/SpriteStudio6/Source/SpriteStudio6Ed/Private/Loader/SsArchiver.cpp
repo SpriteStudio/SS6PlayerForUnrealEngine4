@@ -39,7 +39,7 @@ namespace
 			{
 				String = FString::Printf(TEXT("%s/%d"), *String, (int32)Text[i]);
 			}
-			UE_LOG(LogSpriteStudioEd, Warning, TEXT("Replace Japanese String to \"%s\""), *String);
+			UE_LOG(LogSpriteStudioEd, Warning, TEXT("Replace Japanese String \"%s\" to \"%s\""), UTF8_TO_TCHAR(Text), *String);
 		}
 	}
 }
