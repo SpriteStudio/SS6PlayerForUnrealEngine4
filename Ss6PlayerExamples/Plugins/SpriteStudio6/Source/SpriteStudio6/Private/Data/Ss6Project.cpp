@@ -308,6 +308,48 @@ namespace
 								}
 								break;
 							}
+							// Setupから見つからなかった場合は通常アニメから探す 
+							if(nullptr == Cell)
+							{
+								for(auto ItAnime = AnimePack.AnimeList.CreateConstIterator(); ItAnime; ++ItAnime)
+								{
+									for(auto ItSetupPartAnime = ItAnime->PartAnimes.CreateConstIterator(); ItSetupPartAnime; ++ItSetupPartAnime)
+									{
+										if(ItPart->PartName != ItSetupPartAnime->PartName)
+										{
+											continue;
+										}
+										for(auto ItAttr = ItSetupPartAnime->Attributes.CreateConstIterator(); ItAttr; ++ItAttr)
+										{
+											if(ItAttr->Tag == SsAttributeKind::Cell)
+											{
+												if(0 < ItAttr->Key.Num())
+												{
+													const FSsKeyframe* Key = ItAttr->FirstKey();
+													FName CellName = FName(*(Key->Value["name"].get<FString>()));
+
+													SsRefCell RefCell;
+													GetSsRefCell(ItAttr->FirstKey(), RefCell);
+													if(0 <= RefCell.mapid)
+													{
+														const FSsCellMap* CellMap = Proj.FindCellMap(AnimePack.CellmapNames[RefCell.mapid]);
+														for(auto ItCell = CellMap->Cells.CreateConstIterator(); ItCell; ++ItCell)
+														{
+															if(ItCell->CellName == RefCell.name)
+															{
+																Cell = &(*ItCell);
+																break;
+															}
+														}
+													}
+												}
+												break;
+											}
+										}
+										break;
+									}
+								}
+							}
 						}
 						// メッシュセルから頂点数とインデックス数を取得 
 						if(Cell && Cell->IsMesh)

@@ -344,6 +344,7 @@ namespace
 				// テクスチャをセット 
 				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
 
+				check((BaseIndexIndex + NumRenderIndices) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
 				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
 				RHICmdList.DrawIndexedPrimitive(
 					RenderParts.IndexBuffer->IndexBufferRHI,
@@ -754,6 +755,8 @@ namespace
 			}
 
 			RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
+
+			check((BaseIndexIndex + NumRenderIndices) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
 			RHICmdList.DrawIndexedPrimitive(
 				RenderParts.IndexBuffer->IndexBufferRHI,
 				0,						//BaseVertexIndex

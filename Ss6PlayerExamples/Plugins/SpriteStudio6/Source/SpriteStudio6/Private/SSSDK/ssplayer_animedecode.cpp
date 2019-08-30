@@ -89,7 +89,11 @@ bool	SsAnimeDecoder::getFirstCell(FSsPart* part , SsCellValue& out)
 	FSsPartAnime** ppSetupAnime = setupPartAnimeDic.Find(part->PartName);
 	if(nullptr == ppSetupAnime)
 	{
-		return false;
+		ppSetupAnime = partAnimeDic.Find(part->PartName);
+		if(nullptr == ppSetupAnime)
+		{
+			return false;
+		}
 	}
 
 	bool	retFlag = false;
