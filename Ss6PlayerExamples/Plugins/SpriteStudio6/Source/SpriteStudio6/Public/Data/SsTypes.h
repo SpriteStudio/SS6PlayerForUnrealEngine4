@@ -818,7 +818,7 @@ struct FSsRenderPart
 	int32 PartIndex;
 	TArray<FSsRenderVertex> Vertices;
 	TArray<FSsRenderMesh> Mesh;		// (0 < Mesh.Num()) の場合はメッシュパーツとして扱い、Verticesは参照しない 
-	UTexture* Texture;
+	class UTexture* Texture;
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
 	bool bMaskInfluence;

@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "Components/MeshComponent.h"
+
 #include "SsTypes.h"
 #include "SsPlayerTickResult.h"
 #include "SsPlayer.h"

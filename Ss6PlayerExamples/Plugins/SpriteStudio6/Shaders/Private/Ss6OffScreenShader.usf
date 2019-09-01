@@ -84,6 +84,18 @@ float4 MainPS(VertexOut In) : SV_Target0
 float4 MainMaskedPS(VertexOutMasked In) : SV_Target0
 {
 	float4 Color = CalcColorPS(In.Color, In.TexCoord, In.ColorBlend);
+
+#if COMPILER_GLSL_ES2
+
+	//TODO: ES2では整数%が使用出来ない. 
+	//      マスクテクスチャの取得も正常に出来ていないようで、一旦保留 (2019/8/25) 
+	int Mask = 1;
+
+#else
+
 	int Mask = (1 + int(Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255)) % 2;
+
+#endif
+
 	return float4(Color.rgb, Color.a * (float)Mask);
 }

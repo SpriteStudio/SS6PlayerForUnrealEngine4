@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-
+#include "Kismet/BlueprintFunctionLibrary.h"
 #include "SsStatics.generated.h"
 
 UCLASS()
