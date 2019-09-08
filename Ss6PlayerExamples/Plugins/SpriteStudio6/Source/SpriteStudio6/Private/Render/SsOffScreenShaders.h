@@ -53,7 +53,7 @@ public:
 
 	virtual bool Serialize(FArchive& Ar) override;
 
-	void SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState );
+	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState );
 
 private:
 	FShaderResourceParameter CellTextureParameter;
@@ -88,8 +88,8 @@ public:
 
 	virtual bool Serialize(FArchive& Ar) override;
 
-	void SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState);
-	void SetMaskTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState);
+	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
+	void SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
 
 private:
 	FShaderResourceParameter CellTextureParameter;

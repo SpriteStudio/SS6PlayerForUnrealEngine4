@@ -44,9 +44,9 @@ bool FSsOffScreenPS::Serialize(FArchive& Ar)
 
 	return bShaderHasOutdatedParams;
 }
-void FSsOffScreenPS::SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState )
+void FSsOffScreenPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
-	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
+	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture);
 }
 
 //
@@ -69,11 +69,11 @@ bool FSsOffScreenMaskedPS::Serialize(FArchive& Ar)
 
 	return bShaderHasOutdatedParams;
 }
-void FSsOffScreenMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState )
+void FSsOffScreenMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
 }
-void FSsOffScreenMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState )
+void FSsOffScreenMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, GetPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
 }

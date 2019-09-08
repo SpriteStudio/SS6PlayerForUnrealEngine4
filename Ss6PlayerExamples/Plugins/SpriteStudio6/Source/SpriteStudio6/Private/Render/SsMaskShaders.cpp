@@ -24,7 +24,7 @@ bool FSsMaskPS::Serialize(FArchive& Ar)
 
 	return bShaderHasOutdatedParams;
 }
-void FSsMaskPS::SetCellTexture(FRHICommandList& RHICmdList, const FTextureRHIParamRef InTexture, const FSamplerStateRHIRef SamplerState )
+void FSsMaskPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
 }
