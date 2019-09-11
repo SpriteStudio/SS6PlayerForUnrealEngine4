@@ -15,8 +15,6 @@
 
 //stdでののforeach宣言　
 
-#pragma warning(disable:4456)
-#pragma warning(disable:4458)
 
 //乱数シードに利用するユニークIDを作成します。
 int seedMakeID = 123456;
