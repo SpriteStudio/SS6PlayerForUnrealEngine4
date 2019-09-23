@@ -120,7 +120,11 @@ void FSsRenderOffScreen::Initialize(uint32 InResolutionX, uint32 InResolutionY, 
 		MaskRenderTarget = NewObject<UTextureRenderTarget2D>(UTextureRenderTarget2D::StaticClass());
 		MaskRenderTarget->AddToRoot();
 		MaskRenderTarget->SetFlags(RF_Transient);
+#if PLATFORM_ANDROID
+		MaskRenderTarget->RenderTargetFormat = RTF_RGBA8;
+#else
 		MaskRenderTarget->RenderTargetFormat = RTF_R8;
+#endif
 		MaskRenderTarget->bForceLinearGamma = false;
 		MaskRenderTarget->AddressX = TA_Clamp;
 		MaskRenderTarget->AddressY = TA_Clamp;

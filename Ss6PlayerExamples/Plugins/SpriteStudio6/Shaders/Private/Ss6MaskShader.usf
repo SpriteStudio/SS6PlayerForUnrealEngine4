@@ -31,19 +31,23 @@ VertexOut MainVS(
 	return VOut;
 }
 
-#if !COMPILER_METAL
-float MainPS(VertexOut In) : SV_Target0
-#else
+#if COMPILER_METAL || COMPILER_GLSL_ES2
 float4 MainPS(VertexOut In) : SV_Target0
+#else
+float MainPS(VertexOut In) : SV_Target0
 #endif
 {
 	float4 TextureColor;
 	TextureColor = Texture2DSample(CellTexture, CellTextureSampler, In.TexCoord);
 
-#if !COMPILER_METAL
-	return (1.0 < (TextureColor.a + In.Alpha)) ? (1.0/255.0) : 0.0;
-#else
+#if COMPILER_METAL || COMPILER_GLSL_ES2
+
 	float r = (1.0 < (TextureColor.a + In.Alpha)) ? (1.0/255.0) : 0.0;
 	return float4(r, r, r, 1.0);
+
+#else
+
+	return (1.0 < (TextureColor.a + In.Alpha)) ? (1.0/255.0) : 0.0;
+
 #endif
 }
