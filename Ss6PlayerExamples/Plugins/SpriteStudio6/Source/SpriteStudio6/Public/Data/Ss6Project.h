@@ -73,6 +73,13 @@ class SPRITESTUDIO6_API USs6Project : public UObject
 	virtual void Serialize(FArchive& Ar) override;
 
 public:
+	UFUNCTION(BlueprintPure, Category=SsProject)
+	TArray<FName> GetAnimPackNames() const;
+
+	UFUNCTION(BlueprintPure, Category=SsProject)
+	TArray<FName> GetAnimationNames(FName InAnimPackName) const;
+
+public:
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
 	FString				Version;
 

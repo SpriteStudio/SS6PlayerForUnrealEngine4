@@ -39,6 +39,36 @@ void USs6Project::Serialize(FArchive& Ar)
 	}
 }
 
+TArray<FName> USs6Project::GetAnimPackNames() const
+{
+	TArray<FName> OutAnimPackNames;
+	OutAnimPackNames.Reserve(AnimeList.Num());
+	for(auto ItAnimPack = AnimeList.CreateConstIterator(); ItAnimPack; ++ItAnimPack)
+	{
+		OutAnimPackNames.Add(ItAnimPack->AnimePackName);
+	}
+	return OutAnimPackNames;
+}
+
+TArray<FName> USs6Project::GetAnimationNames(FName InAnimPackName) const
+{
+	for(auto ItAnimPack = AnimeList.CreateConstIterator(); ItAnimPack; ++ItAnimPack)
+	{
+		if(ItAnimPack->AnimePackName == InAnimPackName)
+		{
+			TArray<FName> OutAnimationNames;
+			OutAnimationNames.Reserve(ItAnimPack->AnimeList.Num());
+			for(auto ItAnim = ItAnimPack->AnimeList.CreateConstIterator(); ItAnim; ++ItAnim)
+			{
+				OutAnimationNames.Add(ItAnim->AnimationName);
+			}
+			return OutAnimationNames;
+		}
+	}
+	return TArray<FName>();
+}
+
+
 int32 USs6Project::FindAnimePackIndex(const FName& AnimePackName) const
 {
 	for(int32 i = 0; i < AnimeList.Num(); ++i)
