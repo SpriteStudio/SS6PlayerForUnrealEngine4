@@ -62,11 +62,11 @@ public:
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
 	TEnumAsByte<SsBlendType::Type>		AlphaBlendType;	//!< αブレンドの演算式
 
-	UPROPERTY(VisibleAnywhere, Category=SsPart)
-	int32	Show;			//!< [編集用データ] パーツの表示・非常時
+//	UPROPERTY(VisibleAnywhere, Category=SsPart)
+//	int32	Show;			//!< [編集用データ] パーツの表示・非常時
 
-	UPROPERTY(VisibleAnywhere, Category=SsPart)
-	int32	Locked;			//!< [編集用データ] パーツのロック状態
+//	UPROPERTY(VisibleAnywhere, Category=SsPart)
+//	int32	Locked;			//!< [編集用データ] パーツのロック状態
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
 	FName	ColorLabel;		//!< カラーラベル
@@ -120,8 +120,6 @@ public:
 		, BoundsType(SsBoundsType::Invalid)
 		, InheritType(SsInheritType::Invalid)
 		, AlphaBlendType(SsBlendType::Invalid)
-		, Show(0)
-		, Locked(0)
 		, MaskInfluence(true)
 	{
 		BoneLength = 0;

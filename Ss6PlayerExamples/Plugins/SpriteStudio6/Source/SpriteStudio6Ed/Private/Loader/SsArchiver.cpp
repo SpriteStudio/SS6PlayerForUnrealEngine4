@@ -490,8 +490,8 @@ void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
 	SSAR_DECLARE_ENUM("boundsType", Value.BoundsType);
 	SSAR_DECLARE_ENUM("inheritType", Value.InheritType);
 	SSAR_DECLARE_ENUM("alphaBlendType", Value.AlphaBlendType);
-	SSAR_DECLARE("show", Value.Show);
-	SSAR_DECLARE("locked", Value.Locked);
+//	SSAR_DECLARE("show", Value.Show);
+//	SSAR_DECLARE("locked", Value.Locked);
 	SSAR_DECLARE("colorLabel", Value.ColorLabel);
 	SSAR_DECLARE("maskInfluence", Value.MaskInfluence);
 
