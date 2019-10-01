@@ -172,13 +172,13 @@ void USsPlayerComponent::QuerySupportedSockets(TArray<FComponentSocketDescriptio
 #endif
 		if((0 <= AnimPackIndex) && (0 <= AnimationIndex))
 		{
-			FSsAnimation& Animation = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex];
-			OutSockets.Reserve(Animation.PartAnimes.Num());
-			for(int32 i = 0; i < Animation.PartAnimes.Num(); ++i)
+			TArray<FSsPart>& PartList = SsProject->AnimeList[AnimPackIndex].Model.PartList;
+			OutSockets.Reserve(PartList.Num());
+			for(auto ItPart = PartList.CreateConstIterator(); ItPart; ++ItPart)
 			{
 				OutSockets.Add(
 					FComponentSocketDescription(
-						Animation.PartAnimes[i].PartName,
+						ItPart->PartName,
 						EComponentSocketType::Socket
 						));
 			}
