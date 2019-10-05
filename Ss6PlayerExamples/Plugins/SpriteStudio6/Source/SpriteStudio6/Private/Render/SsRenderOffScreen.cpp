@@ -352,12 +352,12 @@ namespace
 				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
 				RHICmdList.DrawIndexedPrimitive(
 					RenderParts.IndexBuffer->IndexBufferRHI,
-					0,						//BaseVertexIndex
-					BaseVertexIndex,		//MinIndex
-					NumRenderVertices,		//NumVertices
-					BaseIndexIndex,			//StartIndex
-					NumRenderIndices / 3,	//NumPrimitives
-					1						//NumInstances
+					0,													//BaseVertexIndex
+					GRHISupportsFirstInstance ? BaseVertexIndex : 0,	//FirstInstance
+					NumRenderVertices,									//NumVertices
+					BaseIndexIndex,										//StartIndex
+					NumRenderIndices / 3,								//NumPrimitives
+					1													//NumInstances
 				);
 			}
 
@@ -763,12 +763,12 @@ namespace
 			check((BaseIndexIndex + NumRenderIndices) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
 			RHICmdList.DrawIndexedPrimitive(
 				RenderParts.IndexBuffer->IndexBufferRHI,
-				0,						//BaseVertexIndex
-				BaseVertexIndex,		//MinIndex
-				NumRenderVertices,		//NumVertices
-				BaseIndexIndex,			//StartIndex
-				NumRenderIndices / 3,	//NumPrimitives
-				1						//NumInstances
+				0,													//BaseVertexIndex
+				GRHISupportsFirstInstance ? BaseVertexIndex : 0,	//FirstInstance
+				NumRenderVertices,									//NumVertices
+				BaseIndexIndex,										//StartIndex
+				NumRenderIndices / 3,								//NumPrimitives
+				1													//NumInstances
 				);
 
 			BaseVertexIndex += NumRenderVertices;
