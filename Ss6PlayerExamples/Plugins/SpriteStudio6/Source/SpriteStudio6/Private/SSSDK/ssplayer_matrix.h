@@ -1,7 +1,7 @@
 ﻿#ifndef __SSPLAYER_MATRIX__
 #define __SSPLAYER_MATRIX__
 
-#include "sstypes.h"
+#include "SsTypes.h"
 #include <memory>
 
 void	IdentityMatrix( float* matrix );
