@@ -195,6 +195,16 @@ void USsPlayerWidget::SynchronizeProperties()
 	}
 }
 
+//  
+bool USsPlayerWidget::IsTickable() const
+{
+	return (nullptr != SsProject)
+		&& PlayerWidget.IsValid()
+		&& (nullptr != this->GetWorld()
+		&& (!this->GetWorld()->IsPaused() || bTickableWhenPaused))
+		;
+}
+
 // 更新 
 void USsPlayerWidget::Tick(float DeltaTime)
 {

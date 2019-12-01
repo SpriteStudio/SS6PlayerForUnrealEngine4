@@ -66,7 +66,7 @@ public:
 #endif
 
 	// FTickableObjectBase interface
-	virtual bool IsTickable() const override { return (nullptr != SsProject) && (nullptr != this->GetWorld() && (!this->GetWorld()->IsPaused() || bTickableWhenPaused)); }
+	virtual bool IsTickable() const override;
 	virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(USsPlayerWidget, STATGROUP_Tickables); }
 
 	// FTickableGameObject interface
