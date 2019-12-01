@@ -447,7 +447,7 @@ namespace
 							Vert.Position.X = Position.X;
 							Vert.Position.Y = Position.Y;
 					
-#if PLATFORM_SWITCH || PLATFORM_ANDROID
+#if PLATFORM_SWITCH || PLATFORM_ANDROID || PLATFORM_IOS
 							Vert.Color = FColor(ItPart->Vertices[v].Color.B, ItPart->Vertices[v].Color.G, ItPart->Vertices[v].Color.R, ItPart->Vertices[v].Color.A);
 #else
 							Vert.Color = ItPart->Vertices[v].Color;
@@ -656,7 +656,19 @@ namespace
 			{
 				RHICmdList.EndRenderPass();
 				RenderMaskBuffer(RHICmdList, RenderParts, i);
-				RHICmdList.BeginRenderPass(RPInfo, TEXT("Ss6RenderOffScreen"));
+
+				FRHIRenderPassInfo RPInfo2(
+					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
+					ERenderTargetActions::Load_Store,
+					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI()
+				);
+				RHICmdList.BeginRenderPass(RPInfo2, TEXT("Ss6RenderOffScreen"));
+
+				RHICmdList.ApplyCachedRenderTargets(GraphicsPSOInit);
+				GraphicsPSOInit.PrimitiveType = EPrimitiveType::PT_TriangleList;
+				GraphicsPSOInit.RasterizerState   = TStaticRasterizerState<>::GetRHI();
+				GraphicsPSOInit.DepthStencilState = TStaticDepthStencilState<false, CF_Always>::GetRHI();
+				GraphicsPSOInit.BoundShaderState.VertexDeclarationRHI = GSs6OffScreenVertexDeclaration.VertexDeclarationRHI;
 
 				bNeedUpdateMask = false;
 			}
