@@ -647,7 +647,7 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_UpdatePlayer);
 
-	if(!bIsActive)
+	if(!IsActive())
 	{
 		return;
 	}

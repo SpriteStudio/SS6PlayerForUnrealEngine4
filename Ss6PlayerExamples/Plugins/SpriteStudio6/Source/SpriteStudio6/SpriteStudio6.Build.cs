@@ -51,7 +51,6 @@ namespace UnrealBuildTool.Rules
 					"InputCore",
 					"RHI",
 					"RenderCore",
-					"UtilityShaders",
 					"SlateCore",
 					"SlateRHIRenderer",
 					"Slate",

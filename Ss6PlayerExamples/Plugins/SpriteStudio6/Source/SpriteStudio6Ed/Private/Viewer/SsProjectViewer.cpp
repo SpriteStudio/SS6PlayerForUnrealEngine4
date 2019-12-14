@@ -577,7 +577,7 @@ void FSsProjectViewer::OnAnimationChanged(TSharedPtr<FString> NewSelection, ESel
 				}
 
 				FString Text = FString::Printf(TEXT("                    / %3d   "), (int32)(Player.GetAnimeEndFrame()));
-				MaxFrameText->SetText(Text);
+				MaxFrameText->SetText(FText::FromString(Text));
 
 				if(RenderOffScreen)
 				{
