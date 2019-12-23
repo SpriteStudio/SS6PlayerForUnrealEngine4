@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "AssetTypeActions_SsProject.h"
+﻿#include "AssetTypeActions_SsProject.h"
 #include "Ss6Project.h"
 #include "SsProjectViewer.h"
 

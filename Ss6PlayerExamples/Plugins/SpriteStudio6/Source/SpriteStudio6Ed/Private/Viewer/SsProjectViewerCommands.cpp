@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "SsProjectViewerCommands.h"
+﻿#include "SsProjectViewerCommands.h"
 
 #define LOCTEXT_NAMESPACE "SpriteStudio6Ed"
 

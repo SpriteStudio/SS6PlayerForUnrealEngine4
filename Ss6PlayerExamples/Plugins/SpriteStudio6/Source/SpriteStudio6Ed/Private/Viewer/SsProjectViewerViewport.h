@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "SceneViewport.h"
+#include "Slate/SceneViewport.h"
 
 class FSsPlayer;
 class FSsRenderOffScreen;

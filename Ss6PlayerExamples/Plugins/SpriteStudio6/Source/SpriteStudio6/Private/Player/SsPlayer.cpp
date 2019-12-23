@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsPlayer.h"
+﻿#include "SsPlayer.h"
 
 #include "Ss6Project.h"
 #include "SsAnimePack.h"

@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsPlayerWidget.h"
+﻿#include "SsPlayerWidget.h"
 
 #include "SlateMaterialBrush.h"
 

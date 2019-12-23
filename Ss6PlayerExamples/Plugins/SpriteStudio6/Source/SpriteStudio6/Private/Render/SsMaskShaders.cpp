@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsMaskShaders.h"
+﻿#include "SsMaskShaders.h"
 
 #include "ShaderParameterUtils.h"
 

@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "SsProjectViewerViewportClient.h"
+﻿#include "SsProjectViewerViewportClient.h"
 
 #include "Engine/Canvas.h"
 

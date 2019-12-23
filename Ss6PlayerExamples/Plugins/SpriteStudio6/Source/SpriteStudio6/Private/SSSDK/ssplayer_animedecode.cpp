@@ -1,11 +1,10 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
+﻿#include "ssplayer_animedecode.h"
 
 #include <stdio.h>
 #include <cstdlib>
 #include <time.h>   //時間
 
 //#include "../Loader/ssloader.h"
-#include "ssplayer_animedecode.h"
 #include "ssplayer_matrix.h"
 //#include "ssplayer_render.h"
 //#include "ssplayer_effect.h"

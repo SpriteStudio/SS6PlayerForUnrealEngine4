@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsAnimePack.h"
+﻿#include "SsAnimePack.h"
 
 
 void FSsPartAnime::Serialize(FArchive& Ar)

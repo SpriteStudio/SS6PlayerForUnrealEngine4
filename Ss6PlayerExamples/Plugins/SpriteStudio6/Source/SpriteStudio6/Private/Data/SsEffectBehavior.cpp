@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsEffectBehavior.h"
+﻿#include "SsEffectBehavior.h"
 
 
 void FSsEffectBehavior::Serialize(FArchive& Ar)

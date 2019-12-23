@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsEffectFile.h"
+﻿#include "SsEffectFile.h"
 
 
 void FSsEffectNode::Serialize(FArchive& Ar)

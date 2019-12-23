@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsPlayPropertySync.h"
+﻿#include "SsPlayPropertySync.h"
 
 #include "Ss6Project.h"
 

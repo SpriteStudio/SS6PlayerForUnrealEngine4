@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "SsProjectViewer.h"
+﻿#include "SsProjectViewer.h"
 
 #include "EditorStyleSet.h"
 #include "Editor/PropertyEditor/Public/IDetailsView.h"

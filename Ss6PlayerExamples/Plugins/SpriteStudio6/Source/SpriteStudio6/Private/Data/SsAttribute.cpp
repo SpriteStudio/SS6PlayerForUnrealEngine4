@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsAttribute.h"
+﻿#include "SsAttribute.h"
 #include "SsString_uty.h"
 
 

@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "SsImportSettings.h"
+﻿#include "SsImportSettings.h"
 
 
 USsImportSettings::USsImportSettings(const FObjectInitializer& ObjectInitializer)

@@ -1,8 +1,7 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
+﻿#include "ssplayer_PartState.h"
 
 //#include "../Loader/ssloader.h"
 #include "ssplayer_animedecode.h"
-#include "ssplayer_PartState.h"
 #include "ssplayer_effect2.h"
 #include "ssplayer_mesh.h"
 

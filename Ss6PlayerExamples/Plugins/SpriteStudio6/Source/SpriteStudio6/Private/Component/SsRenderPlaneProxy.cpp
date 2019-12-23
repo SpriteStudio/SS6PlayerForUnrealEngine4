@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsRenderPlaneProxy.h"
+﻿#include "SsRenderPlaneProxy.h"
 
 #include "DynamicMeshBuilder.h"
 #include "SsPlayerComponent.h"

@@ -1,4 +1,4 @@
-#include "SpriteStudio6EdPrivatePCH.h"
+#include "babel.h"
 #pragma warning ( disable : 4309 )
 #pragma warning ( disable : 4065 )
 #pragma warning ( disable : 4101 )

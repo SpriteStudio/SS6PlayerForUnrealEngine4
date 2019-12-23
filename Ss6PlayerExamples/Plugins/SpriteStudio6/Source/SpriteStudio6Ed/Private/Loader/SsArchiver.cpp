@@ -1,8 +1,7 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
+﻿#include "SsArchiver.h"
 
-#include "MessageLog.h"
+#include "Logging/MessageLog.h"
 
-#include "SsArchiver.h"
 #include "SsString_uty.h"
 #include "SsTypes.h"
 #include "SsAttribute.h"

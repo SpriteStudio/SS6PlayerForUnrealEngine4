@@ -1,6 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-
-//#include "ssloader.h"
+﻿//#include "ssloader.h"
 #include "ssInterpolation.h"
 
 

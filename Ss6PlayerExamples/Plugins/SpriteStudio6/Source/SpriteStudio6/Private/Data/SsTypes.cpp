@@ -1,4 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
+﻿#include "SsTypes.h"
 
 //---------------------------------------------------------------
 //相互変換 SsPartType

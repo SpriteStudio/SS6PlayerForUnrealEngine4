@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "Ss6Project.h"
+﻿#include "Ss6Project.h"
 
 #include "SsAnimePack.h"
 #include "SsCellMap.h"

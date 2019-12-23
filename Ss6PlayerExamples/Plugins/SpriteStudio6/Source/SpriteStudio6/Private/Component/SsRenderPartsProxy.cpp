@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsRenderPartsProxy.h"
+﻿#include "SsRenderPartsProxy.h"
 
 #include "RHIStaticStates.h"
 #include "DynamicMeshBuilder.h"

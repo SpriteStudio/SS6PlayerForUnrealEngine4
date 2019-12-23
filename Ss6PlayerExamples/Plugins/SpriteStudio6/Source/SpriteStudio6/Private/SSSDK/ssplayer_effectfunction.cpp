@@ -1,4 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
+﻿#include "ssplayer_effectfunction.h"
 
 //#include <stdio.h>
 //#include <cstdlib>
@@ -9,7 +9,6 @@
 #include "ssplayer_macro.h"
 #include "ssplayer_matrix.h"
 //#include "ssplayer_render.h"
-#include "ssplayer_effectfunction.h"
 
 #include "SsEffectElement.h"
 

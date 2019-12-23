@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsEffectElement.h"
+﻿#include "SsEffectElement.h"
 
 //---------------------------------------------------------------
 //相互変換 SsEffectFunctionType

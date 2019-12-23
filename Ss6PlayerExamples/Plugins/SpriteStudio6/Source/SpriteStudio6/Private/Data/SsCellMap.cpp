@@ -1,3 +1,2 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsCellMap.h"
+﻿#include "SsCellMap.h"
 

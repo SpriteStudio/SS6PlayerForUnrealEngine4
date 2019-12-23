@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "SsPlayerActorFactory.h"
+﻿#include "SsPlayerActorFactory.h"
 
 #include "Ss6Project.h"
 #include "SsPlayerActor.h"

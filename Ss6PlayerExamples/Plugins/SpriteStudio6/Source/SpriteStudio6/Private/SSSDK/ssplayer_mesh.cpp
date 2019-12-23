@@ -1,4 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
+﻿#include "ssplayer_mesh.h"
 
 #include <stdio.h>
 #include <cstdlib>
@@ -6,7 +6,6 @@
 //#include "../Loader/ssloader.h"
 
 #include "ssplayer_animedecode.h"
-#include "ssplayer_mesh.h"
 #include "ssplayer_macro.h"
 #include "ssplayer_matrix.h"
 

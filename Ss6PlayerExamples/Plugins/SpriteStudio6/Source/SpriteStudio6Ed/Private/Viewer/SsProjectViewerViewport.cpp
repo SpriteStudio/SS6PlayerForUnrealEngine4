@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "SsProjectViewerViewport.h"
+﻿#include "SsProjectViewerViewport.h"
 
 #include "SsPlayer.h"
 #include "SsRenderOffScreen.h"

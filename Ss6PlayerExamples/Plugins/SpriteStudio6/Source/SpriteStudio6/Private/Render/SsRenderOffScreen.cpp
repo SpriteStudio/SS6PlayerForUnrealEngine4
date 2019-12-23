@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsRenderOffScreen.h"
+﻿#include "SsRenderOffScreen.h"
 
 #include "PipelineStateCache.h"
 #include "MaterialShader.h"

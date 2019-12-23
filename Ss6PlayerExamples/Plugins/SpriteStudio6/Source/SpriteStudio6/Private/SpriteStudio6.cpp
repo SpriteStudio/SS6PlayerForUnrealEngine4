@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SpriteStudio6.h"
+﻿#include "SpriteStudio6.h"
 
 #include "Interfaces/IPluginManager.h"
 #include "Misc/AssertionMacros.h"

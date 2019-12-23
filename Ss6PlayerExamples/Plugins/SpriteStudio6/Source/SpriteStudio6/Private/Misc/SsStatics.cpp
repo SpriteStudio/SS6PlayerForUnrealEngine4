@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsStatics.h"
+﻿#include "SsStatics.h"
 
 #include "Ss6Project.h"
 #include "SsPlayerComponent.h"

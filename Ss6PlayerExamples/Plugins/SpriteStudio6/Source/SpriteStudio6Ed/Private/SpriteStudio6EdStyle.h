@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "SlateStyle.h"
+#include "Styling/SlateStyle.h"
 
 #define IMAGE_BRUSH( RelativePath, ... ) FSlateImageBrush(RootToContentDir(RelativePath, TEXT(".png")), __VA_ARGS__)
 

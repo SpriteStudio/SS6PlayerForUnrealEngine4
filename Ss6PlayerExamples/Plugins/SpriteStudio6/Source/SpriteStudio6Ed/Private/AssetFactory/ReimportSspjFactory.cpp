@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "ReimportSspjFactory.h"
+﻿#include "ReimportSspjFactory.h"
 #include "Ss6Project.h"
 
 

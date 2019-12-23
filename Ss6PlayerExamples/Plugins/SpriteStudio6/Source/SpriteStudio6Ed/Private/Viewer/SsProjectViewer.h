@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "BaseToolkit.h"
-#include "AssetEditorToolkit.h"
+#include "Toolkits/BaseToolkit.h"
+#include "Toolkits/AssetEditorToolkit.h"
 
 #include "SsPlayer.h"
 

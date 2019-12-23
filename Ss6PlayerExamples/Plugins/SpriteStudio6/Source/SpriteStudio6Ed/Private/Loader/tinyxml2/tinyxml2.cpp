@@ -1,4 +1,4 @@
-#include "SpriteStudio6EdPrivatePCH.h"
+#include "tinyxml2.h"
 
 /*
 Original code by Lee Thomason (www.grinninglizard.com)

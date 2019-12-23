@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsPlayerSlot.h"
+﻿#include "SsPlayerSlot.h"
 
 
 // コンストラクタ 

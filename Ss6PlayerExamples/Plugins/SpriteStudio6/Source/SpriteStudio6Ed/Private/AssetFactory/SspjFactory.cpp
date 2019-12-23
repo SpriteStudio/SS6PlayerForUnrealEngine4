@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6EdPrivatePCH.h"
-#include "SspjFactory.h"
+﻿#include "SspjFactory.h"
 
 #include "AssetRegistryModule.h"
 #include "AssetToolsModule.h"

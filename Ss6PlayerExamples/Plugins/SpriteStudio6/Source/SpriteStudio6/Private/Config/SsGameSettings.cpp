@@ -1,5 +1,4 @@
-﻿#include "SpriteStudio6PrivatePCH.h"
-#include "SsGameSettings.h"
+﻿#include "SsGameSettings.h"
 
 
 USsGameSettings::USsGameSettings(const FObjectInitializer& ObjectInitializer)
