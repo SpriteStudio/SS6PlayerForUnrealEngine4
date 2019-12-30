@@ -941,7 +941,7 @@ void    SsEffectRenderV2::reload()
 			emmiterList[i]->precalculate2(); //ループ対応形式
 
 
-			int  pi =  emmiterList[i]->_parentIndex;
+			int  pi2 =  emmiterList[i]->_parentIndex;
 
 			if ( emmiterList[i]->_parentIndex == 0 )  //ルート直下
 			{
@@ -950,11 +950,11 @@ void    SsEffectRenderV2::reload()
 				updateList.Add(emmiterList[i]);
 			}else{
 
-				void* t = this->emmiterList[pi];
+				void* t = this->emmiterList[pi2];
 
-                emmiterList[i]->_parent = emmiterList[pi];
+                emmiterList[i]->_parent = emmiterList[pi2];
 
-				emmiterList[i]->globaltime = emmiterList[i]->getTimeLength() + this->emmiterList[pi]->getTimeLength();
+				emmiterList[i]->globaltime = emmiterList[i]->getTimeLength() + this->emmiterList[pi2]->getTimeLength();
 
 				updateList.Add(emmiterList[i]);
 			}

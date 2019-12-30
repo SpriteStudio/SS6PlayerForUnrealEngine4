@@ -141,7 +141,7 @@ public:
 #if PLATFORM_WINDOWS
 			sprintf_s(tmp, 32, "%S", *key);
 #else
-			sprintf(tmp, "%S", *key);
+			sprintf(tmp, "%s", TCHAR_TO_ANSI(*key));
 #endif
 			e = e->FirstChildElement( tmp );
 		}

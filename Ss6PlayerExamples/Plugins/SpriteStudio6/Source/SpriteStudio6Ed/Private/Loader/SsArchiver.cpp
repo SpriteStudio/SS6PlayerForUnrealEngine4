@@ -1,4 +1,5 @@
 ﻿#include "SsArchiver.h"
+#include "SpriteStudio6EdPrivatePCH.h"
 
 #include "Logging/MessageLog.h"
 
@@ -373,7 +374,7 @@ void SsValueSeriarizer(ISsXmlArchiver* ar , FSsValue& v , const FString key = "v
 #if PLATFORM_WINDOWS
 		sprintf_s(tmp, 32, "%S", *key);
 #else
-		sprintf(tmp, "%S", *key);
+		sprintf(tmp, "%s", TCHAR_TO_ANSI(*key));
 #endif
 		e = e->FirstChildElement( tmp );
 	}
