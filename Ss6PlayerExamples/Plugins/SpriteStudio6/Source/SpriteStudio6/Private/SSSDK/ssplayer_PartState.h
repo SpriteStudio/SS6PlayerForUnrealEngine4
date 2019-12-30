@@ -4,6 +4,8 @@
 //#include "../Loader/ssloader.h"
 //#include "../Helper/ssHelper.h"
 
+#include "ssplayer_cellmap.h"
+
 
 class SsAnimeDecoder;
 //class SsEffectRenderer;

@@ -3,7 +3,11 @@
 #define __SSPLAYER_MESH__
 
 
+class UTexture;
 class ISSTexture;
+struct SsPartState;
+struct FSsCell;
+
 
 #define SSMESHPART_BONEMAX	(128)
 #define SSMESHPART_CHECKRANGE (4)
@@ -121,6 +125,8 @@ public:
 class SsPart;
 class SsMeshPart;
 //class SsAnimeState;
+class SsAnimeDecoder;
+struct FSsMeshBind;
 
 class   SsMeshAnimator
 {

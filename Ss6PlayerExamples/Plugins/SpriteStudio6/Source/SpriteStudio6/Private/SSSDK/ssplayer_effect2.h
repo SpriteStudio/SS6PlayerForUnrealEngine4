@@ -9,6 +9,8 @@
 
 //#include "ISSEffectRender.h"
 
+#include "ssplayer_cellmap.h"
+#include "ssplayer_PartState.h"
 
 
 //class FSsEffectModel;

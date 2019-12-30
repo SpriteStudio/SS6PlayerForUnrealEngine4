@@ -9,8 +9,6 @@
 
 namespace
 {
-	static const float NearCheck = 0.01f;
-
 	float Vector2DAngle(const FVector2D& Vec)
 	{
 		float Len = FVector2D::Distance(FVector2D::ZeroVector, Vec);

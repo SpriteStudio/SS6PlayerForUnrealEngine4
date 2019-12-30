@@ -73,6 +73,8 @@ namespace UnrealBuildTool.Rules
 				{
 				}
 				);
+
+			bUseUnity = false;
 		}
 	}
 }
