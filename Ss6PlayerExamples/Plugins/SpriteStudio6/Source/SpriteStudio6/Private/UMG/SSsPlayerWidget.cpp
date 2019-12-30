@@ -84,6 +84,14 @@ void SSsPlayerWidget::Terminate_OffScreen()
 	}
 }
 
+void SSsPlayerWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
+{
+	if(OnSlateTick.IsBound())
+	{
+		OnSlateTick.Execute(InDeltaTime);
+	}
+}
+
 FVector2D SSsPlayerWidget::ComputeDesiredSize(float LayoutScaleMultiplier) const
 {
 	return (AnimCanvasSize != FVector2D::ZeroVector) ? AnimCanvasSize : FVector2D(256.f, 256.f);

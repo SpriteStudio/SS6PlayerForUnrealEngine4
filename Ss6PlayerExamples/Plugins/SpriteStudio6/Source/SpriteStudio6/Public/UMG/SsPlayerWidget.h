@@ -44,7 +44,7 @@ namespace ESsPlayerWidgetRenderMode
 // sspjデータを再生/UMG上で描画する 
 //
 UCLASS(ClassGroup=SpriteStudio, meta=(DisplayName="Ss Player Widget"))
-class SPRITESTUDIO6_API USsPlayerWidget : public UPanelWidget, public FTickableGameObject, public FSsPlayPropertySync 
+class SPRITESTUDIO6_API USsPlayerWidget : public UPanelWidget, public FSsPlayPropertySync 
 {
 	GENERATED_UCLASS_BODY()
 
@@ -65,13 +65,9 @@ public:
 	virtual const FText GetPaletteCategory() override { return FText::FromString(TEXT("Sprite Studio")); }
 #endif
 
-	// FTickableObjectBase interface
-	virtual bool IsTickable() const override;
-	virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(USsPlayerWidget, STATGROUP_Tickables); }
+public:
+	void OnSlateTick(float DeltaTime);
 
-	// FTickableGameObject interface
-	virtual void Tick(float DeltaTime) override;
-	virtual bool IsTickableInEditor() const override { return true; }
 
 protected:
 	// UWidget interface

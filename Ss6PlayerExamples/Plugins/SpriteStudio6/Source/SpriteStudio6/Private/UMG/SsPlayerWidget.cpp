@@ -194,18 +194,8 @@ void USsPlayerWidget::SynchronizeProperties()
 	}
 }
 
-//  
-bool USsPlayerWidget::IsTickable() const
-{
-	return (nullptr != SsProject)
-		&& PlayerWidget.IsValid()
-		&& (nullptr != this->GetWorld()
-		&& (!this->GetWorld()->IsPaused() || bTickableWhenPaused))
-		;
-}
-
 // 更新 
-void USsPlayerWidget::Tick(float DeltaTime)
+void USsPlayerWidget::OnSlateTick(float DeltaTime)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_Tick);
 
@@ -251,6 +241,7 @@ TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 {
 	PlayerWidget = SNew(SSsPlayerWidget);
 	PlayerWidget->bReflectParentAlpha = bReflectParentAlpha;
+	PlayerWidget->OnSlateTick.BindUObject(this, &USsPlayerWidget::OnSlateTick);
 
 	for(auto It = Slots.CreateConstIterator(); It; ++It)
 	{

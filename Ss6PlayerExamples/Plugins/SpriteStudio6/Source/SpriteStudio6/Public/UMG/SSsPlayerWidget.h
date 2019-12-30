@@ -4,6 +4,8 @@ class FSsPlayer;
 class FSsRenderOffScreen;
 struct FSlateMaterialBrush;
 
+DECLARE_DELEGATE_OneParam(FSSsPlayerWidgetOnSlateTick, float);
+
 //
 class SPRITESTUDIO6_API SSsPlayerWidget : public SPanel
 {
@@ -58,7 +60,11 @@ public:
 	void SetAnimCanvasSize(const FVector2D& InSize) { AnimCanvasSize = InSize; }
 
 	// SWidget interface 
+	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime);
 	virtual FVector2D ComputeDesiredSize(float LayoutScaleMultiplier) const override;
+
+public:
+	FSSsPlayerWidgetOnSlateTick OnSlateTick;
 
 private:
 	void Terminate_OffScreen();
