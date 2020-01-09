@@ -823,6 +823,7 @@ void SerializeSsCellMap(FSsCellMap& CellMap, SsXmlIArchiver* ar)
 {
 	SSAR_DECLARE_ATTRIBUTE("version", CellMap.Version);
 	SSAR_DECLARE("name", CellMap.CellMapName);
+	CellMap.CellMapNameEx = FName(*(CellMap.CellMapName.ToString() + TEXT(".ssce")));
 	SSAR_DECLARE("imagePath", CellMap.ImagePath);
 	SSAR_DECLARE("pixelSize", CellMap.PixelSize);
 	SSAR_DECLARE("overrideTexSettings", CellMap.OverrideTexSettings);
