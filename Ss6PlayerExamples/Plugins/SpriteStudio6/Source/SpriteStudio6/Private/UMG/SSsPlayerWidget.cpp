@@ -169,31 +169,34 @@ void SSsPlayerWidget::OnArrangeChildren(
 					float Width  = len01;
 					float Height = FMath::Sin(sub_a02_01) * len02;
 
-					//
-					// 前状態がキャッシュされてるようで、直前が面積ゼロだった時に１回だけTransformMatrixが壊れる 
-					// 回避のため、計算前にリセットしておく 
-					//
-					Children[i].GetWidget()->SetRenderTransform(FSlateRenderTransform());
-
-					if(Children[i].WidgetSlot && Children[i].WidgetSlot->Content)
+					if(0.01f < FMath::Abs(Width * Height))
 					{
-						Children[i].WidgetSlot->Content->SetRenderTransformPivot(FVector2D::ZeroVector);
-						Children[i].WidgetSlot->Content->SetRenderTransformAngle(FMath::RadiansToDegrees(a01));
-						Children[i].WidgetSlot->Content->SetRenderShear(
-							FVector2D(FMath::RadiansToDegrees((PI/2.f)- sub_a02_01), 0.f)
+						//
+						// 前状態がキャッシュされてるようで、直前が面積ゼロだった時に１回だけTransformMatrixが壊れる 
+						// 回避のため、計算前にリセットしておく 
+						//
+						Children[i].GetWidget()->SetRenderTransform(FSlateRenderTransform());
+
+						if(Children[i].WidgetSlot && Children[i].WidgetSlot->Content)
+						{
+							Children[i].WidgetSlot->Content->SetRenderTransformPivot(FVector2D::ZeroVector);
+							Children[i].WidgetSlot->Content->SetRenderTransformAngle(FMath::RadiansToDegrees(a01));
+							Children[i].WidgetSlot->Content->SetRenderShear(
+								FVector2D(FMath::RadiansToDegrees((PI/2.f)- sub_a02_01), 0.f)
+								);
+						}
+
+						ArrangedChildren.AddWidget(
+							AllottedGeometry.MakeChild(
+								Children[i].GetWidget(),
+								FVector2D(
+									It->Vertices[0].Position.X * LocalSize.X,
+									It->Vertices[0].Position.Y * LocalSize.Y
+									),
+								FVector2D(Width, Height)
+								)
 							);
 					}
-
-					ArrangedChildren.AddWidget(
-						AllottedGeometry.MakeChild(
-							Children[i].GetWidget(),
-							FVector2D(
-								It->Vertices[0].Position.X * LocalSize.X,
-								It->Vertices[0].Position.Y * LocalSize.Y
-								),
-							FVector2D(Width, Height)
-							)
-						);
 
 					bValidPart = true;
 					break;
