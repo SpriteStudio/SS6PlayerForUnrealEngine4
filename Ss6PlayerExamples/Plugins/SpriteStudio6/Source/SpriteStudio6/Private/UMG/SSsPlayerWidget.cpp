@@ -185,7 +185,6 @@ void SSsPlayerWidget::OnArrangeChildren(
 					}
 
 					ArrangedChildren.AddWidget(
-						EVisibility::Visible,
 						AllottedGeometry.MakeChild(
 							Children[i].GetWidget(),
 							FVector2D(
@@ -205,7 +204,6 @@ void SSsPlayerWidget::OnArrangeChildren(
 		if(!bValidPart)
 		{
 			ArrangedChildren.AddWidget(
-				EVisibility::Visible,
 				AllottedGeometry.MakeChild(
 					Children[i].GetWidget(),
 					FVector2D(InvalidPartCnt * 50.f, 0.f),
