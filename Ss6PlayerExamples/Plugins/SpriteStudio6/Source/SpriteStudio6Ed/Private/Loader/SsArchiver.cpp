@@ -388,9 +388,18 @@ void SsValueSeriarizer(ISsXmlArchiver* ar , FSsValue& v , const FString key = "v
 
 			if (str==0)
 			{
-				const char* err_log1 = e->Parent()->Value();
-				const char* err_log2 = e->Parent()->ToElement()->GetText();
-				const char* err_log3 = e->Parent()->Parent()->ToElement()->FirstAttribute()->Value();
+#if 0
+				const char *err_log1(nullptr), *err_log2(nullptr), *err_log3(nullptr);
+				if(e->Parent())
+				{
+					err_log1 = e->Parent()->Value();
+					err_log2 = e->Parent()->ToElement()->GetText();
+					if(e->Parent()->Parent() && e->Parent()->Parent()->ToElement() && e->Parent()->Parent()->ToElement()->FirstAttribute())
+					{
+						e->Parent()->Parent()->ToElement()->FirstAttribute()->Value();
+					}
+				}
+#endif
 				return ;
 			}
 			
