@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<SpriteStudioProject version="2.00.00">
+<SpriteStudioProject version="2.00.01" edition="Professional">
 	<name>knight</name>
 	<exportPath></exportPath>
 	<settings>
@@ -9,26 +9,14 @@
 		<effectBaseDirectory></effectBaseDirectory>
 		<exportBaseDirectory>Export</exportBaseDirectory>
 		<queryExportBaseDirectory>1</queryExportBaseDirectory>
-		<ssaxImport>
-			<convertImageOffsetToCellAnime>1</convertImageOffsetToCellAnime>
-			<ignorePivotAsCellRegister>1</ignorePivotAsCellRegister>
-			<keepAngleAsIsIfNegativeScale>1</keepAngleAsIsIfNegativeScale>
-		</ssaxImport>
 		<copyWhenImportImageIsOutside>1</copyWhenImportImageIsOutside>
 		<exportAnimeFileFormat>SSAX</exportAnimeFileFormat>
 		<exportCellMapFileFormat>invalid</exportCellMapFileFormat>
 		<exportCellMap>0</exportCellMap>
 		<copyImageWhenExportCellmap>1</copyImageWhenExportCellmap>
 		<ssConverterOptions></ssConverterOptions>
-		<ssaxExport>
-			<addAnimeNameEvenIfSingle>1</addAnimeNameEvenIfSingle>
-			<listAllCellMaps>1</listAllCellMaps>
-			<connectAnimations>0</connectAnimations>
-			<zRotCurveParamAsRadian>1</zRotCurveParamAsRadian>
-			<reverseZRotSignForNegativeScale>1</reverseZRotSignForNegativeScale>
-			<numberOfPivotDecimals>0</numberOfPivotDecimals>
-		</ssaxExport>
 		<player>custom</player>
+		<signal></signal>
 		<strictVer4>0</strictVer4>
 		<dontUseMatrixForTransform>0</dontUseMatrixForTransform>
 		<rootPartFunctionAsVer4>0</rootPartFunctionAsVer4>
@@ -85,6 +73,7 @@
 		<wrapMode>clamp</wrapMode>
 		<filterMode>linear</filterMode>
 		<interpolationType>linear</interpolationType>
+		<coordUnit>rate</coordUnit>
 		<renderingSettings>
 			<outputFolder></outputFolder>
 			<outputType>AVI</outputType>
@@ -110,6 +99,28 @@
 		<convertImageToPMA>0</convertImageToPMA>
 		<blendImageAsPMA>0</blendImageAsPMA>
 		<unpremultiplyAlpha>0</unpremultiplyAlpha>
+		<vertexAnimeFloat>0</vertexAnimeFloat>
+		<selectedAttrSelPreset>0</selectedAttrSelPreset>
+		<attrSelPresetNameA></attrSelPresetNameA>
+		<attrSelPresetA />
+		<attrSelPresetNameB></attrSelPresetNameB>
+		<attrSelPresetB />
+		<attrSelPresetNameC></attrSelPresetNameC>
+		<attrSelPresetC />
+		<attrSelPresetNameD></attrSelPresetNameD>
+		<attrSelPresetD />
+		<attrSelPresetNameE></attrSelPresetNameE>
+		<attrSelPresetE />
+		<attrSelPresetNameF></attrSelPresetNameF>
+		<attrSelPresetF />
+		<attrSelPresetNameG></attrSelPresetNameG>
+		<attrSelPresetG />
+		<attrSelPresetNameH></attrSelPresetNameH>
+		<attrSelPresetH />
+		<attrSelPresetNameI></attrSelPresetNameI>
+		<attrSelPresetI />
+		<attrSelPresetNameJ></attrSelPresetNameJ>
+		<attrSelPresetJ />
 	</settings>
 	<animeSettings>
 		<fps>30</fps>
@@ -123,6 +134,22 @@
 		<ik_depth>3</ik_depth>
 		<startFrame>0</startFrame>
 		<endFrame>60</endFrame>
+		<bgSettings>
+			<value>
+				<imagePath></imagePath>
+				<imageDisp>1</imageDisp>
+				<imageOffset>0 0</imageOffset>
+				<imageCanvas>0 0</imageCanvas>
+				<imagePivot>0 0</imagePivot>
+			</value>
+			<value>
+				<imagePath></imagePath>
+				<imageDisp>1</imageDisp>
+				<imageOffset>0 0</imageOffset>
+				<imageCanvas>0 0</imageCanvas>
+				<imagePivot>0 0</imagePivot>
+			</value>
+		</bgSettings>
 		<outStartNum>0</outStartNum>
 	</animeSettings>
 	<texPackSettings>
@@ -146,8 +173,11 @@
 	</effectFileNames>
 	<lastAnimeFile>knight_arrow.ssae</lastAnimeFile>
 	<lastAnimeName>Arrow_Attack</lastAnimeName>
-	<lastCellMapFile>effect.ssce</lastCellMapFile>
-	<lastEffectFile>Flame_effect.ssee</lastEffectFile>
 	<lastPart>root</lastPart>
+	<lastCellMapFile>effect.ssce</lastCellMapFile>
+	<lastCell></lastCell>
+	<lastEffectFile>Flame_effect.ssee</lastEffectFile>
 	<setupmode>0</setupmode>
+	<expandAnimation />
+	<expandSequence />
 </SpriteStudioProject>
