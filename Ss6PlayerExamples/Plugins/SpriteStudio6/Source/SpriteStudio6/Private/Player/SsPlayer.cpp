@@ -895,7 +895,10 @@ bool FSsPlayer::Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 StartF
 	FSsAnimation* Animation = (InAnimationIndex < AnimPack->AnimeList.Num()) ? &(AnimPack->AnimeList[InAnimationIndex]) : NULL;
 	if(NULL == Animation){ return false; }
 
-	CellMapList->set(SsProject.Get(), AnimPack);
+	if(PlayingAnimPackIndex != InAnimPackIndex)
+	{
+		CellMapList->set(SsProject.Get(), AnimPack);
+	}
 	Decoder->setAnimation(&AnimPack->Model, Animation, CellMapList, SsProject.Get());
 	Decoder->setPlayFrame((float)(Decoder->getAnimeStartFrame() + StartFrame));
 
