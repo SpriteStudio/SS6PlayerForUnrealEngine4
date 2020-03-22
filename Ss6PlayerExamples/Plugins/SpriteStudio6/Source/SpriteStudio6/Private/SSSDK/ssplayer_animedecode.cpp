@@ -47,6 +47,19 @@ SsAnimeDecoder::SsAnimeDecoder() :
 	{
 	}
 
+SsAnimeDecoder::~SsAnimeDecoder()
+{
+	if ( partState )
+	{
+		delete [] partState;
+	}
+
+	if ( meshAnimator )
+	{
+		delete meshAnimator;
+	}
+}
+
 
 void	SsAnimeDecoder::reset()
 {
@@ -282,9 +295,26 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 	curAnimeFPS = anime->Settings.Fps;
 
 	//メッシュアニメーションを初期化
-	meshAnimator = new SsMeshAnimator();
-	meshAnimator->setAnimeDecoder(this);
-	meshAnimator->makeMeshBoneList();
+	if(nullptr != meshAnimator)
+	{
+		delete meshAnimator;
+		meshAnimator = nullptr;
+	}
+	bool bNeedMesh = false;
+	for(int32 i = 0; i < stateNum; ++i)
+	{
+		if(partState[i].partType == SsPartType::Mesh)
+		{
+			bNeedMesh = true;
+			break;
+		}
+	}
+	if(bNeedMesh)
+	{
+		meshAnimator = new SsMeshAnimator();
+		meshAnimator->setAnimeDecoder(this);
+		meshAnimator->makeMeshBoneList();
+	}
 
 	
 }

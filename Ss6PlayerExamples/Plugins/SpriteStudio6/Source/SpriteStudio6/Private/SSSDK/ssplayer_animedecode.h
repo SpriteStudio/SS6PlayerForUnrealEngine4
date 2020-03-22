@@ -101,14 +101,7 @@ private:
 
 public:
 	SsAnimeDecoder();
-	virtual ~SsAnimeDecoder()
-	{
-//		if ( curCellMapManager )
-//			delete curCellMapManager;
-
-		if ( partState )
-			delete [] partState;
-	}
+	virtual ~SsAnimeDecoder();
 
 	virtual void	update( float frameDelta = 1.0f );
 //	virtual void	draw();
