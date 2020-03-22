@@ -13,7 +13,7 @@ namespace
 }
 
 
-SsPartState::SsPartState() : index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::Invalid),	refAnime(0), refEffect(0), meshPart(0) {
+SsPartState::SsPartState() : index(-1), parent(nullptr), noCells(false), alphaBlendType(SsBlendType::Invalid),	refAnime(0), refCellMapList(0), refEffect(0), meshPart(0) {
 	init();
 	effectValue.attrInitialized = false;
 	meshPart = 0;
@@ -31,6 +31,11 @@ void	SsPartState::destroy()
 	{
 		delete refAnime;
 		refAnime = 0;
+	}
+	if ( refCellMapList )
+	{
+		delete refCellMapList;
+		refCellMapList = 0;
 	}
 	if ( refEffect )
 	{

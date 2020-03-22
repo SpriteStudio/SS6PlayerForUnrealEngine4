@@ -70,6 +70,7 @@ struct SsPartState
 	SsBlendType::Type	alphaBlendType;
 		
 	SsAnimeDecoder*		refAnime;
+	SsCellMapList*		refCellMapList;
 	SsEffectRenderV2*	refEffect;
 
 //	//V4互換計算用

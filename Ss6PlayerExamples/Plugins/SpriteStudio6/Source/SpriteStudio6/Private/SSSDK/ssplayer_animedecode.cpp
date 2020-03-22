@@ -218,6 +218,7 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 
 				animedecoder->setAnimation( &refpack->Model , refanime, __cellmap , sspj );
 				partState[i].refAnime = animedecoder;
+				partState[i].refCellMapList = __cellmap;
 				//親子関係を付ける
 				animedecoder->partState[0].parent = &partState[i];
 			}
