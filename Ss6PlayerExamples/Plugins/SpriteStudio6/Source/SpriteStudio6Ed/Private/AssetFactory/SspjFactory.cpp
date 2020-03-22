@@ -203,7 +203,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 				TArray<uint8> Data;
 				if(FFileHelper::LoadFileToArray(Data, *FileName))
 				{
-					FString TextureName = FPaths::GetBaseFilename(ImagePaths[i]);
+					FString TextureName = (nullptr == ImportedTexture) ? FPaths::GetBaseFilename(ImagePaths[i]) : ImportedTexture->GetName();
 
 					UPackage* TexturePackage = NULL;
 					if(ImportedTexture)
