@@ -462,8 +462,12 @@ void	SsMeshAnimator::modelLoad()
 	
 	for( size_t i = 0; i < animeboneList.Num(); i++)
 	{
-		int idx = boneListRef[animeboneList[i]->part->PartName];
-		boneIdxList.Add(idx, animeboneList[i]);
+		//int idx = boneListRef[animeboneList[i]->part->PartName];
+		int* idx = boneListRef.Find(animeboneList[i]->part->PartName);
+		if(nullptr != idx)
+		{
+			boneIdxList.Add(*idx, animeboneList[i]);
+		}
 	}
 
 	if (meshList.Num() == model->MeshList.Num() )
