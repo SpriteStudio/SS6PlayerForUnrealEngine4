@@ -108,17 +108,7 @@ public:
 	SsCellMapList(){}
 	virtual ~SsCellMapList()
 	{
-		for(auto itr = CellMapDic.CreateIterator(); itr; ++itr)
-		{
-			delete itr.Value();
-		}
-
-		for ( int i = 0 ; i < CellMapList.Num(); i++ )
-		{
-			delete CellMapList[i];
-		}
-		CellMapList.Empty();
-		CellMapDic.Empty();
+		clear();
 	}
 
 	void	clear();

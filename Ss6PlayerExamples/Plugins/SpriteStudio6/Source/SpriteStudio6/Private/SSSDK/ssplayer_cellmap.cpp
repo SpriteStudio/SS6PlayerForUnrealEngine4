@@ -14,21 +14,17 @@
 
 void	SsCellMapList::clear()
 {
-	if (CellMapDic.Num() > 0)
+	for(auto itr = CellMapDic.CreateIterator(); itr; ++itr)
 	{
-		for(auto itr = CellMapDic.CreateIterator(); itr; ++itr)
-		{
-			if (itr->Value != NULL)
-			{
-				delete itr->Value;
-				itr->Value = NULL;
-				continue;
-			}
-		}
+		delete itr.Value();
 	}
 
-	CellMapDic.Empty();
+	for ( int i = 0 ; i < CellMapList.Num(); i++ )
+	{
+		delete CellMapList[i];
+	}
 	CellMapList.Empty();
+	CellMapDic.Empty();
 }
 
 
