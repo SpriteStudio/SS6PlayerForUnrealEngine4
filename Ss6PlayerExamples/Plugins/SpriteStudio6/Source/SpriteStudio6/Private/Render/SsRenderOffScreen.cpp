@@ -282,8 +282,8 @@ namespace
 		GraphicsPSOInit.RasterizerState   = TStaticRasterizerState<>::GetRHI();
 		GraphicsPSOInit.DepthStencilState = TStaticDepthStencilState<false, CF_Always>::GetRHI();
 		GraphicsPSOInit.BoundShaderState.VertexDeclarationRHI = GSs6OffScreenVertexDeclaration.VertexDeclarationRHI;
-		GraphicsPSOInit.BoundShaderState.VertexShaderRHI = VertexShader->GetVertexShader();
-		GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = PixelShader->GetPixelShader();
+		GraphicsPSOInit.BoundShaderState.VertexShaderRHI = VertexShader.GetVertexShader();
+		GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = PixelShader.GetPixelShader();
 
 		FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
 
@@ -586,8 +586,8 @@ namespace
 		GraphicsPSOInit.DepthStencilState = TStaticDepthStencilState<false, CF_Always>::GetRHI();
 		GraphicsPSOInit.BoundShaderState.VertexDeclarationRHI = GSs6OffScreenVertexDeclaration.VertexDeclarationRHI;
 
-		GraphicsPSOInit.BoundShaderState.VertexShaderRHI = VertexShader->GetVertexShader();
-		GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = PixelShader->GetPixelShader();
+		GraphicsPSOInit.BoundShaderState.VertexShaderRHI = VertexShader.GetVertexShader();
+		GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = PixelShader.GetPixelShader();
 
 		FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
 
@@ -675,13 +675,13 @@ namespace
 			// マスク影響の有無でシェーダを切り替える 
 			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))
 			{
-				GraphicsPSOInit.BoundShaderState.VertexShaderRHI = MaskedVertexShader->GetVertexShader();
-				GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = MaskedPixelShader->GetPixelShader();
+				GraphicsPSOInit.BoundShaderState.VertexShaderRHI = MaskedVertexShader.GetVertexShader();
+				GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = MaskedPixelShader.GetPixelShader();
 			}
 			else
 			{
-				GraphicsPSOInit.BoundShaderState.VertexShaderRHI = VertexShader->GetVertexShader();
-				GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = PixelShader->GetPixelShader();
+				GraphicsPSOInit.BoundShaderState.VertexShaderRHI = VertexShader.GetVertexShader();
+				GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = PixelShader.GetPixelShader();
 			}
 
 

@@ -34,18 +34,9 @@ FSsOffScreenPS::FSsOffScreenPS(const ShaderMetaType::CompiledShaderInitializerTy
 	CellTextureParameter.Bind(Initializer.ParameterMap, TEXT("CellTexture"));
 	CellTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("CellTextureSampler"));
 }
-bool FSsOffScreenPS::Serialize(FArchive& Ar)
-{
-	bool bShaderHasOutdatedParams = FGlobalShader::Serialize(Ar);
-
-	Ar << CellTextureParameter;
-	Ar << CellTextureParameterSampler;
-
-	return bShaderHasOutdatedParams;
-}
 void FSsOffScreenPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
-	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture);
+	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture);
 }
 
 //
@@ -57,22 +48,11 @@ FSsOffScreenMaskedPS::FSsOffScreenMaskedPS(const ShaderMetaType::CompiledShaderI
 	MaskTextureParameter.Bind(Initializer.ParameterMap, TEXT("MaskTexture"));
 	MaskTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("MaskTextureSampler"));
 }
-bool FSsOffScreenMaskedPS::Serialize(FArchive& Ar)
-{
-	bool bShaderHasOutdatedParams = FGlobalShader::Serialize(Ar);
-
-	Ar << CellTextureParameter;
-	Ar << CellTextureParameterSampler;
-	Ar << MaskTextureParameter;
-	Ar << MaskTextureParameterSampler;
-
-	return bShaderHasOutdatedParams;
-}
 void FSsOffScreenMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
-	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
+	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
 }
 void FSsOffScreenMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
-	SetTextureParameter(RHICmdList, GetPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
+	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
 }

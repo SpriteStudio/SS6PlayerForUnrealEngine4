@@ -30,11 +30,9 @@ public:
 	FSsMaskPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer);
 	FSsMaskPS() {}
 
-	virtual bool Serialize(FArchive& Ar) override;
-
 	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
 
 private:
-	FShaderResourceParameter CellTextureParameter;
-	FShaderResourceParameter CellTextureParameterSampler;
+	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameter);
+	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameterSampler);
 };

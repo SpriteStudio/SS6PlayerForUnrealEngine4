@@ -51,15 +51,13 @@ public:
 	FSsOffScreenPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer);
 	FSsOffScreenPS() {}
 
-	virtual bool Serialize(FArchive& Ar) override;
-
 	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState );
 
 private:
-	FShaderResourceParameter CellTextureParameter;
-	FShaderResourceParameter CellTextureParameterSampler;
+	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameter);
+	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameterSampler);
 };
-
+ 
 
 // 
 class FSsOffScreenMaskedVS : public FGlobalShader
@@ -86,16 +84,14 @@ public:
 	FSsOffScreenMaskedPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer);
 	FSsOffScreenMaskedPS() {}
 
-	virtual bool Serialize(FArchive& Ar) override;
-
 	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
 	void SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
 
 private:
-	FShaderResourceParameter CellTextureParameter;
-	FShaderResourceParameter CellTextureParameterSampler;
-	FShaderResourceParameter MaskTextureParameter;
-	FShaderResourceParameter MaskTextureParameterSampler;
+	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameter);
+	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameterSampler);
+	LAYOUT_FIELD(FShaderResourceParameter, MaskTextureParameter);
+	LAYOUT_FIELD(FShaderResourceParameter, MaskTextureParameterSampler);
 };
 
 extern TGlobalResource<FSsOffScreenVertexDeclaration> GSs6OffScreenVertexDeclaration;

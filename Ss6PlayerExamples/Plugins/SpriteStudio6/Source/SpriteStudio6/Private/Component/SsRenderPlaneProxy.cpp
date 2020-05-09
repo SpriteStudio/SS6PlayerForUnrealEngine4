@@ -124,11 +124,11 @@ FPrimitiveViewRelevance FSsRenderPlaneProxy::GetViewRelevance(const FSceneView* 
 	Result.bRenderInMainPass     = ShouldRenderInMainPass();
 	Result.bUsesLightingChannels = false;
 
-	Result.bOpaqueRelevance               = true;
-	Result.bSeparateTranslucencyRelevance = true;
-	Result.bNormalTranslucencyRelevance   = false;
-	Result.bShadowRelevance               = IsShadowCast(View);
-	Result.bDynamicRelevance              = true;
+	Result.bOpaque               = true;
+	Result.bSeparateTranslucency = true;
+	Result.bNormalTranslucency   = false;
+	Result.bShadowRelevance      = IsShadowCast(View);
+	Result.bDynamicRelevance     = true;
 
 	return Result;
 }

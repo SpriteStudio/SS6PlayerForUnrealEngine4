@@ -14,16 +14,7 @@ FSsMaskPS::FSsMaskPS(const ShaderMetaType::CompiledShaderInitializerType& Initia
 	CellTextureParameter.Bind(Initializer.ParameterMap, TEXT("CellTexture"));
 	CellTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("CellTextureSampler"));
 }
-bool FSsMaskPS::Serialize(FArchive& Ar)
-{
-	bool bShaderHasOutdatedParams = FGlobalShader::Serialize(Ar);
-
-	Ar << CellTextureParameter;
-	Ar << CellTextureParameterSampler;
-
-	return bShaderHasOutdatedParams;
-}
 void FSsMaskPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
-	SetTextureParameter(RHICmdList, GetPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
+	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
 }
