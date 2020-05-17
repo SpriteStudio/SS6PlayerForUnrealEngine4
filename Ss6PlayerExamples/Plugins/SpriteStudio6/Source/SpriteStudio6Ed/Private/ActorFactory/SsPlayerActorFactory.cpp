@@ -37,6 +37,11 @@ void USsPlayerActorFactory::PostSpawnActor(UObject* Asset, AActor* NewActor)
 
 	SsPlayerComponent->UnregisterComponent();
 	SsPlayerComponent->SsProject = SsProject;
+	if(0 < SsProject->AnimeList.Num())
+	{
+		SsPlayerComponent->AutoPlayAnimPackIndex = 0;
+		SsPlayerComponent->AutoPlayAnimationIndex = SsProject->AnimeList[0].FindMinimumAnimationIndexExcludingSetup();
+	}
 	SsPlayerComponent->OnSetSsProject();
 	SsPlayerComponent->RegisterComponent();
 }
