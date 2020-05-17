@@ -302,4 +302,8 @@ public:
 
 	// 名前からアニメーションを取得する
 	const FSsAnimation* FindAnimation(const FName& Name) const;
+
+	// Setup以外の最も小さいアニメーションインデックスを取得する 
+	// Setupしか存在しない場合は0を返す（通常はあり得ない） 
+	int32 FindMinimumAnimationIndexExcludingSetup() const;
 };

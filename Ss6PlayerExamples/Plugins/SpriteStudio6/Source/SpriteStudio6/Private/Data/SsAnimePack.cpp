@@ -59,3 +59,14 @@ const FSsAnimation* FSsAnimePack::FindAnimation(const FName& Name) const
 	}
 	return nullptr;
 }
+int32 FSsAnimePack::FindMinimumAnimationIndexExcludingSetup() const
+{
+	for(auto It = AnimeList.CreateConstIterator(); It; ++It)
+	{
+		if(!It->IsSetup)
+		{
+			return It.GetIndex();
+		}
+	}
+	return 0;
+}

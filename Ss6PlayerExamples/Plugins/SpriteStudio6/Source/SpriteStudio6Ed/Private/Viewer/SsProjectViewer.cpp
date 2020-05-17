@@ -173,9 +173,13 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 	RegenerateMenusAndToolbars();
 
 	Viewport->SetPlayer(&Player, RenderOffScreen);
-	
+
+
+	int32 AnimIndex = SsProject->AnimeList[0].FindMinimumAnimationIndexExcludingSetup();
+	AnimationCombo->SetSelectedItem(AnimationNames[AnimIndex]);
+
 	bLoop = true;
-	Player.Play(0, 0);
+	Player.Play(0, AnimIndex);
 }
 
 TSharedRef<SDockTab> FSsProjectViewer::SpawnTab_Viewport(const FSpawnTabArgs& Args)
@@ -551,8 +555,9 @@ void FSsProjectViewer::OnAnimePackChanged(TSharedPtr<FString> NewSelection, ESel
 			{
 				AnimationNames.Add(MakeShareable(new FString(CreateDisplayName(CurrentAnimePack->AnimeList[i].AnimationName, i))));
 			}
+			int32 AnimeIndex = CurrentAnimePack->FindMinimumAnimationIndexExcludingSetup();
 			AnimationCombo->RefreshOptions();
-			AnimationCombo->SetSelectedItem((0 < AnimationNames.Num()) ? AnimationNames[0] : TSharedPtr<FString>());
+			AnimationCombo->SetSelectedItem((AnimeIndex < AnimationNames.Num()) ? AnimationNames[AnimeIndex] : TSharedPtr<FString>());
 		}
 	}
 }
