@@ -42,9 +42,17 @@ void FSsPlayPropertySync::OnPostEditChangeProperty(FPropertyChangedEvent& Proper
 	if(PropertyChangedEvent.Property)
 	{
 		FString PropertyName = PropertyChangedEvent.Property->GetNameCPP();
-		if(    (0 == PropertyName.Compare(TEXT("SsProject")))
-			|| (0 == PropertyName.Compare(TEXT("AutoPlayAnimPackName")))
-			|| (0 == PropertyName.Compare(TEXT("AutoPlayAnimationName")))
+		if(0 == PropertyName.Compare(TEXT("SsProject")))
+		{
+			if((nullptr != RefSsProject) && (nullptr != *RefSsProject) && (0 < (*RefSsProject)->AnimeList.Num()))
+			{
+				(*RefAutoPlayAnimPackIndex) = 0;
+				(*RefAutoPlayAnimationIndex) = (*RefSsProject)->AnimeList[0].FindMinimumAnimationIndexExcludingSetup();
+				SyncAutoPlayAnimation_IndexToName();
+			}
+		}
+		else if((0 == PropertyName.Compare(TEXT("AutoPlayAnimPackName")))
+			||  (0 == PropertyName.Compare(TEXT("AutoPlayAnimationName")))
 			)
 		{
 			SyncAutoPlayAnimation_NameToIndex();
