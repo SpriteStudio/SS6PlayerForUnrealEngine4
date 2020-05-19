@@ -101,7 +101,7 @@ void FSsPlayPropertySync::SyncAutoPlayAnimation_NameToIndex()
 	{
 		if((0 <= *RefAutoPlayAnimPackIndex) && (0 < (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].AnimeList.Num()))
 		{
-			*RefAutoPlayAnimationIndex = 0;
+			*RefAutoPlayAnimationIndex = (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].FindMinimumAnimationIndexExcludingSetup();
 			*RefAutoPlayAnimationName  = (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].AnimeList[*RefAutoPlayAnimationIndex].AnimationName;
 		}
 		else
@@ -131,14 +131,14 @@ void FSsPlayPropertySync::SyncAutoPlayAnimation_IndexToName()
 		}
 		else
 		{
-			*RefAutoPlayAnimationIndex = 0;
+			*RefAutoPlayAnimationIndex = (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].FindMinimumAnimationIndexExcludingSetup();
 			*RefAutoPlayAnimationName  = (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].AnimeList[*RefAutoPlayAnimationIndex].AnimationName;
 		}
 	}
 	else
 	{
 		*RefAutoPlayAnimPackIndex  = 0;
-		*RefAutoPlayAnimationIndex = 0;
+		*RefAutoPlayAnimationIndex = (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].FindMinimumAnimationIndexExcludingSetup();
 		*RefAutoPlayAnimPackName   = (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].AnimePackName;
 		*RefAutoPlayAnimationName  = (*RefSsProject)->AnimeList[*RefAutoPlayAnimPackIndex].AnimeList[*RefAutoPlayAnimationIndex].AnimationName;
 	}
