@@ -434,7 +434,7 @@ UTexture* USsPlayerWidget::GetRenderTarget()
 {
 	if(PlayerWidget.IsValid())
 	{
-		PlayerWidget->GetRenderTarget();
+		return PlayerWidget->GetRenderTarget();
 	}
 	return nullptr;
 }
