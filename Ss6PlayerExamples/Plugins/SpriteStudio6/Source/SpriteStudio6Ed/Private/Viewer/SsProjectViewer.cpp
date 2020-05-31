@@ -413,7 +413,7 @@ void FSsProjectViewer::ExtendToolbar()
 					.VAlign(VAlign_Center)
 					.FillHeight(0.6f)
 					[
-						(Viewer->GridColorBlock = SNew(SColorBlock)
+						(Viewer->BackColorBlock = SNew(SColorBlock)
 						.Color(Viewer, &FSsProjectViewer::GetBackColor) 
 						.IgnoreAlpha(true)
 						.OnMouseButtonDown(Viewer, &FSsProjectViewer::OnBackColorMouseDown)
@@ -676,7 +676,7 @@ FReply FSsProjectViewer::OnBackColorMouseDown(const FGeometry&, const FPointerEv
 		return FReply::Unhandled();
 	}
 	FColorPickerArgs PickerArgs;
-	PickerArgs.ParentWidget = GridColorBlock;
+	PickerArgs.ParentWidget = BackColorBlock;
 	PickerArgs.bUseAlpha = true;
 	PickerArgs.DisplayGamma = TAttribute<float>::Create( TAttribute<float>::FGetter::CreateUObject(GEngine, &UEngine::GetDisplayGamma) );
 	PickerArgs.OnColorCommitted = FOnLinearColorValueChanged::CreateSP( this, &FSsProjectViewer::OnSetBackColor);
