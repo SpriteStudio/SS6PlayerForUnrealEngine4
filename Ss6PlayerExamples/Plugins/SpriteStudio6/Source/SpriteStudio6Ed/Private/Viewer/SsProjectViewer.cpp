@@ -656,7 +656,7 @@ FReply FSsProjectViewer::OnGridColorMouseDown(const FGeometry&, const FPointerEv
 	PickerArgs.DisplayGamma = TAttribute<float>::Create( TAttribute<float>::FGetter::CreateUObject(GEngine, &UEngine::GetDisplayGamma) );
 	PickerArgs.OnColorCommitted = FOnLinearColorValueChanged::CreateSP( this, &FSsProjectViewer::OnSetGridColor);
 	PickerArgs.InitialColorOverride = Viewport->ViewportClient->GridColor;
-	PickerArgs.bOnlyRefreshOnOk = true;
+	PickerArgs.bOnlyRefreshOnOk = false;
 	OpenColorPicker(PickerArgs);
 	return FReply::Handled();
 }
@@ -681,7 +681,7 @@ FReply FSsProjectViewer::OnBackColorMouseDown(const FGeometry&, const FPointerEv
 	PickerArgs.DisplayGamma = TAttribute<float>::Create( TAttribute<float>::FGetter::CreateUObject(GEngine, &UEngine::GetDisplayGamma) );
 	PickerArgs.OnColorCommitted = FOnLinearColorValueChanged::CreateSP( this, &FSsProjectViewer::OnSetBackColor);
 	PickerArgs.InitialColorOverride = Viewport->ViewportClient->GetBackgroundColor();
-	PickerArgs.bOnlyRefreshOnOk = true;
+	PickerArgs.bOnlyRefreshOnOk = false;
 	OpenColorPicker(PickerArgs);
 	return FReply::Handled();
 }
