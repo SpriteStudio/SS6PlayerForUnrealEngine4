@@ -6,6 +6,7 @@
 //
 
 #include "/Engine/Private/Common.ush"
+#include "/Engine/Private/GammaCorrectionCommon.ush"
 
 Texture2D CellTexture;
 SamplerState CellTextureSampler;
@@ -65,6 +66,8 @@ float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 	float ColorBlendRate = InColorBlend.y;
 	uint ColorBlendType = uint(InColorBlend.x);
 
+	TextureColor.rgb = LinearToSrgbBranchless(TextureColor.rgb);
+
 	float4 OutColor;
 	     if(0 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate); }									// Mix
 	else if(1 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate); }						// Mul
@@ -73,6 +76,7 @@ float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 	else if(4 == ColorBlendType){ OutColor = TextureColor; }																							// Invalid
 	else if(5 == ColorBlendType){ OutColor = ((TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate)) * TextureColor.a; }	// Effect
 
+	OutColor.rgb = sRGBToLinear(OutColor.rgb);
 	OutColor.a = TextureColor.a * InColor.a;
 
 	return OutColor;

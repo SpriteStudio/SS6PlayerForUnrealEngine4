@@ -542,10 +542,14 @@ void SSsPlayerWidget::PaintInternal(
 						Vertices[Idx].TexCoords[2] = 0.f;
 						Vertices[Idx].TexCoords[3] = It->Vertices[i].ColorBlendRate;
 						Vertices[Idx].MaterialTexCoords[0] = Vertices[Idx].MaterialTexCoords[1] = 0.f;
-						Vertices[Idx].Color = It->Vertices[i].Color;
+						Vertices[Idx].Color = FLinearColor(
+							It->Vertices[i].Color.R/255.f,
+							It->Vertices[i].Color.G/255.f,
+							It->Vertices[i].Color.B/255.f,
+							It->Vertices[i].Color.A/255.f).ToFColor(true);
 					if(bReflectParentAlpha)
 					{
-							Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
+						Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
 					}
 				}
 			}
@@ -581,7 +585,11 @@ void SSsPlayerWidget::PaintInternal(
 						Vertices[Idx].TexCoords[2] = 0.f;
 						Vertices[Idx].TexCoords[3] = ItMesh->ColorBlendRate;
 						Vertices[Idx].MaterialTexCoords[0] = Vertices[Idx].MaterialTexCoords[1] = 0.f;
-						Vertices[Idx].Color = ItMesh->Color;
+						Vertices[Idx].Color = FLinearColor(
+							ItMesh->Color.R/255.f,
+							ItMesh->Color.G/255.f,
+							ItMesh->Color.B/255.f,
+							ItMesh->Color.A/255.f).ToFColor(true);
 						if(bReflectParentAlpha)
 						{
 							Vertices[Idx].Color.A *= InWidgetStyle.GetColorAndOpacityTint().A;
