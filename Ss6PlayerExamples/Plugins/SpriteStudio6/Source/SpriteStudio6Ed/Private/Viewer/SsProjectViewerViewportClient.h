@@ -11,6 +11,7 @@ class FSsProjectViewerViewportClient
 
 public:
 	FSsProjectViewerViewportClient();
+	virtual ~FSsProjectViewerViewportClient();
 
 	// FViewportClient interface
 	virtual void Draw(FViewport* Viewport, FCanvas* Canvas) override;
@@ -40,4 +41,5 @@ private:
 	FLinearColor BackgroundColor;
 	FSsPlayer* Player;
 	FSsRenderOffScreen* Render;
+	TWeakObjectPtr<UMaterialInstanceDynamic> ViewerMID;
 };

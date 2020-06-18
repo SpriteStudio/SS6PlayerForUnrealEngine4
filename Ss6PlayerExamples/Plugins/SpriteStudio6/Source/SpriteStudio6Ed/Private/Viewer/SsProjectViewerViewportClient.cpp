@@ -1,6 +1,7 @@
 ﻿#include "SsProjectViewerViewportClient.h"
 
 #include "Engine/Canvas.h"
+#include "AssetRegistryModule.h"
 
 #include "SsPlayer.h"
 #include "SsRenderOffScreen.h"
@@ -18,6 +19,14 @@ FSsProjectViewerViewportClient::FSsProjectViewerViewportClient()
 	, Render(NULL)
 {
 }
+FSsProjectViewerViewportClient::~FSsProjectViewerViewportClient()
+{
+	if(ViewerMID.IsValid())
+	{
+		ViewerMID->RemoveFromRoot();
+		ViewerMID = nullptr;
+	}
+}
 
 void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 {
@@ -33,17 +42,30 @@ void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 	UTexture* Texture = Render->GetRenderTarget();
 	if(Texture)
 	{
-		FCanvasTileItem Tile(
-			FVector2D(
-				ViewportSize.X/2 - (AnimCanvasSize.X/2 * RenderScale) + RenderOffset.X,
-				ViewportSize.Y/2 - (AnimCanvasSize.Y/2 * RenderScale) + RenderOffset.Y
-				),
-			Texture->Resource,
-			FLinearColor::White
-			);
-		Tile.Size = (AnimCanvasSize * RenderScale);
-		Tile.BlendMode = SE_BLEND_Opaque;
-		Canvas->DrawItem(Tile);
+		if(!ViewerMID.IsValid())
+		{
+			FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+			FAssetData AssetData = AssetRegistryModule.Get().GetAssetByObjectPath(FName("/SpriteStudio6/Editor/M_Ss_Viewer.M_Ss_Viewer"));
+			UMaterialInterface* Mat = Cast<UMaterialInterface>(AssetData.GetAsset());
+			if(nullptr != Mat)
+			{
+				ViewerMID = UMaterialInstanceDynamic::Create(Mat, nullptr);
+				ViewerMID->AddToRoot();
+			}
+		}
+		if(ViewerMID.IsValid())
+		{
+			ViewerMID->SetTextureParameterValue(FName("SsRenderTarget"), Texture);
+			FCanvasTileItem Tile(
+				FVector2D(
+					ViewportSize.X/2 - (AnimCanvasSize.X/2 * RenderScale) + RenderOffset.X,
+					ViewportSize.Y/2 - (AnimCanvasSize.Y/2 * RenderScale) + RenderOffset.Y
+					),
+				ViewerMID->GetRenderProxy(),
+				(AnimCanvasSize * RenderScale)
+				);
+			Canvas->DrawItem(Tile);
+		}
 	}
 
 	// グリッド
@@ -155,13 +177,6 @@ void FSsProjectViewerViewportClient::SetBackgroundColor(const FLinearColor& InBa
 
 	if(Render)
 	{
-		// ガンマ補正を逆算して適用 
-		// ビューアの背景色だけは、指定したカラーを直接反映させられるように 
-		Render->ClearColor = FColor(
-			(uint8)(FMath::Pow(BackgroundColor.R, GEngine->GetDisplayGamma()) * 255.f),
-			(uint8)(FMath::Pow(BackgroundColor.G, GEngine->GetDisplayGamma()) * 255.f),
-			(uint8)(FMath::Pow(BackgroundColor.B, GEngine->GetDisplayGamma()) * 255.f),
-			(uint8)(BackgroundColor.A * 255.f)
-			);
+		Render->ClearColor = BackgroundColor.ToFColor(true);
 	}
 }
