@@ -76,7 +76,6 @@ float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 	else if(4 == ColorBlendType){ OutColor = TextureColor; }																							// Invalid
 	else if(5 == ColorBlendType){ OutColor = ((TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate)) * TextureColor.a; }	// Effect
 
-	OutColor.rgb = sRGBToLinear(OutColor.rgb);
 	OutColor.a = TextureColor.a * InColor.a;
 
 	return OutColor;
