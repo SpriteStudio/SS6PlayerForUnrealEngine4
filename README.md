@@ -17,7 +17,7 @@ https://github.com/SpriteStudio/SS6PlayerForUnrealEngine4/wiki/TIPS-制限事項
 
 
 ##### 対応UE4バージョン
-UE4.24
+UE4.25
 
 ※ 旧バージョンのUE4で使用したい場合は、該当のTagから取得して下さい
 
