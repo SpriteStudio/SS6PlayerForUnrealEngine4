@@ -1,4 +1,5 @@
-﻿#include "ssplayer_cellmap.h"
+﻿#include "SpriteStudio6PrivatePCH.h"
+
 
 #include <stdio.h>
 #include <cstdlib>
@@ -130,7 +131,7 @@ void getCellValue( SsCelMapLinker* l, FName& cellName , SsCellValue& v )
 		v.texture = 0;
 	}
 
-	calcUvs( &v );
+	calcUvs( &v, l->cellMap->PixelSize );
 }
 
 void getCellValue( SsCellMapList* cellList, FName& cellMapName , FName& cellName , SsCellValue& v )
@@ -152,7 +153,7 @@ void getCellValue( SsCellMapList* cellList, int cellMapid , FName& cellName , Ss
 
 }
 
-void calcUvs( SsCellValue* cellv )
+void calcUvs( SsCellValue* cellv, const FVector2D TexturePixelSize )
 {
 	//SsCellMap* map = cellv->cellmapl->cellMap;
 	FSsCell* cell = cellv->cell;
@@ -170,8 +171,8 @@ void calcUvs( SsCellValue* cellv )
 	}
 
 	FVector2D wh;
-	wh.X = (float)cellv->texture->GetSurfaceWidth();
-	wh.Y = (float)cellv->texture->GetSurfaceHeight();
+	wh.X = TexturePixelSize.X;
+	wh.Y = TexturePixelSize.Y;
 
 //	SsVector2 wh = map->pixelSize;
 	// 右上に向かって＋になる

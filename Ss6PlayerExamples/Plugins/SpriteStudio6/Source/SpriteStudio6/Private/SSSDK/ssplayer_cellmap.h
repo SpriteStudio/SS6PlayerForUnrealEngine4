@@ -138,6 +138,6 @@ public:
 void getCellValue( SsCellMapList* cellList, int cellMapid , FName& cellName , SsCellValue& v );
 void getCellValue( SsCellMapList* cellList, FName& cellMapName , FName& cellName , SsCellValue& v );
 
-void calcUvs( SsCellValue* cellv );
+void calcUvs( SsCellValue* cellv, const FVector2D TexturePixelSize );
 
 #endif
