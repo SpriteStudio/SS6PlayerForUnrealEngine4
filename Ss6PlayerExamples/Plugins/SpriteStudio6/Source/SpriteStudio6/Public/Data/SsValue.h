@@ -47,21 +47,18 @@ public:
 	};
 
 	UPROPERTY()
-	int32 Int_temp;
+	int32 Int_temp = 0;
 
 	UPROPERTY()
-	float Float_temp;
+	float Float_temp = 0.f;
 
 	UPROPERTY()
-	bool Bool_temp;
+	bool Bool_temp = false;
 
 
 	FSsValue()
 		: Type(SsValueType::Unkown)
 		, _Str(0)
-		, Int_temp(0)
-		, Float_temp(0.f)
-		, Bool_temp(false)
 	{}
 
 	explicit FSsValue(bool b) : Type(SsValueType::BooleanType){ _Boolean = b; }
@@ -89,6 +86,10 @@ public:
 
 	FSsValue(const FSsValue& x)
 	{
+		Int_temp = x.Int_temp;
+		Float_temp = x.Float_temp;
+		Bool_temp = x.Bool_temp;
+
 		switch( x.Type )
 		{
 			case SsValueType::StringType:
