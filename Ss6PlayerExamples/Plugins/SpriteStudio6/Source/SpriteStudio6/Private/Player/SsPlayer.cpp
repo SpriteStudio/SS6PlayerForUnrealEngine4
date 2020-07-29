@@ -430,12 +430,6 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		return false;
 	}
 
-	// インスタンスパーツ内のマスクパーツは無視 
-	if(bInstance && (State->partType == SsPartType::Mask))
-	{
-		return false;
-	}
-
 	OutRenderPart.PartIndex = State->index;
 	OutRenderPart.Texture = bHideParts ? nullptr : State->cellValue.texture;	// 座標計算だけを行う非表示パーツはテクスチャをNULLにしておき、これを基準に描画をスキップする. 
 	OutRenderPart.ColorBlendType = State->partsColorValue.blendType;
