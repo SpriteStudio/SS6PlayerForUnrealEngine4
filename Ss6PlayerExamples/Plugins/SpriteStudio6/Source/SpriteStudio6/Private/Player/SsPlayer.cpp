@@ -393,7 +393,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
 {
 	if(nullptr == State){ return false; }
-	float Alpha = (State->localalpha == 1.f) ? State->alpha : State->localalpha;
+	float Alpha = State->is_localAlpha ? State->localalpha : State->alpha;
 	float HideAlpha = 1.f;
 	bool bHideParts = false;
 	if(!bCalcHideParts)
