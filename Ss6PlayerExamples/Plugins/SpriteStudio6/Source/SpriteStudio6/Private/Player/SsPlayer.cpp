@@ -1056,6 +1056,50 @@ bool FSsPlayer::PlaySequence(int32 InSequencePackIndex, int32 InSequenceIndex, i
 	return false;
 }
 
+// シーケンス名からインデックスを取得 
+bool FSsPlayer::GetSequenceIndex(const FName& InSequencePackName, const FName& InSequenceName, int32& OutSequencePackIndex, int32& OutSequneceIndex)
+{
+	if(!SsProject.IsValid())
+	{
+		return false;
+	}
+
+	OutSequencePackIndex = SsProject->FindSequencePackIndex(InSequencePackName);
+	if(0 <= OutSequencePackIndex)
+	{
+		FSsSequencePack* SequencePack = &(SsProject->SequenceList[OutSequencePackIndex]);
+		OutSequneceIndex = SequencePack->FindSequenceIndex(InSequenceName);
+		return (0 <= OutSequneceIndex);
+	}
+
+	return false;
+}
+// シーケンスIDからインデックスを取得 
+bool FSsPlayer::GetSequenceIndexById(const FName& InSequencePackName, int32 InSequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex)
+{
+	if(!SsProject.IsValid())
+	{
+		return false;
+	}
+
+	OutSequencePackIndex = SsProject->FindSequencePackIndex(InSequencePackName);
+	if(0 <= OutSequencePackIndex)
+	{
+		FSsSequencePack* SequencePack = &(SsProject->SequenceList[OutSequencePackIndex]);
+		for(int32 i = 0; i < SequencePack->SequenceList.Num(); ++i)
+		{
+			if(InSequenceId == SequencePack->SequenceList[i].Id)
+			{
+				OutSequneceIndex = i;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+
 // 指定フレーム送り
 void FSsPlayer::SetPlayFrame(float Frame)
 {

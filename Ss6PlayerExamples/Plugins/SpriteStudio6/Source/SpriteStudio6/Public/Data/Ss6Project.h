@@ -151,6 +151,8 @@ public:
 	// 名前からエフェクトを取得する
 	const FSsEffectFile* FindEffect(const FName& EffectName) const;
 
+	// シーケンスパック名からインデックスを取得する 
+	int32 FindSequencePackIndex(const FName& SequencePackName) const;
 
 	
 	///自身のファイルパスを設定する

@@ -68,6 +68,7 @@ private:
 
 	class USs6Project* SsProject;
 	struct FSsAnimePack* CurrentAnimePack;
+	struct FSsSequencePack* CurrentSequencePack;
 	FSsPlayer Player;
 	FSsRenderOffScreen* RenderOffScreen;
 

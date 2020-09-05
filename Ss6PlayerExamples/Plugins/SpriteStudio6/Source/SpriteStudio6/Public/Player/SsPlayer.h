@@ -41,13 +41,6 @@ public:
 	// アニメーション名からインデックスを取得 
 	bool GetAnimationIndex(const FName& InAnimPackName, const FName& InAnimationName, int32& OutAnimPackIndex, int32& OutAnimationIndex);
 
-	// 指定フレーム送り 
-	void SetPlayFrame(float Frame);
-	// 現在フレーム取得 
-	float GetPlayFrame() const;
-	// 最終フレーム取得 
-	float GetAnimeEndFrame() const;
-
 	// シーケンスの再生 
 	bool PlaySequence(int32 InSequencePackIndex, int32 InSequenceIndex, int32 InStartFrame=0, float InPlayRate=1.f);
 	// シーケンス再生中か取得 
@@ -60,6 +53,13 @@ public:
 	bool GetSequenceIndex(const FName& InSequencePackName, const FName& InSequenceName, int32& OutSequencePackIndex, int32& OutSequneceIndex);
 	// シーケンスIDからインデックスを取得 
 	bool GetSequenceIndexById(const FName& InSequencePackName, int32 InSequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex);
+
+	// 指定フレーム送り 
+	void SetPlayFrame(float Frame);
+	// 現在フレーム取得 
+	float GetPlayFrame() const;
+	// 最終フレーム取得 
+	float GetAnimeEndFrame() const;
 
 	// パーツ名からインデックスを取得 
 	int32 GetPartIndexFromName(FName PartName) const;

@@ -22,15 +22,31 @@ namespace
 	static const FName DetailsTabId(TEXT("SspjViewer_Details"));
 
 
-	FString CreateDisplayName(FName Name, int32 Index)
+	FString CreateAnimePackDisplayName(FName Name, int32 Index, bool bSequence)
 	{
-		return FString::Printf(TEXT("[%d] %s"), Index, *(Name.ToString()));
+		return FString::Printf(TEXT("%s[%d] %s"), (bSequence ? TEXT("SEQ ") : TEXT("")), Index, *(Name.ToString()));
+	}
+	FString CreateAnimationDisplayName(FName Name, int32 Index, int32 SequenceId)
+	{
+		if(0 <= SequenceId)
+		{
+			return FString::Printf(TEXT("[%d] %s - (%d)"), Index, *(Name.ToString()), SequenceId);
+		}
+		else
+		{
+			return FString::Printf(TEXT("[%d] %s"), Index, *(Name.ToString()));
+		}
 	}
 	FName FromDisplayName(FString DisplayName)
 	{
 		FString Left, Right;
 		if(DisplayName.Split(TEXT("] "), &Left, &Right))
 		{
+			FString Temp = Right;
+			if(Temp.Split(TEXT(" - ("), &Left, &Right))
+			{
+				return FName(*Left);
+			}
 			return FName(*Right);
 		}
 		return FName();
@@ -157,9 +173,14 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 
 	for(int32 i = 0; i < SsProject->AnimeList.Num(); ++i)
 	{
-		AnimePackNames.Add(MakeShareable(new FString(CreateDisplayName(SsProject->AnimeList[i].AnimePackName, i))) );
+		AnimePackNames.Add(MakeShareable(new FString(CreateAnimePackDisplayName(SsProject->AnimeList[i].AnimePackName, i, false))));
+	}
+	for(int32 i = 0; i < SsProject->SequenceList.Num(); ++i)
+	{
+		AnimePackNames.Add(MakeShareable(new FString(CreateAnimePackDisplayName(SsProject->SequenceList[i].SequencePackName, i, true))));
 	}
 	CurrentAnimePack = &(SsProject->AnimeList[0]);
+	CurrentSequencePack = nullptr;
 
 	Player.SetSsProject(SsProject);
 
@@ -542,31 +563,58 @@ void FSsProjectViewer::OnAnimePackChanged(TSharedPtr<FString> NewSelection, ESel
 {
 	if(NewSelection.IsValid() && SsProject)
 	{
-		FName AnimationName = FromDisplayName(NewSelection.Get()->operator*());
-		int32 AnimPackIndex = SsProject->FindAnimePackIndex( AnimationName );
-		if(AnimPackIndex < 0){ return; }
-
-		FSsAnimePack* AnimePack = &(SsProject->AnimeList[AnimPackIndex]);
-		if(0 < AnimePack->AnimeList.Num())
+		FName AnimPackName = FromDisplayName(NewSelection.Get()->operator*());
+		int32 AnimPackIndex = SsProject->FindAnimePackIndex(AnimPackName);
+		if(0 <= AnimPackIndex)
 		{
-			CurrentAnimePack = AnimePack;
-			AnimationNames.Empty(0);
-			for(int32 i = 0; i < CurrentAnimePack->AnimeList.Num(); ++i)
+			FSsAnimePack* AnimePack = &(SsProject->AnimeList[AnimPackIndex]);
+			if(0 < AnimePack->AnimeList.Num())
 			{
-				AnimationNames.Add(MakeShareable(new FString(CreateDisplayName(CurrentAnimePack->AnimeList[i].AnimationName, i))));
+				CurrentAnimePack = AnimePack;
+				CurrentSequencePack = nullptr;
+				AnimationNames.Empty();
+				for(int32 i = 0; i < CurrentAnimePack->AnimeList.Num(); ++i)
+				{
+					AnimationNames.Add(MakeShareable(new FString(CreateAnimationDisplayName(CurrentAnimePack->AnimeList[i].AnimationName, i, -1))));
+				}
+				int32 AnimeIndex = CurrentAnimePack->FindMinimumAnimationIndexExcludingSetup();
+				AnimationCombo->RefreshOptions();
+				AnimationCombo->SetSelectedItem((AnimeIndex < AnimationNames.Num()) ? AnimationNames[AnimeIndex] : TSharedPtr<FString>());
 			}
-			int32 AnimeIndex = CurrentAnimePack->FindMinimumAnimationIndexExcludingSetup();
-			AnimationCombo->RefreshOptions();
-			AnimationCombo->SetSelectedItem((AnimeIndex < AnimationNames.Num()) ? AnimationNames[AnimeIndex] : TSharedPtr<FString>());
+		}
+		else
+		{
+			AnimPackIndex = SsProject->FindSequencePackIndex(AnimPackName);
+			if(0 <= AnimPackIndex)
+			{
+				FSsSequencePack* SequencePack = &(SsProject->SequenceList[AnimPackIndex]);
+				if(0 < SequencePack->SequenceList.Num())
+				{
+					CurrentAnimePack = nullptr;
+					CurrentSequencePack = SequencePack;
+					AnimationNames.Empty();
+					for(int32 i = 0; i < CurrentSequencePack->SequenceList.Num(); ++i)
+					{
+						AnimationNames.Add(MakeShareable(new FString(CreateAnimationDisplayName(CurrentSequencePack->SequenceList[i].SequenceName, i, CurrentSequencePack->SequenceList[i].Id))));
+					}
+					AnimationCombo->RefreshOptions();
+					AnimationCombo->SetSelectedItem(AnimationNames[0]);
+				}
+			}
 		}
 	}
 }
 
 void FSsProjectViewer::OnAnimationChanged(TSharedPtr<FString> NewSelection, ESelectInfo::Type)
 {
-	if(NewSelection.IsValid() && SsProject)
+	if(!NewSelection.IsValid() || (nullptr == SsProject))
 	{
-		if(CurrentAnimePack && (0 < CurrentAnimePack->AnimeList.Num()))
+		return;
+	}
+
+	if(nullptr != CurrentAnimePack)
+	{
+		if(0 < CurrentAnimePack->AnimeList.Num())
 		{
 			FName AnimationName = FromDisplayName(NewSelection.Get()->operator*());
 			int32 AnimPackIndex, AnimationIndex;
@@ -574,6 +622,32 @@ void FSsProjectViewer::OnAnimationChanged(TSharedPtr<FString> NewSelection, ESel
 			{
 				bool bPlaying =  Player.IsPlaying();
 				Player.Play(AnimPackIndex, AnimationIndex, 0, 1.f, bLoop ? 0 : 1);
+				Player.Tick(0.f);
+				if(!bPlaying)
+				{
+					Player.Pause();
+				}
+
+				FString Text = FString::Printf(TEXT("                    / %3d   "), (int32)(Player.GetAnimeEndFrame()));
+				MaxFrameText->SetText(FText::FromString(Text));
+
+				if(RenderOffScreen)
+				{
+					RenderOffScreen->Render(Player.GetRenderParts());
+				}
+			}
+		}
+	}
+	else if(nullptr != CurrentSequencePack)
+	{
+		if(0 < CurrentSequencePack->SequenceList.Num())
+		{
+			FName SequenceName = FromDisplayName(NewSelection.Get()->operator*());
+			int32 SequencePackIndex, SequenceIndex;
+			if(Player.GetSequenceIndex(CurrentSequencePack->SequencePackName, SequenceName, SequencePackIndex, SequenceIndex))
+			{
+				bool bPlaying =  Player.IsPlaying();
+				Player.PlaySequence(SequencePackIndex, SequenceIndex);
 				Player.Tick(0.f);
 				if(!bPlaying)
 				{

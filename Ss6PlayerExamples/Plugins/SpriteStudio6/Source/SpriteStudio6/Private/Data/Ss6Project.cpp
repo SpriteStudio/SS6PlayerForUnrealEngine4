@@ -80,6 +80,18 @@ int32 USs6Project::FindAnimePackIndex(const FName& AnimePackName) const
 	return -1;
 }
 
+int32 USs6Project::FindSequencePackIndex(const FName& SequencePackName) const
+{
+	for(int32 i = 0; i < SequenceList.Num(); ++i)
+	{
+		if(SequencePackName == SequenceList[i].SequencePackName)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
 int32 USs6Project::FindCellMapIndex(const FName& CellmapName) const
 {
 	for(int32 i = 0; i < CellmapList.Num(); ++i)
