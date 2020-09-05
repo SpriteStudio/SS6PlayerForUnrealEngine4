@@ -9,6 +9,7 @@ class SsCellMapList;
 struct SsPartState;
 class SsEffectEmitter;
 struct particleDrawData;
+struct FSsSequence;
 
 //
 // SpriteStudioデータの再生制御 
@@ -26,13 +27,13 @@ public:
 	const TArray<FSsRenderPart>& GetRenderParts() const { return RenderParts; }
 
 	// 再生 
-	bool Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 StartFrame=0, float PlayRate=1.f, int32 LoopCount=0, bool bRoundTrip=false);
+	bool Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 InStartFrame=0, float InPlayRate=1.f, int32 InLoopCount=0, bool bInRoundTrip=false);
 	// 一時停止 
 	void Pause(){ bPlaying = false; }
 	// 再開 
 	bool Resume();
 	// 再生中か取得 
-	bool IsPlaying() const { return bPlaying; }
+	inline bool IsPlaying() const { return bPlaying; }
 	// 再生中のAnimPackインデックスを取得 
 	inline int32 GetPlayingAnimPackIndex() const { return PlayingAnimPackIndex; }
 	// 再生中のAnimationインデックスを取得 
@@ -47,6 +48,19 @@ public:
 	// 最終フレーム取得 
 	float GetAnimeEndFrame() const;
 
+	// シーケンスの再生 
+	bool PlaySequence(int32 InSequencePackIndex, int32 InSequenceIndex, int32 InStartFrame=0, float InPlayRate=1.f);
+	// シーケンス再生中か取得 
+	inline bool IsPlayingSequence() const { return bPlaying & bPlayingSequence; }
+	// 再生中のSequencePackインデックスを取得 
+	inline int32 GetPlayingSequencePackIndex() const { return PlayingSequencePackIndex; }
+	// 再生中のSequenceインデックスを取得 
+	inline int32 GetPlayingSequenceIndex() const { return PlayingSequenceIndex; }
+	// シーケンス名からインデックスを取得 
+	bool GetSequenceIndex(const FName& InSequencePackName, const FName& InSequenceName, int32& OutSequencePackIndex, int32& OutSequneceIndex);
+	// シーケンスIDからインデックスを取得 
+	bool GetSequenceIndexById(const FName& InSequencePackName, int32 InSequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex);
+
 	// パーツ名からインデックスを取得 
 	int32 GetPartIndexFromName(FName PartName) const;
 
@@ -60,6 +74,7 @@ public:
 	void SetCalcHideParts(bool bInCalcHideParts);
 
 private:
+	bool PlayInternal(int32 InAnimPackIndex, int32 InAnimationIndex, int32 InStartFrame, float InPlayRate, int32 InLoopCount, bool bInRoundTrip);
 	void TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result);
 	void FindUserDataInInterval(FSsPlayerTickResult& Result, float Start, float End);
 	void CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance=false);
@@ -88,6 +103,11 @@ private:
 	int32 PlayingAnimPackIndex;
 	int32 PlayingAnimationIndex;
 	bool bCalcHideParts;
+
+	bool bPlayingSequence;
+	int32 PlayingSequencePackIndex;
+	int32 PlayingSequenceIndex;
+	float PlayingSequenceFrame;
 
 	TArray<FSsRenderPart> RenderParts;
 };
