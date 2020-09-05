@@ -390,6 +390,25 @@ void 	__StringToEnum_( FString n , TEnumAsByte<SsIkRotationArrow::Type>& out)
 }
 
 //---------------------------------------------------------------
+//相互変換 SsSequenceType
+FString	__EnumToString_( TEnumAsByte<SsSequenceType::Type> n )
+{
+	if ( n == SsSequenceType::Last)		return "LAST";
+	if ( n == SsSequenceType::Keep)		return "KEEP";
+	if ( n == SsSequenceType::Top)		return "TOP";
+
+	return "invalid";
+}
+
+void 	__StringToEnum_( FString n , TEnumAsByte<SsSequenceType::Type>& out)
+{
+	out =  SsSequenceType::Invalid;
+	if ( n == "LAST")	out = SsSequenceType::Last;
+	if ( n == "KEEP")	out = SsSequenceType::Keep;
+	if ( n == "TOP")	out = SsSequenceType::Top;
+}
+
+//---------------------------------------------------------------
 //相互変換 SsMeshDivType
 FString	__EnumToString_( TEnumAsByte<SsMeshDivType::Type> n )
 {

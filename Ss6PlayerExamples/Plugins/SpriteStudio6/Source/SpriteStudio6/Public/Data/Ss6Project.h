@@ -4,6 +4,7 @@
 #include "SsAnimePack.h"
 #include "SsCellMap.h"
 #include "SsEffectFile.h"
+#include "SsSequence.h"
 
 #include "Ss6Project.generated.h"
 
@@ -96,6 +97,9 @@ public:
 	TArray<FName>		EffectFileNames;	//!< エフェクトファイルのリスト
 
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
+	TArray<FName>		SequencePackNames;	//!< シーケンスファイルのリスト
+
+	UPROPERTY(VisibleAnywhere, Category=SsProject)
 	TArray<FSsAnimePack>	AnimeList;		//!< アニメーションのリスト
 
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
@@ -103,6 +107,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
 	TArray<FSsEffectFile>	EffectList;		//!< エフェクトリスト
+
+	UPROPERTY(VisibleAnywhere, Category=SsProject)
+	TArray<FSsSequencePack>	SequenceList;	//!< シーケンスのリスト
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Instanced, Category = Reimport)

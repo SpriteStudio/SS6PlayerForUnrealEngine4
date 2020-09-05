@@ -814,6 +814,19 @@ void SerializeStruct(FSsEffectModel& Value, SsXmlIArchiver* ar)
 
 	Value.BuildTree();
 }
+void SerializeStruct(FSsSequenceItem& Value, SsXmlIArchiver* ar)
+{
+	SSAR_DECLARE("refAnimePack", Value.RefAnimPack);
+	SSAR_DECLARE("refAnime", Value.RefAnime);
+	SSAR_DECLARE("repeatCount", Value.RepeatCount);
+}
+void SerializeStruct(FSsSequence& Value, SsXmlIArchiver* ar)
+{
+	SSAR_DECLARE("name", Value.SequenceName);
+	SSAR_DECLARE("index", Value.Id);
+	SSAR_DECLARE_ENUM("type", Value.Type);
+	SSAR_DECLARE("list", Value.List);
+}
 void SerializeStruct(FSs6ProjectSetting& Value, SsXmlIArchiver* ar)
 {
 	SSAR_DECLARE("animeBaseDirectory", Value.AnimeBaseDirectory);
@@ -865,6 +878,12 @@ void SerializeSsEffectFile(FSsEffectFile& EffectFile, SsXmlIArchiver* ar)
 	SSAR_STRUCT_DECLARE("effectData", EffectFile.EffectData);
 	EffectFile.EffectData.EffectName = EffectFile.Name;
 }
+void SerializeSsSequencePack(FSsSequencePack& SequencePack, SsXmlIArchiver* ar)
+{
+	SSAR_DECLARE_ATTRIBUTE("version", SequencePack.Version);
+	SSAR_DECLARE("name", SequencePack.SequencePackName);
+	SSAR_DECLARE_LISTEX("sequenceList", SequencePack.SequenceList, "sequence");
+}
 void SerializeSsProject(USs6Project& Proj, SsXmlIArchiver* ar)
 {
 	SSAR_DECLARE_ATTRIBUTE("version", Proj.Version);
@@ -872,5 +891,6 @@ void SerializeSsProject(USs6Project& Proj, SsXmlIArchiver* ar)
 	SSAR_DECLARE("cellmapNames", Proj.CellmapNames);
 	SSAR_DECLARE("animepackNames", Proj.AnimepackNames);
 	SSAR_DECLARE("effectFileNames", Proj.EffectFileNames);
+	SSAR_DECLARE("sequencepackNames", Proj.SequencePackNames);
 }
 

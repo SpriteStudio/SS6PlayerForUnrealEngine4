@@ -185,6 +185,34 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			}
 		}
 
+		// ssqe
+		NewProject->SequenceList.Empty();
+		NewProject->SequenceList.AddZeroed(NewProject->SequencePackNames.Num());
+		for(int i = 0; i < NewProject->SequencePackNames.Num(); ++i)
+		{
+			FString FileName = GetFilePath(CurPath, NewProject->Settings.AnimeBaseDirectory, NewProject->SequencePackNames[i].ToString());
+
+			TArray<uint8> Data;
+			if(FFileHelper::LoadFileToArray(Data, *FileName))
+			{
+				const uint8* BufferBegin = Data.GetData();
+				const uint8* BufferEnd = BufferBegin + Data.Num() - 1;
+				FSsLoader::LoadSsSequence(&(NewProject->SequenceList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1);
+
+				// シーケンス毎にFPSと総フレーム数を計算しておく 
+				for(auto ItSequencePack = NewProject->SequenceList.CreateIterator(); ItSequencePack; ++ItSequencePack)
+				{
+					for(auto ItSequence = ItSequencePack->SequenceList.CreateIterator(); ItSequence; ++ItSequence)
+					{
+						int32 FPS, FrameCount;
+						ItSequence->CalcSequenceFpsAndFrameCount(NewProject, FPS, FrameCount);
+						ItSequence->SequenceFPS = FPS;
+						ItSequence->SequenceFrameCount = FrameCount;
+					}
+				}
+			}
+		}
+
 		// texture
 		{
 			UTextureFactory* TextureFact = NewObject<UTextureFactory>();

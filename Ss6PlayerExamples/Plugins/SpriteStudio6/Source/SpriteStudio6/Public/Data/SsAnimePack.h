@@ -264,6 +264,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimation)
 	bool	IsSetup;						///< セットアップアニメか？
+
+
+public:
+	int32 GetFrameCount() const { return Settings.EndFrame - Settings.StartFrame + 1; }
 };
 
 /**

@@ -593,6 +593,22 @@ namespace SsIkRotationArrow
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsIkRotationArrow::Type> n);
 void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsIkRotationArrow::Type>& out);
 
+UENUM()
+namespace SsSequenceType
+{
+	enum Type
+	{
+		Last = 0,	///< 0 最後のアイテムを繰り返し再生
+		Keep,		///< 1 最終フレームを維持
+		Top,		///< 2 全体を繰り返し再生
+		Num,
+
+		Invalid = 254,
+	};
+}
+FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsSequenceType::Type> n);
+void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsSequenceType::Type>& out);
+
 class SsEffectAttr
 {
 public:

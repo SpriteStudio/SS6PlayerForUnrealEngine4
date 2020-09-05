@@ -951,9 +951,9 @@ float FSsPlayer::GetPlayFrame() const
 // 最終フレーム取得
 float FSsPlayer::GetAnimeEndFrame() const
 {
-	if(nullptr != Decoder)
+	if((nullptr != Decoder) && (nullptr != Decoder->curAnimation))
 	{
-		return Decoder->getAnimeEndFrame() - Decoder->getAnimeStartFrame() + 1;
+		return Decoder->curAnimation->GetFrameCount();
 	}
 	return 0.f;
 }

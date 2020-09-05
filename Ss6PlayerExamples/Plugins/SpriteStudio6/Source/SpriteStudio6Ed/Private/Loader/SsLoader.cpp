@@ -73,3 +73,17 @@ bool FSsLoader::LoadSsEffectFile(struct FSsEffectFile* EffectFile, const uint8*&
 
 	return true;
 }
+
+bool FSsLoader::LoadSsSequence(struct FSsSequencePack* SequencePack, const uint8* Buffer, size_t Size)
+{
+	XMLDocument xml;
+	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
+	{
+		return false;
+	}
+
+	SsXmlIArchiver ar(&xml, "SpriteStudioSequencePack");
+	SerializeSsSequencePack(*SequencePack, &ar);
+
+	return true;
+}
