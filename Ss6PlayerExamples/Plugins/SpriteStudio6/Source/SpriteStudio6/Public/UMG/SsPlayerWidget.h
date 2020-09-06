@@ -240,6 +240,14 @@ public:
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable, meta=(AdvancedDisplay="2"))
 	bool PlayByIndex(int32 AnimPackIndex, int32 AnimationIndex, int32 StartFrame=0, float PlayRate=1.f, int32 LoopCount=0, bool bRoundTrip=false);
 
+	// シーケンスの再生開始 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable, meta=(AdvancedDisplay="2"))
+	bool PlaySequence(FName SequencePackName, FName SequenceName, int32 StartFrame=0, float PlayRate=1.f);
+
+	// シーケンスの再生開始(インデックス指定) 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable, meta=(AdvancedDisplay="2"))
+	bool PlaySequenceByIndex(int32 SequencePackIndex, int32 SequenceIndex, int32 StartFrame=0, float PlayRate=1.f);
+
 	// 再生中のアニメーション名を取得 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void GetPlayingAnimationName(FName& OutAnimPackName, FName& OutAnimationName) const;
@@ -247,6 +255,14 @@ public:
 	// 再生中のアニメーションインデックスを取得 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void GetPlayingAnimationIndex(int32& OutAnimPackIndex, int32& OutAnimationIndex) const;
+
+	// 再生中のシーケンス名を取得 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void GetPlayingSequenceName(FName& OutSequencePackName, FName& OutSequenceName) const;
+
+	// 再生中のシーケンスインデックスを取得 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void GetPlayingSequenceIndex(int32& OutSequencePackIndex, int32& OutSequenceIndex) const;
 
 	// アニメーション再生の一時停止 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
@@ -260,6 +276,10 @@ public:
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	bool IsPlaying() const;
 
+	// シーケンスを再生中かを取得 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	bool IsPlayingSequence() const;
+
 	// セットされたSsProjectのAnimPack数を取得 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	int32 GetNumAnimPacks() const;
@@ -271,6 +291,22 @@ public:
 	// 指定されたAnimPackのAnimation数を取得(インデックス指定) 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	int32 GetNumAnimationsByIndex(int32 AnimPackIndex) const;
+
+	// セットされたSsProjectのSequencePack数を取得 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	int32 GetNumSequencePacks() const;
+
+	// 指定されたSequencePackのSequence数を取得 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	int32 GetNumSequences(FName SequencePackName) const;
+
+	// 指定されたSequencePackのSequence数を取得(インデックス指定) 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	int32 GetNumSequencesByIndex(int32 SequencePackIndex) const;
+
+	// シーケンスIDからインデックスを取得 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	bool GetSequenceIndexById(FName SequencePackName, int32 SequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex) const;
 
 	// 指定フレームへジャンプ 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
