@@ -50,9 +50,9 @@ public:
 	// 再生中のSequenceインデックスを取得 
 	inline int32 GetPlayingSequenceIndex() const { return PlayingSequenceIndex; }
 	// シーケンス名からインデックスを取得 
-	bool GetSequenceIndex(const FName& InSequencePackName, const FName& InSequenceName, int32& OutSequencePackIndex, int32& OutSequneceIndex);
+	bool GetSequenceIndex(const FName& InSequencePackName, const FName& InSequenceName, int32& OutSequencePackIndex, int32& OutSequneceIndex) const;
 	// シーケンスIDからインデックスを取得 
-	bool GetSequenceIndexById(const FName& InSequencePackName, int32 InSequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex);
+	bool GetSequenceIndexById(const FName& InSequencePackName, int32 InSequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex) const;
 
 	// 指定フレーム送り 
 	void SetPlayFrame(float Frame);

@@ -1057,7 +1057,7 @@ bool FSsPlayer::PlaySequence(int32 InSequencePackIndex, int32 InSequenceIndex, i
 }
 
 // シーケンス名からインデックスを取得 
-bool FSsPlayer::GetSequenceIndex(const FName& InSequencePackName, const FName& InSequenceName, int32& OutSequencePackIndex, int32& OutSequneceIndex)
+bool FSsPlayer::GetSequenceIndex(const FName& InSequencePackName, const FName& InSequenceName, int32& OutSequencePackIndex, int32& OutSequneceIndex) const
 {
 	if(!SsProject.IsValid())
 	{
@@ -1075,7 +1075,7 @@ bool FSsPlayer::GetSequenceIndex(const FName& InSequencePackName, const FName& I
 	return false;
 }
 // シーケンスIDからインデックスを取得 
-bool FSsPlayer::GetSequenceIndexById(const FName& InSequencePackName, int32 InSequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex)
+bool FSsPlayer::GetSequenceIndexById(const FName& InSequencePackName, int32 InSequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex) const
 {
 	if(!SsProject.IsValid())
 	{
