@@ -833,6 +833,33 @@ bool USsPlayerComponent::PlayByIndex(int32 AnimPackIndex, int32 AnimationIndex, 
 	UE_LOG(LogSpriteStudio, Warning, TEXT("SsPlayerComponent::PlayByIndex() Invalid Animation index (%d, %d)"), AnimPackIndex, AnimationIndex);
 	return false;
 }
+bool USsPlayerComponent::PlaySequence(FName SequencePackName, FName SequenceName, int32 StartFrame, float PlayRate)
+{
+	int32 SequencePackIndex, SequenceIndex;
+	if(Player.GetSequenceIndex(SequencePackName, SequenceName, SequencePackIndex, SequenceIndex))
+	{
+		return PlaySequenceByIndex(SequencePackIndex, SequenceIndex, StartFrame, PlayRate);
+	}
+
+	UE_LOG(LogSpriteStudio, Warning, TEXT("SsPlayerComponent::PlaySequence() Invalid Sequence (%s, %s)"), *(SequencePackName.ToString()), *(SequenceName.ToString()));
+	return false;
+}
+bool USsPlayerComponent::PlaySequenceByIndex(int32 SequencePackIndex, int32 SequenceIndex, int32 StartFrame, float PlayRate)
+{
+	if(Player.PlaySequence(SequencePackIndex, SequenceIndex, StartFrame, PlayRate))
+	{
+		UpdateBounds();
+
+		if(bAutoUpdate)
+		{
+			UpdatePlayer(0.f);
+		}
+		return true;
+	}
+
+	UE_LOG(LogSpriteStudio, Warning, TEXT("SsPlayerComponent::PlaySequenceByIndex() Invalid Sequence index (%d, %d)"), SequencePackIndex, SequenceIndex);
+	return false;
+}
 void USsPlayerComponent::GetPlayingAnimationName(FName& OutAnimPackName, FName& OutAnimationName) const
 {
 	int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
@@ -848,13 +875,36 @@ void USsPlayerComponent::GetPlayingAnimationName(FName& OutAnimPackName, FName& 
 			return;
 		}
 	}
-	OutAnimPackName  = FName();
-	OutAnimationName = FName();
+	OutAnimPackName  = NAME_None;
+	OutAnimationName = NAME_None;
 }
 void USsPlayerComponent::GetPlayingAnimationIndex(int32& OutAnimPackIndex, int32& OutAnimationIndex) const
 {
 	OutAnimPackIndex  = Player.GetPlayingAnimPackIndex();
 	OutAnimationIndex = Player.GetPlayingAnimationIndex();
+}
+void USsPlayerComponent::GetPlayingSequenceName(FName& OutSequencePackName, FName& OutSequenceName) const
+{
+	int32 SequencePackIndex = Player.GetPlayingSequencePackIndex();
+	int32 SequenceIndex     = Player.GetPlayingSequenceIndex();
+	if(Player.GetSsProject().IsValid() && (0 <= SequencePackIndex) && (0 <= SequenceIndex))
+	{
+		if(    (SequencePackIndex < Player.GetSsProject()->SequenceList.Num())
+			&& (SequenceIndex     < Player.GetSsProject()->SequenceList[SequencePackIndex].SequenceList.Num())
+			)
+		{
+			OutSequencePackName = Player.GetSsProject()->SequenceList[SequencePackIndex].SequencePackName;
+			OutSequenceName     = Player.GetSsProject()->SequenceList[SequencePackIndex].SequenceList[SequenceIndex].SequenceName;
+			return;
+		}
+	}
+	OutSequencePackName = NAME_None;
+	OutSequenceName     = NAME_None;
+}
+void USsPlayerComponent::GetPlayingSequenceIndex(int32& OutSequencePackIndex, int32& OutSequenceIndex) const
+{
+	OutSequencePackIndex = Player.GetPlayingSequencePackIndex();
+	OutSequenceIndex     = Player.GetPlayingSequenceIndex();
 }
 void USsPlayerComponent::Pause()
 {
@@ -867,6 +917,10 @@ bool USsPlayerComponent::Resume()
 bool USsPlayerComponent::IsPlaying() const
 {
 	return Player.IsPlaying();
+}
+bool USsPlayerComponent::IsPlayingSequence() const
+{
+	return Player.IsPlayingSequence();
 }
 
 int32 USsPlayerComponent::GetNumAnimPacks() const
@@ -897,6 +951,53 @@ int32 USsPlayerComponent::GetNumAnimationsByIndex(int32 AnimPackIndex) const
 	}
 	return 0;
 }
+int32 USsPlayerComponent::GetNumSequencePacks() const
+{
+	if(SsProject)
+	{
+		return SsProject->SequenceList.Num();
+	}
+	return 0;
+}
+int32 USsPlayerComponent::GetNumSequences(FName SequencePackName) const
+{
+	if(SsProject)
+	{
+		int32 SequencePackIndex = SsProject->FindSequencePackIndex(SequencePackName);
+		if(0 <= SequencePackIndex)
+		{
+			return SsProject->SequenceList[SequencePackIndex].SequenceList.Num();
+		}
+	}
+	return 0;
+}
+int32 USsPlayerComponent::GetNumSequencesByIndex(int32 SequencePackIndex) const
+{
+	if(SsProject && (0 <= SequencePackIndex) && (SequencePackIndex < SsProject->SequenceList.Num()))
+	{
+		return SsProject->SequenceList[SequencePackIndex].SequenceList.Num();
+	}
+	return 0;
+}
+bool USsPlayerComponent::GetSequenceIndexById(FName SequencePackName, int32 SequenceId, int32& OutSequencePackIndex, int32& OutSequneceIndex) const
+{
+	if(SsProject)
+	{
+		OutSequencePackIndex = SsProject->FindSequencePackIndex(SequencePackName);
+		if(0 <= OutSequencePackIndex)
+		{
+			for(auto It = SsProject->SequenceList[OutSequencePackIndex].SequenceList.CreateConstIterator(); It; ++It)
+			{
+				if(SequenceId == It->Id)
+				{
+					OutSequneceIndex = It.GetIndex();
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
 
 void USsPlayerComponent::SetPlayFrame(float Frame)
 {
@@ -909,6 +1010,11 @@ float USsPlayerComponent::GetPlayFrame() const
 
 void USsPlayerComponent::SetLoopCount(int32 InLoopCount)
 {
+	if(Player.IsPlayingSequence())
+	{
+		UE_LOG(LogSpriteStudio, Warning, TEXT("PlaySequence does not support Loop."));
+		return;
+	}
 	Player.LoopCount = InLoopCount;
 }
 int32 USsPlayerComponent::GetLoopCount() const
@@ -918,6 +1024,11 @@ int32 USsPlayerComponent::GetLoopCount() const
 
 void USsPlayerComponent::SetRoundTrip(bool bInRoundTrip)
 {
+	if(Player.IsPlayingSequence())
+	{
+		UE_LOG(LogSpriteStudio, Warning, TEXT("PlaySequence does not support RoundTrip."));
+		return;
+	}
 	Player.bRoundTrip = bInRoundTrip;
 }
 bool USsPlayerComponent::IsRoundTrip() const
@@ -927,6 +1038,11 @@ bool USsPlayerComponent::IsRoundTrip() const
 
 void USsPlayerComponent::SetPlayRate(float InRate)
 {
+	if(Player.IsPlayingSequence() && (InRate < 0.f))
+	{
+		UE_LOG(LogSpriteStudio, Warning, TEXT("PlaySequence does not support negative PlayRate."));
+		InRate = 0.f;
+	}
 	Player.PlayRate = InRate;
 }
 float USsPlayerComponent::GetPlayRate() const
