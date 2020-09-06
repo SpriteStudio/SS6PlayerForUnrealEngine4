@@ -311,8 +311,8 @@ void USsPlayerWidget::UpdatePlayer(float DeltaSeconds)
 		{
 			int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
 			int32 AnimationIndex = Player.GetPlayingAnimationIndex();
-			FName AnimPackName   = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimePackName;
-			FName AnimationName  = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
+			FName AnimPackName   = SsProject->AnimeList[AnimPackIndex].AnimePackName;
+			FName AnimationName  = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
 			OnSsEndPlay.Broadcast(
 				AnimPackName, AnimationName,
 				AnimPackIndex, AnimationIndex
@@ -474,14 +474,14 @@ void USsPlayerWidget::GetPlayingAnimationName(FName& OutAnimPackName, FName& Out
 {
 	int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
 	int32 AnimationIndex = Player.GetPlayingAnimationIndex();
-	if(Player.GetSsProject().IsValid() && (0 <= AnimPackIndex) && (0 <= AnimationIndex))
+	if(SsProject && (0 <= AnimPackIndex) && (0 <= AnimationIndex))
 	{
-		if(    (AnimPackIndex < Player.GetSsProject()->AnimeList.Num())
-			&& (AnimationIndex < Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList.Num())
+		if(    (AnimPackIndex  < SsProject->AnimeList.Num())
+			&& (AnimationIndex < SsProject->AnimeList[AnimPackIndex].AnimeList.Num())
 			)
 		{
-			OutAnimPackName  = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimePackName;
-			OutAnimationName = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
+			OutAnimPackName  = SsProject->AnimeList[AnimPackIndex].AnimePackName;
+			OutAnimationName = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
 			return;
 		}
 	}

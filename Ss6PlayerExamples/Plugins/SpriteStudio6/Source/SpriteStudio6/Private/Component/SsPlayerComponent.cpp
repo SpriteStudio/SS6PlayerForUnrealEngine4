@@ -672,8 +672,8 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 			{
 				int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
 				int32 AnimationIndex = Player.GetPlayingAnimationIndex();
-				FName AnimPackName   = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimePackName;
-				FName AnimationName  = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
+				FName AnimPackName   = SsProject->AnimeList[AnimPackIndex].AnimePackName;
+				FName AnimationName  = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
 				OnSsEndPlay.Broadcast(
 					AnimPackName, AnimationName,
 					AnimPackIndex, AnimationIndex
@@ -864,14 +864,14 @@ void USsPlayerComponent::GetPlayingAnimationName(FName& OutAnimPackName, FName& 
 {
 	int32 AnimPackIndex  = Player.GetPlayingAnimPackIndex();
 	int32 AnimationIndex = Player.GetPlayingAnimationIndex();
-	if(Player.GetSsProject().IsValid() && (0 <= AnimPackIndex) && (0 <= AnimationIndex))
+	if(SsProject && (0 <= AnimPackIndex) && (0 <= AnimationIndex))
 	{
-		if(    (AnimPackIndex < Player.GetSsProject()->AnimeList.Num())
-			&& (AnimationIndex < Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList.Num())
+		if(    (AnimPackIndex  < SsProject->AnimeList.Num())
+			&& (AnimationIndex < SsProject->AnimeList[AnimPackIndex].AnimeList.Num())
 			)
 		{
-			OutAnimPackName  = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimePackName;
-			OutAnimationName = Player.GetSsProject()->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
+			OutAnimPackName  = SsProject->AnimeList[AnimPackIndex].AnimePackName;
+			OutAnimationName = SsProject->AnimeList[AnimPackIndex].AnimeList[AnimationIndex].AnimationName;
 			return;
 		}
 	}
@@ -887,14 +887,14 @@ void USsPlayerComponent::GetPlayingSequenceName(FName& OutSequencePackName, FNam
 {
 	int32 SequencePackIndex = Player.GetPlayingSequencePackIndex();
 	int32 SequenceIndex     = Player.GetPlayingSequenceIndex();
-	if(Player.GetSsProject().IsValid() && (0 <= SequencePackIndex) && (0 <= SequenceIndex))
+	if(SsProject && (0 <= SequencePackIndex) && (0 <= SequenceIndex))
 	{
-		if(    (SequencePackIndex < Player.GetSsProject()->SequenceList.Num())
-			&& (SequenceIndex     < Player.GetSsProject()->SequenceList[SequencePackIndex].SequenceList.Num())
+		if(    (SequencePackIndex < SsProject->SequenceList.Num())
+			&& (SequenceIndex     < SsProject->SequenceList[SequencePackIndex].SequenceList.Num())
 			)
 		{
-			OutSequencePackName = Player.GetSsProject()->SequenceList[SequencePackIndex].SequencePackName;
-			OutSequenceName     = Player.GetSsProject()->SequenceList[SequencePackIndex].SequenceList[SequenceIndex].SequenceName;
+			OutSequencePackName = SsProject->SequenceList[SequencePackIndex].SequencePackName;
+			OutSequenceName     = SsProject->SequenceList[SequencePackIndex].SequenceList[SequenceIndex].SequenceName;
 			return;
 		}
 	}
