@@ -1,4 +1,7 @@
 ﻿#include "ReimportSspjFactory.h"
+
+#include "Subsystems/AssetEditorSubsystem.h"
+
 #include "Ss6Project.h"
 
 
@@ -71,6 +74,16 @@ EReimportResult::Type UReimportSspjFactory::Reimport(UObject* Obj)
 	else
 	{
 		Result = EReimportResult::Failed;
+	}
+
+	// エディタを開いていた場合は一度閉じて開きなおす 
+	{
+		IAssetEditorInstance* Editor = GEditor->GetEditorSubsystem<UAssetEditorSubsystem>()->FindEditorForAsset(SsProject, false);
+		if(nullptr != Editor)
+		{
+			Editor->CloseWindow();
+			GEditor->GetEditorSubsystem<UAssetEditorSubsystem>()->OpenEditorForAsset(SsProject);
+		}
 	}
 
 	bReimporting = false;

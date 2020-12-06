@@ -115,18 +115,6 @@ FLinearColor FSsProjectViewer::GetWorldCentricTabColorScale() const
 	return FLinearColor(SSPJ_COLOR);
 }
 
-
-void FSsProjectViewer::Tick(float /*DeltaTime*/)
-{
-	// SsProjectがReimportされたら、Windowを閉じる
-	if(Player.GetSsProject().IsStale())
-	{
-		Viewport->SetPlayer(NULL, NULL);
-		CloseWindow();
-	}
-}
-
-
 void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, UObject* ObjectToEdit )
 {
 	SsProject = CastChecked<USs6Project>( ObjectToEdit );

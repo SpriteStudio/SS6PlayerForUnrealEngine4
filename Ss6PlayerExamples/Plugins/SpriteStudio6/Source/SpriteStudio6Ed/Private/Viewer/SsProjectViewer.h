@@ -8,7 +8,7 @@
 class FSsRenderOffScreen;
 
 
-class FSsProjectViewer : public FAssetEditorToolkit, public FTickableEditorObject
+class FSsProjectViewer : public FAssetEditorToolkit
 {
 public:
 	static TSharedRef<FSsProjectViewer> CreateEditor( const EToolkitMode::Type Mode, const TSharedPtr< IToolkitHost >& InitToolkitHost, UObject* ObjectToEdit );
@@ -24,11 +24,6 @@ public:
 	virtual FText GetBaseToolkitName() const override;
 	virtual FString GetWorldCentricTabPrefix() const override;
 	virtual FLinearColor GetWorldCentricTabColorScale() const override;
-
-	// FTickableObjectBase interface
-	virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(FSsProjectViewer, STATGROUP_Tickables); }
-	virtual bool IsTickable() const override { return true; }
-	virtual void Tick(float DeltaTime) override;
 
 private:
 	void InitEditor( const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, UObject* ObjectToEdit );
