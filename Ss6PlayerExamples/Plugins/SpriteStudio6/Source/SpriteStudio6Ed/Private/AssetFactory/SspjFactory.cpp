@@ -243,7 +243,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 						FString TexturePackageName;
 						FString BasePackageName = FPackageName::GetLongPackagePath(InParent->GetOutermost()->GetName()) / TextureName;
 						AssetToolsModule.Get().CreateUniqueAssetName(BasePackageName, TEXT(""), TexturePackageName, TextureName);
-						TexturePackage = CreatePackage(NULL, *TexturePackageName);
+						TexturePackage = CreatePackage(*TexturePackageName);
 					}
 
 					const uint8* BufferBegin = Data.GetData();
