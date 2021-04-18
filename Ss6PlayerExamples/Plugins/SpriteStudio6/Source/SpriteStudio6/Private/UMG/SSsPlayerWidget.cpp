@@ -86,6 +86,15 @@ void SSsPlayerWidget::Terminate_OffScreen()
 
 void SSsPlayerWidget::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
 {
+#if WITH_EDITORONLY_DATA
+	// BPブレーク中はアニメーション更新しない 
+	// アニメーション更新に伴うDelegate呼び出しがキャンセルされてしまい、動作が変わってしまうため 
+	if(GIntraFrameDebuggingGameThread)
+	{
+		return;
+	}
+#endif
+
 	if(OnSlateTick.IsBound())
 	{
 		OnSlateTick.Execute(InDeltaTime);
