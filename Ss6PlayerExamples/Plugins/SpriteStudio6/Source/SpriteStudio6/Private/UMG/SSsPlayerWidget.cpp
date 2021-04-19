@@ -331,9 +331,20 @@ int32 SSsPlayerWidget::OnPaint(
 
 	const FPaintArgs NewArgs = Args.WithNewParent(this);
 
-	for(int32 ChildIndex = 0; ChildIndex < ArrangedChildren.Num(); ++ChildIndex)
+	for(int32 i = 0; i < ArrangedChildren.Num(); ++i)
 	{
-		FArrangedWidget& CurWidget = ArrangedChildren[ChildIndex];
+		int32 ChildIndex = -1;
+		for(int32 j = 0; j < Children.Num(); ++j)
+		{
+			if(ArrangedChildren[i].Widget == Children[j].GetWidget())
+			{
+				ChildIndex = j;
+				break;
+			}
+		}
+		check(0 <= ChildIndex);
+
+		FArrangedWidget& CurWidget = ArrangedChildren[i];
 
 		bool bWereOverlapping;
 		FSlateRect ChildClipRect = MyClippingRect.IntersectionWith(CurWidget.Geometry.GetLayoutBoundingRect(), bWereOverlapping);
