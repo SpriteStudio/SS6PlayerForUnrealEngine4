@@ -198,8 +198,8 @@ void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 	}
 
 	{
-		void* IndexBufferData = RHILockIndexBuffer(IndexBuffer.IndexBufferRHI, 0, InRenderIndices.Num() * sizeof(uint16), RLM_WriteOnly);
+		void* IndexBufferData = RHILockBuffer(IndexBuffer.IndexBufferRHI, 0, InRenderIndices.Num() * sizeof(uint16), RLM_WriteOnly);
 		FMemory::Memcpy(IndexBufferData, InRenderIndices.GetData(), InRenderIndices.Num() * sizeof(uint16));
-		RHIUnlockIndexBuffer(IndexBuffer.IndexBufferRHI);
+		RHIUnlockBuffer(IndexBuffer.IndexBufferRHI);
 	}
 }

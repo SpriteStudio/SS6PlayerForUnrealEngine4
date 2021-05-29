@@ -417,7 +417,7 @@ namespace
 										FPlane((Left+Right)/(Left-Right),	(Top+Bottom)/(Bottom-Top),	ZNear/(ZNear-ZFar), 1 ) );
 				}
 
-				void* VerticesPtr = RHILockVertexBuffer(
+				void* VerticesPtr = RHILockBuffer(
 						RenderParts.VertexBuffer->VertexBufferRHI,
 						0, // Offset
 						RenderParts.VertexBuffer->VertexNum * sizeof(FSsOffScreenVertex),
@@ -491,12 +491,12 @@ namespace
 						}
 					}
 				}
-				RHIUnlockVertexBuffer(RenderParts.VertexBuffer->VertexBufferRHI);
+				RHIUnlockBuffer(RenderParts.VertexBuffer->VertexBufferRHI);
 			}
 
 			// インデックスバッファへ書き込み 
 			{
-				void* IndicesPtr = RHILockIndexBuffer(
+				void* IndicesPtr = RHILockBuffer(
 					RenderParts.IndexBuffer->IndexBufferRHI,
 					0,
 					RenderParts.IndexBuffer->IndexNum * sizeof(uint16),
@@ -569,7 +569,7 @@ namespace
 					}
 				}
 
-				RHIUnlockIndexBuffer(RenderParts.IndexBuffer->IndexBufferRHI);
+				RHIUnlockBuffer(RenderParts.IndexBuffer->IndexBufferRHI);
 			}
 		}
 
