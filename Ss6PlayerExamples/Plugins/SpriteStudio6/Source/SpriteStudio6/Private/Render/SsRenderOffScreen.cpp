@@ -60,7 +60,7 @@ void FSsOffScreenVertexBuffer::InitDynamicRHI()
 {
 	if(0 < VertexNum)
 	{
-		FRHIResourceCreateInfo CreateInfo;
+		FRHIResourceCreateInfo CreateInfo(TEXT("SsRenderOffScreenVertexBuffer"));
 		VertexBufferRHI = RHICreateVertexBuffer(VertexNum * sizeof(FSsOffScreenVertex), BUF_Dynamic, CreateInfo);
 	}
 }
@@ -74,7 +74,7 @@ void FSsOffScreenIndexBuffer::InitDynamicRHI()
 {
 	if(0 < IndexNum)
 	{
-		FRHIResourceCreateInfo CreateInfo;
+		FRHIResourceCreateInfo CreateInfo(TEXT("SsRenderOffScreenIndexBuffer"));
 		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), IndexNum * sizeof(uint16), BUF_Dynamic, CreateInfo);
 	}
 }

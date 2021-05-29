@@ -8,7 +8,7 @@
 // IndexBuffer
 void FSsPlaneIndexBuffer::InitRHI()
 {
-	FRHIResourceCreateInfo CreateInfo;
+	FRHIResourceCreateInfo CreateInfo(TEXT("SsComponentPlaneIndexBuffer"));
 	void* Buffer = nullptr;
 	IndexBufferRHI = RHICreateAndLockIndexBuffer(sizeof(uint16), 6 * sizeof(uint16), BUF_Static, CreateInfo, Buffer);
 	((uint16*)Buffer)[0] = 0;

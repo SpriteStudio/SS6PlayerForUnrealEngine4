@@ -13,7 +13,7 @@ void FSsPartsIndexBuffer::InitRHI()
 {
 	if(0 < NumIndices)
 	{
-		FRHIResourceCreateInfo CreateInfo;
+		FRHIResourceCreateInfo CreateInfo(TEXT("SsComponentPartsIndexBuffer"));
 		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), NumIndices * sizeof(uint16), BUF_Dynamic, CreateInfo);
 	}
 }
@@ -171,30 +171,30 @@ void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 
 	{
 		auto& VertexBuffer = VertexBuffers.PositionVertexBuffer;
-		void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.VertexBufferRHI, 0, InRenderVertices.Num() * VertexBuffer.GetStride(), RLM_WriteOnly);
+		void* VertexBufferData = RHILockBuffer(VertexBuffer.VertexBufferRHI, 0, InRenderVertices.Num() * VertexBuffer.GetStride(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetVertexData(), InRenderVertices.Num() * VertexBuffer.GetStride());
-		RHIUnlockVertexBuffer(VertexBuffer.VertexBufferRHI);
+		RHIUnlockBuffer(VertexBuffer.VertexBufferRHI);
 	}
 
 	{
 		auto& VertexBuffer = VertexBuffers.ColorVertexBuffer;
-		void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.VertexBufferRHI, 0, InRenderVertices.Num() * VertexBuffer.GetStride(), RLM_WriteOnly);
+		void* VertexBufferData = RHILockBuffer(VertexBuffer.VertexBufferRHI, 0, InRenderVertices.Num() * VertexBuffer.GetStride(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetVertexData(), InRenderVertices.Num() * VertexBuffer.GetStride());
-		RHIUnlockVertexBuffer(VertexBuffer.VertexBufferRHI);
+		RHIUnlockBuffer(VertexBuffer.VertexBufferRHI);
 	}
 
 	{
 		auto& VertexBuffer = VertexBuffers.StaticMeshVertexBuffer;
-		void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTangentSize(), RLM_WriteOnly);
+		void* VertexBufferData = RHILockBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTangentSize(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetTangentData(), VertexBuffer.GetTangentSize());
-		RHIUnlockVertexBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI);
+		RHIUnlockBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI);
 	}
 
 	{
 		auto& VertexBuffer = VertexBuffers.StaticMeshVertexBuffer;
-		void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTexCoordSize(), RLM_WriteOnly);
+		void* VertexBufferData = RHILockBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTexCoordSize(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetTexCoordData(), VertexBuffer.GetTexCoordSize());
-		RHIUnlockVertexBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI);
+		RHIUnlockBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI);
 	}
 
 	{
