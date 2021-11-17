@@ -27,6 +27,10 @@ public:
 	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
 
 public:
+	UFUNCTION(BlueprintCallable, Category="SsPlayerSlot")
+	void SetAttachPart(FName InNewPartName);
+
+public:
 	// 子ウィジェットをアタッチするSpriteStudioパーツ名 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SsPlayerSlot")
 	FName PartName;

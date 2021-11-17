@@ -423,5 +423,9 @@ public:
 	// ウィジェット内のパーツのTransformを取得(インデックス指定) 
 	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
 	bool GetPartTransformByIndex(int32 PartIndex, FVector2D& OutPosition, float& OutAngle, FVector2D& OutScale) const;
+
+	// 名前からパーツインデックスを取得 
+	UFUNCTION()
+	int32 GetPartIndexFromName(FName InPartName);
 };
 

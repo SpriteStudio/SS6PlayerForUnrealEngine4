@@ -829,3 +829,7 @@ bool USsPlayerWidget::GetPartTransformByIndex(int32 PartIndex, FVector2D& OutPos
 
 	return true;
 }
+int32 USsPlayerWidget::GetPartIndexFromName(FName InPartName)
+{
+	return Player.GetPartIndexFromName(InPartName);
+}

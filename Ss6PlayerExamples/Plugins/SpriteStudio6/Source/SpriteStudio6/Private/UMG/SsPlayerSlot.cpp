@@ -1,5 +1,5 @@
 ﻿#include "SsPlayerSlot.h"
-
+#include "SsPlayerWidget.h"
 
 // コンストラクタ 
 USsPlayerSlot::USsPlayerSlot(const FObjectInitializer& ObjectInitializer)
@@ -67,3 +67,13 @@ void USsPlayerSlot::PostEditChangeProperty(FPropertyChangedEvent& PropertyChange
 }
 #endif
 
+void USsPlayerSlot::SetAttachPart(FName InNewPartName)
+{
+	PartName = InNewPartName;
+
+	USsPlayerWidget* ParentPlayerWidget = Cast<USsPlayerWidget>(Parent);
+	if(Slot && ParentPlayerWidget)
+	{
+		Slot->PartIndex(ParentPlayerWidget->GetPartIndexFromName(PartName));
+	}
+}
