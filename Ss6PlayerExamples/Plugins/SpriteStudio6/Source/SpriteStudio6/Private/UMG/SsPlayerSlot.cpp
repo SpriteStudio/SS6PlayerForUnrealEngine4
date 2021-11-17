@@ -54,6 +54,8 @@ void USsPlayerSlot::PostEditChangeProperty(FPropertyChangedEvent& PropertyChange
 		FString PropertyName = PropertyChangedEvent.Property->GetNameCPP();
 		if(    (0 == PropertyName.Compare(TEXT("PartName")))
 			|| (0 == PropertyName.Compare(TEXT("bReflectPartAlpha")))
+			|| (0 == PropertyName.Compare(TEXT("bOverridePartSize")))
+			|| (0 == PropertyName.Compare(TEXT("PartSize")))
 			)
 		{
 			if(Parent)

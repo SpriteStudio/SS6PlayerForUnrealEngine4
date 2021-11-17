@@ -167,6 +167,28 @@ void SSsPlayerWidget::OnArrangeChildren(
 							);
 					}
 
+					if(Children[i].WidgetSlot && Children[i].WidgetSlot->bOverridePartSize)
+					{
+						FVector2D VertPositionTmp[3];
+						VertPositionTmp[0] = VertPosition[0];
+						VertPositionTmp[1] = VertPosition[1];
+						VertPositionTmp[2] = VertPosition[2];
+
+						float LenX = FVector2D::Distance(VertPositionTmp[0], VertPositionTmp[1]);
+						float LenY = FVector2D::Distance(VertPositionTmp[0], VertPositionTmp[2]);
+
+						FVector2D XAxis = VertPositionTmp[1] - VertPositionTmp[0];
+						XAxis = (SMALL_NUMBER < XAxis.SizeSquared()) ? XAxis.GetSafeNormal() : FVector2D(1.f, 0.f);
+						FVector2D YAxis = VertPositionTmp[2] - VertPositionTmp[0];
+						YAxis = (SMALL_NUMBER < YAxis.SizeSquared()) ? YAxis.GetSafeNormal() : FVector2D(0.f, 1.f);
+
+						FVector2D Center = VertPositionTmp[0] + (XAxis * LenX/2.f) + (YAxis * LenY/2.f);
+						VertPosition[0] = Center - (XAxis * Children[i].WidgetSlot->PartSize.X/2.f) - (YAxis * Children[i].WidgetSlot->PartSize.Y/2.f);
+						VertPosition[1] = Center + (XAxis * Children[i].WidgetSlot->PartSize.X/2.f) - (YAxis * Children[i].WidgetSlot->PartSize.Y/2.f);
+						VertPosition[2] = Center - (XAxis * Children[i].WidgetSlot->PartSize.X/2.f) + (YAxis * Children[i].WidgetSlot->PartSize.Y/2.f);
+					}
+
+
 					FVector2D d01(VertPosition[1].X - VertPosition[0].X, VertPosition[1].Y - VertPosition[0].Y);
 					FVector2D d02(VertPosition[2].X - VertPosition[0].X, VertPosition[2].Y - VertPosition[0].Y);
 					float len01 = FVector2D::Distance(VertPosition[0], VertPosition[1]);
@@ -198,10 +220,7 @@ void SSsPlayerWidget::OnArrangeChildren(
 						ArrangedChildren.AddWidget(
 							AllottedGeometry.MakeChild(
 								Children[i].GetWidget(),
-								FVector2D(
-									It->Vertices[0].Position.X * LocalSize.X,
-									It->Vertices[0].Position.Y * LocalSize.Y
-									),
+								VertPosition[0],
 								FVector2D(Width, Height)
 								)
 							);

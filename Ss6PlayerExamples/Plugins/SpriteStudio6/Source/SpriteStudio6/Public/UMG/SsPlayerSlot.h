@@ -35,6 +35,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SsPlayerSlot")
 	bool bReflectPartAlpha;
 
+	// パーツサイズを無視して指定値で上書き 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SsPlayerSlot")
+	bool bOverridePartSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SsPlayerSlot", meta=(EditCondition="bOverridePartSize"))
+	FVector2D PartSize = FVector2D(100.f, 100.f);
+
+
 private:
 	SSsPlayerWidget::FSlot* Slot;
 };
