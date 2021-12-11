@@ -4,6 +4,7 @@
 #include "Editor/PropertyEditor/Public/IDetailsView.h"
 #include "Editor/PropertyEditor/Public/PropertyEditorModule.h"
 #include "Editor/WorkspaceMenuStructure/Public/WorkspaceMenuStructureModule.h"
+#include "HAL/PlatformApplicationMisc.h"
 
 #include "SsProjectViewerCommands.h"
 #include "Ss6Project.h"
@@ -37,7 +38,7 @@ namespace
 			return FString::Printf(TEXT("[%d] %s"), Index, *(Name.ToString()));
 		}
 	}
-	FName FromDisplayName(FString DisplayName)
+	FName FromDisplayName(const FString& DisplayName)
 	{
 		FString Left, Right;
 		if(DisplayName.Split(TEXT("] "), &Left, &Right))
@@ -308,25 +309,40 @@ void FSsProjectViewer::ExtendToolbar()
 			ToolbarBuilder.BeginSection("Animation Control");
 			{
 				// AnimePack
-				TSharedPtr<STextComboBox> AnimePackCombo;
 				ToolbarBuilder.AddWidget(
 					SNew(SVerticalBox)
 					+SVerticalBox::Slot()
 					.VAlign(VAlign_Center)
-					.FillHeight(0.4f)
+					.FillHeight(0.3f)
 					[
 						SNew(STextBlock)
 						.Text(LOCTEXT("AnimePack", "AnimePack:"))
 					]
 					+SVerticalBox::Slot()
 					.VAlign(VAlign_Center)
-					.FillHeight(0.6f)
+					.FillHeight(0.5f)
 					[
-						(AnimePackCombo = SNew(STextComboBox)
-						.OptionsSource(&Viewer->AnimePackNames)
-						.OnSelectionChanged(Viewer, &FSsProjectViewer::OnAnimePackChanged)
-						.IsEnabled(true)
-						).ToSharedRef()
+						SNew(SHorizontalBox)
+						+SHorizontalBox::Slot()
+						.HAlign(HAlign_Fill)
+						.FillWidth(0.8f)
+						[
+							(Viewer->AnimePackCombo = SNew(STextComboBox)
+							.OptionsSource(&Viewer->AnimePackNames)
+							.OnSelectionChanged(Viewer, &FSsProjectViewer::OnAnimePackChanged)
+							.IsEnabled(true)
+							).ToSharedRef()
+						]
+						+SHorizontalBox::Slot()
+						.HAlign(HAlign_Fill)
+						.FillWidth(0.2f)
+						.AutoWidth()
+						[
+							SNew(SButton)
+							.Text(LOCTEXT("Copy", "Copy"))
+							.ToolTipText(LOCTEXT("CopyAnimePackToolTip", "Copy AnimePack Name to Clipboard."))
+							.OnClicked(Viewer, &FSsProjectViewer::OnClickedCopyAnimPackName)
+						]
 					]
 					);
 				// Animation
@@ -343,17 +359,33 @@ void FSsProjectViewer::ExtendToolbar()
 					.VAlign(VAlign_Center)
 					.FillHeight(0.6f)
 					[
-						(Viewer->AnimationCombo = SNew(STextComboBox)
-						.OptionsSource(&Viewer->AnimationNames)
-						.OnSelectionChanged(Viewer, &FSsProjectViewer::OnAnimationChanged)
-						.IsEnabled(true)
-						).ToSharedRef()
+						SNew(SHorizontalBox)
+						+SHorizontalBox::Slot()
+						.HAlign(HAlign_Fill)
+						.FillWidth(0.8f)
+						[
+							(Viewer->AnimationCombo = SNew(STextComboBox)
+							.OptionsSource(&Viewer->AnimationNames)
+							.OnSelectionChanged(Viewer, &FSsProjectViewer::OnAnimationChanged)
+							.IsEnabled(true)
+							).ToSharedRef()
+						]
+						+SHorizontalBox::Slot()
+						.HAlign(HAlign_Fill)
+						.FillWidth(0.2f)
+						.AutoWidth()
+						[
+							SNew(SButton)
+							.Text(LOCTEXT("Copy", "Copy"))
+							.ToolTipText(LOCTEXT("CopyAnimationToolTip", "Copy Animation Name to Clipboard."))
+							.OnClicked(Viewer, &FSsProjectViewer::OnClickedCopyAnimationName)
+						]
 					]
 					);
 
 				if(0 < Viewer->AnimePackNames.Num())
 				{
-					AnimePackCombo->SetSelectedItem(Viewer->AnimePackNames[0]);
+					Viewer->AnimePackCombo->SetSelectedItem(Viewer->AnimePackNames[0]);
 				}
 			} ToolbarBuilder.EndSection();
 
@@ -755,5 +787,16 @@ FLinearColor FSsProjectViewer::GetBackColor() const
 {
 	return Viewport->ViewportClient->GetBackgroundColor();
 }
-
+FReply FSsProjectViewer::OnClickedCopyAnimPackName()
+{
+	FName AnimePackName = FromDisplayName(*AnimePackCombo->GetSelectedItem().Get());
+	FPlatformApplicationMisc::ClipboardCopy(*AnimePackName.ToString());
+	return FReply::Handled();
+}
+FReply FSsProjectViewer::OnClickedCopyAnimationName()
+{
+	FName AnimationName = FromDisplayName(*AnimationCombo->GetSelectedItem().Get());
+	FPlatformApplicationMisc::ClipboardCopy(*AnimationName.ToString());
+	return FReply::Handled();
+}
 #undef LOCTEXT_NAMESPACE

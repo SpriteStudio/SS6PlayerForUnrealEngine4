@@ -46,6 +46,7 @@ namespace UnrealBuildTool.Rules
 					"EditorStyle",
 					"AppFramework",
 					"MessageLog",
+					"ApplicationCore",
 
 					"SpriteStudio6",
 				}

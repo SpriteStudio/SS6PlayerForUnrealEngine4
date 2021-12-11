@@ -57,6 +57,8 @@ private:
 	FReply OnBackColorMouseDown(const FGeometry&, const FPointerEvent& MouseEvent);
 	void OnSetBackColor(FLinearColor Color);
 	FLinearColor GetBackColor() const;
+	FReply OnClickedCopyAnimPackName();
+	FReply OnClickedCopyAnimationName();
 
 private:
 	TSharedPtr<class SSsProjectViewerViewport> Viewport;
@@ -69,6 +71,7 @@ private:
 
 	TArray<TSharedPtr<FString>> AnimePackNames;
 	TArray<TSharedPtr<FString>> AnimationNames;
+	TSharedPtr<class STextComboBox> AnimePackCombo;
 	TSharedPtr<class STextComboBox> AnimationCombo;
 	TSharedPtr<class SColorBlock> GridColorBlock;
 	TSharedPtr<class SColorBlock> BackColorBlock;
