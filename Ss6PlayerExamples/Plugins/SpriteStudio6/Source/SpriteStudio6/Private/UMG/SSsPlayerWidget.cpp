@@ -261,11 +261,6 @@ int32 SSsPlayerWidget::OnPaint(
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SSsPlayerWidget_OnPaint);
 
-	if((nullptr != RenderParts) && !((AllottedGeometry.Size.X <= 0.01f) || (AllottedGeometry.Size.Y <= 0.01f)))
-	{
-		return LayerId;
-	}
-
 	FSlateRect MyClippingRect = FSlateRect(
 		FVector2D(AllottedGeometry.AbsolutePosition.X, AllottedGeometry.AbsolutePosition.Y),
 		FVector2D(
@@ -274,7 +269,7 @@ int32 SSsPlayerWidget::OnPaint(
 			)
 		);
 
-	if(nullptr != RenderParts)
+	if((nullptr != RenderParts) && !((AllottedGeometry.Size.X <= 0.01f) || (AllottedGeometry.Size.Y <= 0.01f)))
 	{
 		if(!bRenderOffScreen)
 		{
