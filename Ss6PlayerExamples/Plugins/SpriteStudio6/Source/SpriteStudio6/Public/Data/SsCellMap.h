@@ -91,7 +91,7 @@ public:
 	FString		ImagePath;			///< 参照画像ファイルパス。プロジェクトの画像基準相対
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
-	UTexture*	Texture;
+	UTexture*	Texture = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
 	FVector2D	PixelSize;			///< 画像のピクセルWHサイズ

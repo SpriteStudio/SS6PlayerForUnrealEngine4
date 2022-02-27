@@ -13,27 +13,27 @@ struct SPRITESTUDIO6_API FSsColorBlendModeMaterials
 public:
 	// パーツカラー無し 
 	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color UnUsed"))
-	UMaterialInterface* Inv;
+	UMaterialInterface* Inv = nullptr;
 
 	// パーツカラー「ミックス」 
 	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Mix]"))
-	UMaterialInterface* Mix;
+	UMaterialInterface* Mix = nullptr;
 
 	// パーツカラー「乗算」 
 	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Mul]"))
-	UMaterialInterface* Mul;
+	UMaterialInterface* Mul = nullptr;
 
 	// パーツカラー「加算」 
 	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Add]"))
-	UMaterialInterface* Add;
+	UMaterialInterface* Add = nullptr;
 
 	// パーツカラー「減算」 
 	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Sub]"))
-	UMaterialInterface* Sub;
+	UMaterialInterface* Sub = nullptr;
 
 	// エフェクトパーツ 
 	UPROPERTY(EditAnywhere, meta=(DisplayName="Effect Parts"))
-	UMaterialInterface* Eff;
+	UMaterialInterface* Eff = nullptr;
 };
 
 USTRUCT()
