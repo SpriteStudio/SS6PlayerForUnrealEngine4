@@ -57,7 +57,7 @@ public:
 		bool bNeedMask
 		);
 
-	void SetAnimCanvasSize(const FVector2D& InSize) { AnimCanvasSize = InSize; }
+	void SetAnimCanvasSize(const FVector2f& InSize) { AnimCanvasSize.X = InSize.X; AnimCanvasSize.Y = InSize.Y; }
 
 	// SWidget interface 
 	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime);

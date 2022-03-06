@@ -12,7 +12,7 @@ void    Matrix4RotationX( float* _matrix ,const float radians );
 void    Matrix4RotationY( float* _matrix ,const float radians );
 void    Matrix4RotationZ( float* _matrix ,const float radians );
 
-void	MatrixTransformVector3(float* _matrix, FVector& src, FVector& dst);
+void	MatrixTransformVector3(float* _matrix, FVector3f& src, FVector3f& dst);
 
 
 

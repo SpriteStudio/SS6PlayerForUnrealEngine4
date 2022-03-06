@@ -72,7 +72,7 @@ struct particleDrawData
 	float	direc;
 
     FSsU8Color color;
-    FVector2D scale;
+    FVector2f scale;
 };
 
 
@@ -166,7 +166,7 @@ struct emitterParameter
 struct particleParameter
 {
 
-	FVector2D 	scale;
+	FVector2f 	scale;
 
 	FSsU8Color   startcolor; //スタート時のカラー
 	FSsU8Color   endcolor;   //終了時のカラー
@@ -180,12 +180,12 @@ struct particleParameter
 	float       angleVariance;//変差
 
 	bool		useGravity;
-	FVector2D	gravity;
+	FVector2f	gravity;
 
 
 	bool		useOffset;
-	FVector2D   offset;
-	FVector2D   offset2;
+	FVector2f   offset;
+	FVector2f   offset2;
 
 	bool        useRotation;
 	float		rotation;
@@ -211,20 +211,20 @@ struct particleParameter
 	FSsU8Color   transColor2;
 
 	bool        useInitScale;
-	FVector2D   scaleRange;
+	FVector2f   scaleRange;
 	float		scaleFactor;
 	float		scaleFactor2;
 
 	bool        useTransScale;
-	FVector2D   transscale;
-	FVector2D   transscaleRange;
+	FVector2f   transscale;
+	FVector2f   transscaleRange;
 	float		transscaleFactor;
 	float		transscaleFactor2;
 
 	float		delay;
 
 	bool		usePGravity;
-	FVector2D	gravityPos;
+	FVector2f	gravityPos;
 	float		gravityPower;
 
 	bool		useAlphaFade;
@@ -278,7 +278,7 @@ public:
     unsigned long*              seedList;
 
 
-	FVector2D   				position;
+	FVector2f   				position;
 //	SsEffectEmitter*			_child;
 	SsEffectEmitter*			_parent;
 
@@ -369,7 +369,7 @@ public:
 	uint32			mySeed;
 
 	FVector			layoutPosition;
-	FVector2D		layoutScale;
+	FVector2f		layoutScale;
 
 	float			nowFrame;
 	float			targetFrame;
@@ -453,8 +453,8 @@ public:
 
 /*	void	drawSprite(
 			SsCellValue*		dispCell,
-			FVector2D	_position,
-			FVector2D _size,
+			FVector2f	_position,
+			FVector2f _size,
 			float     _rotation,
 			float	  direction,
 			SsFColor	_color,

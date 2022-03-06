@@ -491,14 +491,14 @@ struct SsColorBlendValue
 ///頂点変形キーの４頂点変形値
 struct FSsVertexAnime
 {
-	FVector2D	Offsets[4];	///< 各頂点の移動オフセット値
-	FVector2D&	GetOffsets(int index){ return Offsets[index];}
+	FVector2f	Offsets[4];	///< 各頂点の移動オフセット値
+	FVector2f&	GetOffsets(int index){ return Offsets[index];}
 
 	FSsVertexAnime()
 	{
 		for(int i = 0; i < 4; ++i)
 		{
-			Offsets[i] = FVector2D(0.f, 0.f);
+			Offsets[i] = FVector2f(0.f, 0.f);
 		}
 	}
 };
@@ -653,7 +653,7 @@ public:
 	bool			useString;	///<文字列データが使用されているか 
 
 	int				integer;	///< 整数
-	FVector2D		point;		///< 座標
+	FVector2f		point;		///< 座標
 	SsIRect			rect;		///< 矩形
 	FString			string;		///< 文字列
 
@@ -760,7 +760,7 @@ struct SsBoneBind
 class SsDeformAttr
 {
 public:
-	TArray<FVector2D> verticeChgList;
+	TArray<FVector2f> verticeChgList;
 
 	SsDeformAttr()
 	{
@@ -806,8 +806,8 @@ public:
 // 描画用の頂点情報
 struct FSsRenderVertex
 {
-	FVector2D Position;	// 0.0f～1.0f (アニメーションのCanvasSizeに対しての座標. 実際の値は範囲外もあり得る) 
-	FVector2D TexCoord;
+	FVector2f Position;	// 0.0f～1.0f (アニメーションのCanvasSizeに対しての座標. 実際の値は範囲外もあり得る) 
+	FVector2f TexCoord;
 	FColor Color;
 	float ColorBlendRate;
 };
@@ -815,8 +815,8 @@ struct FSsRenderVertex
 // 描画用のメッシュ頂点 
 struct FSsRenderMeshVertex
 {
-	FVector2D Position;
-	FVector2D TexCoord;
+	FVector2f Position;
+	FVector2f TexCoord;
 };
 
 // 描画用のメッシュ情報 

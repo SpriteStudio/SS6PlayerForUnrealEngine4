@@ -35,7 +35,7 @@ public:
 	FLinearColor GridColor;
 	float RenderScale;
 	float RenderScaleStep;
-	FVector2D RenderOffset;
+	FVector2f RenderOffset;
 
 private:
 	FLinearColor BackgroundColor;

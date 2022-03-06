@@ -32,8 +32,8 @@ void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 {
 	FIntPoint ViewportSize = Viewport->GetSizeXY();
 
-	FVector2D AnimCanvasSize = Player->GetAnimCanvasSize();
-	FVector2D AnimPivot = Player->GetAnimPivot();
+	FVector2D AnimCanvasSize(Player->GetAnimCanvasSize().X, Player->GetAnimCanvasSize().Y);
+	FVector2D AnimPivot(Player->GetAnimPivot().X, Player->GetAnimPivot().Y);
 
 	// アニメーション範囲外は黒塗りつぶし 
 	Canvas->Clear(FLinearColor::Black);
@@ -127,18 +127,18 @@ void FSsProjectViewerViewportClient::DrawGrid(FViewport* Viewport, FCanvas* Canv
 
 	for(int32 X = Center.X+RenderGridSize; X <= Size.X; X+=RenderGridSize)
 	{
-		FCanvasLineItem Line(FVector2D(X,0.f), FVector2D(X,Size.Y));
+		FCanvasLineItem Line(FVector2D(X,0), FVector2D(X,Size.Y));
 		Line.SetColor(GridColor);
 		Canvas->DrawItem(Line);
 	}
 	for(int32 X = Center.X-RenderGridSize; 0 <= X; X-=RenderGridSize)
 	{
-		FCanvasLineItem Line(FVector2D(X,0.f), FVector2D(X,Size.Y));
+		FCanvasLineItem Line(FVector2D(X,0), FVector2D(X,Size.Y));
 		Line.SetColor(GridColor);
 		Canvas->DrawItem(Line);
 	}
 	{
-		FCanvasLineItem Line(FVector2D(Center.X,0.f), FVector2D(Center.X,Size.Y));
+		FCanvasLineItem Line(FVector2D(Center.X,0), FVector2D(Center.X,Size.Y));
 		Line.SetColor(GridColor);
 		Line.LineThickness = 3.f;
 		Canvas->DrawItem(Line);
@@ -146,18 +146,18 @@ void FSsProjectViewerViewportClient::DrawGrid(FViewport* Viewport, FCanvas* Canv
 
 	for(int32 Y = Center.Y+RenderGridSize; Y <= Size.Y; Y+=RenderGridSize)
 	{
-		FCanvasLineItem Line(FVector2D(0.f,Y), FVector2D(Size.X,Y));
+		FCanvasLineItem Line(FVector2D(0,Y), FVector2D(Size.X,Y));
 		Line.SetColor(GridColor);
 		Canvas->DrawItem(Line);
 	}
 	for(int32 Y = Center.Y-RenderGridSize; 0 <= Y; Y-=RenderGridSize)
 	{
-		FCanvasLineItem Line(FVector2D(0.f,Y), FVector2D(Size.X,Y));
+		FCanvasLineItem Line(FVector2D(0,Y), FVector2D(Size.X,Y));
 		Line.SetColor(GridColor);
 		Canvas->DrawItem(Line);
 	}
 	{
-		FCanvasLineItem Line(FVector2D(0.f,Center.Y), FVector2D(Size.X,Center.Y));
+		FCanvasLineItem Line(FVector2D(0,Center.Y), FVector2D(Size.X,Center.Y));
 		Line.SetColor(GridColor);
 		Line.LineThickness = 3.f;
 		Canvas->DrawItem(Line);

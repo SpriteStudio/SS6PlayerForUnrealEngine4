@@ -65,7 +65,7 @@ public:
 	int32 GetPartIndexFromName(FName PartName) const;
 
 	// パーツのTransformを取得 
-	bool GetPartTransform(int32 PartIndex, FVector2D& OutPosition, float& OutRotate, FVector2D& OutScale) const;
+	bool GetPartTransform(int32 PartIndex, FVector2f& OutPosition, float& OutRotate, FVector2f& OutScale) const;
 
 	// パーツのColorLabelを取得 
 	FName GetPartColorLabel(int32 PartIndex);
@@ -77,10 +77,10 @@ private:
 	bool PlayInternal(int32 InAnimPackIndex, int32 InAnimationIndex, int32 InStartFrame, float InPlayRate, int32 InLoopCount, bool bInRoundTrip);
 	void TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result);
 	void FindUserDataInInterval(FSsPlayerTickResult& Result, float Start, float End);
-	void CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance=false);
-	bool CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance);
-	void CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot);
-	void CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent=nullptr, const particleDrawData* DrawData=nullptr);
+	void CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2f& CanvasSize, const FVector2f& Pivot, bool bInstance=false);
+	bool CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot, bool bInstance);
+	void CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot);
+	void CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent=nullptr, const particleDrawData* DrawData=nullptr);
 
 public:
 	float PlayRate;		// 再生速度 
@@ -90,8 +90,8 @@ public:
 	bool bFlipV;		// 上下反転 
 	TMap<int32, TWeakObjectPtr<UTexture>> TextureReplacements;	// パーツ毎のテクスチャ差し替え 
 
-	const FVector2D& GetAnimPivot() const { return AnimPivot; }	// アニメーションに設定されたPivotを取得 (0,0 が中央。-0.5, +0.5 が左上) 
-	const FVector2D GetAnimCanvasSize() const;
+	const FVector2f& GetAnimPivot() const { return AnimPivot; }	// アニメーションに設定されたPivotを取得 (0,0 が中央。-0.5, +0.5 が左上) 
+	const FVector2f GetAnimCanvasSize() const;
 
 private:
 	TWeakObjectPtr<USs6Project> SsProject;
@@ -99,7 +99,7 @@ private:
 	SsCellMapList* CellMapList;
 	bool bPlaying;
 	bool bFirstTick;
-	FVector2D AnimPivot;
+	FVector2f AnimPivot;
 	int32 PlayingAnimPackIndex;
 	int32 PlayingAnimationIndex;
 	bool bCalcHideParts;

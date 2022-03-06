@@ -346,7 +346,7 @@ struct SPRITESTUDIO6_API FSsParticleElementGravity : public FSsEffectElementBase
 
 public:
 	UPROPERTY(VisibleAnywhere, Category=SsEffectElement)
-	FVector2D Gravity;
+	FVector2f Gravity;
 
 public:
 	FSsParticleElementGravity()
@@ -593,7 +593,7 @@ struct SPRITESTUDIO6_API FSsParticlePointGravity : public FSsEffectElementBase
 
 public:
 	UPROPERTY(VisibleAnywhere, Category=SsEffectElement)
-	FVector2D Position;
+	FVector2f Position;
 
 	UPROPERTY(VisibleAnywhere, Category=SsEffectElement)
 	float Power;

@@ -9,10 +9,10 @@
 // 
 struct FSsOffScreenVertex
 {
-	FVector2D Position;
+	FVector2f Position;
 	FColor Color;
-	FVector2D TexCoord;
-	FVector2D ColorBlend;	// [0]:ColorBlendType, [1]:ColorBlendRate 
+	FVector2f TexCoord;
+	FVector2f ColorBlend;	// [0]:ColorBlendType, [1]:ColorBlendRate 
 };
 
 // 

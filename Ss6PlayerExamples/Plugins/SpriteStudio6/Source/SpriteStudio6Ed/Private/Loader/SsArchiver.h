@@ -57,12 +57,12 @@ public:
 	virtual bool	dc( const char* name , bool& member ) = 0;
 	virtual bool	dc( const char* name , TArray<FString>& list ) = 0;
 	virtual bool	dc( const char* name , TArray<FName>& list ) = 0;
-	virtual bool	dc( const char* name , TArray<FVector2D>& list ) = 0;
+	virtual bool	dc( const char* name , TArray<FVector2f>& list ) = 0;
 	virtual bool	dc( const char* name , TArray<FSsTriangle>& list) = 0;
 
 	virtual bool	dc( const char* name , FString& member ) = 0;
 	virtual bool	dc( const char* name , FName& member ) = 0;
-	virtual bool	dc( const char* name , FVector2D& member ) = 0;
+	virtual bool	dc( const char* name , FVector2f& member ) = 0;
 	virtual bool	dc( const char* name , struct FSsCurve& member ) = 0;
 	virtual bool	dc( const char* name , FSsTriangle& member) = 0;
 	virtual bool	dc( const char* name , TMap<FName, int32>& map) = 0;
@@ -118,9 +118,9 @@ public:
 	virtual bool dc(const char* name, bool& member);
 	virtual bool dc(const char* name, TArray<FString>& list);
 	virtual bool dc(const char* name, TArray<FName>& list);
-	virtual bool dc(const char* name, TArray<FVector2D>& list);
+	virtual bool dc(const char* name, TArray<FVector2f>& list);
 	virtual bool dc(const char* name, TArray<FSsTriangle>& list);
-	virtual bool dc(const char* name, FVector2D& member);
+	virtual bool dc(const char* name, FVector2f& member);
 	virtual bool dc(const char* name, FSsCurve& member);
 	virtual bool dc(const char* name, FSsTriangle& member);
 	virtual bool dc(const char* name, TMap<FName, int32>& map);

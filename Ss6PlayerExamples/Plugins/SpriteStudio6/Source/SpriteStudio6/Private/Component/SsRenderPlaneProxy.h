@@ -28,10 +28,10 @@ public:
 
 	void SetDynamicData_RenderThread();
 	void SetMaterial(UMaterialInterface* InMaterial) { Material = InMaterial; }
-	void SetPivot(const FVector2D& InPivot) { Pivot = InPivot; }
+	void SetPivot(const FVector2f& InPivot) { Pivot = InPivot; }
 
 public:
-	FVector2D CanvasSizeUU;
+	FVector2f CanvasSizeUU;
 
 private:
 	USsPlayerComponent* Component;
@@ -39,7 +39,7 @@ private:
 	UPROPERTY()
 	UMaterialInterface* Material;
 
-	FVector2D Pivot;
+	FVector2f Pivot;
 
 	FStaticMeshVertexBuffers VertexBuffers;
 	FSsPlaneIndexBuffer IndexBuffer;

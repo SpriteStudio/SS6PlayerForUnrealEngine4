@@ -807,10 +807,13 @@ bool USsPlayerWidget::GetPartTransform(FName PartName, FVector2D& OutPosition, f
 }
 bool USsPlayerWidget::GetPartTransformByIndex(int32 PartIndex, FVector2D& OutPosition, float& OutAngle, FVector2D& OutScale) const
 {
-	if(!Player.GetPartTransform(PartIndex, OutPosition, OutAngle, OutScale))
+	FVector2f OutPositionF, OutScaleF;
+	if(!Player.GetPartTransform(PartIndex, OutPositionF, OutAngle, OutScaleF))
 	{
 		return false;
 	}
+	OutPosition = FVector2D(OutPositionF.X, OutPositionF.Y);
+	OutScale = FVector2D(OutScaleF.X, OutScaleF.Y);
 
 	// UMGの座標系に合わせる 
 	OutPosition.Y *= -1.f;

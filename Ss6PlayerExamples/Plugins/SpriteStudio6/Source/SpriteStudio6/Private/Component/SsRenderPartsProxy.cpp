@@ -154,16 +154,16 @@ void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 	check((uint32)InRenderIndices.Num() <= MaxIndexNum);
 
 	
-	FVector TangentY;
+	FVector3f TangentY;
 	{
-		FDynamicMeshVertex DummyVert(FVector3f(InRenderVertices[0].Position), FVector3f::ForwardVector, FVector3f::UpVector, FVector2f(InRenderVertices[0].TexCoord), InRenderVertices[0].Color);
+		FDynamicMeshVertex DummyVert(InRenderVertices[0].Position, FVector3f::ForwardVector, FVector3f::UpVector, InRenderVertices[0].TexCoord, InRenderVertices[0].Color);
 		TangentY = DummyVert.GetTangentY();
 	}
 
 	for(auto ItVert = InRenderVertices.CreateConstIterator(); ItVert; ++ItVert)
 	{
 		VertexBuffers.PositionVertexBuffer.VertexPosition(ItVert.GetIndex()) = ItVert->Position;
-		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(ItVert.GetIndex(), FVector::ForwardVector, TangentY, FVector::UpVector);
+		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(ItVert.GetIndex(), FVector3f::ForwardVector, TangentY, FVector3f::UpVector);
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(ItVert.GetIndex(), 0, FVector2f(ItVert->TexCoord));
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(ItVert.GetIndex(), 1, FVector2f(ItVert->ColorBlend));
 		VertexBuffers.ColorVertexBuffer.VertexColor(ItVert.GetIndex()) = ItVert->Color;

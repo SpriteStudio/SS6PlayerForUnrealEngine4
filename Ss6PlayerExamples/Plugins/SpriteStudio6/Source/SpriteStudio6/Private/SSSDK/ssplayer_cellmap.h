@@ -12,7 +12,7 @@ struct SsCellValue
 {
 	FSsCell*					cell;		///参照しているセル
 	UTexture*					texture;	///テクスチャ
-	FVector2D					uvs[5];		///使用するUV座標
+	FVector2f					uvs[5];		///使用するUV座標
 	SsTexWrapMode::Type			wrapMode;	///< テクスチャのラップモード
 	SsTexFilterMode::Type		filterMode;	///< テクスチャのフィルタモード
 
@@ -138,6 +138,6 @@ public:
 void getCellValue( SsCellMapList* cellList, int cellMapid , FName& cellName , SsCellValue& v );
 void getCellValue( SsCellMapList* cellList, FName& cellMapName , FName& cellName , SsCellValue& v );
 
-void calcUvs( SsCellValue* cellv, const FVector2D TexturePixelSize );
+void calcUvs( SsCellValue* cellv, const FVector2f TexturePixelSize );
 
 #endif

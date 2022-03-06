@@ -127,14 +127,14 @@ public:
 	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
 		FSsParticleElementBasic* source = static_cast<FSsParticleElementBasic*>(ele);
-		FVector eVec = e->getPosition();
+		FVector3f eVec = e->getPosition();
 		float eAngle = 0;
 
 		p->_baseEmiterPosition.X = eVec.X;
 		p->_baseEmiterPosition.Y = eVec.Y;
 		p->_position.X = p->_baseEmiterPosition.X;
 		p->_position.Y = p->_baseEmiterPosition.Y;
-		p->_size = FVector2D( 1.0f , 1.0f );
+		p->_size = FVector2f( 1.0f , 1.0f );
 
 
 		p->_color = FSsU8Color(255,255,255,255) ;
@@ -156,7 +156,7 @@ public:
 		p->vector.X =  cos( angle_rad );
 		p->vector.Y =  sin( angle_rad );
 
-		p->_force = FVector2D(0,0);//p->vector * p->speed;
+		p->_force = FVector2f(0,0);//p->vector * p->speed;
 		p->direction = 0;
 		p->isTurnDirection = false;
 
@@ -187,7 +187,7 @@ public:
 		e->emitter.particleLife = source->Lifespan.GetMinValue();
 		e->emitter.particleLife2 = source->Lifespan.GetMaxValue() - source->Lifespan.GetMinValue();
 
-		e->particle.scale = FVector2D( 1.0f , 1.0f );
+		e->particle.scale = FVector2f( 1.0f , 1.0f );
 		e->particle.startcolor = FSsU8Color(255,255,255,255) ;
 		e->particle.endcolor = FSsU8Color(255,255,255,255) ;
 
@@ -201,12 +201,12 @@ public:
 
 		//重力
 		e->particle.useGravity = false;
-		e->particle.gravity = FVector2D(0,0);
+		e->particle.gravity = FVector2f(0,0);
 
 		//オフセット
 		e->particle.useOffset = false;
-		e->particle.offset = FVector2D(0,0);
-		e->particle.offset2 = FVector2D(0,0);
+		e->particle.offset = FVector2f(0,0);
+		e->particle.offset2 = FVector2f(0,0);
 
 
 		//回転
@@ -356,8 +356,8 @@ public:
 	{
 		FSsParticleElementPosition* source = static_cast<FSsParticleElementPosition*>(ele);
 		e->particle.useOffset = true;
-		e->particle.offset = FVector2D(source->OffsetX.GetMinValue(), source->OffsetY.GetMinValue());
-		e->particle.offset2 = FVector2D( source->OffsetX.GetMaxValue() - source->OffsetX.GetMinValue() , source->OffsetY.GetMaxValue() - source->OffsetY.GetMinValue() );
+		e->particle.offset = FVector2f(source->OffsetX.GetMinValue(), source->OffsetY.GetMinValue());
+		e->particle.offset2 = FVector2f( source->OffsetX.GetMaxValue() - source->OffsetX.GetMinValue() , source->OffsetY.GetMaxValue() - source->OffsetY.GetMinValue() );
 	}
 };
 static FuncFSsParticleElementPosition		funcPosition;
@@ -718,7 +718,7 @@ public:
 	virtual void	initializeParticle( FSsEffectElementBase* ele , SsEffectRenderEmitter* e , SsEffectRenderParticle* p )
 	{
 		FSsParticleElementTransSize* source = static_cast<FSsParticleElementTransSize*>(ele);
-		FVector2D endsize;
+		FVector2f endsize;
 		endsize.X = VarianceCalc( e, source->SizeX.GetMinValue() , source->SizeX.GetMaxValue() );
 		endsize.Y = VarianceCalc( e, source->SizeY.GetMinValue() , source->SizeY.GetMaxValue() );
 
@@ -773,13 +773,13 @@ public:
 	{
 		FSsParticlePointGravity* source = static_cast<FSsParticlePointGravity*>(ele);
 
-		FVector2D Target;
+		FVector2f Target;
 		Target.X = source->Position.X + p->parentEmitter->position.X;
 		Target.Y = source->Position.Y + p->parentEmitter->position.Y;
 
 		//現在地点から指定された点に対してのベクトル*パワーを与える
-		FVector2D v2 = Target - p->_position;
-		FVector2D v2_temp = v2;
+		FVectorfD v2 = Target - p->_position;
+		FVector2f v2_temp = v2;
 
 		v2.Normalize();
 		v2 = v2 * source->Power;

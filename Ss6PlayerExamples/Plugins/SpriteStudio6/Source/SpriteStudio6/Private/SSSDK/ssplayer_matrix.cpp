@@ -159,7 +159,7 @@ void    Matrix4RotationZ( float* _matrix ,const float radians )
 
 
 
-void  MatrixTransformVector3(float* _matrix  , FVector& src, FVector& dst)
+void  MatrixTransformVector3(float* _matrix  , FVector3f& src, FVector3f& dst)
 {
 	float vx, vy, vz;
 	//SsVector3 vec;

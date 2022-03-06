@@ -29,24 +29,24 @@ struct SsPartState
 	SsPartState*	parent;			/// 親へのポインタ
 	float* 			inheritRates;	///< 継承設定の参照先。inheritType がparentだと親のを見に行く。透過的に遡るのでルートから先に設定されている必要がある。
 
-	FVector		position;		///< 位置。あくまで親パーツ基準のローカル座標
-	FVector		rotation;		///< 回転角。degree
-	FVector2D		scale;			///< スケール	
-	FVector2D		localscale;		///< ローカルスケール	
+	FVector3f	position;		///< 位置。あくまで親パーツ基準のローカル座標
+	FVector3f	rotation;		///< 回転角。degree
+	FVector2f		scale;			///< スケール	
+	FVector2f		localscale;		///< ローカルスケール	
 	float			alpha;			///< 不透明度 0~1
 	float			localalpha;		///< ローカル不透明度 0~1
 	int				prio;			///< 優先度
 //	bool			hFlip;			///< 水平反転　※Ver6では非対応
 //	bool			vFlip;			///< 垂直反転　※Ver6では非対応
 	bool			hide;			///< 非表示にする
-	FVector2D		pivotOffset;	///< 原点のオフセット。旧SSの原点は左上基準にしたこの値に相当する。0,0が中央+0.5,+0.5が右上になる。参照セルがある場合はセルの原点に＋する＝オフセット扱いになる。
-//	FVector2D		anchor;			///< アンカーポイント。親パーツのどの位置に引っ付けるか？0,0が中央+0.5,+0.5が右上になる。　※Ver6では非対応
-	FVector2D		size;			///< 表示サイズ	
+	FVector2f		pivotOffset;	///< 原点のオフセット。旧SSの原点は左上基準にしたこの値に相当する。0,0が中央+0.5,+0.5が右上になる。参照セルがある場合はセルの原点に＋する＝オフセット扱いになる。
+//	FVector2f		anchor;			///< アンカーポイント。親パーツのどの位置に引っ付けるか？0,0が中央+0.5,+0.5が右上になる。　※Ver6では非対応
+	FVector2f		size;			///< 表示サイズ	
 	bool			imageFlipH;		///　セル画像を水平反転するか
  	bool			imageFlipV;		///	 セル画像を垂直反転するか
-	FVector2D		uvTranslate;	///< UV 平行移動
+	FVector2f		uvTranslate;	///< UV 平行移動
 	float			uvRotation;		///< UV 回転
-	FVector2D		uvScale;		///< UV スケール
+	FVector2f		uvScale;		///< UV スケール
 //	float			boundingRadius;	///< 当たり判定用の円の半径
 
 	SsCellValue		cellValue;		///< セルアニメの値
@@ -74,9 +74,9 @@ struct SsPartState
 	SsEffectRenderV2*	refEffect;
 
 //	//V4互換計算用
-//	FVector			_temp_position;
-//	FVector			_temp_rotation;
-//	FVector2D		_temp_scale;
+//	FVector3f		_temp_position;
+//	FVector3f		_temp_rotation;
+//	FVector2f		_temp_scale;
 
 	SsPartType::Type partType;
 

@@ -206,7 +206,7 @@ namespace
 	};
 
 	// カラーブレンドモードの設定 
-	void SetVertexColorBlendType(SsBlendType::Type ColorBlendType, FVector2D& OutColorBlend)
+	void SetVertexColorBlendType(SsBlendType::Type ColorBlendType, FVector2f& OutColorBlend)
 	{
 		switch(ColorBlendType)
 		{
@@ -402,7 +402,7 @@ namespace
 		{
 			// 頂点バッファへ書き込み 
 			{
-				FMatrix ProjectionMatrix;
+				FMatrix44f ProjectionMatrix;
 				{
 					const float Left = 0.0f;
 					const float Right = Left+SurfaceWidth;
@@ -411,7 +411,7 @@ namespace
 					const float ZNear = 0.f;
 					const float ZFar = 1.f;
 					ProjectionMatrix =
-							FMatrix(	FPlane(2.0f/(Right-Left),			0,							0,					0 ),
+							FMatrix44f(	FPlane(2.0f/(Right-Left),			0,							0,					0 ),
 										FPlane(0,							2.0f/(Top-Bottom),			0,					0 ),
 										FPlane(0,							0,							1/(ZNear-ZFar),		0 ),
 										FPlane((Left+Right)/(Left-Right),	(Top+Bottom)/(Bottom-Top),	ZNear/(ZNear-ZFar), 1 ) );
@@ -437,7 +437,7 @@ namespace
 					{
 						for(int32 v = 0; v < ItPart->Vertices.Num(); ++v)
 						{
-							FVector4 Position(
+							FVector4f Position(
 								ItPart->Vertices[v].Position.X * SurfaceWidth,
 								ItPart->Vertices[v].Position.Y * SurfaceHeight,
 								0.f, 1.f
@@ -469,7 +469,7 @@ namespace
 						{
 							for(auto ItVert = ItMesh->Vertices.CreateConstIterator(); ItVert; ++ItVert)
 							{
-								FVector4 Position(
+								FVector4f Position(
 									ItVert->Position.X * SurfaceWidth,
 									ItVert->Position.Y * SurfaceHeight,
 									0.f, 1.f

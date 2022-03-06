@@ -431,7 +431,7 @@ void FSsPlayer::FindUserDataInInterval(FSsPlayerTickResult& Result, float Start,
 }
 
 // 描画用パーツデータの作成 
-void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
+void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2f& CanvasSize, const FVector2f& Pivot, bool bInstance)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateRenderParts);
 
@@ -465,7 +465,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2D
 }
 
 // 描画用パーツデータの作成（１パーツ分） 
-bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, bool bInstance)
+bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot, bool bInstance)
 {
 	if(nullptr == State){ return false; }
 	float Alpha = State->is_localAlpha ? State->localalpha : State->alpha;
@@ -516,11 +516,11 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	float OffX = (float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X);
 	float OffY = (float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y);
 
-	FMatrix ViewMatrix(
-		FVector(State->matrixLocal[ 0], State->matrixLocal[ 1], State->matrixLocal[ 2]),
-		FVector(State->matrixLocal[ 4], State->matrixLocal[ 5], State->matrixLocal[ 6]),
-		FVector(State->matrixLocal[ 8], State->matrixLocal[ 9], State->matrixLocal[10]),
-		FVector(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
+	FMatrix44f ViewMatrix(
+		FVector3f(State->matrixLocal[ 0], State->matrixLocal[ 1], State->matrixLocal[ 2]),
+		FVector3f(State->matrixLocal[ 4], State->matrixLocal[ 5], State->matrixLocal[ 6]),
+		FVector3f(State->matrixLocal[ 8], State->matrixLocal[ 9], State->matrixLocal[10]),
+		FVector3f(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
 	);
 
 	// 通常パーツ/マスクパーツ 
@@ -529,22 +529,22 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		const int32 VertCnt = (State->is_vertex_transform || State->is_parts_color) ? 5 : 4;
 
 		// 頂点座標
-		FVector2D Vertices2D[5];
+		FVector2f Vertices2D[5];
 		for(int i = 0; i < VertCnt; ++i)
 		{
-			FVector4 V = ViewMatrix.TransformPosition(FVector(
+			FVector4f V = ViewMatrix.TransformPosition(FVector3f(
 				State->vertices[i*3 + 0],
 				State->vertices[i*3 + 1],
 				State->vertices[i*3 + 2]
 			));
-			Vertices2D[i] = FVector2D(V.X + OffX, -V.Y + OffY);
+			Vertices2D[i] = FVector2f(V.X + OffX, -V.Y + OffY);
 		}
 
 		// UV
-		FVector2D UVs[5];
+		FVector2f UVs[5];
 		for(int i = 0; i < 4; ++i)
 		{
-			UVs[i] = FVector2D(State->cellValue.uvs[i].X + State->uvs[i*2 + 0] + State->uvTranslate.X, State->cellValue.uvs[i].Y + State->uvs[i*2 + 1] + State->uvTranslate.Y);
+			UVs[i] = FVector2f(State->cellValue.uvs[i].X + State->uvs[i*2 + 0] + State->uvTranslate.X, State->cellValue.uvs[i].Y + State->uvs[i*2 + 1] + State->uvTranslate.Y);
 		}
 		if(5 <= VertCnt)
 		{
@@ -569,13 +569,13 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		}
 		if(0.f != State->uvRotation)
 		{
-			FVector2D UVCenter((UVs[1].X - UVs[0].X) / 2.f + UVs[0].X, (UVs[2].Y - UVs[0].Y) / 2.f + UVs[0].Y);
+			FVector2f UVCenter((UVs[1].X - UVs[0].X) / 2.f + UVs[0].X, (UVs[2].Y - UVs[0].Y) / 2.f + UVs[0].Y);
 			float S = FMath::Sin(FMath::DegreesToRadians(State->uvRotation));
 			float C = FMath::Cos(FMath::DegreesToRadians(State->uvRotation));
 			for(int i = 0; i < VertCnt; ++i)
 			{
 				UVs[i] -= UVCenter;
-				UVs[i] = FVector2D(
+				UVs[i] = FVector2f(
 					UVs[i].X * C - UVs[i].Y * S,
 					UVs[i].X * S + UVs[i].Y * C
 				);
@@ -596,7 +596,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		// イメージ反転
 		if(State->imageFlipH)
 		{
-			FVector2D tmp;
+			FVector2f tmp;
 			tmp = UVs[0];
 			UVs[0] = UVs[1];
 			UVs[1] = tmp;
@@ -606,7 +606,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		}
 		if(State->imageFlipV)
 		{
-			FVector2D tmp;
+			FVector2f tmp;
 			tmp = UVs[0];
 			UVs[0] = UVs[2];
 			UVs[2] = tmp;
@@ -702,7 +702,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		OutRenderPart.Vertices.AddUninitialized(VertCnt);
 		for(int32 i = 0; i < VertCnt; ++i)
 		{
-			OutRenderPart.Vertices[i].Position = FVector2D(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
+			OutRenderPart.Vertices[i].Position = FVector2f(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
 			OutRenderPart.Vertices[i].TexCoord = UVs[i];
 			OutRenderPart.Vertices[i].Color = VertexColors[i];
 			OutRenderPart.Vertices[i].ColorBlendRate = ColorBlendRate[i];
@@ -730,7 +730,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			else
 			{
 				bool bDeform = i < State->deformValue.verticeChgList.Num();
-				FVector4 V = ViewMatrix.TransformPosition(FVector(
+				FVector4f V = ViewMatrix.TransformPosition(FVector3f(
 					State->meshPart->vertices[i*3 + 0] + (bDeform ? State->deformValue.verticeChgList[i].X : 0.f),
 					State->meshPart->vertices[i*3 + 1] + (bDeform ? State->deformValue.verticeChgList[i].Y : 0.f),
 					State->meshPart->vertices[i*3 + 2]
@@ -759,7 +759,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 }
 
 // エフェクト描画用パーツデータの作成 
-void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot)
+void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateEffectRenderParts);
 
@@ -808,7 +808,7 @@ void FSsPlayer::CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, c
 }
 
 // エフェクト描画用パーツデータの作成（１パーツ分） 
-void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2D& CanvasSize, const FVector2D& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent, const particleDrawData* DrawData)
+void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent, const particleDrawData* DrawData)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateEffectRenderPart);
 
@@ -897,11 +897,11 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 
 				if(Emitter->dispCell.cell && (0.f < fcolor.a))
 				{
-					FVector2D pivot = Emitter->dispCell.cell->Pivot;
+					FVector2f pivot = Emitter->dispCell.cell->Pivot;
 					pivot.X *= Emitter->dispCell.cell->Size.X;
 					pivot.Y *= Emitter->dispCell.cell->Size.Y;
 
-					FVector2D dispscale = Emitter->dispCell.cell->Size;
+					FVector2f dispscale = Emitter->dispCell.cell->Size;
 
 
 					// RenderTargetに対する描画基準位置
@@ -909,18 +909,18 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 					float OffY = (float)(CanvasSize.Y / 2) + pivot.Y - Pivot.Y * CanvasSize.Y;
 
 					// 頂点座標
-					FMatrix ViewMatrix(
-						FVector(matrix[0], matrix[1], matrix[2]),
-						FVector(matrix[4], matrix[5], matrix[6]),
-						FVector(matrix[8], matrix[9], matrix[10]),
-						FVector(matrix[12], matrix[13], matrix[14])
+					FMatrix44f ViewMatrix(
+						FVector3f(matrix[0], matrix[1], matrix[2]),
+						FVector3f(matrix[4], matrix[5], matrix[6]),
+						FVector3f(matrix[8], matrix[9], matrix[10]),
+						FVector3f(matrix[12], matrix[13], matrix[14])
 					);
-					FVector Vertices[4] =
+					FVector3f Vertices[4] =
 					{
-						FVector(-(dispscale.X / 2.f),  (dispscale.Y / 2.f), 0.f),
-						FVector((dispscale.X / 2.f),  (dispscale.Y / 2.f), 0.f),
-						FVector(-(dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
-						FVector((dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
+						FVector3f(-(dispscale.X / 2.f),  (dispscale.Y / 2.f), 0.f),
+						FVector3f( (dispscale.X / 2.f),  (dispscale.Y / 2.f), 0.f),
+						FVector3f(-(dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
+						FVector3f( (dispscale.X / 2.f), -(dispscale.Y / 2.f), 0.f),
 					};
 
 					FSsRenderPart& RenderPart = OutRenderParts.AddZeroed_GetRef();
@@ -933,7 +933,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 					RenderPart.Vertices.AddUninitialized(4);
 					for (int32 i = 0; i < 4; ++i)
 					{
-						FVector4 V = ViewMatrix.TransformPosition(Vertices[i]);
+						FVector4f V = ViewMatrix.TransformPosition(Vertices[i]);
 						RenderPart.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
 						RenderPart.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
 
@@ -948,9 +948,9 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 }
 
 // 再生中にアニメーションのCanvasSizeの取得 
-const FVector2D FSsPlayer::GetAnimCanvasSize() const
+const FVector2f FSsPlayer::GetAnimCanvasSize() const
 {
-	return (nullptr != Decoder) && (nullptr != Decoder->curAnimation) ? Decoder->curAnimation->Settings.CanvasSize : FVector2D(0,0);
+	return (nullptr != Decoder) && (nullptr != Decoder->curAnimation) ? Decoder->curAnimation->Settings.CanvasSize : FVector2f(0,0);
 }
 
 // 再生
@@ -1180,7 +1180,7 @@ int32 FSsPlayer::GetPartIndexFromName(FName PartName) const
 }
 
 // パーツのTransformを取得
-bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector2D& OutPosition, float& OutRotate, FVector2D& OutScale) const
+bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector2f& OutPosition, float& OutRotate, FVector2f& OutScale) const
 {
 	if((nullptr == Decoder) || (PartIndex < 0) || (Decoder->sortList.Num() <= PartIndex))
 	{
@@ -1188,9 +1188,9 @@ bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector2D& OutPosition, float&
 	}
 
 	SsPartState* State = &(Decoder->partState[PartIndex]);
-	FVector2D Pivot = GetAnimPivot();
-	FVector2D CanvasSize = GetAnimCanvasSize();
-	OutPosition = FVector2D(
+	FVector2f Pivot = GetAnimPivot();
+	FVector2f CanvasSize = GetAnimCanvasSize();
+	OutPosition = FVector2f(
 		State->matrixLocal[12] + ((float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X)),
 		State->matrixLocal[13] - ((float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y))
 	);

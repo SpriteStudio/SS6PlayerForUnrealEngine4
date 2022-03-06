@@ -17,32 +17,32 @@ public:
 	FName		CellName;		///< セル名称
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2D	Pos;			///< 左上の座標
+	FVector2f	Pos;			///< 左上の座標
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2D	Size;			///< WHピクセルサイズ
+	FVector2f	Size;			///< WHピクセルサイズ
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2D	Pivot;			///< 原点。size /2 が中央=0,0になる。
+	FVector2f	Pivot;			///< 原点。size /2 が中央=0,0になる。
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	bool		Rotated;		///< 左方向に９０度回転されている。uvs の割り当てが変わる。
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2D	ParentSize;		//親テクスチャのサイズ
+	FVector2f	ParentSize;		//親テクスチャのサイズ
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	bool		IsMesh;
 
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	TArray<FVector2D>	InnerPoint;
+	TArray<FVector2f>	InnerPoint;
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	TArray<FVector2D>	OuterPoint;
+	TArray<FVector2f>	OuterPoint;
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	TArray<FVector2D>	MeshPointList;		//ポイントリスト
+	TArray<FVector2f>	MeshPointList;		//ポイントリスト
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
 	TArray<FSsTriangle>	MeshTriList;		//トライアングルリスト
@@ -94,7 +94,7 @@ public:
 	UTexture*	Texture = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
-	FVector2D	PixelSize;			///< 画像のピクセルWHサイズ
+	FVector2f	PixelSize;			///< 画像のピクセルWHサイズ
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
 	bool		OverrideTexSettings;///< テクスチャ設定をプロジェクトの設定ではなく下記設定を使う

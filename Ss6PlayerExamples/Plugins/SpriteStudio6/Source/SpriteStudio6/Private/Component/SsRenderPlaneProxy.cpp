@@ -144,7 +144,7 @@ void FSsRenderPlaneProxy::SetDynamicData_RenderThread()
 	TArray<FDynamicMeshVertex> Vertices;
 	Vertices.Empty(4);
 	Vertices.AddUninitialized(4);
-	FVector2D PivotOffSet = -(Pivot * CanvasSizeUU);
+	FVector2f PivotOffSet = -(Pivot * CanvasSizeUU);
 	Vertices[0] = FDynamicMeshVertex(FVector3f(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f), FVector3f(1.f, 0.f, 0.f), FVector3f(0.f, 0.f, 1.f), FVector2f(0.f, 0.f), FColor(255, 255, 255, 255));
 	Vertices[1] = FDynamicMeshVertex(FVector3f(0.f, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f), FVector3f(1.f, 0.f, 0.f), FVector3f(0.f, 0.f, 1.f), FVector2f(1.f, 0.f), FColor(255, 255, 255, 255));
 	Vertices[2] = FDynamicMeshVertex(FVector3f(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f), FVector3f(1.f, 0.f, 0.f), FVector3f(0.f, 0.f, 1.f), FVector2f(0.f, 1.f), FColor(255, 255, 255, 255));
@@ -153,7 +153,7 @@ void FSsRenderPlaneProxy::SetDynamicData_RenderThread()
 	for(int32 i = 0; i < 4; ++i)
 	{
 		VertexBuffers.PositionVertexBuffer.VertexPosition(i) = Vertices[i].Position;
-		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(i, Vertices[i].TangentX.ToFVector(), Vertices[i].GetTangentY(), Vertices[i].TangentZ.ToFVector());
+		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(i, Vertices[i].TangentX.ToFVector3f(), Vertices[i].GetTangentY(), Vertices[i].TangentZ.ToFVector3f());
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(i, 0, Vertices[i].TextureCoordinate[0]);
 		VertexBuffers.ColorVertexBuffer.VertexColor(i) = Vertices[i].Color;
 	}

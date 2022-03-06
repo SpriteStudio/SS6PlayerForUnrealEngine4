@@ -44,7 +44,7 @@ public:
 	bool bOverridePartSize;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SsPlayerSlot", meta=(EditCondition="bOverridePartSize"))
-	FVector2D PartSize = FVector2D(100.f, 100.f);
+	FVector2D PartSize = FVector2D(100, 100);
 
 
 private:

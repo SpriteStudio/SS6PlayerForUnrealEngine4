@@ -633,25 +633,25 @@ void	SsAnimeDecoder::SsInterpolationValue(int time, const FSsKeyframe* leftkey, 
 	//スタートとエンドの頂点数を比較し、多い方に合わせる(足りない部分は0とみなす)
 	int numPoints = FMath::Max<int>(startValue.verticeChgList.Num(), endValue.verticeChgList.Num());
 
-	TArray<FVector2D>& start = startValue.verticeChgList;
+	TArray<FVector2f>& start = startValue.verticeChgList;
 	//start.resize(numPoints);
 	for (int i = start.Num(); i < numPoints; i++)
 	{
-		start.Add(FVector2D(0, 0));
+		start.Add(FVector2f(0, 0));
 	}
 
-	TArray<FVector2D>& end = endValue.verticeChgList;
+	TArray<FVector2f>& end = endValue.verticeChgList;
 	//end.resize(numPoints);
 	for (int i = end.Num(); i < numPoints; i++)
 	{
-		end.Add(FVector2D(0, 0));
+		end.Add(FVector2f(0, 0));
 	}
 
 	//SsDebugPrint("start : %d, end : %d", start.size(), end.size());
 
 	for (int i = 0; i < numPoints; i++)
 	{
-		FVector2D outVec;
+		FVector2f outVec;
 
 		outVec = SsInterpolate(SsInterpolationType::Linear, rate, start[i], end[i], 0);
 		v.verticeChgList.Add(outVec);
@@ -806,9 +806,9 @@ template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int t
 
 
 //中間点を求める
-static void	CoordinateGetDiagonalIntersection( FVector2D& out , const FVector2D& LU , const FVector2D& RU , const FVector2D& LD , const FVector2D& RD )
+static void	CoordinateGetDiagonalIntersection( FVector2f& out , const FVector2f& LU , const FVector2f& RU , const FVector2f& LD , const FVector2f& RD )
 {
-	out = FVector2D(0.f,0.f);
+	out = FVector2f(0.f,0.f);
 
 	/* <<< 係数を求める >>> */
 	float c1 = (LD.Y - RU.Y) * (LD.X - LU.X) - (LD.X - RU.X) * (LD.Y - LU.Y);
@@ -829,12 +829,12 @@ static void	CoordinateGetDiagonalIntersection( FVector2D& out , const FVector2D&
 	}
 }
 
-static FVector2D GetLocalScale( float matrix[16] )
+static FVector2f GetLocalScale( float matrix[16] )
 {
-	float sx = FVector2D::Distance( FVector2D( matrix[0] , matrix[1] ) , FVector2D( 0 , 0 ) );
-	float sy = FVector2D::Distance( FVector2D( matrix[4 * 1 + 0] , matrix[4 * 1 + 1] ) , FVector2D( 0 , 0 ) );
+	float sx = FVector2f::Distance( FVector2f( matrix[0] , matrix[1] ) , FVector2f( 0 , 0 ) );
+	float sy = FVector2f::Distance( FVector2f( matrix[4 * 1 + 0] , matrix[4 * 1 + 1] ) , FVector2f( 0 , 0 ) );
 
-	return FVector2D( sx , sy );
+	return FVector2f( sx , sy );
 }
 
 
@@ -1180,7 +1180,7 @@ void	SsAnimeDecoder::updateMatrix(FSsPart* part , FSsPartAnime* anime , SsPartSt
 		// アンカー
 //		if ( state->parent )
 //		{
-//			const FVector2D& parentSize = state->parent->size;
+//			const FVector2f& parentSize = state->parent->size;
 //			state->position.X = state->position.X + state->parent->size.X * state->anchor.X;
 //			state->position.Y = state->position.Y + state->parent->size.Y * state->anchor.Y;
 //		}
@@ -1215,7 +1215,7 @@ void	SsAnimeDecoder::updateVertices(FSsPart* part , FSsPartAnime* anime , SsPart
 
 	FSsCell * cell = state->cellValue.cell;
 
-	FVector2D pivot;
+	FVector2f pivot;
 
 	if (cell)
 	{
@@ -1253,7 +1253,7 @@ void	SsAnimeDecoder::updateVertices(FSsPart* part , FSsPartAnime* anime , SsPart
 	float vtxPosX[4] = {sx, ex, sx, ex};
 	float vtxPosY[4] = {sy, sy, ey, ey};
 
-	FVector2D * vtxOfs = state->vertexValue.Offsets;
+	FVector2f * vtxOfs = state->vertexValue.Offsets;
 
 	//きれいな頂点変形に対応
 #if USE_TRIANGLE_FIN
@@ -1261,20 +1261,20 @@ void	SsAnimeDecoder::updateVertices(FSsPart* part , FSsPartAnime* anime , SsPart
 	if ( state->is_parts_color || state->is_vertex_transform )
 	{
 
-		FVector2D	vertexCoordinateLU = FVector2D( sx + (float)vtxOfs[0].X , sy + (float)vtxOfs[0].Y );// : 左上頂点座標（ピクセル座標系）
-		FVector2D	vertexCoordinateRU = FVector2D( ex + (float)vtxOfs[1].X , sy + (float)vtxOfs[1].Y );// : 右上頂点座標（ピクセル座標系）
-		FVector2D	vertexCoordinateLD = FVector2D( sx + (float)vtxOfs[2].X , ey + (float)vtxOfs[2].Y );// : 左下頂点座標（ピクセル座標系）
-		FVector2D	vertexCoordinateRD = FVector2D( ex + (float)vtxOfs[3].X , ey + (float)vtxOfs[3].Y );// : 右下頂点座標（ピクセル座標系）
+		FVector2f	vertexCoordinateLU = FVector2f( sx + (float)vtxOfs[0].X , sy + (float)vtxOfs[0].Y );// : 左上頂点座標（ピクセル座標系）
+		FVector2f	vertexCoordinateRU = FVector2f( ex + (float)vtxOfs[1].X , sy + (float)vtxOfs[1].Y );// : 右上頂点座標（ピクセル座標系）
+		FVector2f	vertexCoordinateLD = FVector2f( sx + (float)vtxOfs[2].X , ey + (float)vtxOfs[2].Y );// : 左下頂点座標（ピクセル座標系）
+		FVector2f	vertexCoordinateRD = FVector2f( ex + (float)vtxOfs[3].X , ey + (float)vtxOfs[3].Y );// : 右下頂点座標（ピクセル座標系）
 
-		FVector2D CoordinateLURU = (vertexCoordinateLU + vertexCoordinateRU) * 0.5f;
-		FVector2D CoordinateLULD = (vertexCoordinateLU + vertexCoordinateLD) * 0.5f;
-		FVector2D CoordinateLDRD = (vertexCoordinateLD + vertexCoordinateRD) * 0.5f;
-		FVector2D CoordinateRURD = (vertexCoordinateRU + vertexCoordinateRD) * 0.5f;
+		FVector2f CoordinateLURU = (vertexCoordinateLU + vertexCoordinateRU) * 0.5f;
+		FVector2f CoordinateLULD = (vertexCoordinateLU + vertexCoordinateLD) * 0.5f;
+		FVector2f CoordinateLDRD = (vertexCoordinateLD + vertexCoordinateRD) * 0.5f;
+		FVector2f CoordinateRURD = (vertexCoordinateRU + vertexCoordinateRD) * 0.5f;
 
-		FVector2D center;
+		FVector2f center;
 		CoordinateGetDiagonalIntersection( center , CoordinateLURU, CoordinateRURD, CoordinateLULD, CoordinateLDRD );
 
-		FVector2D*	coodinatetable[] = { &vertexCoordinateLU , &vertexCoordinateRU , &vertexCoordinateLD , &vertexCoordinateRD , &center };
+		FVector2f*	coodinatetable[] = { &vertexCoordinateLU , &vertexCoordinateRU , &vertexCoordinateLD , &vertexCoordinateRD , &center };
 
 
 		for (int i = 0; i < 5; ++i)

@@ -355,8 +355,8 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 				TArray<FSsRenderPartsProxy::FSsPartPrimitive> RenderPrimitives;
 				{
 					const TArray<FSsRenderPart>& RenderParts = Player.GetRenderParts();
-					FVector2D Pivot = Player.GetAnimPivot();
-					FVector2D CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
+					FVector2f Pivot = Player.GetAnimPivot();
+					FVector2f CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
 
 					TArray<UMaterialInterface*> PartsMaterials;
 					PartsMaterials.Reserve(RenderParts.Num());
@@ -413,14 +413,14 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 							check((4 == ItPart->Vertices.Num()) || (5 == ItPart->Vertices.Num()));
 							for(int32 v = 0; v < ItPart->Vertices.Num(); ++v)
 							{
-								Vertex.Position = FVector(
+								Vertex.Position = FVector3f(
 									0.f,
 									( ItPart->Vertices[v].Position.X - 0.5f - Pivot.X) * CanvasSizeUU.X,
 									(-ItPart->Vertices[v].Position.Y + 0.5f - Pivot.Y) * CanvasSizeUU.Y
 									);
 								Vertex.TexCoord   = ItPart->Vertices[v].TexCoord;
 								Vertex.Color      = ItPart->Vertices[v].Color;
-								Vertex.ColorBlend = FVector2D((RenderParts.Num() - ItPart.GetIndex()) * PixelDepthOffsetPerPart, ItPart->Vertices[v].ColorBlendRate);
+								Vertex.ColorBlend = FVector2f((RenderParts.Num() - ItPart.GetIndex()) * PixelDepthOffsetPerPart, ItPart->Vertices[v].ColorBlendRate);
 								RenderVertices.Add(Vertex);
 							}
 
@@ -465,14 +465,14 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 							{
 								for(auto ItVert = ItMesh->Vertices.CreateConstIterator(); ItVert; ++ItVert)
 								{
-									Vertex.Position = FVector(
+									Vertex.Position = FVector3f(
 										0.f,
 										( ItVert->Position.X - 0.5f - Pivot.X) * CanvasSizeUU.X,
 										(-ItVert->Position.Y + 0.5f - Pivot.Y) * CanvasSizeUU.Y
 										);
 									Vertex.TexCoord   = ItVert->TexCoord;
 									Vertex.Color      = ItMesh->Color;
-									Vertex.ColorBlend = FVector2D((RenderParts.Num() - ItPart.GetIndex()) * PixelDepthOffsetPerPart, ItMesh->ColorBlendRate);
+									Vertex.ColorBlend = FVector2f((RenderParts.Num() - ItPart.GetIndex()) * PixelDepthOffsetPerPart, ItMesh->ColorBlendRate);
 									RenderVertices.Add(Vertex);
 								}
 								for(auto ItIndex = ItMesh->Indices.CreateConstIterator(); ItIndex; ++ItIndex)
@@ -566,8 +566,8 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 			{
 				FSsRenderPlaneProxy* SsPlaneProxy = (FSsRenderPlaneProxy*)SceneProxy;
 				UMaterialInterface* Material = OffScreenPlaneMID;
-				FVector2D Pivot(Player.GetAnimPivot());
-				FVector2D CanvasSizeUU(Player.GetAnimCanvasSize() * UUPerPixel);
+				FVector2f Pivot(Player.GetAnimPivot());
+				FVector2f CanvasSizeUU(Player.GetAnimCanvasSize() * UUPerPixel);
 				ENQUEUE_RENDER_COMMAND(FSendSsPlaneData)(
 					[SsPlaneProxy, Material, Pivot, CanvasSizeUU](FRHICommandListImmediate& RHICmdList)
 					{
@@ -622,15 +622,15 @@ FBoxSphereBounds USsPlayerComponent::CalcBounds(const FTransform& LocalToWorld) 
 			} //not break
 		case ESsPlayerComponentRenderMode::OffScreenPlane:
 			{
-				const FVector2D CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
-				const FVector2D& Pivot = Player.GetAnimPivot();
-				FVector2D PivotOffSet = -(Pivot * CanvasSizeUU);
+				const FVector2f CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
+				const FVector2f& Pivot = Player.GetAnimPivot();
+				FVector2f PivotOffSet = -(Pivot * CanvasSizeUU);
 
 				FBox BoundsBox(EForceInit::ForceInit);
-				BoundsBox += FVector(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f);
-				BoundsBox += FVector(0.f, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f);
-				BoundsBox += FVector(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f);
-				BoundsBox += FVector(0.f, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f);
+				BoundsBox += FVector(0, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f);
+				BoundsBox += FVector(0, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f);
+				BoundsBox += FVector(0, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f);
+				BoundsBox += FVector(0, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f);
 
 				BoundsBox.Min *= LocalBoundsScale;
 				BoundsBox.Max *= LocalBoundsScale;
@@ -758,7 +758,7 @@ UTexture* USsPlayerComponent::GetRenderTarget()
 // パーツのアタッチ用Transformを取得 
 bool USsPlayerComponent::GetPartAttachTransform(int32 PartIndex, FTransform& OutTransform) const
 {
-	FVector2D Position, Scale;
+	FVector2f Position, Scale;
 	float Rotate;
 	if(!Player.GetPartTransform(PartIndex, Position, Rotate, Scale))
 	{
@@ -784,11 +784,11 @@ bool USsPlayerComponent::GetPartAttachTransform(int32 PartIndex, FTransform& Out
 	OutTransform = FTransform(
 		R,
 		FVector(
-			0.f,
+			0,
 			Position.X * Player.GetAnimCanvasSize().X * UUPerPixel,
 			Position.Y * Player.GetAnimCanvasSize().Y * UUPerPixel
 			),
-		FVector(1.f, Scale.X, Scale.Y)
+		FVector(1, Scale.X, Scale.Y)
 		);
 	return true;
 }

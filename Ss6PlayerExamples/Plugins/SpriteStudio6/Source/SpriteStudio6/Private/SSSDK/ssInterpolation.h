@@ -17,7 +17,7 @@ inline bool SsNeedsCurveParams(SsInterpolationType::Type type)
 }
 
 ///カーブパラメータ、補完方法により保管された値を生成する
-FVector2D	SsInterpolate(SsInterpolationType::Type ipType, float time, FVector2D start, FVector2D end, const FSsCurve * curve);
+FVector2f	SsInterpolate(SsInterpolationType::Type ipType, float time, FVector2f start, FVector2f end, const FSsCurve * curve);
 float	SsInterpolate(SsInterpolationType::Type type, float time, float start, float end, const FSsCurve * curve);
 
 #endif

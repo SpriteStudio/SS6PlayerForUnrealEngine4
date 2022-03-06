@@ -62,7 +62,7 @@ void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 				{
 					FString TempStr;
 					Ar << TempStr;
-					_Point2 = new FVector2D();
+					_Point2 = new FVector2f();
 					StringToPoint2(TempStr, *_Point2);
 					Type = SsValueType::Point2Type;
 				}
@@ -162,7 +162,7 @@ void FSsValue::Serialize(FArchive& Ar, FName HashKey)
 		{
 			if(Ar.IsLoading())
 			{
-				_Point2 = new FVector2D();
+				_Point2 = new FVector2f();
 			}
 			Ar << _Point2->X;
 			Ar << _Point2->Y;

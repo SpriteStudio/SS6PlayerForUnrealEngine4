@@ -20,10 +20,10 @@ public:
 	int32	FrameCount;		//!< フレーム数
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
-	FVector2D	CanvasSize;				//!< キャンバスサイズ(元基準枠)。ビューポートのサイズとイコールではない。
+	FVector2f	CanvasSize;				//!< キャンバスサイズ(元基準枠)。ビューポートのサイズとイコールではない。
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
-	FVector2D	Pivot;					//!< キャンバスの原点。0,0 が中央。-0.5, +0.5 が左上
+	FVector2f	Pivot;					//!< キャンバスの原点。0,0 が中央。-0.5, +0.5 が左上
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
 	int32	StartFrame;		//!< アニメーションの開始フレーム
@@ -92,13 +92,13 @@ public:
 	int32		BoneLength;		//!< ボーンの長さ
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
-	FVector2D	BonePosition;	//!< ボーンの座標
+	FVector2f	BonePosition;	//!< ボーンの座標
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
 	float		BoneRotation;	//!< ボーンの角度
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
-	FVector2D	WeightPosition;	//!< ウェイトの位置
+	FVector2f	WeightPosition;	//!< ウェイトの位置
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
 	float		WeightImpact;	//!< ウェイトの強さ
@@ -123,9 +123,9 @@ public:
 		, MaskInfluence(true)
 	{
 		BoneLength = 0;
-		BonePosition = FVector2D::ZeroVector;
+		BonePosition = FVector2f::ZeroVector;
 		BoneRotation = 0.f;
-		WeightPosition = FVector2D::ZeroVector;
+		WeightPosition = FVector2f::ZeroVector;
 		WeightImpact = 0.f;
 		IKDepth = 0;
 		IKRotationArrow = SsIkRotationArrow::Arrowfree;
@@ -159,7 +159,7 @@ struct SPRITESTUDIO6_API FSsMeshBindInfo
 	int32	BoneIndex[SSMESHPART_BONEMAX];
 
 	UPROPERTY()	// 要素数が多くDetailsウィンドウが極端に重くなってしまうため、VisibleAnywhereを付けない 
-	FVector	Offset[SSMESHPART_BONEMAX];
+	FVector3f	Offset[SSMESHPART_BONEMAX];
 
 	UPROPERTY(VisibleAnywhere, Category=SsMeshBindInfo)
 	int32	BindBoneNum;
@@ -170,7 +170,7 @@ struct SPRITESTUDIO6_API FSsMeshBindInfo
 		{
 			Weight[i] = 0;
 			BoneIndex[i] = 0;
-			Offset[i] = FVector::ZeroVector;
+			Offset[i] = FVector3f::ZeroVector;
 		}
 		BindBoneNum = 0;
 	}

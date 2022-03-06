@@ -185,7 +185,7 @@ bool SsXmlIArchiver::dc(const char* name, TArray<FName>& list)
 	return false;
 }
 
-bool SsXmlIArchiver::dc(const char* name, TArray<FVector2D>& list)
+bool SsXmlIArchiver::dc(const char* name, TArray<FVector2f>& list)
 {
 	AR_SELF_CHECK();
 	list.Empty();
@@ -196,7 +196,7 @@ bool SsXmlIArchiver::dc(const char* name, TArray<FVector2D>& list)
 		while(e)
 		{
 			FString str( e->GetText() );
-			FVector2D vec;
+			FVector2f vec;
 			StringToPoint2( str , vec );
 
 			list.Add( vec );
@@ -229,7 +229,7 @@ bool SsXmlIArchiver::dc(const char* name, TArray<FSsTriangle>& list)
 	return false;
 }
 
-bool SsXmlIArchiver::dc(const char* name, FVector2D& member)
+bool SsXmlIArchiver::dc(const char* name, FVector2f& member)
 {
 	AR_SELF_CHECK();
 
@@ -355,7 +355,7 @@ FSsValue SsValueSeriarizer__MakeValue(const char* v, FName HashKey = NAME_None)
 			|| (HashKey == "RB")
 			)
 		{
-			FVector2D Point;
+			FVector2f Point;
 			StringToPoint2(ValueStr, Point);
 			return FSsValue(Point);
 		}
@@ -558,7 +558,7 @@ void SerializeStruct(FSsMeshBind& Value, SsXmlIArchiver* ar)
 
 			FMemory::Memset(Info.Weight,    0, SSMESHPART_BONEMAX * sizeof(float));
 			FMemory::Memset(Info.BoneIndex, 0, SSMESHPART_BONEMAX * sizeof(int32));
-			FMemory::Memset(Info.Offset,    0, SSMESHPART_BONEMAX * sizeof(FVector));
+			FMemory::Memset(Info.Offset,    0, SSMESHPART_BONEMAX * sizeof(FVector3f));
 
 			Info.BindBoneNum = (0 < Tok.Num()) ? FCString::Atoi(*Tok[0]) : 0;
 			for(int32 i = 0; i < Info.BindBoneNum; ++i)

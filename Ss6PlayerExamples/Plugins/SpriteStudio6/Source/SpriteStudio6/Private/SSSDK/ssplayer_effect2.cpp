@@ -28,21 +28,21 @@ static float blendFloat( float a,float b , float rate )
 	return   ( a + ( b - a ) * rate );
 }
 
-static float get_angle_360(const FVector2D& v0, const FVector2D& v1)
+static float get_angle_360(const FVector2f& v0, const FVector2f& v1)
 {
-	FVector2D uv0(v0), uv1(v1);
+	FVector2f uv0(v0), uv1(v1);
 	uv0.Normalize();
 	uv1.Normalize();
 
 	float ang;
 	{
-		float ip = FVector2D::DotProduct(uv0, uv1);
+		float ip = FVector2f::DotProduct(uv0, uv1);
 		if (ip > 1.0f) { ip = 1.0f; }
 		if (ip < -1.0f) { ip = -1.0f; }
 		ang = FMath::Acos(ip);
 	}
 
-	float c = FVector2D::CrossProduct(uv0, uv1);
+	float c = FVector2f::CrossProduct(uv0, uv1);
 
 	if (c < 0)
 	{
@@ -274,7 +274,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 	if ( particle.useTransScale )
 	{
-		FVector2D s2;
+		FVector2f s2;
 		float sf2;
 		s2.X = particle.transscale.X + (rand.genrand_float32() * particle.transscaleRange.X );
 		s2.Y = particle.transscale.Y + (rand.genrand_float32() * particle.transscaleRange.Y );
@@ -299,16 +299,16 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 	{
 
 		//生成地点からの距離
-		FVector2D v(  particle.gravityPos.X - (ox + position.X) ,
+		FVector2f v(  particle.gravityPos.X - (ox + position.X) ,
                       particle.gravityPos.Y - (oy + position.Y) );
 
 
-		FVector2D nv = v;
+		FVector2f nv = v;
 		nv.Normalize();
 
 		float gp = particle.gravityPower;
 		if (gp > 0) {
-			FVector2D v2 = FVector2D(p->x, p->y);
+			FVector2f v2 = FVector2f(p->x, p->y);
 
 			//6.2対応　収束点座標を(0, 0)にすると収束しない
 			float len = v.Size(); // 生成位置からの距離
@@ -376,8 +376,8 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		{
 			updateParticle( time + 1.0f , &dp , true );
 			p->direc =  get_angle_360(
-								FVector2D( 1 , 0 ) ,
-								FVector2D(p->x - dp.x, p->y - dp.y) ) + FMath::DegreesToRadians(90) + FMath::DegreesToRadians(particle.direcRotAdd);
+								FVector2f( 1 , 0 ) ,
+								FVector2f(p->x - dp.x, p->y - dp.y) ) + FMath::DegreesToRadians(90) + FMath::DegreesToRadians(particle.direcRotAdd);
 		}
 	}
 
@@ -553,8 +553,8 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
 /*
 void	SsEffectRenderV2::drawSprite(
 		SsCellValue*		dispCell,
-		FVector2D _position,
-		FVector2D _size,
+		FVector2f _position,
+		FVector2f _size,
 		float     _rotation,
 		float	  direction,
 		SsFColor	_color,
@@ -605,12 +605,12 @@ void	SsEffectRenderV2::drawSprite(
 	if ( ( dispCell->cell ) && ( fcolor.a != 0.0f ) )
 	{
 
-		FVector2D pivot = FVector2D( dispCell->cell->pivot.X ,dispCell->cell->pivot.Y);
+		FVector2f pivot = FVector2f( dispCell->cell->pivot.X ,dispCell->cell->pivot.Y);
 
 		pivot.X = pivot.X * dispCell->cell->size.X;
 		pivot.Y = pivot.Y * dispCell->cell->size.Y;
 
-		FVector2D dispscale = dispCell->cell->size;
+		FVector2f dispscale = dispCell->cell->size;
 
 
 		SsCurrentRenderer::getRender()->renderSpriteSimple(
@@ -688,7 +688,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 			fcolor.fromARGB(lp.color.toARGB());
 
 			drawSprite( &e->dispCell ,
-						FVector2D(lp.X,lp.Y),
+						FVector2f(lp.X,lp.Y),
 						lp.scale,
 						lp.rot , lp.direc , fcolor , e->refData->BlendType );
 

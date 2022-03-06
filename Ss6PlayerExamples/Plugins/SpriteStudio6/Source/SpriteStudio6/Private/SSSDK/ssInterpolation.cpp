@@ -122,9 +122,9 @@ static float hermite_(float start, float end, float time, const FSsCurve * c)
 }
 
 /// SsVector2 のメンバ全体の補間
-FVector2D	SsInterpolate(SsInterpolationType::Type ipType, float time, FVector2D start, FVector2D end, const FSsCurve * curve)
+FVector2f	SsInterpolate(SsInterpolationType::Type ipType, float time, FVector2f start, FVector2f end, const FSsCurve * curve)
 {
-	FVector2D out;
+	FVector2f out;
 	out.X = SsInterpolate(ipType, time, start.X, end.X, curve);
 	out.Y = SsInterpolate(ipType, time, start.Y, end.Y, curve);
 

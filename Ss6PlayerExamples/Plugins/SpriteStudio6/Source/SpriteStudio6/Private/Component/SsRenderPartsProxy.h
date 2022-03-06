@@ -21,10 +21,10 @@ class FSsRenderPartsProxy : public FPrimitiveSceneProxy
 public:
 	struct FSsPartVertex
 	{
-		FVector Position;
-		FVector2D TexCoord;
+		FVector3f Position;
+		FVector2f TexCoord;
 		FColor Color;
-		FVector2D ColorBlend;	// [0]:PixelDepthOffset, [1]:ColorBlendRate 
+		FVector2f ColorBlend;	// [0]:PixelDepthOffset, [1]:ColorBlendRate 
 	};
 	struct FSsPartPrimitive
 	{

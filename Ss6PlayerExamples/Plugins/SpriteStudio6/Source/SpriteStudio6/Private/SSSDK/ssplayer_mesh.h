@@ -18,7 +18,7 @@ struct StBoneWeight
 	float		   	weight_f[SSMESHPART_BONEMAX];
 
 	SsPartState*    bone[SSMESHPART_BONEMAX];
-	FVector			offset[SSMESHPART_BONEMAX];
+	FVector3f		offset[SSMESHPART_BONEMAX];
 
 	int				bindBoneNum;
 
@@ -47,8 +47,8 @@ public:
 	float			*offset_world_vertices;	// 描画に使われるデフォームアトリビュート
 
 	//ツール用テンポラリワーク [editer]
-	FVector2D*					vertices_outer;
-	FVector2D*					update_vertices_outer;
+	FVector2f*					vertices_outer;
+	FVector2f*					update_vertices_outer;
 	size_t						outter_vertexnum;
 
 public:
@@ -96,9 +96,9 @@ public:
 	void    updateTransformMesh();            //再生時用　（バインドされたボーンに沿って変形を行う）
 
 	//デフォーム関連
-	FVector getOffsetWorldVerticesFromKey(int index);
-	void	setOffsetWorldVertices(int index, const FVector & v);
-	FVector2D getOffsetLocalVertices(int index);
+	FVector3f getOffsetWorldVerticesFromKey(int index);
+	void	setOffsetWorldVertices(int index, const FVector3f & v);
+	FVector2f getOffsetLocalVertices(int index);
 
 
 /*

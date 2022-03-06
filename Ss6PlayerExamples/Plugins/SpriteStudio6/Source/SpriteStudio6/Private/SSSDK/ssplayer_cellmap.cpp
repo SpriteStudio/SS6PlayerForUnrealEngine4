@@ -153,7 +153,7 @@ void getCellValue( SsCellMapList* cellList, int cellMapid , FName& cellName , Ss
 
 }
 
-void calcUvs( SsCellValue* cellv, const FVector2D TexturePixelSize )
+void calcUvs( SsCellValue* cellv, const FVector2f TexturePixelSize )
 {
 	//SsCellMap* map = cellv->cellmapl->cellMap;
 	FSsCell* cell = cellv->cell;
@@ -170,7 +170,7 @@ void calcUvs( SsCellValue* cellv, const FVector2D TexturePixelSize )
 		return;
 	}
 
-	FVector2D wh;
+	FVector2f wh;
 	wh.X = TexturePixelSize.X;
 	wh.Y = TexturePixelSize.Y;
 

@@ -9,9 +9,9 @@
 
 namespace
 {
-	float Vector2DAngle(const FVector2D& Vec)
+	float Vector2DAngle(const FVector2f& Vec)
 	{
-		float Len = FVector2D::Distance(FVector2D::ZeroVector, Vec);
+		float Len = FVector2f::Distance(FVector2f::ZeroVector, Vec);
 		float Angle = FMath::Acos(Vec.X / Len);
 		if(Vec.Y < 0.f)
 		{
@@ -34,7 +34,7 @@ namespace
 
 SSsPlayerWidget::SSsPlayerWidget()
 	: SPanel()
-	, AnimCanvasSize(0.f, 0.f)
+	, AnimCanvasSize(0, 0)
 	, Children(this)
 	, bReflectParentAlpha(false)
 	, RenderParts(nullptr)
@@ -100,7 +100,7 @@ void SSsPlayerWidget::Tick(const FGeometry& AllottedGeometry, const double InCur
 
 FVector2D SSsPlayerWidget::ComputeDesiredSize(float LayoutScaleMultiplier) const
 {
-	return (AnimCanvasSize != FVector2D::ZeroVector) ? AnimCanvasSize : FVector2D(256.f, 256.f);
+	return (AnimCanvasSize != FVector2D::ZeroVector) ? AnimCanvasSize : FVector2D(256, 256);
 }
 
 
@@ -156,10 +156,10 @@ void SSsPlayerWidget::OnArrangeChildren(
 			{
 				if(It->PartIndex == Children[i].PartIndexAttr.Get())
 				{
-					FVector2D VertPosition[3];
+					FVector2f VertPosition[3];
 					for(int32 ii = 0; ii < 3; ++ii)
 					{
-						VertPosition[ii] = FVector2D(
+						VertPosition[ii] = FVector2f(
 							It->Vertices[ii].Position.X * LocalSize.X,
 							It->Vertices[ii].Position.Y * LocalSize.Y
 							);
@@ -167,30 +167,30 @@ void SSsPlayerWidget::OnArrangeChildren(
 
 					if(Children[i].WidgetSlot && Children[i].WidgetSlot->bOverridePartSize)
 					{
-						FVector2D VertPositionTmp[3];
+						FVector2f VertPositionTmp[3];
 						VertPositionTmp[0] = VertPosition[0];
 						VertPositionTmp[1] = VertPosition[1];
 						VertPositionTmp[2] = VertPosition[2];
 
-						float LenX = FVector2D::Distance(VertPositionTmp[0], VertPositionTmp[1]);
-						float LenY = FVector2D::Distance(VertPositionTmp[0], VertPositionTmp[2]);
+						float LenX = FVector2f::Distance(VertPositionTmp[0], VertPositionTmp[1]);
+						float LenY = FVector2f::Distance(VertPositionTmp[0], VertPositionTmp[2]);
 
-						FVector2D XAxis = VertPositionTmp[1] - VertPositionTmp[0];
-						XAxis = (SMALL_NUMBER < XAxis.SizeSquared()) ? XAxis.GetSafeNormal() : FVector2D(1.f, 0.f);
-						FVector2D YAxis = VertPositionTmp[2] - VertPositionTmp[0];
-						YAxis = (SMALL_NUMBER < YAxis.SizeSquared()) ? YAxis.GetSafeNormal() : FVector2D(0.f, 1.f);
+						FVector2f XAxis = VertPositionTmp[1] - VertPositionTmp[0];
+						XAxis = (SMALL_NUMBER < XAxis.SizeSquared()) ? XAxis.GetSafeNormal() : FVector2f(1.f, 0.f);
+						FVector2f YAxis = VertPositionTmp[2] - VertPositionTmp[0];
+						YAxis = (SMALL_NUMBER < YAxis.SizeSquared()) ? YAxis.GetSafeNormal() : FVector2f(0.f, 1.f);
 
-						FVector2D Center = VertPositionTmp[0] + (XAxis * LenX/2.f) + (YAxis * LenY/2.f);
+						FVector2f Center = VertPositionTmp[0] + (XAxis * LenX/2.f) + (YAxis * LenY/2.f);
 						VertPosition[0] = Center - (XAxis * Children[i].WidgetSlot->PartSize.X/2.f) - (YAxis * Children[i].WidgetSlot->PartSize.Y/2.f);
 						VertPosition[1] = Center + (XAxis * Children[i].WidgetSlot->PartSize.X/2.f) - (YAxis * Children[i].WidgetSlot->PartSize.Y/2.f);
 						VertPosition[2] = Center - (XAxis * Children[i].WidgetSlot->PartSize.X/2.f) + (YAxis * Children[i].WidgetSlot->PartSize.Y/2.f);
 					}
 
 
-					FVector2D d01(VertPosition[1].X - VertPosition[0].X, VertPosition[1].Y - VertPosition[0].Y);
-					FVector2D d02(VertPosition[2].X - VertPosition[0].X, VertPosition[2].Y - VertPosition[0].Y);
-					float len01 = FVector2D::Distance(VertPosition[0], VertPosition[1]);
-					float len02 = FVector2D::Distance(VertPosition[0], VertPosition[2]);
+					FVector2f d01(VertPosition[1].X - VertPosition[0].X, VertPosition[1].Y - VertPosition[0].Y);
+					FVector2f d02(VertPosition[2].X - VertPosition[0].X, VertPosition[2].Y - VertPosition[0].Y);
+					float len01 = FVector2f::Distance(VertPosition[0], VertPosition[1]);
+					float len02 = FVector2f::Distance(VertPosition[0], VertPosition[2]);
 					float a01 = Vector2DAngle(VertPosition[1] - VertPosition[0]);
 					float a02 = Vector2DAngle(VertPosition[2] - VertPosition[0]);
 					float sub_a02_01 = SubAngle(a02, a01);
@@ -211,14 +211,14 @@ void SSsPlayerWidget::OnArrangeChildren(
 							Children[i].WidgetSlot->Content->SetRenderTransformPivot(FVector2D::ZeroVector);
 							Children[i].WidgetSlot->Content->SetRenderTransformAngle(FMath::RadiansToDegrees(a01));
 							Children[i].WidgetSlot->Content->SetRenderShear(
-								FVector2D(FMath::RadiansToDegrees((PI/2.f)- sub_a02_01), 0.f)
+								FVector2D(FMath::RadiansToDegrees((PI/2.f)- sub_a02_01), 0)
 								);
 						}
 
 						ArrangedChildren.AddWidget(
 							AllottedGeometry.MakeChild(
 								Children[i].GetWidget(),
-								VertPosition[0],
+								FVector2D(VertPosition[0].X, VertPosition[0].Y),
 								FVector2D(Width, Height)
 								)
 							);
@@ -235,8 +235,8 @@ void SSsPlayerWidget::OnArrangeChildren(
 			ArrangedChildren.AddWidget(
 				AllottedGeometry.MakeChild(
 					Children[i].GetWidget(),
-					FVector2D(InvalidPartCnt * 50.f, 0.f),
-					FVector2D(50.f, 50.f)
+					FVector2D(InvalidPartCnt * 50, 0),
+					FVector2D(50, 50)
 					)
 				);
 			++InvalidPartCnt;
@@ -567,8 +567,8 @@ void SSsPlayerWidget::PaintInternal(
 							It->Vertices[i].Position.Y * LocalSize.Y
 							));
 						int32 Idx = Base + i;
-						Vertices[Idx].Position.X = TransPosition.X;
-						Vertices[Idx].Position.Y = TransPosition.Y;
+						Vertices[Idx].Position.X = (float)TransPosition.X;
+						Vertices[Idx].Position.Y = (float)TransPosition.Y;
 						Vertices[Idx].TexCoords[0] = It->Vertices[i].TexCoord.X;
 						Vertices[Idx].TexCoords[1] = It->Vertices[i].TexCoord.Y;
 						Vertices[Idx].TexCoords[2] = 0.f;
@@ -610,8 +610,8 @@ void SSsPlayerWidget::PaintInternal(
 								ItVertex->Position.Y * LocalSize.Y
 							));
 						int32 Idx = Base + ItVertex.GetIndex();
-						Vertices[Idx].Position.X = TransPosition.X;
-						Vertices[Idx].Position.Y = TransPosition.Y;
+						Vertices[Idx].Position.X = (float)TransPosition.X;
+						Vertices[Idx].Position.Y = (float)TransPosition.Y;
 						Vertices[Idx].TexCoords[0] = ItVertex->TexCoord.X;
 						Vertices[Idx].TexCoords[1] = ItVertex->TexCoord.Y;
 						Vertices[Idx].TexCoords[2] = 0.f;

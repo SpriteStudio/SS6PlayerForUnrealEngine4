@@ -212,10 +212,10 @@ void	GetSsColorValue( const FSsKeyframe* key , SsColorAnime& v )
 
 void	GetSsVertexAnime( const FSsKeyframe* key , FSsVertexAnime& v )
 {
-	v.Offsets[0] = key->Value[ConstName_LT].get<FVector2D>();
-	v.Offsets[1] = key->Value[ConstName_RT].get<FVector2D>();
-	v.Offsets[2] = key->Value[ConstName_LB].get<FVector2D>();
-	v.Offsets[3] = key->Value[ConstName_RB].get<FVector2D>();
+	v.Offsets[0] = key->Value[ConstName_LT].get<FVector2f>();
+	v.Offsets[1] = key->Value[ConstName_RT].get<FVector2f>();
+	v.Offsets[2] = key->Value[ConstName_LB].get<FVector2f>();
+	v.Offsets[3] = key->Value[ConstName_RB].get<FVector2f>();
 }
 
 
@@ -350,7 +350,7 @@ void	GetSsDeformAnime(const FSsKeyframe* key, SsDeformAttr& v)
 		int cnt = 0;
 		for (int i = 0; i < svsize; i++)
 		{
-			FVector2D param(0, 0);
+			FVector2f param(0, 0);
 			if (cnt < datasize)
 			{
 				int idx = FCString::Atoi(*str_list[1 + (cnt * 3)]);		//index
@@ -375,7 +375,7 @@ void	GetSsDeformAnime(const FSsKeyframe* key, SsDeformAttr& v)
 	}
 }
 
-bool StringToPoint2(const FString& str, FVector2D& point)
+bool StringToPoint2(const FString& str, FVector2f& point)
 {
 	FString LeftS, RightS;
 	if(str.Split(TEXT(" "), &LeftS, &RightS))

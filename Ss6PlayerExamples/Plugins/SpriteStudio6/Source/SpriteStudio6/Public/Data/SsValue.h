@@ -42,7 +42,7 @@ public:
 		bool		_Boolean;
 		SsArray*	_Array;
 		SsHash*		_Hash;
-		FVector2D*	_Point2;
+		FVector2f*	_Point2;
 		SsColor*	_Color;
 	};
 
@@ -72,10 +72,10 @@ public:
 		_Array = new SsArray(n);
 	}
 	explicit FSsValue(SsHash& n){ Type = SsValueType::HashType; _Hash = new SsHash(n); }
-	explicit FSsValue(FVector2D& n)
+	explicit FSsValue(FVector2f& n)
 	{
 		Type = SsValueType::Point2Type;
-		_Point2 = new FVector2D(n);
+		_Point2 = new FVector2f(n);
 	}
 	explicit FSsValue(SsColor& n)
 	{
@@ -117,7 +117,7 @@ public:
 				_Hash = new SsHash( *x._Hash);
 				break;
 			case SsValueType::Point2Type:
-				_Point2 = new FVector2D( *x._Point2);
+				_Point2 = new FVector2f( *x._Point2);
 				break;
 			case SsValueType::ColorType:
 				_Color = new SsColor( *x._Color);
@@ -298,11 +298,11 @@ template <> inline SsHash& FSsValue::get<SsHash>()
 {
 	return *_Hash;
 }
-template <> inline const FVector2D& FSsValue::get<FVector2D>() const
+template <> inline const FVector2f& FSsValue::get<FVector2f>() const
 {
 	return *_Point2;
 }
-template <> inline FVector2D& FSsValue::get<FVector2D>()
+template <> inline FVector2f& FSsValue::get<FVector2f>()
 {
 	return *_Point2;
 }
@@ -338,7 +338,7 @@ template <> inline bool FSsValue::is<SsHash>() const
 {
 	return Type == SsValueType::HashType;
 }
-template <> inline bool FSsValue::is<FVector2D>() const
+template <> inline bool FSsValue::is<FVector2f>() const
 {
 	return Type == SsValueType::Point2Type;
 }

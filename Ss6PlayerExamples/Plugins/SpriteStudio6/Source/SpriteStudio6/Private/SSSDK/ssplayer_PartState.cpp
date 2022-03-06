@@ -57,10 +57,10 @@ void	SsPartState::init()
 	memset( matrix , 0 , sizeof( matrix ) );
 	memset( matrixLocal , 0 , sizeof( matrixLocal ) );
 	//cell = 0;
-	position = FVector( 0.0f , 0.0f, 0.0f );
-	rotation = FVector( 0.0f , 0.0f , 0.0f );
-	scale = FVector2D( 1.0f , 1.0f );
-	localscale = FVector2D(1.0f, 1.0f);
+	position = FVector3f( 0.0f , 0.0f, 0.0f );
+	rotation = FVector3f( 0.0f , 0.0f , 0.0f );
+	scale = FVector2f( 1.0f , 1.0f );
+	localscale = FVector2f(1.0f, 1.0f);
 
 	alpha = 1.0f;
 	localalpha = 1.0f;
@@ -69,15 +69,15 @@ void	SsPartState::init()
 //	vFlip = false;
 	hide = false;
 
-	pivotOffset = FVector2D(0, 0);
-//	anchor = FVector2D( 0 , 0 );
-	size = FVector2D( 1 , 1 );
+	pivotOffset = FVector2f(0, 0);
+//	anchor = FVector2f( 0 , 0 );
+	size = FVector2f( 1 , 1 );
 
 	imageFlipH = false;
 	imageFlipV = false;
-	uvTranslate = FVector2D(0, 0);
+	uvTranslate = FVector2f(0, 0);
 	uvRotation = 0;
-	uvScale = FVector2D( 1 , 1 );
+	uvScale = FVector2f( 1 , 1 );
 
 //	boundingRadius = 0;
 
