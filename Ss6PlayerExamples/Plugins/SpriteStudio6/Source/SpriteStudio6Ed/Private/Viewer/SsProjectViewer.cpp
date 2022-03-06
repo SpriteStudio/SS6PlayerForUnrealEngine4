@@ -436,6 +436,8 @@ void FSsProjectViewer::ExtendToolbar()
 				// Background Color
 				ToolbarBuilder.AddWidget(
 					SNew(SVerticalBox)
+					+SVerticalBox::Slot().FillHeight(0.4f)[SNew(STextBlock).Text(LOCTEXT("", ""))]
+					+SVerticalBox::Slot().FillHeight(0.6f)[SNew(STextBlock).Text(LOCTEXT("", ""))]
 					+SVerticalBox::Slot()
 					.VAlign(VAlign_Center)
 					.FillHeight(0.4f)
