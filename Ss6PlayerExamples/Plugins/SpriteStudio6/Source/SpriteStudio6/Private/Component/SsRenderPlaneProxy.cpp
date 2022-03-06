@@ -9,8 +9,9 @@
 void FSsPlaneIndexBuffer::InitRHI()
 {
 	FRHIResourceCreateInfo CreateInfo(TEXT("SsComponentPlaneIndexBuffer"));
-	void* Buffer = nullptr;
-	IndexBufferRHI = RHICreateAndLockIndexBuffer(sizeof(uint16), 6 * sizeof(uint16), BUF_Static, CreateInfo, Buffer);
+	uint32 Size = 6 * sizeof(uint16);
+	IndexBufferRHI = RHICreateBuffer(Size, BUF_Static, sizeof(uint16), ERHIAccess::VertexOrIndexBuffer, CreateInfo);
+	void* Buffer = RHILockBuffer(IndexBufferRHI, 0, Size, RLM_WriteOnly);
 	((uint16*)Buffer)[0] = 0;
 	((uint16*)Buffer)[1] = 2;
 	((uint16*)Buffer)[2] = 1;
@@ -144,10 +145,10 @@ void FSsRenderPlaneProxy::SetDynamicData_RenderThread()
 	Vertices.Empty(4);
 	Vertices.AddUninitialized(4);
 	FVector2D PivotOffSet = -(Pivot * CanvasSizeUU);
-	Vertices[0] = FDynamicMeshVertex(FVector(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f), FVector(1.f, 0.f, 0.f), FVector(0.f, 0.f, 1.f), FVector2D(0.f, 0.f), FColor(255, 255, 255, 255));
-	Vertices[1] = FDynamicMeshVertex(FVector(0.f, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f), FVector(1.f, 0.f, 0.f), FVector(0.f, 0.f, 1.f), FVector2D(1.f, 0.f), FColor(255, 255, 255, 255));
-	Vertices[2] = FDynamicMeshVertex(FVector(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f), FVector(1.f, 0.f, 0.f), FVector(0.f, 0.f, 1.f), FVector2D(0.f, 1.f), FColor(255, 255, 255, 255));
-	Vertices[3] = FDynamicMeshVertex(FVector(0.f, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f), FVector(1.f, 0.f, 0.f), FVector(0.f, 0.f, 1.f), FVector2D(1.f, 1.f), FColor(255, 255, 255, 255));
+	Vertices[0] = FDynamicMeshVertex(FVector3f(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f), FVector3f(1.f, 0.f, 0.f), FVector3f(0.f, 0.f, 1.f), FVector2f(0.f, 0.f), FColor(255, 255, 255, 255));
+	Vertices[1] = FDynamicMeshVertex(FVector3f(0.f, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y + CanvasSizeUU.Y/2.f), FVector3f(1.f, 0.f, 0.f), FVector3f(0.f, 0.f, 1.f), FVector2f(1.f, 0.f), FColor(255, 255, 255, 255));
+	Vertices[2] = FDynamicMeshVertex(FVector3f(0.f, PivotOffSet.X - CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f), FVector3f(1.f, 0.f, 0.f), FVector3f(0.f, 0.f, 1.f), FVector2f(0.f, 1.f), FColor(255, 255, 255, 255));
+	Vertices[3] = FDynamicMeshVertex(FVector3f(0.f, PivotOffSet.X + CanvasSizeUU.X/2.f, PivotOffSet.Y - CanvasSizeUU.Y/2.f), FVector3f(1.f, 0.f, 0.f), FVector3f(0.f, 0.f, 1.f), FVector2f(1.f, 1.f), FColor(255, 255, 255, 255));
 	
 	for(int32 i = 0; i < 4; ++i)
 	{

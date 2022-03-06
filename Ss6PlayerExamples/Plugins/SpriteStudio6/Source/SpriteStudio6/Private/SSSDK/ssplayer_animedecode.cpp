@@ -722,7 +722,13 @@ void	SsAnimeDecoder::SsInterpolationValue( int time , const FSsKeyframe* leftkey
 }
 
 
-
+template<> int	SsAnimeDecoder::SsGetKeyValue<double>(FSsPart* part, int time , const FSsAttribute* attr , double& value )
+{
+	float float_value = (float)value;
+	int ret = SsGetKeyValue(part, time, attr, float_value);
+	value = (double)float_value;
+	return ret;
+}
 template<typename mytype> int	SsAnimeDecoder::SsGetKeyValue(FSsPart* part, int time , const FSsAttribute* attr , mytype&  value )
 {
 	int	useTime = 0;
