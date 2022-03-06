@@ -40,7 +40,7 @@ public:
 
 	SLATE_BEGIN_ARGS(SSsPlayerWidget) {}
 
-		SLATE_SUPPORTS_SLOT(SSsPlayerWidget::FSlot)
+		SLATE_SLOT_ARGUMENT(SSsPlayerWidget::FSlot, Slots)
 
 	SLATE_END_ARGS()
 
@@ -76,7 +76,9 @@ private:
 //-----------
 // 親子関係 
 public:
-	FSlot& AddSlot();
+	static FSlot::FSlotArguments Slot();
+	using FScopedWidgetSlotArguments = TPanelChildren<FSlot>::FScopedWidgetSlotArguments;
+	FScopedWidgetSlotArguments AddSlot();
 	int32 RemoveSlot(const TSharedRef<SWidget>& SlotWidget);
 
 	// SWidget interface 

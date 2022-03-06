@@ -136,13 +136,6 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 						->Split
 						(
 							FTabManager::NewStack()
-								->AddTab(GetToolbarTabId(), ETabState::OpenedTab)
-								->SetHideTabWell(true)
-								->SetSizeCoefficient(0.1f)
-						)
-						->Split
-						(
-							FTabManager::NewStack()
 								->AddTab(ViewportTabId, ETabState::OpenedTab)
 								->SetHideTabWell(true)
 								->SetSizeCoefficient(0.9f)
@@ -433,8 +426,8 @@ void FSsProjectViewer::ExtendToolbar()
 					.FillHeight(0.6f)
 					[
 						(Viewer->GridColorBlock = SNew(SColorBlock)
-						.Color(Viewer, &FSsProjectViewer::GetGridColor) 
-						.IgnoreAlpha(true)
+						.Color(Viewer, &FSsProjectViewer::GetGridColor)
+						.AlphaDisplayMode(EColorBlockAlphaDisplayMode::Ignore)
 						.OnMouseButtonDown(Viewer, &FSsProjectViewer::OnGridColorMouseDown)
 						).ToSharedRef()
 					]
@@ -456,7 +449,7 @@ void FSsProjectViewer::ExtendToolbar()
 					[
 						(Viewer->BackColorBlock = SNew(SColorBlock)
 						.Color(Viewer, &FSsProjectViewer::GetBackColor) 
-						.IgnoreAlpha(true)
+						.AlphaDisplayMode(EColorBlockAlphaDisplayMode::Ignore)
 						.OnMouseButtonDown(Viewer, &FSsProjectViewer::OnBackColorMouseDown)
 						).ToSharedRef()
 					]

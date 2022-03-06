@@ -50,10 +50,7 @@ SSsPlayerWidget::~SSsPlayerWidget()
 
 void SSsPlayerWidget::Construct(const FArguments& InArgs)
 {
-	for(int32 i = 0; i < InArgs.Slots.Num(); ++i)
-	{
-		Children.Add(InArgs.Slots[i]);
-	}
+	Children.AddSlots(MoveTemp(const_cast<TArray<FSlot::FSlotArguments>&>(InArgs._Slots)));
 }
 
 void SSsPlayerWidget::Initialize_Default()
@@ -107,13 +104,14 @@ FVector2D SSsPlayerWidget::ComputeDesiredSize(float LayoutScaleMultiplier) const
 }
 
 
-SSsPlayerWidget::FSlot& SSsPlayerWidget::AddSlot()
+SSsPlayerWidget::FSlot::FSlotArguments SSsPlayerWidget::Slot()
+{
+	return FSlot::FSlotArguments(MakeUnique<FSlot>());
+}
+SSsPlayerWidget::FScopedWidgetSlotArguments SSsPlayerWidget::AddSlot()
 {
 	Invalidate(EInvalidateWidget::Layout);
-
-	FSlot* NewSlot = new FSlot();
-	Children.Add(NewSlot);
-	return *NewSlot;
+	return FScopedWidgetSlotArguments{ MakeUnique<FSlot>(), Children, INDEX_NONE };
 }
 int32 SSsPlayerWidget::RemoveSlot(const TSharedRef<SWidget>& SlotWidget)
 {

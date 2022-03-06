@@ -25,7 +25,8 @@ void USsPlayerSlot::ReleaseSlateResources(bool bReleaseChildren)
 
 void USsPlayerSlot::BuildSlot(TSharedRef<SSsPlayerWidget> SsPlayerWidget)
 {
-	Slot = &SsPlayerWidget->AddSlot()
+	SsPlayerWidget->AddSlot()
+		.Expose(Slot)
 		[
 			Content == nullptr ? SNullWidget::NullWidget : Content->TakeWidget()
 		];

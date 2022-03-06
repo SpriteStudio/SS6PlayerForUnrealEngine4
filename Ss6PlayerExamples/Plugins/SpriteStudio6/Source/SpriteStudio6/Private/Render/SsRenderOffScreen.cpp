@@ -342,10 +342,10 @@ namespace
 						BO_Add, BF_One, BF_Zero
 						>::GetRHI();
 				}
-				SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
+				SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit, 0);
 
 				// テクスチャをセット 
-				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
+				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
 
 				check((BaseIndexIndex + NumRenderIndices) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
 				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
@@ -756,17 +756,17 @@ namespace
 					check(false);
 				}
 			}
-			SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
+			SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit, 0);
 
 			// テクスチャをセット 
 			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))
 			{
-				MaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
-				MaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->Resource->TextureRHI : nullptr, SampleState);
+				MaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
+				MaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->GetResource()->TextureRHI : nullptr, SampleState);
 			}
 			else
 			{
-				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->Resource->TextureRHI : nullptr, SampleState);
+				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
 			}
 
 			RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
