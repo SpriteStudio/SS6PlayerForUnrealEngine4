@@ -248,7 +248,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 					p->color.A = 0;
 				}else{
 					float alpha = (per-end) / (100.0f-end);
-                    if ( alpha >=1.0f ) alpha = 1.0f;
+					if ( alpha >=1.0f ){ alpha = 1.0f; }
 
 					p->color.A*= 1.0f - alpha;
 				}
