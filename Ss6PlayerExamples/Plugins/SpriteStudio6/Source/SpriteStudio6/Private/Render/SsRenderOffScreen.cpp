@@ -411,10 +411,10 @@ namespace
 					const float ZNear = 0.f;
 					const float ZFar = 1.f;
 					ProjectionMatrix =
-							FMatrix44f(	FPlane(2.0f/(Right-Left),			0,							0,					0 ),
-										FPlane(0,							2.0f/(Top-Bottom),			0,					0 ),
-										FPlane(0,							0,							1/(ZNear-ZFar),		0 ),
-										FPlane((Left+Right)/(Left-Right),	(Top+Bottom)/(Bottom-Top),	ZNear/(ZNear-ZFar), 1 ) );
+							FMatrix44f(	FPlane4f(2.0f/(Right-Left),			0,							0,					0 ),
+										FPlane4f(0,							2.0f/(Top-Bottom),			0,					0 ),
+										FPlane4f(0,							0,							1/(ZNear-ZFar),		0 ),
+										FPlane4f((Left+Right)/(Left-Right),	(Top+Bottom)/(Bottom-Top),	ZNear/(ZNear-ZFar), 1 ) );
 				}
 
 				void* VerticesPtr = RHILockBuffer(
