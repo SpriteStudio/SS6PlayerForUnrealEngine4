@@ -10,7 +10,7 @@ void FSsPlaneIndexBuffer::InitRHI()
 {
 	FRHIResourceCreateInfo CreateInfo(TEXT("SsComponentPlaneIndexBuffer"));
 	uint32 Size = 6 * sizeof(uint16);
-	IndexBufferRHI = RHICreateBuffer(Size, BUF_Static, sizeof(uint16), ERHIAccess::VertexOrIndexBuffer, CreateInfo);
+	IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), Size, BUF_Static, CreateInfo);
 	void* Buffer = RHILockBuffer(IndexBufferRHI, 0, Size, RLM_WriteOnly);
 	((uint16*)Buffer)[0] = 0;
 	((uint16*)Buffer)[1] = 2;
