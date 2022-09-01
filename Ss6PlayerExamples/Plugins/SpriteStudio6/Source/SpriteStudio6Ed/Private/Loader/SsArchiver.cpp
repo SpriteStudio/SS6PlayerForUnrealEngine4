@@ -871,6 +871,24 @@ void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar)
 			break;
 		}
 	}
+
+	// 重複パーツ名チェック 
+	// FNameは大文字小文字を区別しないが、SSでは区別されるため重複パーツ名があり得てしまう 
+	for(int32 i = 0; i < AnimePack.Model.PartList.Num(); ++i)
+	{
+		for(int32 j = i+1; j < AnimePack.Model.PartList.Num(); ++j)
+		{
+			if(AnimePack.Model.PartList[i].PartName == AnimePack.Model.PartList[j].PartName)
+			{
+				FString ErrStr = FString::Printf(TEXT("アニメーション [%s] 内のパーツ名 [%s] が重複しています\nUEプラグインでは大文字小文字が区別されません"),
+					*AnimePack.AnimePackName.ToString(),
+					*AnimePack.Model.PartList[i].PartName.ToString()
+				);
+				UE_LOG(LogSpriteStudioEd, Error, TEXT("%s"), *ErrStr);
+				FMessageDialog::Open(EAppMsgType::Ok, FText::FromString(ErrStr));
+			}
+		}
+	}
 }
 void SerializeSsEffectFile(FSsEffectFile& EffectFile, SsXmlIArchiver* ar)
 {
