@@ -719,6 +719,14 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		check(0 == Idx);
 		FSsRenderMesh& RenderMesh = OutRenderPart.Mesh[Idx];
 
+
+		FVector2f UVSize(
+			(State->cellValue.uvs[3].X + State->cellValue.uvs[0].X) / 2.f,
+			(State->cellValue.uvs[3].Y + State->cellValue.uvs[0].Y) / 2.f
+		);
+		float S = FMath::Sin(FMath::DegreesToRadians(State->uvRotation));
+		float C = FMath::Cos(FMath::DegreesToRadians(State->uvRotation));
+
 		RenderMesh.Vertices.AddUninitialized(State->meshPart->ver_size);
 		for(int32 i = 0; i < State->meshPart->ver_size; ++i)
 		{
@@ -738,8 +746,29 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				RenderMesh.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
 				RenderMesh.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
 			}
-			RenderMesh.Vertices[i].TexCoord.X = State->meshPart->uvs[i*2 + 0];
-			RenderMesh.Vertices[i].TexCoord.Y = State->meshPart->uvs[i*2 + 1];
+
+			FVector2f UV(
+				State->meshPart->uvs[i*2 + 0],
+				State->meshPart->uvs[i*2 + 1]
+			);
+			UV -= UVSize;
+			UV *= State->uvScale;
+			if(State->imageFlipH)
+			{
+				UV.X *= -1.f;
+			}
+			if(State->imageFlipV)
+			{
+				UV.Y *= -1.f;
+			}
+			UV = FVector2f(
+				UV.X * C - UV.Y * S,
+				UV.X * S + UV.Y * C
+			);
+			UV += UVSize;
+			UV += State->uvTranslate;
+
+			RenderMesh.Vertices[i].TexCoord = UV;
 		}
 
 		RenderMesh.Indices.AddUninitialized(State->meshPart->tri_size * 3);
