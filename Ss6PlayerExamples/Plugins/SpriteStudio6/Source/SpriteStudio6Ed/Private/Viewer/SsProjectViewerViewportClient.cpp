@@ -1,7 +1,7 @@
 ﻿#include "SsProjectViewerViewportClient.h"
 
 #include "Engine/Canvas.h"
-#include "AssetRegistryModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 
 #include "SsPlayer.h"
 #include "SsRenderOffScreen.h"
@@ -45,7 +45,7 @@ void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 		if(!ViewerMID.IsValid())
 		{
 			FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
-			FAssetData AssetData = AssetRegistryModule.Get().GetAssetByObjectPath(FName("/SpriteStudio6/Editor/M_Ss_Viewer.M_Ss_Viewer"));
+			FAssetData AssetData = AssetRegistryModule.Get().GetAssetByObjectPath(FSoftObjectPath(TEXT("/SpriteStudio6/Editor/M_Ss_Viewer.M_Ss_Viewer")));
 			UMaterialInterface* Mat = Cast<UMaterialInterface>(AssetData.GetAsset());
 			if(nullptr != Mat)
 			{

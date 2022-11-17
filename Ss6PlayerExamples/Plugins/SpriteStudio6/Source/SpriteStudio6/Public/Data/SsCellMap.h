@@ -17,22 +17,22 @@ public:
 	FName		CellName;		///< セル名称
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2f	Pos;			///< 左上の座標
+	FVector2f	Pos = FVector2f::ZeroVector;		///< 左上の座標
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2f	Size;			///< WHピクセルサイズ
+	FVector2f	Size = FVector2f::ZeroVector;		///< WHピクセルサイズ
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2f	Pivot;			///< 原点。size /2 が中央=0,0になる。
+	FVector2f	Pivot = FVector2f::ZeroVector;		///< 原点。size /2 が中央=0,0になる。
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	bool		Rotated;		///< 左方向に９０度回転されている。uvs の割り当てが変わる。
+	bool		Rotated = false;					///< 左方向に９０度回転されている。uvs の割り当てが変わる。
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	FVector2f	ParentSize;		//親テクスチャのサイズ
+	FVector2f	ParentSize = FVector2f::ZeroVector;	//親テクスチャのサイズ
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	bool		IsMesh;
+	bool		IsMesh = false;
 
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
@@ -48,13 +48,13 @@ public:
 	TArray<FSsTriangle>	MeshTriList;		//トライアングルリスト
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	TEnumAsByte<SsMeshDivType::Type>	DivType;
+	TEnumAsByte<SsMeshDivType::Type>	DivType = SsMeshDivType::Unknown;
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	int32	DivW;
+	int32	DivW = 0;
 
 	UPROPERTY(VisibleAnywhere, Category=SsCell)
-	int32	DivH;
+	int32	DivH = 0;
 };
 
 
@@ -94,16 +94,16 @@ public:
 	UTexture*	Texture = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
-	FVector2f	PixelSize;			///< 画像のピクセルWHサイズ
+	FVector2f	PixelSize = FVector2f::ZeroVector;			///< 画像のピクセルWHサイズ
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
-	bool		OverrideTexSettings;///< テクスチャ設定をプロジェクトの設定ではなく下記設定を使う
+	bool		OverrideTexSettings = false;				///< テクスチャ設定をプロジェクトの設定ではなく下記設定を使う
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
-	TEnumAsByte<SsTexWrapMode::Type>	WrapMode;			///< テクスチャのラップモード
+	TEnumAsByte<SsTexWrapMode::Type>	WrapMode = SsTexWrapMode::Invalid;		///< テクスチャのラップモード
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
-	TEnumAsByte<SsTexFilterMode::Type>	FilterMode;			///< テクスチャのフィルタモード
+	TEnumAsByte<SsTexFilterMode::Type>	FilterMode = SsTexFilterMode::Invalid;	///< テクスチャのフィルタモード
 
 	UPROPERTY(VisibleAnywhere, Category=SsCellMap)
 	TArray<FSsCell>		Cells;

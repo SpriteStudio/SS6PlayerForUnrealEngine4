@@ -22,7 +22,7 @@ public:
 
 	// 繰り返し再生回数 
 	UPROPERTY(VisibleAnywhere, Category=SsSequence)
-	int32 RepeatCount;
+	int32 RepeatCount = 0;
 };
 
 USTRUCT()
@@ -37,11 +37,11 @@ public:
 
 	// このシーケンスがもつ固有の番号 
 	UPROPERTY(VisibleAnywhere, Category=SsSequence)
-	int32 Id;
+	int32 Id = 0;
 
 	// このシーケンスのタイプ 
 	UPROPERTY(VisibleAnywhere, Category=SsSequence)
-	TEnumAsByte<SsSequenceType::Type> Type;
+	TEnumAsByte<SsSequenceType::Type> Type = SsSequenceType::Invalid;
 
 	// このシーケンスがもつアイテムのリスト 
 	UPROPERTY(VisibleAnywhere, Category=SsSequence)
@@ -49,10 +49,10 @@ public:
 
 
 	UPROPERTY(VisibleAnywhere, Category=SsSequence)
-	int32 SequenceFPS;
+	int32 SequenceFPS = 0;
 
 	UPROPERTY(VisibleAnywhere, Category=SsSequence)
-	int32 SequenceFrameCount;
+	int32 SequenceFrameCount = 0;
 
 public:
 	bool CalcSequenceFpsAndFrameCount(const USs6Project* OwnerProject, int32& OutFPS, int32& OutFrameCount);

@@ -15,10 +15,10 @@ struct SPRITESTUDIO6_API FSsKeyframe
 
 public:
 	UPROPERTY(VisibleAnywhere, Category=SsKeyframe)
-	int32	Time;	///< 時間
+	int32	Time = 0;	///< 時間
 
 	UPROPERTY(VisibleAnywhere, Category=SsKeyframe)
-	TEnumAsByte<SsInterpolationType::Type>	IpType;	///< 補間タイプ
+	TEnumAsByte<SsInterpolationType::Type>	IpType = SsInterpolationType::Invalid;	///< 補間タイプ
 
 	UPROPERTY(VisibleAnywhere, Category=SsKeyframe)
 	FSsCurve	Curve;	///< 曲線補間計算用パラメータ
@@ -43,7 +43,7 @@ struct SPRITESTUDIO6_API FSsAttribute	//Tag毎に存在する
 public:
 	//キーフレームデータ : Value（タグによって異なるの組み)
 	UPROPERTY(VisibleAnywhere, Category=SsAttribute)
-	TEnumAsByte<SsAttributeKind::Type> Tag;
+	TEnumAsByte<SsAttributeKind::Type> Tag = SsAttributeKind::Invalid;
 
 	UPROPERTY(VisibleAnywhere, Category=SsAttribute)
 	TArray<FSsKeyframe> Key;

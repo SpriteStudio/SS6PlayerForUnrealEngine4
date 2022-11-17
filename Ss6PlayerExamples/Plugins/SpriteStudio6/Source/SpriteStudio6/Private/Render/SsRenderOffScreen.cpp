@@ -264,8 +264,7 @@ namespace
 		// RenderTarget切り替え
 		FRHIRenderPassInfo RPInfo(
 			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
-			ERenderTargetActions::DontLoad_Store,
-			static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetTextureRHI()
+			ERenderTargetActions::DontLoad_Store
 			);
 		RHICmdList.BeginRenderPass(RPInfo, TEXT("Ss6RenderMaskBuffer"));
 
@@ -381,8 +380,7 @@ namespace
 
 		FRHIRenderPassInfo RPInfo(
 			static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
-			ERenderTargetActions::DontLoad_Store,
-			static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI()
+			ERenderTargetActions::DontLoad_Store
 		);
 		RHICmdList.BeginRenderPass(RPInfo, TEXT("Ss6RenderOffScreen"));
 		RHICmdList.SetScissorRect(false, 0, 0, 0, 0);
@@ -658,8 +656,7 @@ namespace
 
 				FRHIRenderPassInfo RPInfo2(
 					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
-					ERenderTargetActions::Load_Store,
-					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetTextureRHI()
+					ERenderTargetActions::Load_Store
 				);
 				RHICmdList.BeginRenderPass(RPInfo2, TEXT("Ss6RenderOffScreen"));
 

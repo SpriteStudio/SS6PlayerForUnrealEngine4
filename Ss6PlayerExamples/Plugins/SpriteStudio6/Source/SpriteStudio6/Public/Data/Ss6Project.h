@@ -49,16 +49,16 @@ public:
 	FString		ExportBaseDirectory;		//!< エクスポート先の基準ディレクトリ。
 
 	UPROPERTY(VisibleAnywhere, Category=SsProjectSetting)
-	bool		QueryExportBaseDirectory;	//!< エクスポート先の基準ディレクトリ指定をさせるか？ 
+	bool		QueryExportBaseDirectory = false;	//!< エクスポート先の基準ディレクトリ指定をさせるか？ 
 
 	UPROPERTY(VisibleAnywhere, Category=SsProjectSetting)
-	TEnumAsByte<SsTexWrapMode::Type>	WrapMode;			//!< テクスチャのラップモード
+	TEnumAsByte<SsTexWrapMode::Type>	WrapMode = SsTexWrapMode::Invalid;		//!< テクスチャのラップモード
 
 	UPROPERTY(VisibleAnywhere, Category=SsProjectSetting)
-	TEnumAsByte<SsTexFilterMode::Type>	FilterMode;			//!< テクスチャのフィルタモード
+	TEnumAsByte<SsTexFilterMode::Type>	FilterMode = SsTexFilterMode::Invalid;	//!< テクスチャのフィルタモード
 
 	UPROPERTY(VisibleAnywhere, Category=SsProjectSetting)
-	int32 VertexAnimeFloat;									//!< 頂点変形アトリビュートの少数対応
+	int32 VertexAnimeFloat = 0;									//!< 頂点変形アトリビュートの少数対応
 };
 
 

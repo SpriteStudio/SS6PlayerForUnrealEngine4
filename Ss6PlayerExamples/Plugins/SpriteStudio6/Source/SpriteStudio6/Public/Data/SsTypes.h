@@ -741,13 +741,13 @@ struct FSsTriangle
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY(VisibleAnywhere, Category=SsTriangle)
-	int32	IdxPo1;
+	int32	IdxPo1 = 0;
 
 	UPROPERTY(VisibleAnywhere, Category=SsTriangle)
-	int32	IdxPo2;
+	int32	IdxPo2 = 0;
 
 	UPROPERTY(VisibleAnywhere, Category=SsTriangle)
-	int32	IdxPo3;
+	int32	IdxPo3 = 0;
 
 };
 

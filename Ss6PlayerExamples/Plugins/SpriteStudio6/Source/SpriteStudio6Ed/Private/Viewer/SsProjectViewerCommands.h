@@ -5,7 +5,7 @@ class FSsProjectViewerCommands
 {
 public:
 	FSsProjectViewerCommands()
-		: TCommands<FSsProjectViewerCommands>("SsProjectViewer", NSLOCTEXT("Contexts", "SsProjectViewer", "SsProject Viewer"), NAME_None, FEditorStyle::GetStyleSetName())
+		: TCommands<FSsProjectViewerCommands>("SsProjectViewer", NSLOCTEXT("Contexts", "SsProjectViewer", "SsProject Viewer"), NAME_None, FAppStyle::GetAppStyleSetName())
 	{}
 
 	virtual void RegisterCommands() override;

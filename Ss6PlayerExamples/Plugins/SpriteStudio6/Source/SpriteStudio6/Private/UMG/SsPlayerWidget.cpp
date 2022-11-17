@@ -89,7 +89,7 @@ USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 	, OffScreenClearColor(0, 0, 0, 0)
 	, bReflectParentAlpha(false)
 {
-	this->Clipping = EWidgetClipping::ClipToBounds;
+	SetClipping(EWidgetClipping::ClipToBounds);
 
 	Player.SetCalcHideParts(true);
 
