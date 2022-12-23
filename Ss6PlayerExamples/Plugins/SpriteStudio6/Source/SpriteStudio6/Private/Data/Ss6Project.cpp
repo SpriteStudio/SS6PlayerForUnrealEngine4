@@ -31,10 +31,15 @@ void USs6Project::Serialize(FArchive& Ar)
 
 	if(Ar.IsLoading())
 	{
-		for(auto ItCellMap = CellmapList.CreateIterator(); ItCellMap; ++ItCellMap)
-		{
-			ItCellMap->CellMapNameEx = FName(*(ItCellMap->CellMapName.ToString() + TEXT(".ssce")));
-		}
+		PostLoadInternal();
+	}
+}
+
+void USs6Project::PostLoadInternal()
+{
+	for(auto ItCellMap = CellmapList.CreateIterator(); ItCellMap; ++ItCellMap)
+	{
+		ItCellMap->CellMapNameEx = FName(*(ItCellMap->CellMapName.ToString() + TEXT(".ssce")));
 	}
 }
 

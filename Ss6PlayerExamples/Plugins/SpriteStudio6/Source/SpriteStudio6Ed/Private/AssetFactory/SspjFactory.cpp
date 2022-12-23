@@ -344,6 +344,8 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 
 			TextureFact->RemoveFromRoot();
 		}
+
+		NewProject->PostLoadInternal();
 	}
 
 	// インポート終了
