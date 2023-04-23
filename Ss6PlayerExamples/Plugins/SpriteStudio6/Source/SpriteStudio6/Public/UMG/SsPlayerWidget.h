@@ -439,5 +439,16 @@ public:
 	// 指定パーツ非表示状態を全解除 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void ResetPartHidden();
+
+
+	// SlateのTickを有効/無効化 
+	// 無効化するとアニメーションは一切更新されませんが、TickによるCPU負荷を削減出来ます 
+	// 非表示状態や全く動きの無いアニメーション再生中のCPU負荷を削減したい場合に使用して下さい 
+	UFUNCTION(Category="SpriteStudio|Optimize", BlueprintCallable)
+	void SetCanSlateTick(bool bInCanTick=true);
+
+	// SlateのTickが有効かを取得 
+	UFUNCTION(Category="SpriteStudio|Optimize", BlueprintCallable)
+	bool GetCanSlateTick() const;
 };
 

@@ -853,3 +853,19 @@ void USsPlayerWidget::ResetPartHidden()
 {
 	Player.ResetPartHidden();
 }
+
+void USsPlayerWidget::SetCanSlateTick(bool bInCanTick)
+{
+	if(PlayerWidget.IsValid())
+	{
+		PlayerWidget->SetCanTick(bInCanTick);
+	}
+}
+bool USsPlayerWidget::GetCanSlateTick() const
+{
+	if(PlayerWidget.IsValid())
+	{
+		return PlayerWidget->GetCanTick();
+	}
+	return true; // 未初期化タイミングではデフォルトのtrue扱いとして返す 
+}
