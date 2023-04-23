@@ -836,3 +836,20 @@ int32 USsPlayerWidget::GetPartIndexFromName(FName InPartName)
 {
 	return Player.GetPartIndexFromName(InPartName);
 }
+
+void USsPlayerWidget::SetPartHidden(FName PartName, bool bHidden)
+{
+	int32 PartIndex = Player.GetPartIndexFromName(PartName);
+	if(0 <= PartIndex)
+	{
+		Player.SetPartHidden(PartIndex, bHidden);
+	}
+}
+void USsPlayerWidget::SetPartHiddenByIndex(int32 PartIndex, bool bHidden)
+{
+	Player.SetPartHidden(PartIndex, bHidden);
+}
+void USsPlayerWidget::ResetPartHidden()
+{
+	Player.ResetPartHidden();
+}

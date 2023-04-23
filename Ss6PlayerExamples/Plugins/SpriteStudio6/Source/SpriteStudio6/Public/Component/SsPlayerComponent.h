@@ -428,4 +428,17 @@ public:
 	// パーツのカラーラベルを取得(インデックス指定) 
 	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
 	FName GetPartColorLabelByIndex(int32 PartIndex);
+
+
+	// 現在のアニメーション再生中、指定パーツを非表示にする 
+	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	void SetPartHidden(FName PartName, bool bHidden=true);
+
+	// 現在のアニメーション再生中、指定パーツを非表示にする(インデックス指定) 
+	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	void SetPartHiddenByIndex(int32 PartIndex, bool bHidden=true);
+
+	// 指定パーツ非表示状態を全解除 
+	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	void ResetPartHidden();
 };

@@ -505,6 +505,12 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		return false;
 	}
 
+	// プログラム指定での非表示 
+	if(!bInstance && (0 < HiddenParts.Num()) && HiddenParts.Contains(State->index))
+	{
+		return false;
+	}
+
 	OutRenderPart.PartIndex = State->index;
 	OutRenderPart.Texture = bHideParts ? nullptr : State->cellValue.texture;	// 座標計算だけを行う非表示パーツはテクスチャをNULLにしておき、これを基準に描画をスキップする. 
 	OutRenderPart.ColorBlendType = State->partsColorValue.blendType;
@@ -1025,6 +1031,7 @@ bool FSsPlayer::PlayInternal(int32 InAnimPackIndex, int32 InAnimationIndex, int3
 	PlayingAnimPackIndex = InAnimPackIndex;
 	PlayingAnimationIndex = InAnimationIndex;
 
+	ResetPartHidden();
 	return true;
 }
 
@@ -1253,4 +1260,23 @@ FName FSsPlayer::GetPartColorLabel(int32 PartIndex)
 void FSsPlayer::SetCalcHideParts(bool bInCalcHideParts)
 {
 	bCalcHideParts = bInCalcHideParts;
+}
+
+// プログラム指定でのパーツ非表示 
+void FSsPlayer::SetPartHidden(int32 PartIndex, bool bHidden)
+{
+	if(bHidden)
+	{
+		HiddenParts.AddUnique(PartIndex);
+	}
+	else
+	{
+		HiddenParts.Remove(PartIndex);
+	}
+}
+
+// プログラム指定でのパーツ非表示状態をリセット 
+void FSsPlayer::ResetPartHidden()
+{
+	HiddenParts.Empty();
 }

@@ -73,6 +73,13 @@ public:
 	// 非表示パーツの計算を行うかを設定 
 	void SetCalcHideParts(bool bInCalcHideParts);
 
+	// プログラム指定でのパーツ非表示 
+	// アニメーションを切り替えると自動的にリセットされます 
+	void SetPartHidden(int32 PartIndex, bool bHidden);
+
+	// プログラム指定でのパーツ非表示状態をリセット 
+	void ResetPartHidden();
+
 private:
 	bool PlayInternal(int32 InAnimPackIndex, int32 InAnimationIndex, int32 InStartFrame, float InPlayRate, int32 InLoopCount, bool bInRoundTrip);
 	void TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result);
@@ -110,4 +117,5 @@ private:
 	float PlayingSequenceFrame;
 
 	TArray<FSsRenderPart> RenderParts;
+	TArray<int32> HiddenParts;
 };

@@ -1170,3 +1170,19 @@ FName USsPlayerComponent::GetPartColorLabelByIndex(int32 PartIndex)
 	return Player.GetPartColorLabel(PartIndex);
 }
 
+void USsPlayerComponent::SetPartHidden(FName PartName, bool bHidden)
+{
+	int32 PartIndex = Player.GetPartIndexFromName(PartName);
+	if(0 <= PartIndex)
+	{
+		Player.SetPartHidden(PartIndex, bHidden);
+	}
+}
+void USsPlayerComponent::SetPartHiddenByIndex(int32 PartIndex, bool bHidden)
+{
+	Player.SetPartHidden(PartIndex, bHidden);
+}
+void USsPlayerComponent::ResetPartHidden()
+{
+	Player.ResetPartHidden();
+}
