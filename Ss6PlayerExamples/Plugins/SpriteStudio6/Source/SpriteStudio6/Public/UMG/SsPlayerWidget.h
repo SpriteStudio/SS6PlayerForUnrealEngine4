@@ -409,19 +409,19 @@ public:
 	void RemoveMaterialReplacementAllPerBlendMode();
 
 	// パーツのカラーラベルを取得 
-	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	FName GetPartColorLabel(FName PartName);
 
 	// パーツのカラーラベルを取得(インデックス指定) 
-	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	FName GetPartColorLabelByIndex(int32 PartIndex);
 
 	// ウィジェット内のパーツのTransformを取得 
-	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	bool GetPartTransform(FName PartName, FVector2D& OutPosition, float& OutAngle, FVector2D& OutScale) const;
 
 	// ウィジェット内のパーツのTransformを取得(インデックス指定) 
-	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	bool GetPartTransformByIndex(int32 PartIndex, FVector2D& OutPosition, float& OutAngle, FVector2D& OutScale) const;
 
 	// 名前からパーツインデックスを取得 
@@ -429,15 +429,15 @@ public:
 	int32 GetPartIndexFromName(FName InPartName);
 
 	// 現在のアニメーション再生中、指定パーツを非表示にする 
-	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void SetPartHidden(FName PartName, bool bHidden=true);
 
 	// 現在のアニメーション再生中、指定パーツを非表示にする(インデックス指定) 
-	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void SetPartHiddenByIndex(int32 PartIndex, bool bHidden=true);
 
 	// 指定パーツ非表示状態を全解除 
-	UFUNCTION(Category = SpriteStudio, BlueprintCallable)
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void ResetPartHidden();
 };
 
