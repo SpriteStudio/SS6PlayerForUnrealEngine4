@@ -854,6 +854,16 @@ void USsPlayerWidget::ResetPartHidden()
 	Player.ResetPartHidden();
 }
 
+void USsPlayerWidget::SetMulAlpha(float Alpha)
+{
+	Player.MulAlpha = Alpha;
+}
+float USsPlayerWidget::GetMulAlpha() const
+{
+	return Player.MulAlpha;
+}
+
+
 void USsPlayerWidget::SetCanSlateTick(bool bInCanTick)
 {
 	if(PlayerWidget.IsValid())

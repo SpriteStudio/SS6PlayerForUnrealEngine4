@@ -1186,3 +1186,12 @@ void USsPlayerComponent::ResetPartHidden()
 {
 	Player.ResetPartHidden();
 }
+
+void USsPlayerComponent::SetMulAlpha(float Alpha)
+{
+	Player.MulAlpha = Alpha;
+}
+float USsPlayerComponent::GetMulAlpha() const
+{
+	return Player.MulAlpha;
+}

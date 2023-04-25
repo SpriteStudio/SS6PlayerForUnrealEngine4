@@ -441,4 +441,13 @@ public:
 	// 指定パーツ非表示状態を全解除 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void ResetPartHidden();
+
+
+	// アルファ乗算値を設定 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void SetMulAlpha(float Alpha);
+
+	// アルファ乗算値を取得 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	float GetMulAlpha() const;
 };

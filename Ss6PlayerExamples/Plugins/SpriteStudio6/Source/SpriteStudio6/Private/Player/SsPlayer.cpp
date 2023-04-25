@@ -18,6 +18,7 @@ FSsPlayer::FSsPlayer()
 	, bRoundTrip(false)
 	, bFlipH(false)
 	, bFlipV(false)
+	, MulAlpha(1.f)
 	, SsProject(nullptr)
 	, Decoder(nullptr)
 	, CellMapList(nullptr)
@@ -468,7 +469,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2f
 bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot, bool bInstance)
 {
 	if(nullptr == State){ return false; }
-	float Alpha = State->is_localAlpha ? State->localalpha : State->alpha;
+	float Alpha = (State->is_localAlpha ? State->localalpha : State->alpha) * MulAlpha;
 	float HideAlpha = 1.f;
 	bool bHideParts = false;
 	if(!bCalcHideParts)
@@ -973,7 +974,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						RenderPart.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
 
 						RenderPart.Vertices[i].TexCoord = Emitter->dispCell.uvs[i];
-						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * ParentAlpha));
+						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * ParentAlpha * MulAlpha));
 						RenderPart.Vertices[i].ColorBlendRate = (Emitter->particle.useColor || Emitter->particle.useTransColor) ? 1.f : 0.f;
 					}
 				}
