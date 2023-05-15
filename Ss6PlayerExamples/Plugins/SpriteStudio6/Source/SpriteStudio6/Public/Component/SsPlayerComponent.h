@@ -388,6 +388,18 @@ public:
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void RemoveTextureReplacementAll();
 
+	// 置き換えセルマップテクスチャの登録 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void AddCellmapTextureReplacement(FName CellmapName, UTexture* Texture);
+
+	// 置き換えセルマップテクスチャの登録解除 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void RemoveCellmapTextureReplacement(FName CellmapName);
+
+	// 全ての置き換えセルマップテクスチャの登録解除 
+	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
+	void RemoveCellmapTextureReplacementAll();
+
 	// 置き換えマテリアルの登録(パーツ単位) 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	void AddMaterialReplacement(FName PartName, UMaterialInterface* InBaseMaterial);

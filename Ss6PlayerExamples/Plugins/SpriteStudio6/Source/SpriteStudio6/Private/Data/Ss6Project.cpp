@@ -160,6 +160,18 @@ const FSsCellMap* USs6Project::FindCellMap(const FName& InCellMapName) const
 	return nullptr;
 }
 
+const FSsCellMap* USs6Project::FindCellMapByName(const FName& InCellMapName) const
+{
+	for(auto It = CellmapList.CreateConstIterator(); It; ++It)
+	{
+		if(InCellMapName == It->CellMapName)
+		{
+			return &(*It);
+		}
+	}
+	return nullptr;
+}
+
 const FSsAnimePack* USs6Project::FindAnimationPack(const FName& InAnimePackName) const
 {
 	for(auto It = AnimeList.CreateConstIterator(); It; ++It)

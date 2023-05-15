@@ -513,10 +513,19 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	}
 
 	OutRenderPart.PartIndex = State->index;
-	OutRenderPart.Texture = bHideParts ? nullptr : State->cellValue.texture;	// 座標計算だけを行う非表示パーツはテクスチャをNULLにしておき、これを基準に描画をスキップする. 
 	OutRenderPart.ColorBlendType = State->partsColorValue.blendType;
 	OutRenderPart.AlphaBlendType = State->alphaBlendType;
 	OutRenderPart.bMaskInfluence = State->maskInfluence;
+	if(bHideParts)
+	{
+		// 座標計算だけを行う非表示パーツはテクスチャをNULLにしておき、これを基準に描画をスキップする. 
+		OutRenderPart.Texture = nullptr;
+	}
+	else
+	{
+		TWeakObjectPtr<UTexture>* Tex = CellTextureReplacements.Find(State->cellValue.cell);
+		OutRenderPart.Texture = (nullptr == Tex) ? State->cellValue.texture : Tex->Get();
+	}
 
 
 	// RenderTargetに対する描画基準位置
@@ -961,10 +970,13 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 
 					FSsRenderPart& RenderPart = OutRenderParts.AddZeroed_GetRef();
 					RenderPart.PartIndex = State->index;
-					RenderPart.Texture = Emitter->dispCell.texture;
 					RenderPart.AlphaBlendType = SsRenderBlendTypeToBlendType(Emitter->refData->BlendType);
 					RenderPart.ColorBlendType = SsBlendType::Effect;
 					RenderPart.bMaskInfluence = State->maskInfluence;
+					{
+						TWeakObjectPtr<UTexture>* Tex = CellTextureReplacements.Find(Emitter->dispCell.cell);
+						RenderPart.Texture = (nullptr == Tex) ? Emitter->dispCell.texture : Tex->Get();
+					}
 
 					RenderPart.Vertices.AddUninitialized(4);
 					for (int32 i = 0; i < 4; ++i)

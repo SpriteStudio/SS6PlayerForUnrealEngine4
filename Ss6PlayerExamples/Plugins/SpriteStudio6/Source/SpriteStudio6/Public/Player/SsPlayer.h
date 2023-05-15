@@ -97,6 +97,7 @@ public:
 	bool bFlipV;		// 上下反転 
 	float MulAlpha;		// アルファ乗算値 
 	TMap<int32, TWeakObjectPtr<UTexture>> TextureReplacements;	// パーツ毎のテクスチャ差し替え 
+	TMap<const struct FSsCell*, TWeakObjectPtr<UTexture>> CellTextureReplacements;	// Cell毎のテクスチャ差し替え 
 
 	const FVector2f& GetAnimPivot() const { return AnimPivot; }	// アニメーションに設定されたPivotを取得 (0,0 が中央。-0.5, +0.5 が左上) 
 	const FVector2f GetAnimCanvasSize() const;

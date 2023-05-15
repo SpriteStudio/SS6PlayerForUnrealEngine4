@@ -142,8 +142,11 @@ public:
 	// アニメパック名とアニメ名からアニメーションを取得する
 	const FSsAnimation* FindAnimation(const FName& InAnimPackName, const FName& InAnimationName) const;
 
-	// 名前からセルマップを取得する
+	// 名前からセルマップを取得する(.ssceまで含めたファイル名)
 	const FSsCellMap* FindCellMap(const FName& InCellMapName) const;
+
+	// 名前からセルマップを取得する(拡張子を含まないセルマップ名)
+	const FSsCellMap* FindCellMapByName(const FName& InCellMapName) const;
 
 	// 名前からアニメパックを取得する
 	const FSsAnimePack* FindAnimationPack(const FName& InAnimePackName) const;

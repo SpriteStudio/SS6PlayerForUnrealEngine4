@@ -740,6 +740,47 @@ void USsPlayerWidget::RemoveTextureReplacementAll()
 	Player.TextureReplacements.Empty();
 }
 
+void USsPlayerWidget::AddCellmapTextureReplacement(FName CellmapName, UTexture* Texture)
+{
+	if(nullptr == SsProject)
+	{
+		return;
+	}
+	const FSsCellMap* Cellmap = SsProject->FindCellMapByName(CellmapName);
+	if(nullptr == Cellmap)
+	{
+		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."));
+		return;
+	}
+
+	for(int32 i = 0; i < Cellmap->Cells.Num(); ++i)
+	{
+		Player.CellTextureReplacements.Add(&Cellmap->Cells[i], TWeakObjectPtr<UTexture>(Texture));
+	}
+}
+void USsPlayerWidget::RemoveCellmapTextureReplacement(FName CellmapName)
+{
+	if(nullptr == SsProject)
+	{
+		return;
+	}
+	const FSsCellMap* Cellmap = SsProject->FindCellMapByName(CellmapName);
+	if(nullptr == Cellmap)
+	{
+		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."));
+		return;
+	}
+
+	for(int32 i = 0; i < Cellmap->Cells.Num(); ++i)
+	{
+		Player.CellTextureReplacements.Remove(&Cellmap->Cells[i]);
+	}
+}
+void USsPlayerWidget::RemoveCellmapTextureReplacementAll()
+{
+	Player.CellTextureReplacements.Empty();
+}
+
 void USsPlayerWidget::AddMaterialReplacement(FName PartName, UMaterialInterface* InBaseMaterial)
 {
 	int32 PartIndex = Player.GetPartIndexFromName(PartName);
