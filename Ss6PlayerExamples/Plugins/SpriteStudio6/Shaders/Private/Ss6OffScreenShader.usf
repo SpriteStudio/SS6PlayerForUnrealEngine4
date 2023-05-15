@@ -69,12 +69,12 @@ float4 CalcColorPS(float4 InColor, float2 InTexCoord, float2 InColorBlend)
 	TextureColor.rgb = LinearToSrgbBranchless(TextureColor.rgb);
 
 	float4 OutColor;
-	     if(0 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate); }									// Mix
-	else if(1 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate); }						// Mul
-	else if(2 == ColorBlendType){ OutColor = TextureColor + (InColor * ColorBlendRate); }																// Add
-	else if(3 == ColorBlendType){ OutColor = TextureColor - (InColor * ColorBlendRate); }																// Sub
-	else if(4 == ColorBlendType){ OutColor = TextureColor; }																							// Invalid
-	else if(5 == ColorBlendType){ OutColor = ((TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate)) * TextureColor.a; }	// Effect
+	     if(0 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (InColor * ColorBlendRate); }				// Mix
+	else if(1 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate); }	// Mul
+	else if(2 == ColorBlendType){ OutColor = TextureColor + (InColor * ColorBlendRate); }											// Add
+	else if(3 == ColorBlendType){ OutColor = TextureColor - (InColor * ColorBlendRate); }											// Sub
+	else if(4 == ColorBlendType){ OutColor = TextureColor; }																		// Invalid
+	else if(5 == ColorBlendType){ OutColor = (TextureColor * (1.0 - ColorBlendRate)) + (TextureColor * InColor * ColorBlendRate); }	// Effect
 
 	OutColor.a = TextureColor.a * InColor.a;
 
