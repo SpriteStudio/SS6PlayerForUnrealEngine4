@@ -73,6 +73,10 @@ class SPRITESTUDIO6_API USs6Project : public UObject
 
 	virtual void Serialize(FArchive& Ar) override;
 
+#if WITH_EDITORONLY_DATA
+	virtual void GetAssetRegistryTags(TArray<FAssetRegistryTag>& OutTags) const override;
+#endif
+
 public:
 	void PostLoadInternal();
 
@@ -115,8 +119,8 @@ public:
 	TArray<FSsSequencePack>	SequenceList;	//!< シーケンスのリスト
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Instanced, Category = Reimport)
-	class UAssetImportData* AssetImportData;
+	UPROPERTY(EditAnywhere, Instanced, Category=ImportSettings)
+	TObjectPtr<class UAssetImportData> AssetImportData;
 #endif
 
 	//ロード時に作成されるワーク

@@ -35,6 +35,16 @@ void USs6Project::Serialize(FArchive& Ar)
 	}
 }
 
+#if WITH_EDITORONLY_DATA
+void USs6Project::GetAssetRegistryTags(TArray<FAssetRegistryTag>& OutTags) const
+{
+	if(AssetImportData)
+	{
+		OutTags.Add(FAssetRegistryTag(SourceFileTagName(), AssetImportData->GetSourceData().ToJson(), FAssetRegistryTag::TT_Hidden));
+	}
+}
+#endif
+
 void USs6Project::PostLoadInternal()
 {
 	for(auto ItCellMap = CellmapList.CreateIterator(); ItCellMap; ++ItCellMap)
