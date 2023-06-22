@@ -471,5 +471,11 @@ public:
 	// SlateのTickが有効かを取得 
 	UFUNCTION(Category="SpriteStudio|Optimize", BlueprintCallable)
 	bool GetCanSlateTick() const;
+
+#if WITH_EDITOR
+private:
+	void OnAssetReimported(UObject* InObject);
+	FDelegateHandle ReimportedHandle;
+#endif
 };
 

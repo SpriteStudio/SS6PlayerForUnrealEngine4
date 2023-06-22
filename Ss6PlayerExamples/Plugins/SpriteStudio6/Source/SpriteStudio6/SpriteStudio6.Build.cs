@@ -60,6 +60,10 @@ namespace UnrealBuildTool.Rules
 					"Projects",
 				}
 				);
+			if (Target.bBuildEditor)
+			{
+				PublicDependencyModuleNames.Add("UnrealEd");
+			}
 
 			PrivateDependencyModuleNames.AddRange(
 				new string[]

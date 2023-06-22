@@ -462,4 +462,11 @@ public:
 	// アルファ乗算値を取得 
 	UFUNCTION(Category="SpriteStudio", BlueprintCallable)
 	float GetMulAlpha() const;
+
+
+#if WITH_EDITOR
+private:
+	void OnAssetReimported(UObject* InObject);
+	FDelegateHandle ReimportedHandle;
+#endif
 };

@@ -8,6 +8,11 @@
 #include "SsRenderPlaneProxy.h"
 #include "SsRenderPartsProxy.h"
 
+#if WITH_EDITOR
+#include "Editor.h"
+#include "Subsystems/ImportSubsystem.h"
+#endif
+
 
 namespace
 {
@@ -291,6 +296,13 @@ void USsPlayerComponent::OnRegister()
 			}
 		}
 	}
+
+#if WITH_EDITOR
+	if(!ReimportedHandle.IsValid())
+	{
+		ReimportedHandle = GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.AddUObject(this, &USsPlayerComponent::OnAssetReimported);
+	}
+#endif
 }
 // コンポーネントの登録解除
 void USsPlayerComponent::OnUnregister()
@@ -308,6 +320,14 @@ void USsPlayerComponent::OnUnregister()
 		RenderOffScreen->ReserveTerminate();
 		RenderOffScreen = NULL;
 	}
+
+#if WITH_EDITOR
+	if(ReimportedHandle.IsValid())
+	{
+		GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.Remove(ReimportedHandle);
+		ReimportedHandle.Reset();
+	}
+#endif
 }
 
 // ゲーム開始時の初期化
@@ -320,15 +340,6 @@ void USsPlayerComponent::InitializeComponent()
 void USsPlayerComponent::TickComponent(float DeltaTime, enum ELevelTick /*TickType*/, FActorComponentTickFunction* /*ThisTickFunction*/)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerComponent_Tick);
-
-#if WITH_EDITOR
-	// SsProjectがReimportされたら、ActorComponentを再登録させる
-	if(Player.GetSsProject().IsStale())
-	{
-		GetOwner()->ReregisterAllComponents();
-		return;
-	}
-#endif
 
 	if(bAutoUpdate)
 	{
@@ -1237,3 +1248,13 @@ float USsPlayerComponent::GetMulAlpha() const
 {
 	return Player.MulAlpha;
 }
+
+#if WITH_EDITOR
+void USsPlayerComponent::OnAssetReimported(UObject* InObject)
+{
+	if(InObject == SsProject)
+	{
+		this->ReregisterComponent();
+	}
+}
+#endif

@@ -8,6 +8,11 @@
 #include "Ss6Project.h"
 #include "SsRenderOffScreen.h"
 
+#if WITH_EDITOR
+#include "Editor.h"
+#include "Subsystems/ImportSubsystem.h"
+#endif
+
 
 namespace
 {
@@ -101,6 +106,14 @@ void USsPlayerWidget::BeginDestroy()
 {
 	Super::BeginDestroy();
 	BrushMap.Empty();	// ココで先に参照を切っておく. Brush -> MID の順で開放されるように 
+
+#if WITH_EDITOR
+	if(ReimportedHandle.IsValid())
+	{
+		GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.Remove(ReimportedHandle);
+		ReimportedHandle.Reset();
+	}
+#endif
 }
 
 // シリアライズ 
@@ -199,14 +212,6 @@ void USsPlayerWidget::OnSlateTick(float DeltaTime)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_Tick);
 
-#if WITH_EDITOR
-	// SsProjectがReimportされたら、再初期化する 
-	if(Player.GetSsProject().IsStale())
-	{
-		SynchronizeProperties();
-	}
-#endif
-
 	if(bAutoUpdate)
 	{
 		bool bUpdate = true;
@@ -253,6 +258,13 @@ TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 	BrushMap.Empty();
 	OffScreenMID = nullptr;
 	OffScreenRenderTarget = nullptr;
+
+#if WITH_EDITOR
+	if(!ReimportedHandle.IsValid())
+	{
+		ReimportedHandle = GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.AddUObject(this, &USsPlayerWidget::OnAssetReimported);
+	}
+#endif
 
 	return PlayerWidget.ToSharedRef();
 }
@@ -920,3 +932,13 @@ bool USsPlayerWidget::GetCanSlateTick() const
 	}
 	return true; // 未初期化タイミングではデフォルトのtrue扱いとして返す 
 }
+
+#if WITH_EDITOR
+void USsPlayerWidget::OnAssetReimported(UObject* InObject)
+{
+	if(InObject == SsProject)
+	{
+		SynchronizeProperties();
+	}
+}
+#endif
