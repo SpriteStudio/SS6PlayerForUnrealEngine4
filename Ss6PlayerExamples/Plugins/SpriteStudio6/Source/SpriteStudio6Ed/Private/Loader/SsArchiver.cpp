@@ -854,7 +854,7 @@ void SerializeSsCellMap(FSsCellMap& CellMap, SsXmlIArchiver* ar)
 
 	SSAR_DECLARE_LISTEX("cells", CellMap.Cells, "cell");
 }
-void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar)
+void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& OutSortOrder)
 {
 	SSAR_DECLARE_ATTRIBUTE("version", AnimePack.Version);
 	SSAR_STRUCT_DECLARE("settings", AnimePack.Settings);
@@ -862,6 +862,7 @@ void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar)
 	SSAR_STRUCT_DECLARE("Model", AnimePack.Model);
 	SSAR_DECLARE("cellmapNames", AnimePack.CellmapNames);
 	SSAR_DECLARE_LISTEX("animeList", AnimePack.AnimeList, "anime");
+	SSAR_DECLARE("order", OutSortOrder);
 
 	for(auto It = AnimePack.AnimeList.CreateIterator(); It; ++It)
 	{

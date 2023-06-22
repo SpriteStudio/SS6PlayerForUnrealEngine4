@@ -32,7 +32,7 @@ USs6Project* FSsLoader::LoadSsProject(UObject* InParent, FName InName, EObjectFl
 	return Proj;
 }
 
-bool FSsLoader::LoadSsAnimePack(FSsAnimePack* AnimePack, const uint8*& Buffer, size_t Size)
+bool FSsLoader::LoadSsAnimePack(FSsAnimePack* AnimePack, const uint8*& Buffer, size_t Size, int32& OutSortOrder)
 {
 	XMLDocument xml;
 	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
@@ -41,7 +41,7 @@ bool FSsLoader::LoadSsAnimePack(FSsAnimePack* AnimePack, const uint8*& Buffer, s
 	}
 
 	SsXmlIArchiver ar(&xml, "SpriteStudioAnimePack");
-	SerializeSsAnimePack(*AnimePack, &ar);
+	SerializeSsAnimePack(*AnimePack, &ar, OutSortOrder);
 
 	return true;
 }

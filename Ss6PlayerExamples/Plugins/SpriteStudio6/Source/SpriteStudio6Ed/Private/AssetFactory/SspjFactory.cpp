@@ -154,8 +154,10 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 		}
 
 		// ssae
-		NewProject->AnimeList.Empty();
-		NewProject->AnimeList.AddZeroed(NewProject->AnimepackNames.Num());
+		TArray<FSsAnimePack> TempAnimeList;
+		TempAnimeList.AddZeroed(NewProject->AnimepackNames.Num());
+		TArray<int32> TempSortOrder;
+		TempSortOrder.AddZeroed(NewProject->AnimepackNames.Num());
 		for(int i = 0; i < NewProject->AnimepackNames.Num(); ++i)
 		{
 			FString FileName = GetFilePath(CurPath, NewProject->Settings.AnimeBaseDirectory, NewProject->AnimepackNames[i].ToString());
@@ -165,7 +167,46 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			{
 				const uint8* BufferBegin = Data.GetData();
 				const uint8* BufferEnd = BufferBegin + Data.Num() - 1;
-				FSsLoader::LoadSsAnimePack(&(NewProject->AnimeList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1);
+				FSsLoader::LoadSsAnimePack(&(TempAnimeList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1, TempSortOrder[i]);
+			}
+		}
+
+		// SpriteStudio上での並び替えを反映 
+		TArray<FName> TempAnimepackNames = NewProject->AnimepackNames;
+		TArray<int32> SortOrder;
+		NewProject->AnimepackNames.Empty();
+		NewProject->AnimeList.Empty();
+		for(int32 i = 0; i < TempAnimeList.Num(); ++i)
+		{
+			bool bInsert = false;
+			for(int32 j = 0; j < NewProject->AnimeList.Num(); ++j)
+			{
+				if((0 != TempSortOrder[i]) && (TempSortOrder[i] < SortOrder[j]))
+				{
+					NewProject->AnimepackNames.Insert(TempAnimepackNames[i], j);
+					NewProject->AnimeList.Insert(TempAnimeList[i], j);
+					SortOrder.Insert(TempSortOrder[i], j);
+					bInsert = true;
+					break;
+				}
+			}
+			if(!bInsert)
+			{
+				NewProject->AnimepackNames.Add(TempAnimepackNames[i]);
+				NewProject->AnimeList.Add(TempAnimeList[i]);
+				SortOrder.Add(TempSortOrder[i]);
+			}
+		}
+		for(auto ItAnimePack = NewProject->AnimeList.CreateIterator(); ItAnimePack; ++ItAnimePack)
+		{
+			ItAnimePack->Model.SetupAnimation = nullptr;
+			for(auto ItAnime = ItAnimePack->AnimeList.CreateIterator(); ItAnime; ++ItAnime)
+			{
+				if(ItAnime->IsSetup)
+				{
+					ItAnimePack->Model.SetupAnimation = &(*ItAnime);
+					break;
+				}
 			}
 		}
 
