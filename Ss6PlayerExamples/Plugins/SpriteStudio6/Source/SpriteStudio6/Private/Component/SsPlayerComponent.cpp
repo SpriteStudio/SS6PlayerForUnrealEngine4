@@ -569,7 +569,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 				ENQUEUE_RENDER_COMMAND(FSendSsRenderData)(
 					[SsPartsProxy, RenderVertices, RenderIndices, RenderPrimitives](FRHICommandListImmediate& RHICmdList)
 					{
-						SsPartsProxy->SetDynamicData_RenderThread(RenderVertices, RenderIndices, RenderPrimitives);
+						SsPartsProxy->SetDynamicData_RenderThread(RHICmdList, RenderVertices, RenderIndices, RenderPrimitives);
 					});
 
 			} break;
@@ -588,7 +588,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 						}
 						SsPlaneProxy->CanvasSizeUU = CanvasSizeUU;
 						SsPlaneProxy->SetPivot(Pivot);
-						SsPlaneProxy->SetDynamicData_RenderThread();
+						SsPlaneProxy->SetDynamicData_RenderThread(RHICmdList);
 					});
 			} break;
 	}

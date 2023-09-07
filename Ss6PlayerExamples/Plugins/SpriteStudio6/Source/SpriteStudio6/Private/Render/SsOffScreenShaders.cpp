@@ -11,7 +11,7 @@ IMPLEMENT_SHADER_TYPE(, FSsOffScreenMaskedPS, TEXT("/Plugin/SpriteStudio6/Privat
 TGlobalResource<FSsOffScreenVertexDeclaration> GSs6OffScreenVertexDeclaration;
 
 // 
-void FSsOffScreenVertexDeclaration::InitRHI()
+void FSsOffScreenVertexDeclaration::InitRHI(FRHICommandListBase& /*RHICmdList*/)
 {
 	FVertexDeclarationElementList Elements;
 	uint32 Stride = sizeof(FSsOffScreenVertex);

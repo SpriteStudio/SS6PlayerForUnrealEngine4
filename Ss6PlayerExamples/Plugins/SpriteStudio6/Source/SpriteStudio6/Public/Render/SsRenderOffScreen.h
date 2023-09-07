@@ -5,16 +5,14 @@
 class FSsOffScreenVertexBuffer : public FVertexBuffer
 {
 public:
-	virtual void InitDynamicRHI() override;
-	virtual void ReleaseDynamicRHI() override;
+	virtual void InitRHI(FRHICommandListBase& RHICmdList) override;
 	uint32 VertexNum;
 };
 // インデックスバッファ
 class FSsOffScreenIndexBuffer : public FIndexBuffer
 {
 public:
-	virtual void InitDynamicRHI() override;
-	virtual void ReleaseDynamicRHI() override;
+	virtual void InitRHI(FRHICommandListBase& RHICmdList) override;
 	uint32 IndexNum;
 };
 

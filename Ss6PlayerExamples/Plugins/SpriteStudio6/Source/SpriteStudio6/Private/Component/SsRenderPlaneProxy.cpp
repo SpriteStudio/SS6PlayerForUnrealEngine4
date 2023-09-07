@@ -6,19 +6,19 @@
 
 
 // IndexBuffer
-void FSsPlaneIndexBuffer::InitRHI()
+void FSsPlaneIndexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
 {
 	FRHIResourceCreateInfo CreateInfo(TEXT("SsComponentPlaneIndexBuffer"));
 	uint32 Size = 6 * sizeof(uint16);
-	IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), Size, BUF_Static, CreateInfo);
-	void* Buffer = RHILockBuffer(IndexBufferRHI, 0, Size, RLM_WriteOnly);
+	IndexBufferRHI = RHICmdList.CreateIndexBuffer(sizeof(uint16), Size, BUF_Static, CreateInfo);
+	void* Buffer = RHICmdList.LockBuffer(IndexBufferRHI, 0, Size, RLM_WriteOnly);
 	((uint16*)Buffer)[0] = 0;
 	((uint16*)Buffer)[1] = 2;
 	((uint16*)Buffer)[2] = 1;
 	((uint16*)Buffer)[3] = 1;
 	((uint16*)Buffer)[4] = 2;
 	((uint16*)Buffer)[5] = 3;
-	RHIUnlockBuffer(IndexBufferRHI);
+	RHICmdList.UnlockBuffer(IndexBufferRHI);
 }
 
 // コンストラクタ
@@ -56,7 +56,7 @@ SIZE_T FSsRenderPlaneProxy::GetTypeHash() const
 void FSsRenderPlaneProxy::CreateRenderThreadResources()
 {
 	VertexBuffers.InitWithDummyData(&VertexFactory, 4);
-	IndexBuffer.InitResource();
+	IndexBuffer.InitResource(FRHICommandListImmediate::Get());
 }
 
 void FSsRenderPlaneProxy::GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily, uint32 VisibilityMap, FMeshElementCollector& Collector) const
@@ -139,7 +139,7 @@ uint32 FSsRenderPlaneProxy::GetMemoryFootprint() const
 	return sizeof(*this) + GetAllocatedSize();
 }
 
-void FSsRenderPlaneProxy::SetDynamicData_RenderThread()
+void FSsRenderPlaneProxy::SetDynamicData_RenderThread(FRHICommandListImmediate& RHICmdList)
 {
 	TArray<FDynamicMeshVertex> Vertices;
 	Vertices.Empty(4);
@@ -160,29 +160,29 @@ void FSsRenderPlaneProxy::SetDynamicData_RenderThread()
 
 	{
 		auto& VertexBuffer = VertexBuffers.PositionVertexBuffer;
-		void* VertexBufferData = RHILockBuffer(VertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetNumVertices() * VertexBuffer.GetStride(), RLM_WriteOnly);
+		void* VertexBufferData = RHICmdList.LockBuffer(VertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetNumVertices() * VertexBuffer.GetStride(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetVertexData(), VertexBuffer.GetNumVertices() * VertexBuffer.GetStride());
-		RHIUnlockBuffer(VertexBuffer.VertexBufferRHI);
+		RHICmdList.UnlockBuffer(VertexBuffer.VertexBufferRHI);
 	}
 
 	{
 		auto& VertexBuffer = VertexBuffers.ColorVertexBuffer;
-		void* VertexBufferData = RHILockBuffer(VertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetNumVertices() * VertexBuffer.GetStride(), RLM_WriteOnly);
+		void* VertexBufferData = RHICmdList.LockBuffer(VertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetNumVertices() * VertexBuffer.GetStride(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetVertexData(), VertexBuffer.GetNumVertices() * VertexBuffer.GetStride());
-		RHIUnlockBuffer(VertexBuffer.VertexBufferRHI);
+		RHICmdList.UnlockBuffer(VertexBuffer.VertexBufferRHI);
 	}
 
 	{
 		auto& VertexBuffer = VertexBuffers.StaticMeshVertexBuffer;
-		void* VertexBufferData = RHILockBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTangentSize(), RLM_WriteOnly);
+		void* VertexBufferData = RHICmdList.LockBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTangentSize(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetTangentData(), VertexBuffer.GetTangentSize());
-		RHIUnlockBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI);
+		RHICmdList.UnlockBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI);
 	}
 
 	{
 		auto& VertexBuffer = VertexBuffers.StaticMeshVertexBuffer;
-		void* VertexBufferData = RHILockBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTexCoordSize(), RLM_WriteOnly);
+		void* VertexBufferData = RHICmdList.LockBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTexCoordSize(), RLM_WriteOnly);
 		FMemory::Memcpy(VertexBufferData, VertexBuffer.GetTexCoordData(), VertexBuffer.GetTexCoordSize());
-		RHIUnlockBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI);
+		RHICmdList.UnlockBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI);
 	}
 }

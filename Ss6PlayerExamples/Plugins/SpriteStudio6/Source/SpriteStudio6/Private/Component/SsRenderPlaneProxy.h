@@ -9,7 +9,7 @@
 class FSsPlaneIndexBuffer : public FIndexBuffer
 {
 public:
-	virtual void InitRHI() override;
+	virtual void InitRHI(FRHICommandListBase& RHICmdList) override;
 };
 
 // RenderProxy
@@ -26,7 +26,7 @@ public:
 	virtual FPrimitiveViewRelevance GetViewRelevance(const FSceneView* View) const override;
 	virtual uint32 GetMemoryFootprint() const override;
 
-	void SetDynamicData_RenderThread();
+	void SetDynamicData_RenderThread(FRHICommandListImmediate& RHICmdList);
 	void SetMaterial(UMaterialInterface* InMaterial) { Material = InMaterial; }
 	void SetPivot(const FVector2f& InPivot) { Pivot = InPivot; }
 

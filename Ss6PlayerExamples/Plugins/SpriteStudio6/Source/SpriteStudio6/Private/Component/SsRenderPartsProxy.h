@@ -12,7 +12,7 @@
 class FSsPartsIndexBuffer : public FIndexBuffer
 {
 public:
-	virtual void InitRHI() override;
+	virtual void InitRHI(FRHICommandListBase& RHICmdList) override;
 	uint32 NumIndices;
 };
 // RenderProxy
@@ -47,7 +47,7 @@ public:
 	virtual FPrimitiveViewRelevance GetViewRelevance(const FSceneView* View) const override;
 	virtual uint32 GetMemoryFootprint() const override;
 
-	void SetDynamicData_RenderThread(const TArray<FSsPartVertex>& InRenderVertices, const TArray<uint16>& InRenderIndices, const TArray<FSsPartPrimitive>& InRenderPrimitives);
+	void SetDynamicData_RenderThread(FRHICommandListImmediate& RHICmdList, const TArray<FSsPartVertex>& InRenderVertices, const TArray<uint16>& InRenderIndices, const TArray<FSsPartPrimitive>& InRenderPrimitives);
 
 private:
 	USsPlayerComponent* Component;

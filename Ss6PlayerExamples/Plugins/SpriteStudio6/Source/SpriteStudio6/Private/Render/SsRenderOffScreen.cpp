@@ -56,31 +56,23 @@ FSsOffScreenRenderDestroyer* GSs6OffScreenRenderDestroyer(nullptr);
 
 
 // 頂点バッファ
-void FSsOffScreenVertexBuffer::InitDynamicRHI()
+void FSsOffScreenVertexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
 {
 	if(0 < VertexNum)
 	{
 		FRHIResourceCreateInfo CreateInfo(TEXT("SsRenderOffScreenVertexBuffer"));
-		VertexBufferRHI = RHICreateVertexBuffer(VertexNum * sizeof(FSsOffScreenVertex), BUF_Dynamic, CreateInfo);
+		VertexBufferRHI = RHICmdList.CreateVertexBuffer(VertexNum * sizeof(FSsOffScreenVertex), BUF_Dynamic, CreateInfo);
 	}
-}
-void FSsOffScreenVertexBuffer::ReleaseDynamicRHI()
-{
-	VertexBufferRHI.SafeRelease();
 }
 
 // インデックスバッファ
-void FSsOffScreenIndexBuffer::InitDynamicRHI()
+void FSsOffScreenIndexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
 {
 	if(0 < IndexNum)
 	{
 		FRHIResourceCreateInfo CreateInfo(TEXT("SsRenderOffScreenIndexBuffer"));
-		IndexBufferRHI = RHICreateIndexBuffer(sizeof(uint16), IndexNum * sizeof(uint16), BUF_Dynamic, CreateInfo);
+		IndexBufferRHI = RHICmdList.CreateIndexBuffer(sizeof(uint16), IndexNum * sizeof(uint16), BUF_Dynamic, CreateInfo);
 	}
-}
-void FSsOffScreenIndexBuffer::ReleaseDynamicRHI()
-{
-	IndexBufferRHI.SafeRelease();
 }
 
 
@@ -415,7 +407,7 @@ namespace
 										FPlane4f((Left+Right)/(Left-Right),	(Top+Bottom)/(Bottom-Top),	ZNear/(ZNear-ZFar), 1 ) );
 				}
 
-				void* VerticesPtr = RHILockBuffer(
+				void* VerticesPtr = RHICmdList.LockBuffer(
 						RenderParts.VertexBuffer->VertexBufferRHI,
 						0, // Offset
 						RenderParts.VertexBuffer->VertexNum * sizeof(FSsOffScreenVertex),
@@ -489,12 +481,12 @@ namespace
 						}
 					}
 				}
-				RHIUnlockBuffer(RenderParts.VertexBuffer->VertexBufferRHI);
+				RHICmdList.UnlockBuffer(RenderParts.VertexBuffer->VertexBufferRHI);
 			}
 
 			// インデックスバッファへ書き込み 
 			{
-				void* IndicesPtr = RHILockBuffer(
+				void* IndicesPtr = RHICmdList.LockBuffer(
 					RenderParts.IndexBuffer->IndexBufferRHI,
 					0,
 					RenderParts.IndexBuffer->IndexNum * sizeof(uint16),
@@ -567,7 +559,7 @@ namespace
 					}
 				}
 
-				RHIUnlockBuffer(RenderParts.IndexBuffer->IndexBufferRHI);
+				RHICmdList.UnlockBuffer(RenderParts.IndexBuffer->IndexBufferRHI);
 			}
 		}
 

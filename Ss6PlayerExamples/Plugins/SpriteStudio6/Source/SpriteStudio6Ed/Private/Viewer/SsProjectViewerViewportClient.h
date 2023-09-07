@@ -20,6 +20,7 @@ public:
 
 	// FGCObject interface
 	virtual void AddReferencedObjects( FReferenceCollector& Collector ) {}
+	virtual FString GetReferencerName() const { return TEXT("FSsProjectViewerViewportClient"); }
 
 public:
 	void SetPlayer(FSsPlayer* InPlayer, FSsRenderOffScreen* InRender);

@@ -81,7 +81,7 @@ EReimportResult::Type UReimportSspjFactory::Reimport(UObject* Obj)
 		IAssetEditorInstance* Editor = GEditor->GetEditorSubsystem<UAssetEditorSubsystem>()->FindEditorForAsset(SsProject, false);
 		if(nullptr != Editor)
 		{
-			Editor->CloseWindow();
+			Editor->CloseWindow(EAssetEditorCloseReason::AssetEditorHostClosed);
 			GEditor->GetEditorSubsystem<UAssetEditorSubsystem>()->OpenEditorForAsset(SsProject);
 		}
 	}
