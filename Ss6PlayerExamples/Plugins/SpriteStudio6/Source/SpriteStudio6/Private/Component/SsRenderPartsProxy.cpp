@@ -121,15 +121,24 @@ void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 FPrimitiveViewRelevance FSsRenderPartsProxy::GetViewRelevance(const FSceneView* View) const
 {
 	FPrimitiveViewRelevance Result;
-	Result.bDrawRelevance        = IsShown(View);
-	Result.bRenderCustomDepth    = ShouldRenderCustomDepth();
-	Result.bRenderInMainPass     = ShouldRenderInMainPass();
-	Result.bUsesLightingChannels = false;
-	Result.bOpaque               = true;
-	Result.bSeparateTranslucency = true;
-	Result.bNormalTranslucency   = false;
-	Result.bShadowRelevance      = IsShadowCast(View);
-	Result.bDynamicRelevance     = true;
+	Result.bDrawRelevance     = IsShown(View);
+	Result.bRenderCustomDepth = ShouldRenderCustomDepth();
+	Result.bRenderInMainPass  = ShouldRenderInMainPass();
+	Result.bRenderInDepthPass = ShouldRenderInDepthPass();
+	Result.bShadowRelevance   = IsShadowCast(View);
+	Result.bDynamicRelevance  = true;
+	Result.bVelocityRelevance = DrawsVelocity() && Result.bOpaque && Result.bRenderInMainPass;
+
+	FMaterialRelevance MaterialRelevance;
+	for(auto ItMid = Component->RenderMIDs.CreateConstIterator(); ItMid; ++ItMid)
+	{
+		if(nullptr != (*ItMid))
+		{
+			MaterialRelevance |= (*ItMid)->GetRelevance_Concurrent(GetScene().GetFeatureLevel());
+		}
+	}
+	MaterialRelevance.SetPrimitiveViewRelevance(Result);
+	
 	return Result;
 }
 
