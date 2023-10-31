@@ -151,6 +151,11 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 					}
 				}
 			}
+			else
+			{
+				// ssceファイルのロード失敗. ファイルが無いか、日本語ファイル名が置換されているとココへ来る. 
+				UE_LOG(LogSpriteStudioEd, Warning, TEXT("Failed Load ssce file. Check if the file exist, or the previous warning."));
+			}
 		}
 
 		// ssae

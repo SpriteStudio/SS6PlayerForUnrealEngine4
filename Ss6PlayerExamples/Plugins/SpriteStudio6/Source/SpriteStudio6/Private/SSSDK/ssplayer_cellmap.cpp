@@ -148,9 +148,10 @@ void getCellValue( SsCellMapList* cellList, FName& cellMapName , FName& cellName
 void getCellValue( SsCellMapList* cellList, int cellMapid , FName& cellName , SsCellValue& v )
 {
 	SsCelMapLinker* l = cellList->getCellMapLink( cellMapid );
-	getCellValue( l , cellName , v );
-
-
+	if(l)
+	{
+		getCellValue( l , cellName , v );
+	}
 }
 
 void calcUvs( SsCellValue* cellv, const FVector2f TexturePixelSize )

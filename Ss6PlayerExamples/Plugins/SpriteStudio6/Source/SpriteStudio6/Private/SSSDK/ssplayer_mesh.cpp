@@ -411,6 +411,10 @@ void	SsMeshAnimator::update()
 
 void	SsMeshAnimator::copyToSsMeshPart(FSsMeshBind* src , SsMeshPart* dst , const TMap<int32, SsPartState*>& boneIdxListLocal )
 {
+	if(nullptr == dst->bindBoneInfo)
+	{
+		return;
+	}
 
 	int bnum = (int)boneIdxListLocal.Num();
 	bool isbind = false;	//バインドするボーンが存在するか？
