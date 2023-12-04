@@ -110,7 +110,11 @@ void USsPlayerWidget::BeginDestroy()
 #if WITH_EDITOR
 	if(ReimportedHandle.IsValid())
 	{
-		GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.Remove(ReimportedHandle);
+		UImportSubsystem* ImportSubsystem = GEditor->GetEditorSubsystem<UImportSubsystem>();
+		if(ImportSubsystem)
+		{
+			ImportSubsystem->OnAssetReimport.Remove(ReimportedHandle);
+		}
 		ReimportedHandle.Reset();
 	}
 #endif
