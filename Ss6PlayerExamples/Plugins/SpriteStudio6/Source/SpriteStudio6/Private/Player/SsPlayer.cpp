@@ -67,6 +67,16 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 	PlayingAnimationIndex = -1;
 }
 
+// 再生中のFSsAnimationを取得 
+const FSsAnimation* FSsPlayer::GetPlayingSsAnimation() const
+{
+	if(nullptr != Decoder)
+	{
+		return Decoder->curAnimation;
+	}
+	return nullptr;
+}
+
 // 更新
 FSsPlayerTickResult FSsPlayer::Tick(float DeltaSeconds)
 {
@@ -545,7 +555,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		const int32 VertCnt = (State->is_vertex_transform || State->is_parts_color) ? 5 : 4;
 
 		// 頂点座標
-		FVector2f Vertices2D[5];
+		FVector3f Vertices[5];
 		for(int i = 0; i < VertCnt; ++i)
 		{
 			FVector4f V = ViewMatrix.TransformPosition(FVector3f(
@@ -553,7 +563,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				State->vertices[i*3 + 1],
 				State->vertices[i*3 + 2]
 			));
-			Vertices2D[i] = FVector2f(V.X + OffX, -V.Y + OffY);
+			Vertices[i] = FVector3f(V.X + OffX, -V.Y + OffY, V.Z);
 		}
 
 		// UV
@@ -718,7 +728,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 		OutRenderPart.Vertices.AddUninitialized(VertCnt);
 		for(int32 i = 0; i < VertCnt; ++i)
 		{
-			OutRenderPart.Vertices[i].Position = FVector2f(Vertices2D[i].X/CanvasSize.X, Vertices2D[i].Y/CanvasSize.Y);
+			OutRenderPart.Vertices[i].Position = FVector3f(Vertices[i].X/CanvasSize.X, Vertices[i].Y/CanvasSize.Y, Vertices[i].Z);
 			OutRenderPart.Vertices[i].TexCoord = UVs[i];
 			OutRenderPart.Vertices[i].Color = VertexColors[i];
 			OutRenderPart.Vertices[i].ColorBlendRate = ColorBlendRate[i];
@@ -750,6 +760,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 			{
 				RenderMesh.Vertices[i].Position.X = ( State->meshPart->draw_vertices[i*3 + 0] + OffX) / CanvasSize.X;
 				RenderMesh.Vertices[i].Position.Y = (-State->meshPart->draw_vertices[i*3 + 1] + OffY) / CanvasSize.Y;
+				RenderMesh.Vertices[i].Position.Z =   State->meshPart->draw_vertices[i*3 + 2];
 			}
 			else
 			{
@@ -761,6 +772,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 				));
 				RenderMesh.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
 				RenderMesh.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
+				RenderMesh.Vertices[i].Position.Z =   V.Z;
 			}
 
 			FVector2f UV(
@@ -984,6 +996,7 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 						FVector4f V = ViewMatrix.TransformPosition(Vertices[i]);
 						RenderPart.Vertices[i].Position.X = ( V.X + OffX) / CanvasSize.X;
 						RenderPart.Vertices[i].Position.Y = (-V.Y + OffY) / CanvasSize.Y;
+						RenderPart.Vertices[i].Position.Z =   V.Y;
 
 						RenderPart.Vertices[i].TexCoord = Emitter->dispCell.uvs[i];
 						RenderPart.Vertices[i].Color = FColor(lp.color.R, lp.color.G, lp.color.B, (uint8)(lp.color.A * ParentAlpha * MulAlpha));
@@ -1242,6 +1255,36 @@ bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector2f& OutPosition, float&
 	OutPosition = FVector2f(
 		State->matrixLocal[12] + ((float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X)),
 		State->matrixLocal[13] - ((float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y))
+	);
+	OutPosition.X = OutPosition.X / CanvasSize.X;
+	OutPosition.Y = OutPosition.Y / CanvasSize.Y;
+
+	OutRotate = State->rotation.Z;
+	OutScale = State->scale * State->localscale;
+	for(SsPartState* ParentState = State->parent; NULL != ParentState; ParentState = ParentState->parent)
+	{
+		OutRotate += ParentState->rotation.Z;
+		OutScale *= ParentState->scale;
+	}
+	while(OutRotate <   0.f){ OutRotate += 360.f; }
+	while(OutRotate > 360.f){ OutRotate -= 360.f; }
+
+	return true;
+}
+bool FSsPlayer::GetPartTransform(int32 PartIndex, FVector3f& OutPosition, float& OutRotate, FVector2f& OutScale) const
+{
+	if((nullptr == Decoder) || (PartIndex < 0) || (Decoder->sortList.Num() <= PartIndex))
+	{
+		return false;
+	}
+
+	SsPartState* State = &(Decoder->partState[PartIndex]);
+	FVector2f Pivot = GetAnimPivot();
+	FVector2f CanvasSize = GetAnimCanvasSize();
+	OutPosition = FVector3f(
+		State->matrixLocal[12] + ((float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X)),
+		State->matrixLocal[13] - ((float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y)),
+		State->matrixLocal[14]
 	);
 	OutPosition.X = OutPosition.X / CanvasSize.X;
 	OutPosition.Y = OutPosition.Y / CanvasSize.Y;

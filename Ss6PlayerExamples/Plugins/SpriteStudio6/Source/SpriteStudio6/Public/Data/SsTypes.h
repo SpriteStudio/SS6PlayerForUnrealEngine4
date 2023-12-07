@@ -735,6 +735,23 @@ namespace SsMeshDivType
 FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsMeshDivType::Type> n);
 void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsMeshDivType::Type>& out);
 
+//パーツソート基準
+UENUM()
+namespace SsPartsSortMode
+{
+	enum Type
+	{
+		Priority,
+		Z,
+		Num,
+
+		Unknown,
+	};
+}
+FString SPRITESTUDIO6_API __EnumToString_(TEnumAsByte<SsPartsSortMode::Type> n);
+void SPRITESTUDIO6_API __StringToEnum_(FString n , TEnumAsByte<SsPartsSortMode::Type>& out);
+
+
 USTRUCT()
 struct FSsTriangle
 {
@@ -806,7 +823,7 @@ public:
 // 描画用の頂点情報
 struct FSsRenderVertex
 {
-	FVector2f Position;	// 0.0f～1.0f (アニメーションのCanvasSizeに対しての座標. 実際の値は範囲外もあり得る) 
+	FVector3f Position;	// 0.0f～1.0f (アニメーションのCanvasSizeに対しての座標. 実際の値は範囲外もあり得る. Zだけは実値) 
 	FVector2f TexCoord;
 	FColor Color;
 	float ColorBlendRate;
@@ -815,7 +832,7 @@ struct FSsRenderVertex
 // 描画用のメッシュ頂点 
 struct FSsRenderMeshVertex
 {
-	FVector2f Position;
+	FVector3f Position;
 	FVector2f TexCoord;
 };
 

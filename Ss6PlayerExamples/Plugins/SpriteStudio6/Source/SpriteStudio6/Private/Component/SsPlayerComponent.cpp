@@ -91,6 +91,8 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 	, OffScreenRenderResolution(512.f, 512.f)
 	, OffScreenClearColor(0, 0, 0, 0)
 	, UUPerPixel(0.3f)
+	, bReflectSsZCoord(false)
+	, SsZScale(1.f)
 	, SsBoundsScale(2.f)
 {
 	// UActorComponent
@@ -369,6 +371,20 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 					FVector2f Pivot = Player.GetAnimPivot();
 					FVector2f CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
 
+					// SsのZ座標をUEの3D座標に反映するか 
+					bool bReflectSsZCoordAct = false;
+					if(bReflectSsZCoord)
+					{
+						const FSsAnimation* SsAnimation = Player.GetPlayingSsAnimation();
+						if(nullptr != SsAnimation)
+						{
+							if(SsPartsSortMode::Z == SsAnimation->Settings.SortMode)
+							{
+								bReflectSsZCoordAct = true;
+							}
+						}
+					}
+
 					TArray<UMaterialInterface*> PartsMaterials;
 					PartsMaterials.Reserve(RenderParts.Num());
 					for(auto ItPart = RenderParts.CreateConstIterator(); ItPart; ++ItPart)
@@ -425,7 +441,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 							for(int32 v = 0; v < ItPart->Vertices.Num(); ++v)
 							{
 								Vertex.Position = FVector3f(
-									0.f,
+									bReflectSsZCoordAct ? (ItPart->Vertices[v].Position.Z * SsZScale) : 0.f,
 									( ItPart->Vertices[v].Position.X - 0.5f - Pivot.X) * CanvasSizeUU.X,
 									(-ItPart->Vertices[v].Position.Y + 0.5f - Pivot.Y) * CanvasSizeUU.Y
 									);
@@ -477,7 +493,7 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 								for(auto ItVert = ItMesh->Vertices.CreateConstIterator(); ItVert; ++ItVert)
 								{
 									Vertex.Position = FVector3f(
-										0.f,
+										bReflectSsZCoordAct ? (ItVert->Position.Z * SsZScale) : 0.f,
 										( ItVert->Position.X - 0.5f - Pivot.X) * CanvasSizeUU.X,
 										(-ItVert->Position.Y + 0.5f - Pivot.Y) * CanvasSizeUU.Y
 										);
@@ -769,39 +785,94 @@ UTexture* USsPlayerComponent::GetRenderTarget()
 // パーツのアタッチ用Transformを取得 
 bool USsPlayerComponent::GetPartAttachTransform(int32 PartIndex, FTransform& OutTransform) const
 {
-	FVector2f Position, Scale;
-	float Rotate;
-	if(!Player.GetPartTransform(PartIndex, Position, Rotate, Scale))
+	bool bReflectSsZCoordAct = false;
+	if(bReflectSsZCoord)
 	{
-		OutTransform = FTransform::Identity;
-		return false;
+		const FSsAnimation* SsAnimation = Player.GetPlayingSsAnimation();
+		if(nullptr != SsAnimation)
+		{
+			if(SsPartsSortMode::Z == SsAnimation->Settings.SortMode)
+			{
+				bReflectSsZCoordAct = true;
+			}
+		}
 	}
 
-	if(Player.bFlipH){ Position.X =  1.f - Position.X; }
-	if(Player.bFlipV){ Position.Y = -1.f - Position.Y; }
-	Position.X = (Position.X - Player.GetAnimPivot().X - 0.5f);
-	Position.Y = (Position.Y - Player.GetAnimPivot().Y + 0.5f);
-
-	FRotator R = FRotator(0.f, 0.f, Rotate) * -1.f;
-	if(Player.bFlipH)
+	// SsのZ座標を反映 
+	if(bReflectSsZCoordAct)
 	{
-		R = FRotator(0.f, 180.f, 0.f) + R;
-	}
-	if(Player.bFlipV)
-	{
-		R = FRotator(180.f, 0.f, 0.f) + R;
-	}
+		FVector3f Position;
+		FVector2f Scale;
+		float Rotate;
+		if(!Player.GetPartTransform(PartIndex, Position, Rotate, Scale))
+		{
+			OutTransform = FTransform::Identity;
+			return false;
+		}
 
-	OutTransform = FTransform(
-		R,
-		FVector(
-			0,
-			Position.X * Player.GetAnimCanvasSize().X * UUPerPixel,
-			Position.Y * Player.GetAnimCanvasSize().Y * UUPerPixel
-			),
-		FVector(1, Scale.X, Scale.Y)
-		);
-	return true;
+		if(Player.bFlipH){ Position.X =  1.f - Position.X; }
+		if(Player.bFlipV){ Position.Y = -1.f - Position.Y; }
+		Position.X = (Position.X - Player.GetAnimPivot().X - 0.5f);
+		Position.Y = (Position.Y - Player.GetAnimPivot().Y + 0.5f);
+
+		FRotator R = FRotator(0.f, 0.f, Rotate) * -1.f;
+		if(Player.bFlipH)
+		{
+			R = FRotator(0.f, 180.f, 0.f) + R;
+		}
+		if(Player.bFlipV)
+		{
+			R = FRotator(180.f, 0.f, 0.f) + R;
+		}
+
+		OutTransform = FTransform(
+			R,
+			FVector(
+				Position.Z * SsZScale,
+				Position.X * Player.GetAnimCanvasSize().X * UUPerPixel,
+				Position.Y * Player.GetAnimCanvasSize().Y * UUPerPixel
+				),
+			FVector(1, Scale.X, Scale.Y)
+			);
+		return true;
+	}
+	// 通常はこちら 
+	else
+	{
+		FVector2f Position, Scale;
+		float Rotate;
+		if(!Player.GetPartTransform(PartIndex, Position, Rotate, Scale))
+		{
+			OutTransform = FTransform::Identity;
+			return false;
+		}
+
+		if(Player.bFlipH){ Position.X =  1.f - Position.X; }
+		if(Player.bFlipV){ Position.Y = -1.f - Position.Y; }
+		Position.X = (Position.X - Player.GetAnimPivot().X - 0.5f);
+		Position.Y = (Position.Y - Player.GetAnimPivot().Y + 0.5f);
+
+		FRotator R = FRotator(0.f, 0.f, Rotate) * -1.f;
+		if(Player.bFlipH)
+		{
+			R = FRotator(0.f, 180.f, 0.f) + R;
+		}
+		if(Player.bFlipV)
+		{
+			R = FRotator(180.f, 0.f, 0.f) + R;
+		}
+
+		OutTransform = FTransform(
+			R,
+			FVector(
+				0,
+				Position.X * Player.GetAnimCanvasSize().X * UUPerPixel,
+				Position.Y * Player.GetAnimCanvasSize().Y * UUPerPixel
+				),
+			FVector(1, Scale.X, Scale.Y)
+			);
+		return true;
+	}
 }
 
 

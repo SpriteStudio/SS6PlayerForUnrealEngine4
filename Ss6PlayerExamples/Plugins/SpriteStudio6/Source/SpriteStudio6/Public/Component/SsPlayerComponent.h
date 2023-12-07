@@ -212,6 +212,16 @@ public:
 	UPROPERTY(Category="SpriteStudioRenderSettings", EditAnywhere, BlueprintReadOnly, AdvancedDisplay)
 	float UUPerPixel;
 
+	// SpriteStudioのZ座標をパーツの3D座標に反映するか 
+	// SpriteStudio側の「パーツソート基準」が「Z座標」に設定されている場合のみ有効です 
+	// UE上での実際の座標値は、SpriteStudio上でのZ座標にSsZScaleを乗じた値になります 
+	UPROPERTY(Category="SpriteStudioRenderSettings", EditAnywhere, BlueprintReadOnly, AdvancedDisplay)
+	bool bReflectSsZCoord;
+
+	// SpriteStudioのZ座標をUE上に反映する際の係数 
+	UPROPERTY(Category="SpriteStudioRenderSettings", EditAnywhere, BlueprintReadOnly, AdvancedDisplay, meta=(EditCondition=bReflectSsZCoord))
+	float SsZScale;
+
 	// カリング用半径への係数 
 	// パーツがアニメーションのキャンバス範囲外へ動く場合は、このスケールを設定して下さい 
 	// 描画モードがOffScreenPlaneの場合は無視されます 

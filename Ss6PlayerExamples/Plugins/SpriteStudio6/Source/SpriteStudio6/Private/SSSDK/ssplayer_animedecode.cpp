@@ -1557,8 +1557,16 @@ void	SsAnimeDecoder::update(float frameDeltaLocal)
 		meshAnimator->update();
 
 
-	sortList.Sort();
-	partStatesMask_.Sort();
+	if(SsPartsSortMode::Z == curAnimation->Settings.SortMode)
+	{
+		sortList       .Sort([](const SsPartState& A, const SsPartState& B){ return (A.matrixLocal[14] != B.matrixLocal[14]) ? (A.matrixLocal[14] > B.matrixLocal[14]) : (A.index > B.index); });
+		partStatesMask_.Sort([](const SsPartState& A, const SsPartState& B){ return (A.matrixLocal[14] != B.matrixLocal[14]) ? (A.matrixLocal[14] > B.matrixLocal[14]) : (A.index > B.index); });
+	}
+	else
+	{
+		sortList.Sort();
+		partStatesMask_.Sort();
+	}
 
 	maskIndexList.Empty();
 	for(auto it = partStatesMask_.CreateConstIterator(); it; ++it)

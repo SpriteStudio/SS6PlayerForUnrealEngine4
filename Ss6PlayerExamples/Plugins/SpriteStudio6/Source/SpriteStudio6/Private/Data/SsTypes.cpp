@@ -424,3 +424,20 @@ void 	__StringToEnum_( FString n , TEnumAsByte<SsMeshDivType::Type>& out)
 	if ( n == "polyline_base")	out = SsMeshDivType::PolylineBase;
 	if ( n == "boxdiv")			out = SsMeshDivType::Boxdiv;
 }
+
+//---------------------------------------------------------------
+//相互変換 SsPartsSortMode
+FString	__EnumToString_( TEnumAsByte<SsPartsSortMode::Type> n )
+{
+	if ( n == SsPartsSortMode::Priority)	return "prio";
+	if ( n == SsPartsSortMode::Z)			return "z";
+
+	return "unknown";
+}
+
+void 	__StringToEnum_( FString n , TEnumAsByte<SsPartsSortMode::Type>& out)
+{
+	out =  SsPartsSortMode::Unknown;
+	if ( n == "prio")	out = SsPartsSortMode::Priority;
+	if ( n == "z")		out = SsPartsSortMode::Z;
+}

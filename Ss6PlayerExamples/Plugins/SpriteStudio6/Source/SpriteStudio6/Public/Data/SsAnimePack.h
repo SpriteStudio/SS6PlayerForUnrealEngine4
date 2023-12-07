@@ -20,6 +20,9 @@ public:
 	int32	FrameCount = 0;		//!< フレーム数
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
+	TEnumAsByte<SsPartsSortMode::Type>	SortMode = SsPartsSortMode::Priority;
+
+	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)
 	FVector2f	CanvasSize = FVector2f::ZeroVector;		//!< キャンバスサイズ(元基準枠)。ビューポートのサイズとイコールではない。
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimationSettings)

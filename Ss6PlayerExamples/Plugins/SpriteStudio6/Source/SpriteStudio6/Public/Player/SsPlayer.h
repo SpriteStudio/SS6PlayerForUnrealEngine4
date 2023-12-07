@@ -23,6 +23,8 @@ public:
 	void SetSsProject(TWeakObjectPtr<USs6Project> InSsProject);
 	const TWeakObjectPtr<USs6Project> GetSsProject() const { return SsProject; }
 
+	const struct FSsAnimation* GetPlayingSsAnimation() const;
+
 	FSsPlayerTickResult Tick(float DeltaSeconds);
 	const TArray<FSsRenderPart>& GetRenderParts() const { return RenderParts; }
 
@@ -66,6 +68,7 @@ public:
 
 	// パーツのTransformを取得 
 	bool GetPartTransform(int32 PartIndex, FVector2f& OutPosition, float& OutRotate, FVector2f& OutScale) const;
+	bool GetPartTransform(int32 PartIndex, FVector3f& OutPosition, float& OutRotate, FVector2f& OutScale) const;
 
 	// パーツのColorLabelを取得 
 	FName GetPartColorLabel(int32 PartIndex);
