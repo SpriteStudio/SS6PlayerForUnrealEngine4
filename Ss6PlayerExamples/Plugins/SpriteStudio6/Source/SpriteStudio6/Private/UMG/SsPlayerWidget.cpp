@@ -108,7 +108,7 @@ void USsPlayerWidget::BeginDestroy()
 	BrushMap.Empty();	// ココで先に参照を切っておく. Brush -> MID の順で開放されるように 
 
 #if WITH_EDITOR
-	if(ReimportedHandle.IsValid())
+	if(ReimportedHandle.IsValid() && (nullptr != GEditor))
 	{
 		UImportSubsystem* ImportSubsystem = GEditor->GetEditorSubsystem<UImportSubsystem>();
 		if(ImportSubsystem)
@@ -264,9 +264,13 @@ TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 	OffScreenRenderTarget = nullptr;
 
 #if WITH_EDITOR
-	if(!ReimportedHandle.IsValid())
+	if(!ReimportedHandle.IsValid() && (nullptr != GEditor))
 	{
-		ReimportedHandle = GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.AddUObject(this, &USsPlayerWidget::OnAssetReimported);
+		UImportSubsystem* ImportSubsystem = GEditor->GetEditorSubsystem<UImportSubsystem>();
+		if(ImportSubsystem)
+		{
+			ReimportedHandle = ImportSubsystem->OnAssetReimport.AddUObject(this, &USsPlayerWidget::OnAssetReimported);
+		}
 	}
 #endif
 
