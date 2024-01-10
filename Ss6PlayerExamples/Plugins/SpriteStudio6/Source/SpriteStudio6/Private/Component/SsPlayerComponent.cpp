@@ -300,7 +300,7 @@ void USsPlayerComponent::OnRegister()
 	}
 
 #if WITH_EDITOR
-	if(!ReimportedHandle.IsValid())
+	if(!ReimportedHandle.IsValid() && (nullptr != GEditor))
 	{
 		ReimportedHandle = GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.AddUObject(this, &USsPlayerComponent::OnAssetReimported);
 	}
@@ -324,7 +324,7 @@ void USsPlayerComponent::OnUnregister()
 	}
 
 #if WITH_EDITOR
-	if(ReimportedHandle.IsValid())
+	if(ReimportedHandle.IsValid() && (nullptr != GEditor))
 	{
 		GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetReimport.Remove(ReimportedHandle);
 		ReimportedHandle.Reset();
