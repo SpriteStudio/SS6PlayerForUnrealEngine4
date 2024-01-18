@@ -858,7 +858,6 @@ void SerializeSsCellMap(FSsCellMap& CellMap, SsXmlIArchiver* ar)
 void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& OutSortOrder)
 {
 	SSAR_DECLARE_ATTRIBUTE("version", AnimePack.Version);
-	SSAR_STRUCT_DECLARE("settings", AnimePack.Settings);
 	SSAR_DECLARE("name", AnimePack.AnimePackName);
 	SSAR_STRUCT_DECLARE("Model", AnimePack.Model);
 	SSAR_DECLARE("cellmapNames", AnimePack.CellmapNames);

@@ -289,9 +289,6 @@ public:
 	FString					Version;
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimePack)
-	FSsAnimationSettings	Settings;		//!< 設定情報 
-
-	UPROPERTY(VisibleAnywhere, Category=SsAnimePack)
 	FName					AnimePackName;	//!< アニメーションパック名称
 
 	UPROPERTY(VisibleAnywhere, Category=SsAnimePack)
