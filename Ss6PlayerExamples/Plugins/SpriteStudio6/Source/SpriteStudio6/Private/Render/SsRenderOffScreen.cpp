@@ -3,6 +3,7 @@
 #include "PipelineStateCache.h"
 #include "MaterialShader.h"
 #include "ClearQuad.h"
+#include "RHIStaticStates.h" 
 
 #include "SsOffScreenShaders.h"
 #include "SsMaskShaders.h"

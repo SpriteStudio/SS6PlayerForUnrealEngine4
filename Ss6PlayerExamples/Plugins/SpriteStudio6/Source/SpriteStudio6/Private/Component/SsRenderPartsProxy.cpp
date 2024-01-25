@@ -2,6 +2,7 @@
 
 #include "RHIStaticStates.h"
 #include "DynamicMeshBuilder.h"
+#include "Materials/MaterialRenderProxy.h"
 
 #include "SsPlayerComponent.h"
 
