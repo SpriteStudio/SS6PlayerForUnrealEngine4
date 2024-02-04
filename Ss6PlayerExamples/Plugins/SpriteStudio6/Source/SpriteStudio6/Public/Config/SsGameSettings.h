@@ -12,27 +12,27 @@ struct SPRITESTUDIO6_API FSsColorBlendModeMaterials
 
 public:
 	// パーツカラー無し 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color UnUsed"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color UnUsed"), Category="Parts Color Setting")
 	UMaterialInterface* Inv = nullptr;
 
 	// パーツカラー「ミックス」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Mix]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Mix]"), Category="Parts Color Setting")
 	UMaterialInterface* Mix = nullptr;
 
 	// パーツカラー「乗算」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Mul]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Mul]"), Category="Parts Color Setting")
 	UMaterialInterface* Mul = nullptr;
 
 	// パーツカラー「加算」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Add]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Add]"), Category="Parts Color Setting")
 	UMaterialInterface* Add = nullptr;
 
 	// パーツカラー「減算」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Sub]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Parts Color = [Sub]"), Category="Parts Color Setting")
 	UMaterialInterface* Sub = nullptr;
 
 	// エフェクトパーツ 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Effect Parts"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Effect Parts"), Category="Parts Effect Setting")
 	UMaterialInterface* Eff = nullptr;
 };
 
@@ -43,35 +43,35 @@ struct SPRITESTUDIO6_API FSsAlphaBlendModeMaterials
 
 public:
 	// 描画モード「ミックス」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Mix]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Mix]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials Mix;
 
 	// 描画モード「乗算」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Mul]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Mul]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials Mul;
 
 	// 描画モード「加算」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Add]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Add]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials Add;
 
 	// 描画モード「減算」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Sub]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Sub]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials Sub;
 
 	// 描画モード「α乗算」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [MulAlpha]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [MulAlpha]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials MulAlpha;
 
 	// 描画モード「スクリーン」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Screen]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Screen]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials Screen;
 
 	// 描画モード「除外」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Exclusion]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Exclusion]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials Exclusion;
 
 	// 描画モード「反転」 
-	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Invert]"))
+	UPROPERTY(EditAnywhere, meta=(DisplayName="Alpha Blend Mode = [Invert]"), Category="Alpha Blend Mode Setting")
 	FSsColorBlendModeMaterials Invert;
 };
 
