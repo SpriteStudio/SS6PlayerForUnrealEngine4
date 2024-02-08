@@ -27,6 +27,7 @@ public:
 
 	FSsPlayerTickResult Tick(float DeltaSeconds);
 	const TArray<FSsRenderPart>& GetRenderParts() const { return RenderParts; }
+	const TArray<FSsCollisionPart>& GetCollisionParts() const { return CollisionParts; }
 
 	// 再生 
 	bool Play(int32 InAnimPackIndex, int32 InAnimationIndex, int32 InStartFrame=0, float InPlayRate=1.f, int32 InLoopCount=0, bool bInRoundTrip=false);
@@ -91,6 +92,7 @@ private:
 	bool CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot, bool bInstance);
 	void CreateEffectRenderParts(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot);
 	void CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, const SsPartState* State, const FVector2f& CanvasSize, const FVector2f& Pivot, SsEffectEmitter* Emitter, float Time, SsEffectEmitter* Parent=nullptr, const particleDrawData* DrawData=nullptr);
+	void CreateCollisionParts(SsAnimeDecoder* RenderDecoder);
 
 public:
 	float PlayRate;		// 再生速度 
@@ -122,5 +124,6 @@ private:
 	float PlayingSequenceFrame;
 
 	TArray<FSsRenderPart> RenderParts;
+	TArray<FSsCollisionPart> CollisionParts;
 	TArray<int32> HiddenParts;
 };

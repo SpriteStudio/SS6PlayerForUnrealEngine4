@@ -385,6 +385,16 @@ void FSsProjectViewer::ExtendToolbar()
 
 			ToolbarBuilder.BeginSection("View Settings");
 			{
+				// Collision On/Off
+				ToolbarBuilder.AddToolBarButton(
+					FSsProjectViewerCommands::Get().DrawCollision,
+					NAME_None,
+					TAttribute<FText>(),
+					TAttribute<FText>(),
+					FSlateIcon(ISpriteStudio6Ed::Get().Style->GetStyleSetName(), "CollisionIcon"),
+					NAME_None
+					);
+
 				// Grid On/Off
 				ToolbarBuilder.AddToolBarButton(
 					FSsProjectViewerCommands::Get().DrawGrid,
@@ -498,6 +508,12 @@ void FSsProjectViewer::BindCommands()
 		FExecuteAction::CreateSP(this, &FSsProjectViewer::OnLoop),
 		FCanExecuteAction(),
 		FIsActionChecked::CreateSP(this, &FSsProjectViewer::IsLooping)
+		);
+	ToolkitCommands->MapAction(
+		Commands.DrawCollision,
+		FExecuteAction::CreateSP(this, &FSsProjectViewer::OnChangeDrawCollision),
+		FCanExecuteAction(),
+		FIsActionChecked::CreateSP(this, &FSsProjectViewer::IsDrawCollision)
 		);
 	ToolkitCommands->MapAction(
 		Commands.DrawGrid,
@@ -710,6 +726,15 @@ TOptional<int32> FSsProjectViewer::GetNowFrame() const
 TOptional<int32> FSsProjectViewer::GetMaxFrame() const
 {
 	return (int32)Player.GetAnimeEndFrame() - 1;
+}
+
+void FSsProjectViewer::OnChangeDrawCollision()
+{
+	Viewport->ViewportClient->bDrawCollision = !Viewport->ViewportClient->bDrawCollision;
+}
+bool FSsProjectViewer::IsDrawCollision() const
+{
+	return Viewport->ViewportClient->bDrawCollision;
 }
 
 void FSsProjectViewer::OnChangeDrawGrid()

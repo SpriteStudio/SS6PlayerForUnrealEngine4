@@ -857,3 +857,13 @@ struct FSsRenderPart
 	bool bMaskInfluence;
 };
 
+// コリジョンパーツ情報
+struct FSsCollisionPart
+{
+	FName PartName;
+	SsBoundsType::Type BoundsType;
+	FVector3f Center;		// 中心座標 
+	FVector2f Size;			// Circle系ではXが半径, Quad/Aabbでは(Width,Height) 
+	FRotator3f  Rotation;	// Quadのみで使用.他ではZeroRotator 
+};
+

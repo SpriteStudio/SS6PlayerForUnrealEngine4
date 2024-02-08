@@ -17,6 +17,9 @@ class FSsRenderOffScreen;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSsEndPlaySignature, FName, AnimPackName, FName, AnimationName, int32, AnimPackIndex, int32, AnimationIndex);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSsUserDataSignature, FName, PartName, int32, PartIndex, int32, KeyFrame, FSsUserDataValue, UserData);
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_SixParams(FSsCollisionHitSignature, USsPlayerComponent, OnSsCollisionHit, FName, PartName, UPrimitiveComponent*, HitComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, FVector, NormalImpulse, const FHitResult&, Hit);
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_SevenParams(FSsCollisionBeginOverlapSignature, USsPlayerComponent, OnSsCollisionBeginOverlap, FName, PartName, UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult&, SweepResult);
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_FiveParams(FSsCollisionEndOverlapSignature, USsPlayerComponent, OnSsCollisionEndOverlap, FName, PartName, UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex);
 
 // SsPlayerComponentの描画モード 
 UENUM()
@@ -112,6 +115,28 @@ private:
 
 	UPROPERTY(Transient)
 	TMap<int32, UMaterialInterface*> MapterialReplacementMapPerBlendMode;
+
+	
+	UFUNCTION()
+	void OnSsCollisionComponentsHitCb(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION()
+	void OnSsCollisionComponentsBeginOverlapCb(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnSsCollisionComponentsEndOverlapCb(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	struct FCollisionCompSet
+	{
+		FName PartName;
+		FName SocketName;
+		UShapeComponent* Comp;
+	};
+	TArray<FCollisionCompSet> CollisionCompSets;
+	TArray<class UBoxComponent*> ReservedBoxCollisions;
+	TArray<class USphereComponent*> ReservedSphereCollisions;
+
+	void UpdateSsCollision();
 
 
 public:
@@ -230,6 +255,25 @@ public:
 
 
 	//
+	// SpriteStudioCollisionSettings
+	//
+
+	// SpriteStudioの当たり判定を有効化します 
+	// 有効化するとSSの当たり判定に応じて Box/SphereComponent が生成され、 
+	// OnSsHit / OnSsBeginOverlap / OnSsEndOverlap イベントが発行されるようになります 
+	UPROPERTY(Category="SpriteStudioCollisionSettings", EditAnywhere, BlueprintReadWrite)
+	bool bEnableSsCollision=false;
+
+	// 当たり判定をBoxComponentで生成する場合のコリジョンの厚み 
+	UPROPERTY(Category="SpriteStudioCollisionSettings", EditAnywhere, BlueprintReadOnly, meta=(EditCondition=bEnableSsCollision))
+	float SsCollisionDepthExtent=1.f;
+
+	// SpriteStudio当たり判定から生成される Box/SphereComponent のCollisionPresetを指定して下さい 
+	UPROPERTY(Category="SpriteStudioCollisionSettings", EditAnywhere, BlueprintReadOnly, meta=(ShowOnlyInnerProperties, SkipUCSModifiedProperties, EditCondition=bEnableSsCollision))
+	FBodyInstance SsBodyInstance;
+
+
+	//
 	// SpriteStudioCallback 
 	//
 
@@ -240,6 +284,19 @@ public:
 	// ユーザーデータイベント 
 	UPROPERTY(BlueprintAssignable, Category="SpriteStudioCallback")
 	FSsUserDataSignature OnSsUserData;
+
+
+	// SpriteStudioの当たり判定による OnHit 
+	UPROPERTY(BlueprintAssignable, Category="SpriteStudioCollisionSettings", meta=(EditCondition=bEnableSsCollision))
+	FSsCollisionHitSignature OnSsCollisionHit;
+
+	// SpriteStudioの当たり判定による OnComponentBeginOverlap 
+	UPROPERTY(BlueprintAssignable, Category="SpriteStudioCollisionSettings", meta=(EditCondition=bEnableSsCollision))
+	FSsCollisionBeginOverlapSignature OnSsCollisionBeginOverlap;
+
+	// SpriteStudioの当たり判定による OnComponentEndOverlap 
+	UPROPERTY(BlueprintAssignable, Category="SpriteStudioCollisionSettings", meta=(EditCondition=bEnableSsCollision))
+	FSsCollisionEndOverlapSignature OnSsCollisionEndOverlap;
 
 
 	//

@@ -32,6 +32,7 @@ private:
 
 public:
 	bool bDrawGrid;
+	bool bDrawCollision;
 	int32 GridSize;
 	FLinearColor GridColor;
 	float RenderScale;
@@ -43,4 +44,6 @@ private:
 	FSsPlayer* Player;
 	FSsRenderOffScreen* Render;
 	TWeakObjectPtr<UMaterialInstanceDynamic> ViewerMID;
+	TWeakObjectPtr<UMaterialInterface> CollisionBoxMat;
+	TWeakObjectPtr<UMaterialInterface> CollisionCircleMat;
 };

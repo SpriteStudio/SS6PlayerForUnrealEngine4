@@ -106,6 +106,10 @@ USsPlayerComponent::USsPlayerComponent(const FObjectInitializer& ObjectInitializ
 	bUseAsOccluder = false;
 	bCanEverAffectNavigation = false;
 
+	// Collision
+	static const FName CollisionProfileName(TEXT("OverlapAllDynamic"));
+	SsBodyInstance.SetCollisionProfileName(CollisionProfileName);
+	SsBodyInstance.bAutoWeld = true;
 
 	BaseMaterial = GetDefault<USsGameSettings>()->Component_OffScreen;
 }
@@ -156,8 +160,22 @@ bool USsPlayerComponent::HasAnySockets() const
 // 指定した名前のソケットが存在するか 
 bool USsPlayerComponent::DoesSocketExist(FName InSocketName) const
 {
-	return (RenderMode != ESsPlayerComponentRenderMode::OffScreenOnly)
-		&& (0 <= Player.GetPartIndexFromName(InSocketName));
+	if(RenderMode == ESsPlayerComponentRenderMode::OffScreenOnly)
+	{
+		return false;
+	}
+	if(0 <= Player.GetPartIndexFromName(InSocketName))
+	{
+		return true;
+	}
+	for(auto ItColCompSet = CollisionCompSets.CreateConstIterator(); ItColCompSet; ++ItColCompSet)
+	{
+		if(ItColCompSet->SocketName == InSocketName)
+		{
+			return true;
+		}
+	}
+	return false;
 }
 // 全ソケットの情報を取得 
 void USsPlayerComponent::QuerySupportedSockets(TArray<FComponentSocketDescription>& OutSockets) const
@@ -189,6 +207,15 @@ void USsPlayerComponent::QuerySupportedSockets(TArray<FComponentSocketDescriptio
 						));
 			}
 		}
+
+		for(auto ItColCompSet = CollisionCompSets.CreateConstIterator(); ItColCompSet; ++ItColCompSet)
+		{
+			OutSockets.Add(
+				FComponentSocketDescription(
+					ItColCompSet->SocketName,
+					EComponentSocketType::Socket
+					));
+		}
 	}
 }
 // ソケットのTransformを取得 
@@ -201,25 +228,114 @@ FTransform USsPlayerComponent::GetSocketTransform(FName InSocketName, ERelativeT
 
 	if(RenderMode != ESsPlayerComponentRenderMode::OffScreenOnly)
 	{
-		int32 PartIndex = Player.GetPartIndexFromName(InSocketName);	
-		FTransform Trans;
-		if(GetPartAttachTransform(PartIndex, Trans))
+		int32 PartIndex = Player.GetPartIndexFromName(InSocketName);
+		if(0 <= PartIndex)
 		{
-			switch(TransformSpace)
+			FTransform Trans;
+			if(GetPartAttachTransform(PartIndex, Trans))
 			{
-			case ERelativeTransformSpace::RTS_World:
+				switch(TransformSpace)
 				{
-					return Trans * GetComponentTransform();
-				} break;
-			case ERelativeTransformSpace::RTS_Actor:
+				case ERelativeTransformSpace::RTS_World:
+					{
+						return Trans * GetComponentTransform();
+					} break;
+				case ERelativeTransformSpace::RTS_Actor:
+					{
+						AActor* Actor = GetOwner();
+						return (NULL == Actor) ? Trans : (GetComponentTransform() *  Trans).GetRelativeTransform(Actor->GetTransform());
+					} break;
+				case ERelativeTransformSpace::RTS_Component:
+					{
+						return Trans;
+					} break;
+				}
+			}
+		}
+		else
+		{
+			// SsのZ座標をUEの3D座標に反映するか 
+			bool bReflectSsZCoordAct = false;
+			if(bReflectSsZCoord)
+			{
+				const FSsAnimation* SsAnimation = Player.GetPlayingSsAnimation();
+				if(nullptr != SsAnimation)
 				{
-					AActor* Actor = GetOwner();
-					return (NULL == Actor) ? Trans : (GetComponentTransform() *  Trans).GetRelativeTransform(Actor->GetTransform());
-				} break;
-			case ERelativeTransformSpace::RTS_Component:
+					if(SsPartsSortMode::Z == SsAnimation->Settings.SortMode)
+					{
+						bReflectSsZCoordAct = true;
+					}
+				}
+			}
+
+			const TArray<FSsCollisionPart>& ColParts = Player.GetCollisionParts();
+			for(auto ItColCompSet = CollisionCompSets.CreateConstIterator(); ItColCompSet; ++ItColCompSet)
+			{
+				if(ItColCompSet->SocketName == InSocketName)
 				{
-					return Trans;
-				} break;
+					for(auto ItColPart = ColParts.CreateConstIterator(); ItColPart; ++ItColPart)
+					{
+						if(ItColCompSet->PartName == ItColPart->PartName)
+						{
+							FVector3f Center = ItColPart->Center;
+							if(Player.bFlipH){ Center.X =  1.f - Center.X; }
+							if(Player.bFlipV){ Center.Y = -1.f - Center.Y; }
+							Center.X = Center.X - Player.GetAnimPivot().X - 0.5f;
+							Center.Y = Center.Y - Player.GetAnimPivot().Y + 0.5f;
+							FVector Translation(
+								bReflectSsZCoordAct ? (Center.Z * SsZScale) : 0.f,
+								Center.X * Player.GetAnimCanvasSize().X * UUPerPixel,
+								Center.Y * Player.GetAnimCanvasSize().Y * UUPerPixel
+								);
+
+							// 回転軸の計算順がSSと違うため、各軸個別のQuaternionを自前で掛けてからRotatorに再変換する 
+							FRotator RR(ItColPart->Rotation.Roll, 0, 0);
+							FRotator RP(0, -ItColPart->Rotation.Pitch, 0);
+							FRotator RY(0, 0, -ItColPart->Rotation.Yaw);
+							FRotator RFlipH = Player.bFlipH ? FRotator(0.f, 180.f, 0.f) : FRotator::ZeroRotator;
+							FRotator RFlipV = Player.bFlipV ? FRotator(180.f, 0.f, 0.f) : FRotator::ZeroRotator;
+							FRotator Rotation = (RFlipH.Quaternion() * RFlipV.Quaternion() * RY.Quaternion() * RP.Quaternion() * RR.Quaternion()).Rotator();
+
+							FVector Scale;
+							switch(ItColPart->BoundsType)
+							{
+								case SsBoundsType::Quad:
+								case SsBoundsType::Aabb:
+									{
+										Scale.X = SsCollisionDepthExtent;
+										Scale.Y = ItColPart->Size.X * Player.GetAnimCanvasSize().X * UUPerPixel;
+										Scale.Z = ItColPart->Size.Y * Player.GetAnimCanvasSize().Y * UUPerPixel;
+									} break;
+								case SsBoundsType::Circle:
+								case SsBoundsType::CircleSmin:
+								case SsBoundsType::CircleSmax:
+									{
+										Scale.X = Scale.Y = Scale.Z = ItColPart->Size.X * Player.GetAnimCanvasSize().X * UUPerPixel;
+									} break;
+							}
+
+							FTransform Trans = FTransform(Rotation, Translation, Scale);
+							switch(TransformSpace)
+							{
+							case ERelativeTransformSpace::RTS_World:
+								{
+									return Trans * GetComponentTransform();
+								} break;
+							case ERelativeTransformSpace::RTS_Actor:
+								{
+									AActor* Actor = GetOwner();
+									return (NULL == Actor) ? Trans : (GetComponentTransform() *  Trans).GetRelativeTransform(Actor->GetTransform());
+								} break;
+							case ERelativeTransformSpace::RTS_Component:
+								{
+									return Trans;
+								} break;
+							}
+							break;
+						}
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -765,6 +881,9 @@ void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 				// 描画更新 
 				MarkRenderDynamicDataDirty();
 
+				// コリジョン更新 
+				UpdateSsCollision();
+
 				// アタッチされたコンポーネントのTransform更新 
 				UpdateChildTransforms();
 				UpdateOverlaps();
@@ -882,6 +1001,189 @@ void USsPlayerComponent::OnSetSsProject()
 	SyncAutoPlayAnimation_IndexToName();
 }
 #endif
+
+
+// コリジョンコールバック 
+void USsPlayerComponent::OnSsCollisionComponentsHitCb(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if(OtherActor == GetOwner())
+	{
+		return;
+	}
+	for(auto It = CollisionCompSets.CreateConstIterator(); It; ++It)
+	{
+		if(HitComponent == It->Comp)
+		{
+			OnSsCollisionHit.Broadcast(It->PartName, HitComponent, OtherActor, OtherComp, NormalImpulse, Hit);
+			return;
+		}
+	}
+}
+void USsPlayerComponent::OnSsCollisionComponentsBeginOverlapCb(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if(OtherActor == GetOwner())
+	{
+		return;
+	}
+	for(auto It = CollisionCompSets.CreateConstIterator(); It; ++It)
+	{
+		if(OverlappedComponent == It->Comp)
+		{
+			OnSsCollisionBeginOverlap.Broadcast(It->PartName, OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+			return;
+		}
+	}
+}
+void USsPlayerComponent::OnSsCollisionComponentsEndOverlapCb(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if(OtherActor == GetOwner())
+	{
+		return;
+	}
+	for(auto It = CollisionCompSets.CreateConstIterator(); It; ++It)
+	{
+		if(OverlappedComponent == It->Comp)
+		{
+			OnSsCollisionEndOverlap.Broadcast(It->PartName, OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex);
+			return;
+		}
+	}
+}
+
+// コリジョン更新 
+void USsPlayerComponent::UpdateSsCollision()
+{
+	if(!this->HasBegunPlay())
+	{
+		return;
+	}
+
+	const TArray<FSsCollisionPart>& ColParts = Player.GetCollisionParts();
+	if((0 == CollisionCompSets.Num()) && (0 == ColParts.Num()))
+	{
+		return;
+	}
+
+	// 既存のコリジョンが不要になった場合は非アクティブ化 
+	for(auto ItColCompSet = CollisionCompSets.CreateConstIterator(); ItColCompSet; ++ItColCompSet)
+	{
+		bool bNewExists = false;
+		for(auto ItColPart = ColParts.CreateConstIterator(); ItColPart; ++ItColPart)
+		{
+			if(ItColCompSet->PartName == ItColPart->PartName)
+			{
+				bNewExists = true;
+				break;
+			}
+		}
+
+		if(!bNewExists)
+		{
+			ItColCompSet->Comp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			UBoxComponent* Box = Cast<UBoxComponent>(ItColCompSet->Comp);
+			if(nullptr != Box)
+			{
+				Box->SetBoxExtent(FVector::ZeroVector, false);
+				ReservedBoxCollisions.Add(Box);
+			}
+			else
+			{
+				USphereComponent* Sphere = Cast<USphereComponent>(ItColCompSet->Comp);
+				if(nullptr != Sphere)
+				{
+					Sphere->SetSphereRadius(0.f, false);
+					ReservedSphereCollisions.Add(Sphere);
+				}
+			}
+			CollisionCompSets.RemoveAt(ItColCompSet.GetIndex());
+			ItColCompSet--;
+		}
+	}
+
+	// 新規コリジョンの有効化 
+	if(bEnableSsCollision)
+	{
+		for(auto ItColPart = ColParts.CreateConstIterator(); ItColPart; ++ItColPart)
+		{
+			bool bAlreadyExists = false;
+			for(auto ItColCompSet = CollisionCompSets.CreateConstIterator(); ItColCompSet; ++ItColCompSet)
+			{
+				if(ItColCompSet->PartName == ItColPart->PartName)
+				{
+					bAlreadyExists = true;
+					break;
+				}
+			}
+			if(bAlreadyExists)
+			{
+				continue;
+			}
+
+			UShapeComponent* ColComp = nullptr;
+			switch(ItColPart->BoundsType)
+			{
+				case SsBoundsType::Quad:
+				case SsBoundsType::Aabb:
+					{
+						UBoxComponent* ColCompBox = nullptr;
+						if(0 < ReservedBoxCollisions.Num())
+						{
+							ColCompBox = ReservedBoxCollisions.Last();
+							ReservedBoxCollisions.RemoveAt(ReservedBoxCollisions.Num()-1);
+						}
+						else
+						{
+							ColCompBox = Cast<UBoxComponent>(GetOwner()->AddComponentByClass(UBoxComponent::StaticClass(), true, FTransform::Identity, true));
+							ColCompBox->BodyInstance = SsBodyInstance;
+							ColCompBox->BodyInstance.SetCollisionEnabled(ECollisionEnabled::NoCollision);
+							GetOwner()->FinishAddComponent(ColCompBox, true, FTransform::Identity);
+							ColCompBox->OnComponentHit         .AddDynamic(this, &USsPlayerComponent::OnSsCollisionComponentsHitCb);
+							ColCompBox->OnComponentBeginOverlap.AddDynamic(this, &USsPlayerComponent::OnSsCollisionComponentsBeginOverlapCb);
+							ColCompBox->OnComponentEndOverlap  .AddDynamic(this, &USsPlayerComponent::OnSsCollisionComponentsEndOverlapCb);
+						}
+						ColCompBox->SetBoxExtent(FVector(1.f, 0.5f, 0.5f), false);
+						ColComp = ColCompBox;
+					} break;
+				case SsBoundsType::Circle:
+				case SsBoundsType::CircleSmin:
+				case SsBoundsType::CircleSmax:
+					{
+						USphereComponent* ColCompSphere = nullptr;
+						if(0 < ReservedSphereCollisions.Num())
+						{
+							ColCompSphere = ReservedSphereCollisions.Last();
+							ReservedSphereCollisions.RemoveAt(ReservedSphereCollisions.Num()-1);
+						}
+						else
+						{
+							ColCompSphere = Cast<USphereComponent>(GetOwner()->AddComponentByClass(USphereComponent::StaticClass(), true, FTransform::Identity, true));
+							ColCompSphere->BodyInstance = SsBodyInstance;
+							ColCompSphere->BodyInstance.SetCollisionEnabled(ECollisionEnabled::NoCollision);
+							GetOwner()->FinishAddComponent(ColCompSphere, true, FTransform::Identity);
+							ColCompSphere->OnComponentHit         .AddDynamic(this, &USsPlayerComponent::OnSsCollisionComponentsHitCb);
+							ColCompSphere->OnComponentBeginOverlap.AddDynamic(this, &USsPlayerComponent::OnSsCollisionComponentsBeginOverlapCb);
+							ColCompSphere->OnComponentEndOverlap  .AddDynamic(this, &USsPlayerComponent::OnSsCollisionComponentsEndOverlapCb);
+						}
+						ColCompSphere->SetSphereRadius(1.f, false);
+						ColComp = ColCompSphere;
+					} break;
+				default:
+					check(false);
+			}
+
+			FName AttachSocket = FName(FString::Printf(TEXT("SsCollisionSocket_%s"), *ItColPart->PartName.ToString()));
+
+			FCollisionCompSet ColCompSet;
+			ColCompSet.PartName = ItColPart->PartName;
+			ColCompSet.SocketName = AttachSocket;
+			ColCompSet.Comp = ColComp;
+			CollisionCompSets.Add(ColCompSet);
+
+			ColComp->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetIncludingScale, AttachSocket);
+			ColCompSet.Comp->SetCollisionEnabled(BodyInstance.GetCollisionEnabled());
+		}
+	}
+}
 
 
 //

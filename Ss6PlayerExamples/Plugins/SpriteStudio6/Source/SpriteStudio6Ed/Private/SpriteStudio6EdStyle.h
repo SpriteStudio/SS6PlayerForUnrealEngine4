@@ -18,6 +18,7 @@ public:
 		Set("NextIcon", new IMAGE_BRUSH("next_icon", FVector2D(40, 40)));
 		Set("LoopIcon", new IMAGE_BRUSH("loop_icon", FVector2D(40, 40)));
 		Set("GridIcon", new IMAGE_BRUSH("grid_icon", FVector2D(40, 40)));
+		Set("CollisionIcon", new IMAGE_BRUSH("collision_icon", FVector2D(40, 40)));
 
 		FSlateStyleRegistry::RegisterSlateStyle(*this);
 	}

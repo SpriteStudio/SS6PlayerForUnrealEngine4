@@ -294,6 +294,10 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 	RenderParts.Reset();
 	CreateRenderParts(Decoder, GetAnimCanvasSize(), GetAnimPivot());
 
+	// コリジョン情報更新 
+	CollisionParts.Reset();
+	CreateCollisionParts(Decoder);
+
 	// 水平反転 
 	if(bFlipH)
 	{
@@ -1007,6 +1011,160 @@ void FSsPlayer::CreateEffectRenderPart(TArray<FSsRenderPart>& OutRenderParts, co
 		}
 	}
 }
+
+// コリジョンパーツデータの作成 
+void FSsPlayer::CreateCollisionParts(SsAnimeDecoder* RenderDecoder)
+{
+	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_CreateCollisionParts);
+
+	FVector2f Pivot = GetAnimPivot();
+	FVector2f CanvasSize = GetAnimCanvasSize();
+	for(auto It = RenderDecoder->sortList.CreateConstIterator(); It; ++It)
+	{
+		SsPartState* State = (*It);
+		if(State->hide)
+		{
+			continue;
+		}
+
+		// インスタンスパーツ内のコリジョンはPartNameで一意に特定出来ないため無視 
+		// もし対応が必要な場合はサポートへお問い合わせ下さい 
+		//if(nullptr != State->refAnime)
+		//{	
+		//	CreateCollisionParts(State->refAnime);
+		//}
+
+		if((nullptr != State->part) && (SsBoundsType::None != State->part->BoundsType))
+		{
+			FSsCollisionPart Part;
+			Part.PartName = State->part->PartName;
+			Part.BoundsType = State->part->BoundsType;
+
+			bool bCollisionEnabled = false;
+			switch(Part.BoundsType)
+			{
+				case SsBoundsType::Quad:
+					{
+						FMatrix44f ViewMatrix(
+							FVector3f(State->matrixLocal[ 0], State->matrixLocal[ 1], State->matrixLocal[ 2]),
+							FVector3f(State->matrixLocal[ 4], State->matrixLocal[ 5], State->matrixLocal[ 6]),
+							FVector3f(State->matrixLocal[ 8], State->matrixLocal[ 9], State->matrixLocal[10]),
+							FVector3f(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
+						);
+						float OffX = (float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X);
+						float OffY = (float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y);
+						FVector3f VertsPos[4];
+						for(int i = 0; i < 4; ++i)
+						{
+							FVector4f V = ViewMatrix.TransformPosition(FVector3f(
+								State->vertices[i*3 + 0],
+								State->vertices[i*3 + 1],
+								State->vertices[i*3 + 2]
+							));
+							VertsPos[i] = FVector3f(V.X + OffX, -V.Y + OffY, V.Z);
+						}
+
+						Part.Size.X = (VertsPos[0] - VertsPos[1]).Length() / CanvasSize.X;
+						Part.Size.Y = (VertsPos[0] - VertsPos[2]).Length() / CanvasSize.Y;
+						Part.Center = (VertsPos[0] + VertsPos[1] + VertsPos[2] + VertsPos[3]) / 4.f;
+						Part.Center.X /=  CanvasSize.X;
+						Part.Center.Y /= -CanvasSize.Y;
+
+						FTransform3f Tr;
+						Tr.SetFromMatrix(ViewMatrix);
+						Part.Rotation = Tr.Rotator();
+
+						bCollisionEnabled = (0.f < Part.Size.X) && (0.f < Part.Size.Y);
+					} break;
+				case SsBoundsType::Aabb:
+					{
+						FMatrix44f ViewMatrix(
+							FVector3f(State->matrixLocal[ 0], State->matrixLocal[ 1], State->matrixLocal[ 2]),
+							FVector3f(State->matrixLocal[ 4], State->matrixLocal[ 5], State->matrixLocal[ 6]),
+							FVector3f(State->matrixLocal[ 8], State->matrixLocal[ 9], State->matrixLocal[10]),
+							FVector3f(State->matrixLocal[12], State->matrixLocal[13], State->matrixLocal[14])
+						);
+						float OffX = (float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X);
+						float OffY = (float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y);
+						float Left   =  100000.f;
+						float Right  = -100000.f;
+						float Top    =  100000.f;
+						float Bottom = -100000.f;
+						float Z = 0.f;
+						for(int i = 0; i < 4; ++i)
+						{
+							FVector4f V = ViewMatrix.TransformPosition(FVector3f(
+								State->vertices[i*3 + 0],
+								State->vertices[i*3 + 1],
+								State->vertices[i*3 + 2]
+							));
+							FVector3f VertPos(V.X + OffX, -V.Y + OffY, V.Z);
+							Left   = FMath::Min(Left,   VertPos.X);
+							Right  = FMath::Max(Right,  VertPos.X);
+							Top    = FMath::Min(Top,    VertPos.Y);
+							Bottom = FMath::Max(Bottom, VertPos.Y);
+							Z += VertPos.Z;
+						}
+						Part.Size.X = (Right - Left) / CanvasSize.X;
+						Part.Size.Y = (Bottom - Top) / CanvasSize.Y;
+						Part.Center.X =  (Left + (Right - Left) / 2.f) / CanvasSize.X;
+						Part.Center.Y = -(Top  + (Bottom - Top) / 2.f) / CanvasSize.Y;
+						Part.Center.Z = Z / 4.f;
+						Part.Rotation = FRotator3f::ZeroRotator;
+
+						bCollisionEnabled = (0.f < Part.Size.X) && (0.f < Part.Size.Y);
+					} break;
+				case SsBoundsType::Circle:
+					{
+						Part.Center = FVector3f(
+							(State->matrixLocal[12] + ((float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X))) / CanvasSize.X,
+							(State->matrixLocal[13] - ((float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y))) / CanvasSize.Y,
+							State->matrixLocal[14]
+						);
+						Part.Size = FVector2f(State->boundingRadius, 0.f) / CanvasSize;
+						Part.Rotation = FRotator3f::ZeroRotator;
+
+						bCollisionEnabled = (0.f < Part.Size.X);
+					} break;
+				case SsBoundsType::CircleSmin:
+				case SsBoundsType::CircleSmax:
+					{
+						Part.Center = FVector3f(
+							(State->matrixLocal[12] + ((float)(CanvasSize.X /2) + (Pivot.X * CanvasSize.X))) / CanvasSize.X,
+							(State->matrixLocal[13] - ((float)(CanvasSize.Y /2) - (Pivot.Y * CanvasSize.Y))) / CanvasSize.Y,
+							State->matrixLocal[14]
+						);
+						Part.Rotation = FRotator3f::ZeroRotator;
+
+						// ココの計算はSS本体の実装から移植 
+						float Sx = FVector2f(State->matrix[0], State->matrix[1]).Length();
+						float Sy = FVector2f(State->matrix[4], State->matrix[5]).Length();
+						Sx = (State->matrix[0] < 0) ? -Sx : Sx;
+						Sy = (State->matrix[5] < 0) ? -Sy : Sy;
+
+						switch(Part.BoundsType)
+						{
+							case SsBoundsType::CircleSmin:
+								{
+									Part.Size = FVector2f(State->boundingRadius * FMath::Min(Sx, Sy), 0.f) / CanvasSize;
+								} break;
+							case SsBoundsType::CircleSmax:
+								{
+									Part.Size = FVector2f(State->boundingRadius * FMath::Max(Sx, Sy), 0.f) / CanvasSize;
+								} break;
+						}
+
+						bCollisionEnabled = (0.f < Part.Size.X);
+					} break;
+			}
+			if(bCollisionEnabled)
+			{
+				CollisionParts.Add(Part);
+			}
+		}
+	}
+}
+
 
 // 再生中にアニメーションのCanvasSizeの取得 
 const FVector2f FSsPlayer::GetAnimCanvasSize() const

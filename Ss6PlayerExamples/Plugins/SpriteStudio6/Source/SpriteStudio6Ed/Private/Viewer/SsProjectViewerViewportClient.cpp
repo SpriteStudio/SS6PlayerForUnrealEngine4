@@ -9,6 +9,7 @@
 
 FSsProjectViewerViewportClient::FSsProjectViewerViewportClient()
 	: bDrawGrid(false)
+	, bDrawCollision(false)
 	, GridSize(64)
 	, GridColor(FLinearColor::Green)
 	, RenderScale(1.f)
@@ -26,6 +27,16 @@ FSsProjectViewerViewportClient::~FSsProjectViewerViewportClient()
 		ViewerMID->RemoveFromRoot();
 		ViewerMID = nullptr;
 	}
+	if(CollisionBoxMat.IsValid())
+	{
+		CollisionBoxMat->RemoveFromRoot();
+		CollisionBoxMat = nullptr;
+	}
+	if(CollisionCircleMat.IsValid())
+	{
+		CollisionCircleMat->RemoveFromRoot();
+		CollisionCircleMat = nullptr;
+	}
 }
 
 void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
@@ -34,6 +45,7 @@ void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 
 	FVector2D AnimCanvasSize(Player->GetAnimCanvasSize().X, Player->GetAnimCanvasSize().Y);
 	FVector2D AnimPivot(Player->GetAnimPivot().X, Player->GetAnimPivot().Y);
+	FVector2D CanvasScale = AnimCanvasSize * RenderScale;
 
 	// アニメーション範囲外は黒塗りつぶし 
 	Canvas->Clear(FLinearColor::Black);
@@ -58,11 +70,11 @@ void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 			ViewerMID->SetTextureParameterValue(FName("SsRenderTarget"), Texture);
 			FCanvasTileItem Tile(
 				FVector2D(
-					ViewportSize.X/2 - (AnimCanvasSize.X/2 * RenderScale) + RenderOffset.X,
-					ViewportSize.Y/2 - (AnimCanvasSize.Y/2 * RenderScale) + RenderOffset.Y
+					ViewportSize.X/2 - (CanvasScale.X/2) + RenderOffset.X,
+					ViewportSize.Y/2 - (CanvasScale.Y/2) + RenderOffset.Y
 					),
 				ViewerMID->GetRenderProxy(),
-				(AnimCanvasSize * RenderScale)
+				CanvasScale
 				);
 			Canvas->DrawItem(Tile);
 		}
@@ -72,10 +84,95 @@ void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 	if(bDrawGrid && (0 < GridSize))
 	{
 		FVector2D GridCenter(
-			ViewportSize.X/2 + (AnimPivot.X * AnimCanvasSize.X * RenderScale) + RenderOffset.X,
-			ViewportSize.Y/2 - (AnimPivot.Y * AnimCanvasSize.Y * RenderScale) + RenderOffset.Y
+			ViewportSize.X/2 + (AnimPivot.X * CanvasScale.X) + RenderOffset.X,
+			ViewportSize.Y/2 - (AnimPivot.Y * CanvasScale.Y) + RenderOffset.Y
 			);
 		DrawGrid(Viewport, Canvas, GridCenter);
+	}
+
+	// 当たり判定
+	if(bDrawCollision)
+	{
+		if(!CollisionBoxMat.IsValid())
+		{
+			FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+			FAssetData AssetData = AssetRegistryModule.Get().GetAssetByObjectPath(FSoftObjectPath(TEXT("/SpriteStudio6/Editor/M_Ss_Viewer_BoxCollision.M_Ss_Viewer_BoxCollision")));
+			CollisionBoxMat = Cast<UMaterialInterface>(AssetData.GetAsset());
+			CollisionBoxMat->AddToRoot();
+		}
+		if(!CollisionCircleMat.IsValid())
+		{
+			FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
+			FAssetData AssetData = AssetRegistryModule.Get().GetAssetByObjectPath(FSoftObjectPath(TEXT("/SpriteStudio6/Editor/M_Ss_Viewer_CircleCollision.M_Ss_Viewer_CircleCollision")));
+			CollisionCircleMat = Cast<UMaterialInterface>(AssetData.GetAsset());
+			CollisionCircleMat->AddToRoot();
+		}
+
+		const TArray<FSsCollisionPart>& ColParts = Player->GetCollisionParts();
+		for(auto ItColPart = ColParts.CreateConstIterator(); ItColPart; ++ItColPart)
+		{
+			switch(ItColPart->BoundsType)
+			{
+				case SsBoundsType::Quad:
+					{
+						FVector3f Center(ItColPart->Center.X, ItColPart->Center.Y, ItColPart->Center.Z);
+						FVector3f LT = Center + ItColPart->Rotation.RotateVector(FVector3f(-ItColPart->Size.X/2.f, -ItColPart->Size.Y/2.f, 0.f));
+						FVector3f RT = Center + ItColPart->Rotation.RotateVector(FVector3f( ItColPart->Size.X/2.f, -ItColPart->Size.Y/2.f, 0.f));
+						FVector3f LB = Center + ItColPart->Rotation.RotateVector(FVector3f(-ItColPart->Size.X/2.f,  ItColPart->Size.Y/2.f, 0.f));
+						FVector3f RB = Center + ItColPart->Rotation.RotateVector(FVector3f( ItColPart->Size.X/2.f,  ItColPart->Size.Y/2.f, 0.f));
+
+						FVector2D LT2(	ViewportSize.X/2 - (CanvasScale.X / 2.f) + RenderOffset.X + ( LT.X * CanvasScale.X),
+										ViewportSize.Y/2 - (CanvasScale.Y / 2.f) + RenderOffset.Y + (-LT.Y * CanvasScale.Y));
+						FVector2D RT2(	ViewportSize.X/2 - (CanvasScale.X / 2.f) + RenderOffset.X + ( RT.X * CanvasScale.X),
+										ViewportSize.Y/2 - (CanvasScale.Y / 2.f) + RenderOffset.Y + (-RT.Y * CanvasScale.Y));
+						FVector2D LB2(	ViewportSize.X/2 - (CanvasScale.X / 2.f) + RenderOffset.X + ( LB.X * CanvasScale.X),
+										ViewportSize.Y/2 - (CanvasScale.Y / 2.f) + RenderOffset.Y + (-LB.Y * CanvasScale.Y));
+						FVector2D RB2(	ViewportSize.X/2 - (CanvasScale.X / 2.f) + RenderOffset.X + ( RB.X * CanvasScale.X),
+										ViewportSize.Y/2 - (CanvasScale.Y / 2.f) + RenderOffset.Y + (-RB.Y * CanvasScale.Y));
+
+						TArray<FCanvasUVTri> Tris;
+						FCanvasUVTri Tri;
+						Tri.V0_UV = Tri.V1_UV = Tri.V2_UV = FVector2D::ZeroVector;
+						Tri.V0_Color = Tri.V1_Color = Tri.V2_Color = FLinearColor(1.f, 0.f, 0.f, 0.2f);
+
+						Tri.V0_Pos = RT2;
+						Tri.V1_Pos = LB2;
+						Tri.V2_Pos = LT2;
+						Tris.Add(Tri);
+
+						Tri.V2_Pos = RB2;
+						Tris.Add(Tri);
+
+						FCanvasTriangleItem TriItem(Tris, nullptr);
+						TriItem.MaterialRenderProxy = CollisionBoxMat->GetRenderProxy();
+						Canvas->DrawItem(TriItem);
+					} break;
+				case SsBoundsType::Aabb:
+					{
+						FVector2D Center(
+							ViewportSize.X/2 - (CanvasScale.X / 2.f) + RenderOffset.X + ( ItColPart->Center.X * CanvasScale.X),
+							ViewportSize.Y/2 - (CanvasScale.Y / 2.f) + RenderOffset.Y + (-ItColPart->Center.Y * CanvasScale.Y)
+							);
+						FVector2D Size(ItColPart->Size.X * CanvasScale.X, ItColPart->Size.Y * CanvasScale.Y);
+						FVector2D LeftTop = Center - (Size / 2.f);
+						FCanvasTileItem Tile(LeftTop, CollisionBoxMat->GetRenderProxy(), Size);
+						Canvas->DrawItem(Tile);
+					} break;
+				case SsBoundsType::Circle:
+				case SsBoundsType::CircleSmin:
+				case SsBoundsType::CircleSmax:
+					{
+						FVector2D Center(
+							ViewportSize.X/2 - (CanvasScale.X / 2.f) + RenderOffset.X + ( ItColPart->Center.X * CanvasScale.X),
+							ViewportSize.Y/2 - (CanvasScale.Y / 2.f) + RenderOffset.Y + (-ItColPart->Center.Y * CanvasScale.Y)
+							);
+						FVector2D Size(ItColPart->Size.X * 2.f * CanvasScale.X, ItColPart->Size.X * 2.f * CanvasScale.X);
+						FVector2D LeftTop = Center - (Size / 2.f);
+						FCanvasTileItem Tile(LeftTop, CollisionCircleMat->GetRenderProxy(), Size);
+						Canvas->DrawItem(Tile);
+					} break;
+			}
+		}
 	}
 }
 

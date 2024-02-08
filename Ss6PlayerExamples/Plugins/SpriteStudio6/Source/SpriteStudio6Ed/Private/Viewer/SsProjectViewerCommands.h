@@ -15,5 +15,6 @@ public:
 	TSharedPtr<FUICommandInfo> PrevFrame;
 	TSharedPtr<FUICommandInfo> NextFrame;
 	TSharedPtr<FUICommandInfo> Loop;
+	TSharedPtr<FUICommandInfo> DrawCollision;
 	TSharedPtr<FUICommandInfo> DrawGrid;
 };
