@@ -208,7 +208,7 @@ namespace
 			case SsBlendType::Add:
 			case SsBlendType::Sub:
 				{
-					OutColorBlend.X = (float)(ColorBlendType + 0.01f);
+					OutColorBlend.X = (float)((int32)ColorBlendType + 0.01f);
 				} break;
 			case SsBlendType::MulAlpha:
 			case SsBlendType::Screen:

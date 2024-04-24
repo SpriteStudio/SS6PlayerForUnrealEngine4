@@ -55,10 +55,10 @@ SIZE_T FSsRenderPlaneProxy::GetTypeHash() const
 	return reinterpret_cast<size_t>(&UniquePointer);
 }
 
-void FSsRenderPlaneProxy::CreateRenderThreadResources()
+void FSsRenderPlaneProxy::CreateRenderThreadResources(FRHICommandListBase& RHICmdList)
 {
 	VertexBuffers.InitWithDummyData(&VertexFactory, 4);
-	IndexBuffer.InitResource(FRHICommandListImmediate::Get());
+	IndexBuffer.InitResource(RHICmdList);
 }
 
 void FSsRenderPlaneProxy::GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily, uint32 VisibilityMap, FMeshElementCollector& Collector) const

@@ -50,11 +50,11 @@ SIZE_T FSsRenderPartsProxy::GetTypeHash() const
 	return reinterpret_cast<size_t>(&UniquePointer);
 }
 
-void FSsRenderPartsProxy::CreateRenderThreadResources()
+void FSsRenderPartsProxy::CreateRenderThreadResources(FRHICommandListBase& RHICmdList)
 {
 	VertexBuffers.InitWithDummyData(&VertexFactory, MaxVertexNum, 2);
 	IndexBuffer.NumIndices = MaxIndexNum;
-	IndexBuffer.InitResource(FRHICommandListImmediate::Get());
+	IndexBuffer.InitResource(RHICmdList);
 }
 
 void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily, uint32 VisibilityMap, FMeshElementCollector& Collector) const
