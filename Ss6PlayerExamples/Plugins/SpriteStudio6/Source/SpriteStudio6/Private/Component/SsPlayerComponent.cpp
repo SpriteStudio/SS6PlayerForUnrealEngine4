@@ -725,6 +725,11 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 	}
 }
 
+void USsPlayerComponent::CreateRenderState_Concurrent(FRegisterComponentContext* Context)
+{
+	Super::CreateRenderState_Concurrent(Context);
+	SendRenderDynamicData_Concurrent();
+}
 
 FPrimitiveSceneProxy* USsPlayerComponent::CreateSceneProxy()
 {
