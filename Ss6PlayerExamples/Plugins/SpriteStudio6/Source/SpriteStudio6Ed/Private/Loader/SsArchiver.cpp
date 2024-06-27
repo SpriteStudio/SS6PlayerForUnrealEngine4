@@ -862,7 +862,10 @@ void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& Ou
 	SSAR_STRUCT_DECLARE("Model", AnimePack.Model);
 	SSAR_DECLARE("cellmapNames", AnimePack.CellmapNames);
 	SSAR_DECLARE_LISTEX("animeList", AnimePack.AnimeList, "anime");
-	SSAR_DECLARE("order", OutSortOrder);
+	if(!SSAR_DECLARE("order", OutSortOrder))
+	{
+		OutSortOrder = INT32_MAX;
+	}
 
 	for(auto It = AnimePack.AnimeList.CreateIterator(); It; ++It)
 	{
