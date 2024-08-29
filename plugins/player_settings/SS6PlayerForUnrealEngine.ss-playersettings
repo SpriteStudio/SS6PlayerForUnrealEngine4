@@ -2,8 +2,8 @@
 <list>
 	<item>
 		<available>1</available>
-		<id>SS6PlayerForUnrealEngine4</id>
-		<caption>SS6PlayerForUnrealEngine4 v1.3.0</caption>
+		<id>SS6PlayerForUnrealEngine</id>
+		<caption>SS6PlayerForUnrealEngine v1.6.17+</caption>
 		<platform>any</platform>
 		<inputProjectFormat>sspj</inputProjectFormat>
 		<inputAnimeFormat>ssae</inputAnimeFormat>
@@ -42,9 +42,7 @@
 			<item>UVSX</item>
 			<item>UVSY</item>
 			<item>MASK</item>
-<!--
 			<item>BNDR</item>
--->
 			<item>USER</item>
 			<item>IPRM</item>
 			<item>EFCT</item>
@@ -69,13 +67,11 @@
 		<colorBlendTypes>
 		</colorBlendTypes>
 		<boundsTypes>
-<!--
 			<item>quad</item>
 			<item>aabb</item>
 			<item>circle</item>
 			<item>circle_smin</item>
 			<item>circle_smax</item>
--->
 		</boundsTypes>
 		<features>
 			<item>effect</item>
