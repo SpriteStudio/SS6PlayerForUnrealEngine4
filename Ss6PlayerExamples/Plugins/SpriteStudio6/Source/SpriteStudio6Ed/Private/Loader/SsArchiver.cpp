@@ -16,6 +16,8 @@
 
 namespace
 {
+	static TArray<FString> TempImportWarnings;
+
 	// 日本語文字列が含まれるかチェックし、含まれた場合はユニークな文字列に置き換える 
 	//    FNameに変換した際に、'?'とかに置き換えられて、別の文字列でも同じとみなされてしまい、参照が切れるのを防ぐため 
 	void CheckReplaceJapaneseString(const char* Text, FString& String)
@@ -40,6 +42,8 @@ namespace
 				String = FString::Printf(TEXT("%s/%d"), *String, (int32)Text[i]);
 			}
 			UE_LOG(LogSpriteStudioEd, Warning, TEXT("Replace Japanese String \"%s\" to \"%s\""), UTF8_TO_TCHAR(Text), *String);
+			
+			TempImportWarnings.Add(FString(UTF8_TO_TCHAR(Text)));
 		}
 	}
 }
@@ -842,8 +846,10 @@ void SerializeStruct(FSs6ProjectSetting& Value, SsXmlIArchiver* ar)
 }
 
 
-void SerializeSsCellMap(FSsCellMap& CellMap, SsXmlIArchiver* ar)
+void SerializeSsCellMap(FSsCellMap& CellMap, SsXmlIArchiver* ar, TArray<FString>& OutWarnings)
 {
+	TempImportWarnings.Empty();
+
 	SSAR_DECLARE_ATTRIBUTE("version", CellMap.Version);
 	SSAR_DECLARE("name", CellMap.CellMapName);
 	CellMap.CellMapNameEx = FName(*(CellMap.CellMapName.ToString() + TEXT(".ssce")));
@@ -854,15 +860,26 @@ void SerializeSsCellMap(FSsCellMap& CellMap, SsXmlIArchiver* ar)
 	SSAR_DECLARE_ENUM("filterMode", CellMap.FilterMode);
 
 	SSAR_DECLARE_LISTEX("cells", CellMap.Cells, "cell");
+
+	for(auto It = TempImportWarnings.CreateConstIterator(); It; ++It)
+	{
+		OutWarnings.Add(*It);
+	}
+	TempImportWarnings.Empty();
 }
-void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& OutSortOrder)
+void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& OutSortOrder, TArray<FString>& OutWarnings)
 {
+	TempImportWarnings.Empty();
+
 	SSAR_DECLARE_ATTRIBUTE("version", AnimePack.Version);
 	SSAR_DECLARE("name", AnimePack.AnimePackName);
 	SSAR_STRUCT_DECLARE("Model", AnimePack.Model);
 	SSAR_DECLARE("cellmapNames", AnimePack.CellmapNames);
 	SSAR_DECLARE_LISTEX("animeList", AnimePack.AnimeList, "anime");
-	SSAR_DECLARE("order", OutSortOrder);
+	if(!SSAR_DECLARE("order", OutSortOrder))
+	{
+		OutSortOrder = INT32_MAX;
+	}
 
 	for(auto It = AnimePack.AnimeList.CreateIterator(); It; ++It)
 	{
@@ -890,26 +907,56 @@ void SerializeSsAnimePack(FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& Ou
 			}
 		}
 	}
+
+	for(auto It = TempImportWarnings.CreateConstIterator(); It; ++It)
+	{
+		OutWarnings.Add(*It);
+	}
+	TempImportWarnings.Empty();
 }
-void SerializeSsEffectFile(FSsEffectFile& EffectFile, SsXmlIArchiver* ar)
+void SerializeSsEffectFile(FSsEffectFile& EffectFile, SsXmlIArchiver* ar, TArray<FString>& OutWarnings)
 {
+	TempImportWarnings.Empty();
+
 	SSAR_DECLARE("name", EffectFile.Name);
 	SSAR_STRUCT_DECLARE("effectData", EffectFile.EffectData);
 	EffectFile.EffectData.EffectName = EffectFile.Name;
+
+	for(auto It = TempImportWarnings.CreateConstIterator(); It; ++It)
+	{
+		OutWarnings.Add(*It);
+	}
+	TempImportWarnings.Empty();
 }
-void SerializeSsSequencePack(FSsSequencePack& SequencePack, SsXmlIArchiver* ar)
+void SerializeSsSequencePack(FSsSequencePack& SequencePack, SsXmlIArchiver* ar, TArray<FString>& OutWarnings)
 {
+	TempImportWarnings.Empty();
+
 	SSAR_DECLARE_ATTRIBUTE("version", SequencePack.Version);
 	SSAR_DECLARE("name", SequencePack.SequencePackName);
 	SSAR_DECLARE_LISTEX("sequenceList", SequencePack.SequenceList, "sequence");
+
+	for(auto It = TempImportWarnings.CreateConstIterator(); It; ++It)
+	{
+		OutWarnings.Add(*It);
+	}
+	TempImportWarnings.Empty();
 }
-void SerializeSsProject(USs6Project& Proj, SsXmlIArchiver* ar)
+void SerializeSsProject(USs6Project& Proj, SsXmlIArchiver* ar, TArray<FString>& OutWarnings)
 {
+	TempImportWarnings.Empty();
+
 	SSAR_DECLARE_ATTRIBUTE("version", Proj.Version);
 	SSAR_STRUCT_DECLARE("settings", Proj.Settings);
 	SSAR_DECLARE("cellmapNames", Proj.CellmapNames);
 	SSAR_DECLARE("animepackNames", Proj.AnimepackNames);
 	SSAR_DECLARE("effectFileNames", Proj.EffectFileNames);
 	SSAR_DECLARE("sequencepackNames", Proj.SequencePackNames);
+
+	for(auto It = TempImportWarnings.CreateConstIterator(); It; ++It)
+	{
+		OutWarnings.Add(*It);
+	}
+	TempImportWarnings.Empty();
 }
 

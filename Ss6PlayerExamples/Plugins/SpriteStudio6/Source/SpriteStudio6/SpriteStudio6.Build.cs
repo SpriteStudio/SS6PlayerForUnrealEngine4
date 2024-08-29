@@ -6,8 +6,6 @@ namespace UnrealBuildTool.Rules
 	{
 		public SpriteStudio6(ReadOnlyTargetRules Target) : base(Target)
 		{
-			DefaultBuildSettings = BuildSettingsVersion.V2;
-
 			PrivatePCHHeaderFile = "Private/SpriteStudio6PrivatePCH.h";
 
 			DynamicallyLoadedModuleNames.AddRange(

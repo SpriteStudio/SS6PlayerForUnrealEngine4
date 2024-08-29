@@ -50,11 +50,11 @@ SIZE_T FSsRenderPartsProxy::GetTypeHash() const
 	return reinterpret_cast<size_t>(&UniquePointer);
 }
 
-void FSsRenderPartsProxy::CreateRenderThreadResources()
+void FSsRenderPartsProxy::CreateRenderThreadResources(FRHICommandListBase& RHICmdList)
 {
 	VertexBuffers.InitWithDummyData(&VertexFactory, MaxVertexNum, 2);
 	IndexBuffer.NumIndices = MaxIndexNum;
-	IndexBuffer.InitResource(FRHICommandListImmediate::Get());
+	IndexBuffer.InitResource(RHICmdList);
 }
 
 void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily, uint32 VisibilityMap, FMeshElementCollector& Collector) const
@@ -167,14 +167,14 @@ void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 	
 	FVector3f TangentY;
 	{
-		FDynamicMeshVertex DummyVert(InRenderVertices[0].Position, FVector3f::ForwardVector, FVector3f::UpVector, InRenderVertices[0].TexCoord, InRenderVertices[0].Color);
+		FDynamicMeshVertex DummyVert(InRenderVertices[0].Position, FVector3f::RightVector, FVector3f::BackwardVector, InRenderVertices[0].TexCoord, InRenderVertices[0].Color);
 		TangentY = DummyVert.GetTangentY();
 	}
 
 	for(auto ItVert = InRenderVertices.CreateConstIterator(); ItVert; ++ItVert)
 	{
 		VertexBuffers.PositionVertexBuffer.VertexPosition(ItVert.GetIndex()) = ItVert->Position;
-		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(ItVert.GetIndex(), FVector3f::ForwardVector, TangentY, FVector3f::UpVector);
+		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(ItVert.GetIndex(), FVector3f::RightVector, TangentY, FVector3f::BackwardVector);
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(ItVert.GetIndex(), 0, FVector2f(ItVert->TexCoord));
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(ItVert.GetIndex(), 1, FVector2f(ItVert->ColorBlend));
 		VertexBuffers.ColorVertexBuffer.VertexColor(ItVert.GetIndex()) = ItVert->Color;

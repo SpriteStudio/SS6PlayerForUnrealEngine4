@@ -13,7 +13,6 @@
 #include "Subsystems/ImportSubsystem.h"
 #endif
 
-
 namespace
 {
 	UMaterialInterface* GetBaseMaterialCompInternal(const FSsColorBlendModeMaterials& Mats, SsBlendType::Type ColorBlendMode)
@@ -342,7 +341,7 @@ FTransform USsPlayerComponent::GetSocketTransform(FName InSocketName, ERelativeT
 
 	if(RenderMode == ESsPlayerComponentRenderMode::OffScreenOnly)
 	{
-		UE_LOG(LogSpriteStudio, Warning, TEXT("SsPlayerComponent::GetSocketTransform() Can't Attach. RenderMode is OffScreenOnly"), *(InSocketName.ToString()));
+		UE_LOG(LogSpriteStudio, Warning, TEXT("SsPlayerComponent::GetSocketTransform() Can't Attach. RenderMode is OffScreenOnly"));
 	}
 	else
 	{
@@ -726,6 +725,11 @@ void USsPlayerComponent::SendRenderDynamicData_Concurrent()
 	}
 }
 
+void USsPlayerComponent::CreateRenderState_Concurrent(FRegisterComponentContext* Context)
+{
+	Super::CreateRenderState_Concurrent(Context);
+	SendRenderDynamicData_Concurrent();
+}
 
 FPrimitiveSceneProxy* USsPlayerComponent::CreateSceneProxy()
 {
@@ -1499,7 +1503,7 @@ void USsPlayerComponent::AddCellmapTextureReplacement(FName CellmapName, UTextur
 	const FSsCellMap* Cellmap = SsProject->FindCellMapByName(CellmapName);
 	if(nullptr == Cellmap)
 	{
-		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."));
+		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."), *(CellmapName.ToString()));
 		return;
 	}
 
@@ -1517,7 +1521,7 @@ void USsPlayerComponent::RemoveCellmapTextureReplacement(FName CellmapName)
 	const FSsCellMap* Cellmap = SsProject->FindCellMapByName(CellmapName);
 	if(nullptr == Cellmap)
 	{
-		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."));
+		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."), *(CellmapName.ToString()));
 		return;
 	}
 

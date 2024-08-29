@@ -9,7 +9,7 @@
 
 
 
-USs6Project* FSsLoader::LoadSsProject(UObject* InParent, FName InName, EObjectFlags Flags, const uint8*& Buffer, size_t Size)
+USs6Project* FSsLoader::LoadSsProject(UObject* InParent, FName InName, EObjectFlags Flags, const uint8*& Buffer, size_t Size, TArray<FString>& OutWarnings)
 {
 	XMLDocument xml;
 	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
@@ -27,12 +27,12 @@ USs6Project* FSsLoader::LoadSsProject(UObject* InParent, FName InName, EObjectFl
 	}
 
 	USs6Project* Proj = NewObject<USs6Project>(InParent, InName, Flags);
-	SerializeSsProject(*Proj, &ar);
+	SerializeSsProject(*Proj, &ar, OutWarnings);
 
 	return Proj;
 }
 
-bool FSsLoader::LoadSsAnimePack(FSsAnimePack* AnimePack, const uint8*& Buffer, size_t Size, int32& OutSortOrder)
+bool FSsLoader::LoadSsAnimePack(FSsAnimePack* AnimePack, const uint8*& Buffer, size_t Size, int32& OutSortOrder, TArray<FString>& OutWarnings)
 {
 	XMLDocument xml;
 	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
@@ -41,12 +41,12 @@ bool FSsLoader::LoadSsAnimePack(FSsAnimePack* AnimePack, const uint8*& Buffer, s
 	}
 
 	SsXmlIArchiver ar(&xml, "SpriteStudioAnimePack");
-	SerializeSsAnimePack(*AnimePack, &ar, OutSortOrder);
+	SerializeSsAnimePack(*AnimePack, &ar, OutSortOrder, OutWarnings);
 
 	return true;
 }
 
-bool FSsLoader::LoadSsCellMap(FSsCellMap* CellMap, const uint8*& Buffer, size_t Size)
+bool FSsLoader::LoadSsCellMap(FSsCellMap* CellMap, const uint8*& Buffer, size_t Size, TArray<FString>& OutWarnings)
 {
 	XMLDocument xml;
 	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
@@ -55,12 +55,12 @@ bool FSsLoader::LoadSsCellMap(FSsCellMap* CellMap, const uint8*& Buffer, size_t 
 	}
 
 	SsXmlIArchiver ar(&xml, "SpriteStudioCellMap");
-	SerializeSsCellMap(*CellMap, &ar);
+	SerializeSsCellMap(*CellMap, &ar, OutWarnings);
 
 	return true;
 }
 
-bool FSsLoader::LoadSsEffectFile(struct FSsEffectFile* EffectFile, const uint8*& Buffer, size_t Size)
+bool FSsLoader::LoadSsEffectFile(struct FSsEffectFile* EffectFile, const uint8*& Buffer, size_t Size, TArray<FString>& OutWarnings)
 {
 	XMLDocument xml;
 	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
@@ -69,12 +69,12 @@ bool FSsLoader::LoadSsEffectFile(struct FSsEffectFile* EffectFile, const uint8*&
 	}
 
 	SsXmlIArchiver ar(&xml, "SpriteStudioEffect");
-	SerializeSsEffectFile(*EffectFile, &ar);
+	SerializeSsEffectFile(*EffectFile, &ar, OutWarnings);
 
 	return true;
 }
 
-bool FSsLoader::LoadSsSequence(struct FSsSequencePack* SequencePack, const uint8* Buffer, size_t Size)
+bool FSsLoader::LoadSsSequence(struct FSsSequencePack* SequencePack, const uint8* Buffer, size_t Size, TArray<FString>& OutWarnings)
 {
 	XMLDocument xml;
 	if( XML_SUCCESS != xml.Parse((const char*)Buffer, Size) )
@@ -83,7 +83,7 @@ bool FSsLoader::LoadSsSequence(struct FSsSequencePack* SequencePack, const uint8
 	}
 
 	SsXmlIArchiver ar(&xml, "SpriteStudioSequencePack");
-	SerializeSsSequencePack(*SequencePack, &ar);
+	SerializeSsSequencePack(*SequencePack, &ar, OutWarnings);
 
 	return true;
 }

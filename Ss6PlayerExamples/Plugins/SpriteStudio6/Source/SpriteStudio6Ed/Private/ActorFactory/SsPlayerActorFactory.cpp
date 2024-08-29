@@ -55,16 +55,4 @@ UObject* USsPlayerActorFactory::GetAssetFromActorInstance(AActor* Instance)
 	return SsPlayerActor->GetSsPlayer()->SsProject;
 }
 
-void USsPlayerActorFactory::PostCreateBlueprint(UObject* Asset, AActor* CDO)
-{
-	if(Asset != NULL && CDO != NULL)
-	{
-		USs6Project* SsProject = CastChecked<USs6Project>(Asset);
-		ASsPlayerActor* SsPlayerActor = CastChecked<ASsPlayerActor>(CDO);
-		USsPlayerComponent* SsPlayerComponent = SsPlayerActor->GetSsPlayer();
-
-		SsPlayerComponent->SsProject = SsProject;
-	}
-}
-
 #undef LOCTEXT_NAMESPACE

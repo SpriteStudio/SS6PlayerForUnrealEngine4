@@ -100,7 +100,8 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 	GEditor->GetEditorSubsystem<UImportSubsystem>()->BroadcastAssetPreImport(this, InClass, InParent, ProjectName, Type);
 
 	// sspj
-	USs6Project* NewProject = FSsLoader::LoadSsProject(InParent, ProjectName, Flags, Buffer, (InBufferEnd - Buffer) + 1);
+	TArray<FString> Warnings;
+	USs6Project* NewProject = FSsLoader::LoadSsProject(InParent, ProjectName, Flags, Buffer, (InBufferEnd - Buffer) + 1, Warnings);
 	if(NewProject)
 	{
 		NewProject->SetFilepath(GetCurrentFilename());
@@ -129,7 +130,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			{
 				const uint8* BufferBegin = Data.GetData();
 				const uint8* BufferEnd = BufferBegin + Data.Num() - 1;
-				if(FSsLoader::LoadSsCellMap(&(NewProject->CellmapList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1))
+				if(FSsLoader::LoadSsCellMap(&(NewProject->CellmapList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1, Warnings))
 				{
 					NewProject->CellmapList[i].FileName = NewProject->CellmapNames[i];
 					if(0 < NewProject->CellmapList[i].ImagePath.Len())
@@ -172,7 +173,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			{
 				const uint8* BufferBegin = Data.GetData();
 				const uint8* BufferEnd = BufferBegin + Data.Num() - 1;
-				FSsLoader::LoadSsAnimePack(&(TempAnimeList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1, TempSortOrder[i]);
+				FSsLoader::LoadSsAnimePack(&(TempAnimeList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1, TempSortOrder[i], Warnings);
 			}
 		}
 
@@ -227,7 +228,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			{
 				const uint8* BufferBegin = Data.GetData();
 				const uint8* BufferEnd = BufferBegin + Data.Num() - 1;
-				FSsLoader::LoadSsEffectFile(&(NewProject->EffectList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1);
+				FSsLoader::LoadSsEffectFile(&(NewProject->EffectList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1, Warnings);
 			}
 		}
 
@@ -243,7 +244,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			{
 				const uint8* BufferBegin = Data.GetData();
 				const uint8* BufferEnd = BufferBegin + Data.Num() - 1;
-				FSsLoader::LoadSsSequence(&(NewProject->SequenceList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1);
+				FSsLoader::LoadSsSequence(&(NewProject->SequenceList[i]), BufferBegin, (BufferEnd - BufferBegin) + 1, Warnings);
 
 				// シーケンス毎にFPSと総フレーム数を計算しておく 
 				for(auto ItSequencePack = NewProject->SequenceList.CreateIterator(); ItSequencePack; ++ItSequencePack)
@@ -392,6 +393,20 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 		}
 
 		NewProject->PostLoadInternal();
+	}
+
+	if(0 < Warnings.Num())
+	{
+		FString Msg(TEXT("SSPJ内で日本語文字が使用されており、正常に動作しない可能性があります。\n\n"));
+		for(auto It = Warnings.CreateConstIterator(); It; ++It)
+		{
+			Msg += (*It) + TEXT("\n");
+		}
+		FMessageDialog::Open(
+			EAppMsgType::Ok,
+			FText::FromString(Msg),
+			FText::FromString(TEXT("WARNING"))
+			);
 	}
 
 	// インポート終了

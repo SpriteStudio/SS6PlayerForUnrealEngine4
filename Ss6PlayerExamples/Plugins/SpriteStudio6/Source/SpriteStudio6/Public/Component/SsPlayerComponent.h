@@ -77,6 +77,7 @@ public:
 	virtual void InitializeComponent() override;
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void SendRenderDynamicData_Concurrent() override;
+	virtual void CreateRenderState_Concurrent(FRegisterComponentContext* Context) override;
 
 	// UPrimitiveComponent interface
 	virtual FPrimitiveSceneProxy* CreateSceneProxy() override;
@@ -222,7 +223,7 @@ public:
 	UMaterialInterface* BaseMaterial;
 
 	// OffScreenPlane用MID 
-	UPROPERTY(Transient, BlueprintReadOnly)
+	UPROPERTY(Category="SpriteStudioRenderSettings", Transient, BlueprintReadOnly)
 	UMaterialInstanceDynamic* OffScreenPlaneMID;
 
 	// オフスクリーンレンダリングの際の解像度 

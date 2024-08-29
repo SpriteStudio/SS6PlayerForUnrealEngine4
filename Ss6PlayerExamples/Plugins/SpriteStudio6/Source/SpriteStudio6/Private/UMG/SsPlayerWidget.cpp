@@ -769,7 +769,7 @@ void USsPlayerWidget::AddCellmapTextureReplacement(FName CellmapName, UTexture* 
 	const FSsCellMap* Cellmap = SsProject->FindCellMapByName(CellmapName);
 	if(nullptr == Cellmap)
 	{
-		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."));
+		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."), *(CellmapName.ToString()));
 		return;
 	}
 
@@ -787,7 +787,7 @@ void USsPlayerWidget::RemoveCellmapTextureReplacement(FName CellmapName)
 	const FSsCellMap* Cellmap = SsProject->FindCellMapByName(CellmapName);
 	if(nullptr == Cellmap)
 	{
-		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."));
+		UE_LOG(LogSpriteStudio, Warning, TEXT("Not found Cellmap[%s]."), *(CellmapName.ToString()));
 		return;
 	}
 

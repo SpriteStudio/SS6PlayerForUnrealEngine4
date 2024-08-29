@@ -242,8 +242,8 @@ void SsArchiverInit();
 #define AR_SELF_CHECK() if(this->getxml() == 0){ return false; }
 
 
-void SerializeSsCellMap(struct FSsCellMap& CellMap, SsXmlIArchiver* ar);
-void SerializeSsAnimePack(struct FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& OutSortOrder);
-void SerializeSsEffectFile(struct FSsEffectFile& EffectFile, SsXmlIArchiver* ar);
-void SerializeSsSequencePack(struct FSsSequencePack& SequencePack, SsXmlIArchiver* ar);
-void SerializeSsProject(class USs6Project& Proj, SsXmlIArchiver* ar);
+void SerializeSsCellMap(struct FSsCellMap& CellMap, SsXmlIArchiver* ar, TArray<FString>& OutWarnings);
+void SerializeSsAnimePack(struct FSsAnimePack& AnimePack, SsXmlIArchiver* ar, int32& OutSortOrder, TArray<FString>& OutWarnings);
+void SerializeSsEffectFile(struct FSsEffectFile& EffectFile, SsXmlIArchiver* ar, TArray<FString>& OutWarnings);
+void SerializeSsSequencePack(struct FSsSequencePack& SequencePack, SsXmlIArchiver* ar, TArray<FString>& OutWarnings);
+void SerializeSsProject(class USs6Project& Proj, SsXmlIArchiver* ar, TArray<FString>& OutWarnings);

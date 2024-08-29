@@ -11,7 +11,6 @@ class USsPlayerActorFactory : public UActorFactory
 	// UActorFactory interface 
 	virtual bool CanCreateActorFrom(const FAssetData& AssetData, FText& OutErrorMsg) override;
 	virtual void PostSpawnActor(UObject* Asset, AActor* NewActor) override;
-	virtual void PostCreateBlueprint(UObject* Asset, AActor* CDO) override;
 	virtual UObject* GetAssetFromActorInstance(AActor* ActorInstance) override;
 };
 
