@@ -473,7 +473,7 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2f
 			FSsRenderPart& RenderPart = RenderParts.AddZeroed_GetRef();
 			if(!CreateRenderPart(RenderPart, State, CanvasSize, Pivot, bInstance))
 			{
-				RenderParts.RemoveAt(RenderParts.Num()-1, 1, false);
+				RenderParts.RemoveAt(RenderParts.Num()-1, 1, EAllowShrinking::No);
 			}
 		}
 	}

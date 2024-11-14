@@ -503,7 +503,6 @@ namespace
 						continue;
 					}
 
-					FSsOffScreenVertex Vert;
 					// 通常パーツ/マスクパーツ 
 					if(0 == ItPart->Mesh.Num())
 					{
