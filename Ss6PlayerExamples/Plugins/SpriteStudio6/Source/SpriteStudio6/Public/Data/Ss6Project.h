@@ -118,6 +118,15 @@ public:
 	UPROPERTY(VisibleAnywhere, Category=SsProject)
 	TArray<FSsSequencePack>	SequenceList;	//!< シーケンスのリスト
 
+	UPROPERTY(VisibleAnywhere, Category=SsProject)
+	uint32 MaxVertexNum = UINT_MAX;
+
+	UPROPERTY(VisibleAnywhere, Category=SsProject)
+	uint32 MaxIndexNum = UINT_MAX;
+
+	UPROPERTY(VisibleAnywhere, Category=SsProject)
+	bool bContainsMaskPart = false;
+
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Instanced, Category=ImportSettings)
 	TObjectPtr<class UAssetImportData> AssetImportData;
@@ -183,6 +192,7 @@ public:
 	///テクスチャデータの読み込み元の基準パスを取得する。 
 	FString GetImageBasepath() const;
 
+private:
 	///最大描画パーツ数を計算
 	void CalcMaxVertexAndIndexNum(uint32& OutMaxVertexNum, uint32& OutMaxIndexNum) const;
 

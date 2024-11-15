@@ -51,6 +51,12 @@ void USs6Project::PostLoadInternal()
 	{
 		ItCellMap->CellMapNameEx = FName(*(ItCellMap->CellMapName.ToString() + TEXT(".ssce")));
 	}
+
+	if((UINT_MAX == MaxVertexNum) || (UINT_MAX == MaxIndexNum))
+	{
+		CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+		bContainsMaskPart = ContainsMaskParts();
+	}
 }
 
 TArray<FName> USs6Project::GetAnimPackNames() const

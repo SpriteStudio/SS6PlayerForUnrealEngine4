@@ -390,8 +390,9 @@ void USsPlayerComponent::OnRegister()
 			bool bNeedMask(false);
 			if(nullptr != SsProject)
 			{
-				SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
-				bNeedMask = SsProject->ContainsMaskParts();
+				MaxVertexNum = SsProject->MaxVertexNum;
+				MaxIndexNum  = SsProject->MaxIndexNum;
+				bNeedMask = SsProject->bContainsMaskPart;
 			}
 			RenderOffScreen->Initialize(OffScreenRenderResolution.X, OffScreenRenderResolution.Y, MaxVertexNum, MaxIndexNum, bNeedMask);
 
@@ -740,8 +741,8 @@ FPrimitiveSceneProxy* USsPlayerComponent::CreateSceneProxy()
 			case ESsPlayerComponentRenderMode::Default:
 			case ESsPlayerComponentRenderMode::Masked:
 				{
-					uint32 MaxVertexNum, MaxIndexNum;
-					SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+					uint32 MaxVertexNum = SsProject->MaxVertexNum;
+					uint32 MaxIndexNum  = SsProject->MaxIndexNum;
 					FSsRenderPartsProxy* NewProxy = new FSsRenderPartsProxy(this, MaxVertexNum, MaxIndexNum);
 					return NewProxy;
 				} break;

@@ -166,11 +166,11 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 
 	Player.SetSsProject(SsProject);
 
-	uint32 MaxVertexNum, MaxIndexNum;
-	SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
+	uint32 MaxVertexNum = SsProject->MaxVertexNum;
+	uint32 MaxIndexNum  = SsProject->MaxIndexNum;
 
 	RenderOffScreen = new FSsRenderOffScreen();
-	RenderOffScreen->Initialize(2048, 2048, MaxVertexNum, MaxIndexNum, SsProject->ContainsMaskParts());
+	RenderOffScreen->Initialize(2048, 2048, MaxVertexNum, MaxIndexNum, SsProject->bContainsMaskPart);
 
 	ExtendToolbar();
 	RegenerateMenusAndToolbars();

@@ -196,8 +196,9 @@ void USsPlayerWidget::SynchronizeProperties()
 						bool bNeedMask(false);
 						if(nullptr != SsProject)
 						{
-							SsProject->CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
-							bNeedMask = SsProject->ContainsMaskParts();
+							MaxVertexNum = SsProject->MaxVertexNum;
+							MaxIndexNum = SsProject->MaxIndexNum;
+							bNeedMask = SsProject->bContainsMaskPart;
 						}
 						PlayerWidget->Initialize_OffScreen(
 							OffScreenRenderResolution.X, OffScreenRenderResolution.Y,

@@ -392,6 +392,7 @@ UObject* USspjFactory::FactoryCreateBinary(UClass* InClass, UObject* InParent, F
 			TextureFact->RemoveFromRoot();
 		}
 
+		NewProject->MaxVertexNum = NewProject->MaxIndexNum = UINT_MAX;
 		NewProject->PostLoadInternal();
 	}
 
