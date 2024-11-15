@@ -35,6 +35,7 @@ SsAnimeDecoder::SsAnimeDecoder() :
 	seedOffset(0),
 	nowPlatTime(0) ,
 	nowPlatTimeOld(0),
+	lastUpdatedTimeInt(-1),
 	curAnimeStartFrame(0), 
 	curAnimeEndFrame(0),
 	curAnimeTotalFrame(0),
@@ -316,7 +317,7 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 		meshAnimator->makeMeshBoneList();
 	}
 
-	
+	lastUpdatedTimeInt = -1;
 }
 
 
@@ -1524,6 +1525,10 @@ void	SsAnimeDecoder::setMaskParentSetting(bool flg)
 void	SsAnimeDecoder::update(float frameDeltaLocal)
 {
 	int	time = (int)nowPlatTime;
+	if(time == lastUpdatedTimeInt)
+	{
+		return;
+	}
 
 	this->frameDelta = frameDeltaLocal;
 
@@ -1577,6 +1582,7 @@ void	SsAnimeDecoder::update(float frameDeltaLocal)
 
 	//今回再生した時間を保存しておく
 	nowPlatTimeOld = nowPlatTime;
+	lastUpdatedTimeInt = (int)nowPlatTime;
 
 }
 

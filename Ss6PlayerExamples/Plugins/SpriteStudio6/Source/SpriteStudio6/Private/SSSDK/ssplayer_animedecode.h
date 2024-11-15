@@ -69,6 +69,7 @@ public:
 	int				seedOffset;							//エフェクトのシードへ影響
 	float			nowPlatTime;
 	float			nowPlatTimeOld;						//前のフレームで再生した時間
+	int				lastUpdatedTimeInt;
 	float			frameDelta;
 	int				curAnimeStartFrame;
 	int				curAnimeEndFrame;
