@@ -1,4 +1,4 @@
-﻿#include "SsProjectViewer.h"
+#include "SsProjectViewer.h"
 
 #include "EditorStyleSet.h"
 #include "Editor/PropertyEditor/Public/IDetailsView.h"
@@ -119,6 +119,7 @@ FLinearColor FSsProjectViewer::GetWorldCentricTabColorScale() const
 void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedPtr< class IToolkitHost >& InitToolkitHost, UObject* ObjectToEdit )
 {
 	SsProject = CastChecked<USs6Project>( ObjectToEdit );
+	Viewport = SNew(SSsProjectViewerViewport);
 
 	FSsProjectViewerCommands::Register();
 	BindCommands();
@@ -188,9 +189,6 @@ void FSsProjectViewer::InitEditor( const EToolkitMode::Type Mode, const TSharedP
 TSharedRef<SDockTab> FSsProjectViewer::SpawnTab_Viewport(const FSpawnTabArgs& Args)
 {
 	check( Args.GetTabId() == ViewportTabId );
-
-	Viewport = SNew(SSsProjectViewerViewport);
-
 	return SNew(SDockTab)
 		.Label(LOCTEXT("ViewportTitle", "Viewport"))
 		[
