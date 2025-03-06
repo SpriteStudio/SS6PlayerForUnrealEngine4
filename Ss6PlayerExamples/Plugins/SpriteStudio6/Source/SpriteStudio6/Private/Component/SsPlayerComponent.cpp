@@ -432,6 +432,7 @@ void USsPlayerComponent::OnUnregister()
 	MaterialReplacementMap.Empty();
 	MapterialReplacementMapPerBlendMode.Empty();
 	OffScreenPlaneMID = NULL;
+	RenderMIDs.Empty();
 
 	if(RenderOffScreen)
 	{
@@ -463,6 +464,8 @@ void USsPlayerComponent::TickComponent(float DeltaTime, enum ELevelTick /*TickTy
 	{
 		UpdatePlayer(DeltaTime);
 	}
+
+	UpdateComponentToWorld();
 }
 
 void USsPlayerComponent::SendRenderDynamicData_Concurrent()

@@ -65,6 +65,12 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 
 	PlayingAnimPackIndex = -1;
 	PlayingAnimationIndex = -1;
+
+	RenderParts.Empty();
+	CollisionParts.Empty();
+	HiddenParts.Empty();
+	TextureReplacements.Empty();
+	CellTextureReplacements.Empty();
 }
 
 // 再生中のFSsAnimationを取得 
