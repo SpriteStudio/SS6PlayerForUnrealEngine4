@@ -35,8 +35,6 @@ FSsRenderPlaneProxy::FSsRenderPlaneProxy(USsPlayerComponent* InComponent, UMater
 
 	Component = InComponent;
 	Material = InMaterial;
-
-	bVerifyUsedMaterials = false;
 }
 
 // デストラクタ

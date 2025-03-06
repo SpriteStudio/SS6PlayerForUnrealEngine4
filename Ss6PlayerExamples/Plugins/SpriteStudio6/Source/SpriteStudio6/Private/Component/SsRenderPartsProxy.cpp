@@ -31,7 +31,6 @@ FSsRenderPartsProxy::FSsRenderPartsProxy(USsPlayerComponent* InComponent, uint32
 	bWillEverBeLit = false;
 
 	Component = InComponent;
-	bVerifyUsedMaterials = false;
 }
 
 // デストラクタ
@@ -213,4 +212,12 @@ void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 		FMemory::Memcpy(IndexBufferData, InRenderIndices.GetData(), InRenderIndices.Num() * sizeof(uint16));
 		RHICmdList.UnlockBuffer(IndexBuffer.IndexBufferRHI);
 	}
+
+#if WITH_EDITOR
+	{
+		TArray<UMaterialInterface*> TempUsedMaterialsForVerification;
+		Component->GetUsedMaterials(TempUsedMaterialsForVerification);
+		SetUsedMaterialForVerification(TempUsedMaterialsForVerification);
+	}
+#endif
 }

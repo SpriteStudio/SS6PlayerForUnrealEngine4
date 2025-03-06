@@ -789,6 +789,19 @@ FBoxSphereBounds USsPlayerComponent::CalcBounds(const FTransform& LocalToWorld) 
 	return FBoxSphereBounds(EForceInit::ForceInitToZero);
 }
 
+int32 USsPlayerComponent::GetNumMaterials() const
+{
+	return RenderMIDs.Num();
+}
+UMaterialInterface* USsPlayerComponent::GetMaterial(int32 ElementIndex) const
+{
+	if(!RenderMIDs.IsValidIndex(ElementIndex))
+	{
+		return nullptr;
+	}
+	return RenderMIDs[ElementIndex];
+}
+
 // アニメーションの更新 
 void USsPlayerComponent::UpdatePlayer(float DeltaSeconds)
 {
