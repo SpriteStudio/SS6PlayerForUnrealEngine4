@@ -7,6 +7,9 @@
 #include "SsPlayerComponent.h"
 
 
+DEFINE_RENDER_COMMAND_PIPE(SsParts, ERenderCommandPipeFlags::None);
+
+
 //
 // IndexBuffer 
 //
@@ -31,6 +34,15 @@ FSsRenderPartsProxy::FSsRenderPartsProxy(USsPlayerComponent* InComponent, uint32
 	bWillEverBeLit = false;
 
 	Component = InComponent;
+
+	VertexBuffers.InitWithDummyData(&UE::RenderCommandPipe::SsParts, &VertexFactory, MaxVertexNum, 2U);
+	IndexBuffer.NumIndices = MaxIndexNum;
+
+	ENQUEUE_RENDER_COMMAND(InitSsPartsResources)(UE::RenderCommandPipe::SsParts,
+		[this] (FRHICommandList& RHICmdList)
+		{
+			IndexBuffer.InitResource(RHICmdList);
+		});
 }
 
 // デストラクタ
@@ -47,13 +59,6 @@ SIZE_T FSsRenderPartsProxy::GetTypeHash() const
 {
 	static size_t UniquePointer;
 	return reinterpret_cast<size_t>(&UniquePointer);
-}
-
-void FSsRenderPartsProxy::CreateRenderThreadResources(FRHICommandListBase& RHICmdList)
-{
-	VertexBuffers.InitWithDummyData(&VertexFactory, MaxVertexNum, 2);
-	IndexBuffer.NumIndices = MaxIndexNum;
-	IndexBuffer.InitResource(RHICmdList);
 }
 
 void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily, uint32 VisibilityMap, FMeshElementCollector& Collector) const
@@ -163,17 +168,10 @@ void FSsRenderPartsProxy::SetDynamicData_RenderThread(
 	check((uint32)InRenderVertices.Num() <= MaxVertexNum);
 	check((uint32)InRenderIndices.Num() <= MaxIndexNum);
 
-	
-	FVector3f TangentY;
-	{
-		FDynamicMeshVertex DummyVert(InRenderVertices[0].Position, FVector3f::RightVector, FVector3f::BackwardVector, InRenderVertices[0].TexCoord, InRenderVertices[0].Color);
-		TangentY = DummyVert.GetTangentY();
-	}
-
 	for(auto ItVert = InRenderVertices.CreateConstIterator(); ItVert; ++ItVert)
 	{
 		VertexBuffers.PositionVertexBuffer.VertexPosition(ItVert.GetIndex()) = ItVert->Position;
-		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(ItVert.GetIndex(), FVector3f::RightVector, TangentY, FVector3f::BackwardVector);
+		VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(ItVert.GetIndex(), FVector3f::RightVector, FVector3f::DownVector, FVector3f::BackwardVector);
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(ItVert.GetIndex(), 0, FVector2f(ItVert->TexCoord));
 		VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(ItVert.GetIndex(), 1, FVector2f(ItVert->ColorBlend));
 		VertexBuffers.ColorVertexBuffer.VertexColor(ItVert.GetIndex()) = ItVert->Color;

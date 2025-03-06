@@ -6,6 +6,8 @@
 #include "SsPlayerComponent.h"
 
 
+DEFINE_RENDER_COMMAND_PIPE(SsPlane, ERenderCommandPipeFlags::None);
+
 
 // IndexBuffer
 void FSsPlaneIndexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
@@ -35,6 +37,14 @@ FSsRenderPlaneProxy::FSsRenderPlaneProxy(USsPlayerComponent* InComponent, UMater
 
 	Component = InComponent;
 	Material = InMaterial;
+
+	VertexBuffers.InitWithDummyData(&VertexFactory, 4);
+
+	ENQUEUE_RENDER_COMMAND(InitSsPartsResources)(UE::RenderCommandPipe::SsPlane,
+		[this] (FRHICommandList& RHICmdList)
+		{
+			IndexBuffer.InitResource(RHICmdList);
+		});
 }
 
 // デストラクタ
@@ -51,12 +61,6 @@ SIZE_T FSsRenderPlaneProxy::GetTypeHash() const
 {
 	static size_t UniquePointer;
 	return reinterpret_cast<size_t>(&UniquePointer);
-}
-
-void FSsRenderPlaneProxy::CreateRenderThreadResources(FRHICommandListBase& RHICmdList)
-{
-	VertexBuffers.InitWithDummyData(&VertexFactory, 4);
-	IndexBuffer.InitResource(RHICmdList);
 }
 
 void FSsRenderPlaneProxy::GetDynamicMeshElements(const TArray<const FSceneView*>& Views, const FSceneViewFamily& ViewFamily, uint32 VisibilityMap, FMeshElementCollector& Collector) const
