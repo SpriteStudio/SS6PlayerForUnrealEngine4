@@ -16,13 +16,13 @@ public:
 	// FViewportClient interface
 	virtual void Draw(FViewport* Viewport, FCanvas* Canvas) override;
 	virtual bool InputKey(FViewport* Viewport, int32 ControllerId, FKey Key, EInputEvent Event, float AmountDepressed, bool bGamepad) override;
-	virtual bool InputAxis(FViewport* Viewport, int32 ControllerId, FKey Key, float Delta, float DeltaTime, int32 NumSamples, bool bGamepad) override;
 
 	// FGCObject interface
 	virtual void AddReferencedObjects( FReferenceCollector& Collector ) {}
 	virtual FString GetReferencerName() const { return TEXT("FSsProjectViewerViewportClient"); }
 
 public:
+	void UpdateMouse(int32 InMouseX, int32 InMouseY);
 	void SetPlayer(FSsPlayer* InPlayer, FSsRenderOffScreen* InRender);
 	void SetBackgroundColor(const FLinearColor& InBackgroundColor);
 	const FLinearColor& GetBackgroundColor() const { return BackgroundColor; }
@@ -46,4 +46,7 @@ private:
 	TWeakObjectPtr<UMaterialInstanceDynamic> ViewerMID;
 	TWeakObjectPtr<UMaterialInterface> CollisionBoxMat;
 	TWeakObjectPtr<UMaterialInterface> CollisionCircleMat;
+	bool bDragging;
+	int32 LastMouseX;
+	int32 LastMouseY;
 };

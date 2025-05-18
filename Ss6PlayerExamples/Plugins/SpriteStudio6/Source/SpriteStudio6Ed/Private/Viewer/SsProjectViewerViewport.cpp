@@ -17,6 +17,11 @@ void SSsProjectViewerViewport::Tick(const FGeometry& AllottedGeometry, const dou
 		}
 	}
 
+	if(ViewportClient.IsValid())
+	{
+		ViewportClient->UpdateMouse(Viewport->GetMouseX(), Viewport->GetMouseY());
+	}
+
 	Viewport->InvalidateDisplay();
 }
 

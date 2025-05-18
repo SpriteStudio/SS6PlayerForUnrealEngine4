@@ -14,10 +14,13 @@ FSsProjectViewerViewportClient::FSsProjectViewerViewportClient()
 	, GridColor(FLinearColor::Green)
 	, RenderScale(1.f)
 	, RenderScaleStep(0.05f)
-	, RenderOffset(0.f ,0.f)
+	, RenderOffset(0.f, 0.f)
 	, BackgroundColor(.2f, .2f, .2f)
 	, Player(NULL)
 	, Render(NULL)
+	, bDragging(false)
+	, LastMouseX(-1)
+	, LastMouseY(-1)
 {
 }
 FSsProjectViewerViewportClient::~FSsProjectViewerViewportClient()
@@ -198,20 +201,18 @@ bool FSsProjectViewerViewportClient::InputKey(FViewport* Viewport, int32 Control
 		RenderOffset.X = RenderOffset.Y = 0;
 		return true;
 	}
-	return false;
-}
-
-bool FSsProjectViewerViewportClient::InputAxis(FViewport* Viewport, int32 ControllerId, FKey Key, float Delta, float DeltaTime, int32 NumSamples, bool bGamepad)
-{
-	if(Key == EKeys::MouseX)
+	else if(Key == EKeys::LeftMouseButton)
 	{
-		RenderOffset.X += Delta;
-		return true;
-	}
-	else if(Key == EKeys::MouseY)
-	{
-		RenderOffset.Y -= Delta;
-		return true;
+		if(Event == EInputEvent::IE_Pressed)
+		{
+			LastMouseX = Viewport->GetMouseX();
+			LastMouseY = Viewport->GetMouseY();
+			bDragging = true;
+		}
+		else if(Event == EInputEvent::IE_Released)
+		{
+			bDragging = false;
+		}
 	}
 	return false;
 }
@@ -261,6 +262,16 @@ void FSsProjectViewerViewportClient::DrawGrid(FViewport* Viewport, FCanvas* Canv
 	}
 }
 
+void FSsProjectViewerViewportClient::UpdateMouse(int32 InMouseX, int32 InMouseY)
+{
+	if(bDragging)
+	{
+		RenderOffset.X += (InMouseX - LastMouseX);
+		RenderOffset.Y += (InMouseY - LastMouseY);
+		LastMouseX = InMouseX;
+		LastMouseY = InMouseY;
+	}
+}
 void FSsProjectViewerViewportClient::SetPlayer(FSsPlayer* InPlayer, FSsRenderOffScreen* InRender)
 {
 	Player = InPlayer;
