@@ -17,8 +17,11 @@ void FSsPartsIndexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
 {
 	if(0 < NumIndices)
 	{
-		FRHIResourceCreateInfo CreateInfo(TEXT("SsComponentPartsIndexBuffer"));
-		IndexBufferRHI = RHICmdList.CreateIndexBuffer(sizeof(uint16), NumIndices * sizeof(uint16), BUF_Dynamic, CreateInfo);
+		FRHIBufferCreateDesc CreateDesc =
+			FRHIBufferCreateDesc::CreateIndex<uint16>(TEXT("SsComponentPartsIndexBuffer"), NumIndices)
+			.AddUsage(EBufferUsageFlags::Dynamic | EBufferUsageFlags::ShaderResource)
+			.DetermineInitialState();
+		IndexBufferRHI = RHICmdList.CreateBuffer(CreateDesc);
 	}
 }
 

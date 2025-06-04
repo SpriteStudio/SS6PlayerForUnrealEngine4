@@ -12,10 +12,13 @@ DEFINE_RENDER_COMMAND_PIPE(SsPlane, ERenderCommandPipeFlags::None);
 // IndexBuffer
 void FSsPlaneIndexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
 {
-	FRHIResourceCreateInfo CreateInfo(TEXT("SsComponentPlaneIndexBuffer"));
-	uint32 Size = 6 * sizeof(uint16);
-	IndexBufferRHI = RHICmdList.CreateIndexBuffer(sizeof(uint16), Size, BUF_Static, CreateInfo);
-	void* Buffer = RHICmdList.LockBuffer(IndexBufferRHI, 0, Size, RLM_WriteOnly);
+	FRHIBufferCreateDesc CreateDesc =
+		FRHIBufferCreateDesc::CreateIndex<uint16>(TEXT("SsComponentPlaneIndexBuffer"), 6)
+		.AddUsage(EBufferUsageFlags::Static | EBufferUsageFlags::ShaderResource)
+		.DetermineInitialState();
+	IndexBufferRHI = RHICmdList.CreateBuffer(CreateDesc);
+
+	void* Buffer = RHICmdList.LockBuffer(IndexBufferRHI, 0, (6 * sizeof(uint16)), RLM_WriteOnly);
 	((uint16*)Buffer)[0] = 0;
 	((uint16*)Buffer)[1] = 2;
 	((uint16*)Buffer)[2] = 1;

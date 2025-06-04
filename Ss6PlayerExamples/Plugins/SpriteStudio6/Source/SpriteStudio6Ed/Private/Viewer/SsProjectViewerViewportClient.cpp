@@ -179,14 +179,14 @@ void FSsProjectViewerViewportClient::Draw(FViewport* Viewport, FCanvas* Canvas)
 	}
 }
 
-bool FSsProjectViewerViewportClient::InputKey(FViewport* Viewport, int32 ControllerId, FKey Key, EInputEvent Event, float AmountDepressed, bool bGamepad)
+bool FSsProjectViewerViewportClient::InputKey(const FInputKeyEventArgs& EventArgs)
 {
-	if(Key == EKeys::MouseScrollUp)
+	if(EventArgs.Key == EKeys::MouseScrollUp)
 	{
 		RenderScale += RenderScaleStep;
 		return true;
 	}
-	else if(Key == EKeys::MouseScrollDown)
+	else if(EventArgs.Key == EKeys::MouseScrollDown)
 	{
 		RenderScale -= RenderScaleStep;
 		if(RenderScale < 0.1f)
@@ -195,21 +195,21 @@ bool FSsProjectViewerViewportClient::InputKey(FViewport* Viewport, int32 Control
 		}
 		return true;
 	}
-	else if((Key == EKeys::F) || (Key == EKeys::A))
+	else if((EventArgs.Key == EKeys::F) || (EventArgs.Key == EKeys::A))
 	{
 		RenderScale = 1.f;
 		RenderOffset.X = RenderOffset.Y = 0;
 		return true;
 	}
-	else if(Key == EKeys::LeftMouseButton)
+	else if(EventArgs.Key == EKeys::LeftMouseButton)
 	{
-		if(Event == EInputEvent::IE_Pressed)
+		if(EventArgs.Event == EInputEvent::IE_Pressed)
 		{
-			LastMouseX = Viewport->GetMouseX();
-			LastMouseY = Viewport->GetMouseY();
+			LastMouseX = EventArgs.Viewport->GetMouseX();
+			LastMouseY = EventArgs.Viewport->GetMouseY();
 			bDragging = true;
 		}
-		else if(Event == EInputEvent::IE_Released)
+		else if(EventArgs.Event == EInputEvent::IE_Released)
 		{
 			bDragging = false;
 		}

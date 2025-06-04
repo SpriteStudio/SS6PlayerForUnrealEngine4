@@ -61,8 +61,11 @@ void FSsOffScreenVertexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
 {
 	if(0 < VertexNum)
 	{
-		FRHIResourceCreateInfo CreateInfo(TEXT("SsRenderOffScreenVertexBuffer"));
-		VertexBufferRHI = RHICmdList.CreateVertexBuffer(VertexNum * sizeof(FSsOffScreenVertex), BUF_Dynamic, CreateInfo);
+		FRHIBufferCreateDesc CreateDesc =
+			FRHIBufferCreateDesc::CreateVertex(TEXT("FSsOffScreenVertexBuffer"), VertexNum * sizeof(FSsOffScreenVertex))
+			.AddUsage(EBufferUsageFlags::Dynamic | EBufferUsageFlags::ShaderResource)
+			.DetermineInitialState();
+		VertexBufferRHI = RHICmdList.CreateBuffer(CreateDesc);
 	}
 }
 
@@ -71,8 +74,11 @@ void FSsOffScreenIndexBuffer::InitRHI(FRHICommandListBase& RHICmdList)
 {
 	if(0 < IndexNum)
 	{
-		FRHIResourceCreateInfo CreateInfo(TEXT("SsRenderOffScreenIndexBuffer"));
-		IndexBufferRHI = RHICmdList.CreateIndexBuffer(sizeof(uint16), IndexNum * sizeof(uint16), BUF_Dynamic, CreateInfo);
+		FRHIBufferCreateDesc CreateDesc =
+			FRHIBufferCreateDesc::CreateIndex<uint16>(TEXT("FSsOffScreenIndexBuffer"), IndexNum)
+			.AddUsage(EBufferUsageFlags::Dynamic | EBufferUsageFlags::ShaderResource)
+			.DetermineInitialState();
+		IndexBufferRHI = RHICmdList.CreateBuffer(CreateDesc);
 	}
 }
 

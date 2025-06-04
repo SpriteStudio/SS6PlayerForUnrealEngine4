@@ -15,7 +15,7 @@ public:
 
 	// FViewportClient interface
 	virtual void Draw(FViewport* Viewport, FCanvas* Canvas) override;
-	virtual bool InputKey(FViewport* Viewport, int32 ControllerId, FKey Key, EInputEvent Event, float AmountDepressed, bool bGamepad) override;
+	virtual bool InputKey(const FInputKeyEventArgs& EventArgs) override;
 
 	// FGCObject interface
 	virtual void AddReferencedObjects( FReferenceCollector& Collector ) {}
