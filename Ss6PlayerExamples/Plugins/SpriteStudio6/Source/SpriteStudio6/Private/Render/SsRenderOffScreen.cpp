@@ -363,6 +363,7 @@ namespace
 		}
 
 		RHICmdList.EndRenderPass();
+		RHICmdList.ImmediateFlush(EImmediateFlushType::FlushRHIThread);
 	}
 
 	// 描画 
