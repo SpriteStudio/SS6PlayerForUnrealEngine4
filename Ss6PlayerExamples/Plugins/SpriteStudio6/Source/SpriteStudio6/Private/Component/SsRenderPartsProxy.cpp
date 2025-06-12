@@ -68,6 +68,11 @@ void FSsRenderPartsProxy::GetDynamicMeshElements(const TArray<const FSceneView*>
 {
 	QUICK_SCOPE_CYCLE_COUNTER( STAT_SsRenderSceneProxy_GetDynamicMeshElements );
 
+	if((nullptr == Component) || !Component->IsRegistered())
+	{
+		return;
+	}
+
 	const bool bWireframe = AllowDebugViewmodes() && ViewFamily.EngineShowFlags.Wireframe;
 	FMaterialRenderProxy* MaterialProxy = NULL;
 	if(bWireframe)
