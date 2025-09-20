@@ -855,6 +855,47 @@ struct FSsRenderPart
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
 	bool bMaskInfluence;
+
+	int32 GetNumVertices() const
+	{
+		if(0 != Mesh.Num())
+		{
+			int32 NumVertices = 0;
+			for(auto ItMesh = Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+			{
+				NumVertices += ItMesh->Vertices.Num();
+			}
+			return NumVertices;
+		}
+		else
+		{
+			return Vertices.Num();
+		}
+	}
+	int32 GetNumIndices() const
+	{
+		if(0 != Mesh.Num())
+		{
+			int32 NumIndices = 0;
+			for(auto ItMesh = Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
+			{
+				NumIndices += ItMesh->Indices.Num();
+			}
+			return NumIndices;
+		}
+		else
+		{
+			check((4 == Vertices.Num()) || (5 == Vertices.Num()));
+			if(4 == Vertices.Num())
+			{
+				return 6;
+			}
+			else
+			{
+				return 12;
+			}
+		}
+	}
 };
 
 // コリジョンパーツ情報

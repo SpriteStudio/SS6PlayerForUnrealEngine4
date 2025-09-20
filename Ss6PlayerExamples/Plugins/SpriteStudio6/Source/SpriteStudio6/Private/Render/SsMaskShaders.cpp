@@ -13,8 +13,15 @@ FSsMaskPS::FSsMaskPS(const ShaderMetaType::CompiledShaderInitializerType& Initia
 {
 	CellTextureParameter.Bind(Initializer.ParameterMap, TEXT("CellTexture"));
 	CellTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("CellTextureSampler"));
+	MaskValue.Bind(Initializer.ParameterMap, TEXT("MaskValue"));
 }
 void FSsMaskPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
+}
+void FSsMaskPS::SetMaskValue(FRHICommandList& RHICmdList, float InMaskValue)
+{
+	FRHIBatchedShaderParameters& BatchedParameters = RHICmdList.GetScratchShaderParameters();
+	SetShaderValue(BatchedParameters, MaskValue, InMaskValue);
+	RHICmdList.SetBatchedShaderParameters(RHICmdList.GetBoundPixelShader(), BatchedParameters);
 }

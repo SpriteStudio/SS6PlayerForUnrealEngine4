@@ -31,8 +31,10 @@ public:
 	FSsMaskPS() {}
 
 	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
+	void SetMaskValue(FRHICommandList& RHICmdList, float InMaskValue);
 
 private:
 	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameter);
 	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameterSampler);
+	LAYOUT_FIELD(FShaderParameter, MaskValue);
 };

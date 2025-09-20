@@ -202,6 +202,11 @@ namespace
 		FSsOffScreenIndexBuffer* IndexBuffer;
 		FColor ClearColor;
 		TArray<FSsRenderPart> RenderParts;
+
+		TArray<uint32> BaseVertexIndex;
+		TArray<uint32> NumRenderVertices;
+		TArray<uint32> BaseIndexIndex;
+		TArray<uint32> NumRenderIndices;
 	};
 
 	// カラーブレンドモードの設定 
@@ -286,8 +291,63 @@ namespace
 		FSamplerStateRHIRef SampleState = TStaticSamplerState<SF_Point,AM_Clamp,AM_Clamp,AM_Clamp>::GetRHI();
 
 
-		uint32 BaseVertexIndex = 0;
-		uint32 BaseIndexIndex  = 0;
+		int32 WriteCnt = 0;
+		for(int32 i = RenderParts.RenderParts.Num() - 1; 0 <= i; --i)
+		{
+			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
+			if(nullptr == RenderPart.Texture)
+			{
+				continue;
+			}
+
+			// マスクバッファに書き込み 
+			if(SsBlendType::Mask == RenderPart.ColorBlendType)
+			{
+				WriteCnt++;
+				float MaskValue;
+
+				// マスク対象=OFF 
+				if(!RenderPart.bMaskInfluence)
+				{
+					// 最大想定の奇数値でBO_Max 
+					MaskValue = (0 == (WriteCnt%2)) ? (float)(WriteCnt+1) : (float)(WriteCnt);
+
+					GraphicsPSOInit.BlendState = TStaticBlendState<
+						CW_RED,
+						BO_Max, BF_One, BF_One
+					>::GetRHI();
+				}
+				// マスク対象=ON 
+				else
+				{
+					// 1を加算（偶数/奇数を反転） 
+					MaskValue = 1.f;
+
+					GraphicsPSOInit.BlendState = TStaticBlendState<
+						CW_RED,
+						BO_Add, BF_One, BF_One
+						>::GetRHI();
+				}
+				SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit, 0);
+
+				// テクスチャをセット 
+				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
+				PixelShader->SetMaskValue(RHICmdList, MaskValue);
+
+				check((RenderParts.BaseIndexIndex[i] + RenderParts.NumRenderIndices[i]) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
+				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
+				RHICmdList.DrawIndexedPrimitive(
+					RenderParts.IndexBuffer->IndexBufferRHI,
+					0,																//BaseVertexIndex
+					GRHISupportsFirstInstance ? RenderParts.BaseVertexIndex[i] : 0,	//FirstInstance
+					RenderParts.NumRenderVertices[i],								//NumVertices
+					RenderParts.BaseIndexIndex[i],									//StartIndex
+					RenderParts.NumRenderIndices[i] / 3,							//NumPrimitives
+					1																//NumInstances
+				);
+			}
+		}
+
 		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
 		{
 			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
@@ -296,70 +356,55 @@ namespace
 				continue;
 			}
 
-			uint32 NumRenderVertices = 0;
-			uint32 NumRenderIndices  = 0;
-			if(0 == RenderPart.Mesh.Num())
-			{
-				check((4 == RenderPart.Vertices.Num()) || (5 == RenderPart.Vertices.Num()));
-				if(4 == RenderPart.Vertices.Num())
-				{
-					NumRenderVertices = 4;
-					NumRenderIndices  = 6;
-				}
-				else
-				{
-					NumRenderVertices = 5;
-					NumRenderIndices  = 12;
-				}
-			}
-			else
-			{
-				for(auto ItMesh = RenderPart.Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
-				{
-					NumRenderVertices += ItMesh->Vertices.Num();
-					NumRenderIndices  += ItMesh->Indices.Num();
-				}
-			}
-
 			// マスクバッファに書き込み 
-			if((CurrentPartIndex < i) && (SsBlendType::Mask == RenderPart.ColorBlendType))
+			if(SsBlendType::Mask == RenderPart.ColorBlendType)
 			{
-				if(RenderPart.bMaskInfluence)
+				if(i < CurrentPartIndex)
 				{
-					// Rチャンネルのみの加算描画を指定 
-					GraphicsPSOInit.BlendState = TStaticBlendState<
-						CW_RED,
-						BO_Add, BF_One, BF_One
-						>::GetRHI();
-				}
-				else
-				{
-					// マスク対象でない場合は上書き 
-					GraphicsPSOInit.BlendState = TStaticBlendState<
-						CW_RED,
-						BO_Add, BF_One, BF_Zero
-						>::GetRHI();
-				}
-				SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit, 0);
+					WriteCnt++;
+					float MaskValue;
 
-				// テクスチャをセット 
-				PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
+					// マスク対象=OFF 
+					if(!RenderPart.bMaskInfluence)
+					{
+						// 最大想定の奇数値でBO_Max 
+						MaskValue = (0 == (WriteCnt%2)) ? (float)(WriteCnt+1) : (float)(WriteCnt);
 
-				check((BaseIndexIndex + NumRenderIndices) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
-				RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
-				RHICmdList.DrawIndexedPrimitive(
-					RenderParts.IndexBuffer->IndexBufferRHI,
-					0,													//BaseVertexIndex
-					GRHISupportsFirstInstance ? BaseVertexIndex : 0,	//FirstInstance
-					NumRenderVertices,									//NumVertices
-					BaseIndexIndex,										//StartIndex
-					NumRenderIndices / 3,								//NumPrimitives
-					1													//NumInstances
-				);
+						GraphicsPSOInit.BlendState = TStaticBlendState<
+							CW_RED,
+							BO_Max, BF_One, BF_One
+						>::GetRHI();
+					}
+					// マスク対象=ON 
+					else
+					{
+						// 1を加算（偶数/奇数を反転） 
+						MaskValue = 1.f;
+
+						GraphicsPSOInit.BlendState = TStaticBlendState<
+							CW_RED,
+							BO_Add, BF_One, BF_One
+						>::GetRHI();
+					}
+					SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit, 0);
+
+					// テクスチャをセット 
+					PixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
+					PixelShader->SetMaskValue(RHICmdList, MaskValue);
+
+					check((RenderParts.BaseIndexIndex[i] + RenderParts.NumRenderIndices[i]) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
+					RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
+					RHICmdList.DrawIndexedPrimitive(
+						RenderParts.IndexBuffer->IndexBufferRHI,
+						0,																//BaseVertexIndex
+						GRHISupportsFirstInstance ? RenderParts.BaseVertexIndex[i] : 0,	//FirstInstance
+						RenderParts.NumRenderVertices[i],								//NumVertices
+						RenderParts.BaseIndexIndex[i],									//StartIndex
+						RenderParts.NumRenderIndices[i] / 3,							//NumPrimitives
+						1																//NumInstances
+					);
+				}
 			}
-
-			BaseVertexIndex += NumRenderVertices;
-			BaseIndexIndex  += NumRenderIndices;
 		}
 
 		RHICmdList.EndRenderPass();
@@ -590,10 +635,6 @@ namespace
 
 		// マテリアルとブレンドタイプが一致しているパーツ毎に描画 
 		bool bNeedUpdateMask = true;
-		uint32 BaseVertexIndex = 0;
-		uint32 BaseIndexIndex  = 0;
-		uint32 NumRenderVertices = 0;
-		uint32 NumRenderIndices  = 0;
 		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
 		{
 			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
@@ -605,35 +646,8 @@ namespace
 			// マスクパーツ 
 			if(SsBlendType::Mask == RenderPart.ColorBlendType)
 			{
-				BaseVertexIndex += 4;
-				BaseIndexIndex  += 6;
 				bNeedUpdateMask = true;
 				continue;
-			}
-
-			// 通常パーツ 
-			if(0 == RenderPart.Mesh.Num())
-			{
-				check((4 == RenderPart.Vertices.Num()) || (5 == RenderPart.Vertices.Num()));
-				if(4 == RenderPart.Vertices.Num())
-				{
-					NumRenderVertices += 4;
-					NumRenderIndices  += 6;
-				}
-				else
-				{
-					NumRenderVertices += 5;
-					NumRenderIndices  += 12;
-				}
-			}
-			// メッシュパーツ 
-			else
-			{
-				for(auto ItMesh = RenderPart.Mesh.CreateConstIterator(); ItMesh; ++ItMesh)
-				{
-					NumRenderVertices += ItMesh->Vertices.Num();
-					NumRenderIndices  += ItMesh->Indices.Num();
-				}
 			}
 
 			// 次パーツが同時に描画出来るか 
@@ -767,21 +781,16 @@ namespace
 
 			RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
 
-			check((BaseIndexIndex + NumRenderIndices) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
+			check((RenderParts.BaseIndexIndex[i] + RenderParts.NumRenderIndices[i]) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
 			RHICmdList.DrawIndexedPrimitive(
 				RenderParts.IndexBuffer->IndexBufferRHI,
-				0,													//BaseVertexIndex
-				GRHISupportsFirstInstance ? BaseVertexIndex : 0,	//FirstInstance
-				NumRenderVertices,									//NumVertices
-				BaseIndexIndex,										//StartIndex
-				NumRenderIndices / 3,								//NumPrimitives
-				1													//NumInstances
+				0,																//BaseVertexIndex
+				GRHISupportsFirstInstance ? RenderParts.BaseVertexIndex[i] : 0,	//FirstInstance
+				RenderParts.NumRenderVertices[i],								//NumVertices
+				RenderParts.BaseIndexIndex[i],									//StartIndex
+				RenderParts.NumRenderIndices[i] / 3,							//NumPrimitives
+				1																//NumInstances
 				);
-
-			BaseVertexIndex += NumRenderVertices;
-			BaseIndexIndex  += NumRenderIndices;
-			NumRenderVertices = 0;
-			NumRenderIndices  = 0;
 		}
 
 		RHICmdList.EndRenderPass();
@@ -811,6 +820,33 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 		RenderParts.IndexBuffer      = &IndexBuffer;
 		RenderParts.ClearColor       = ClearColor;
 		RenderParts.RenderParts      = InRenderParts;
+
+		RenderParts.BaseVertexIndex  .Reserve(RenderParts.RenderParts.Num());
+		RenderParts.NumRenderVertices.Reserve(RenderParts.RenderParts.Num());
+		RenderParts.BaseIndexIndex   .Reserve(RenderParts.RenderParts.Num());
+		RenderParts.NumRenderIndices .Reserve(RenderParts.RenderParts.Num());
+
+		uint32 BaseVertexIndex = 0;
+		uint32 BaseIndexIndex  = 0;
+		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
+		{
+			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
+			if(nullptr == RenderPart.Texture)
+			{
+				continue;
+			}
+
+			uint32 NumRenderVertices = RenderPart.GetNumVertices();
+			uint32 NumRenderIndices  = RenderPart.GetNumIndices();
+
+			RenderParts.BaseVertexIndex  .Add(BaseVertexIndex);
+			RenderParts.NumRenderVertices.Add(NumRenderVertices);
+			RenderParts.BaseIndexIndex   .Add(BaseIndexIndex);
+			RenderParts.NumRenderIndices .Add(NumRenderIndices);
+
+			BaseVertexIndex += NumRenderVertices;
+			BaseIndexIndex  += NumRenderIndices;
+		}
 	}
 
 	ENQUEUE_RENDER_COMMAND(FSsRenderOffScreenRunner)(
