@@ -635,6 +635,11 @@ namespace
 
 		// マテリアルとブレンドタイプが一致しているパーツ毎に描画 
 		bool bNeedUpdateMask = true;
+		bool bBulkDraw = false;
+		uint32 BulkBaseVertexIndex = UINT_MAX;
+		uint32 BulkBaseIndexIndex  = UINT_MAX;
+		uint32 BulkNumRenderVertices = 0;
+		uint32 BulkNumRenderIndices  = 0;
 		for(int32 i = 0; i < RenderParts.RenderParts.Num(); ++i)
 		{
 			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
@@ -658,6 +663,11 @@ namespace
 				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::Mask)			// 次がマスクパーツでない
 				)
 			{
+				bBulkDraw = true;
+				BulkBaseVertexIndex = FMath::Min(BulkBaseVertexIndex, RenderParts.BaseVertexIndex[i]);
+				BulkBaseIndexIndex  = FMath::Min(BulkBaseIndexIndex,  RenderParts.BaseIndexIndex[i]);
+				BulkNumRenderVertices += RenderParts.NumRenderVertices[i];
+				BulkNumRenderIndices  += RenderParts.NumRenderIndices[i];
 				continue;
 			}
 
@@ -781,16 +791,38 @@ namespace
 
 			RHICmdList.SetStreamSource(0, RenderParts.VertexBuffer->VertexBufferRHI, 0);
 
-			check((RenderParts.BaseIndexIndex[i] + RenderParts.NumRenderIndices[i]) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
-			RHICmdList.DrawIndexedPrimitive(
-				RenderParts.IndexBuffer->IndexBufferRHI,
-				0,																//BaseVertexIndex
-				GRHISupportsFirstInstance ? RenderParts.BaseVertexIndex[i] : 0,	//FirstInstance
-				RenderParts.NumRenderVertices[i],								//NumVertices
-				RenderParts.BaseIndexIndex[i],									//StartIndex
-				RenderParts.NumRenderIndices[i] / 3,							//NumPrimitives
-				1																//NumInstances
+			if(bBulkDraw)
+			{
+				check((BulkBaseIndexIndex + BulkNumRenderIndices + RenderParts.NumRenderIndices[i]) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
+				RHICmdList.DrawIndexedPrimitive(
+					RenderParts.IndexBuffer->IndexBufferRHI,
+					0,																//BaseVertexIndex
+					GRHISupportsFirstInstance ? BulkBaseVertexIndex : 0,			//FirstInstance
+					BulkNumRenderVertices + RenderParts.NumRenderVertices[i],		//NumVertices
+					BulkBaseIndexIndex,												//StartIndex
+					(BulkNumRenderIndices + RenderParts.NumRenderIndices[i]) / 3,	//NumPrimitives
+					1																//NumInstances
 				);
+
+				bBulkDraw = false;
+				BulkBaseVertexIndex = UINT_MAX;
+				BulkBaseIndexIndex  = UINT_MAX;
+				BulkNumRenderVertices = 0;
+				BulkNumRenderIndices  = 0;
+			}
+			else
+			{
+				check((RenderParts.BaseIndexIndex[i] + RenderParts.NumRenderIndices[i]) * RenderParts.IndexBuffer->IndexBufferRHI->GetStride() <= RenderParts.IndexBuffer->IndexBufferRHI->GetSize());
+				RHICmdList.DrawIndexedPrimitive(
+					RenderParts.IndexBuffer->IndexBufferRHI,
+					0,																//BaseVertexIndex
+					GRHISupportsFirstInstance ? RenderParts.BaseVertexIndex[i] : 0,	//FirstInstance
+					RenderParts.NumRenderVertices[i],								//NumVertices
+					RenderParts.BaseIndexIndex[i],									//StartIndex
+					RenderParts.NumRenderIndices[i] / 3,							//NumPrimitives
+					1																//NumInstances
+					);
+			}
 		}
 
 		RHICmdList.EndRenderPass();
