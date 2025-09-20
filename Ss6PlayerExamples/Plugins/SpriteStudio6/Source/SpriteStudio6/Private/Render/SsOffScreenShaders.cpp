@@ -7,6 +7,7 @@ IMPLEMENT_SHADER_TYPE(, FSsOffScreenVS,       TEXT("/Plugin/SpriteStudio6/Privat
 IMPLEMENT_SHADER_TYPE(, FSsOffScreenPS,       TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainPS"), SF_Pixel);
 IMPLEMENT_SHADER_TYPE(, FSsOffScreenMaskedVS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainMaskedVS"), SF_Vertex);
 IMPLEMENT_SHADER_TYPE(, FSsOffScreenMaskedPS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainMaskedPS"), SF_Pixel);
+IMPLEMENT_SHADER_TYPE(, FSsOffScreenInvMaskedPS, TEXT("/Plugin/SpriteStudio6/Private/Ss6OffScreenShader.usf"), TEXT("MainInvMaskedPS"), SF_Pixel);
 
 TGlobalResource<FSsOffScreenVertexDeclaration> GSs6OffScreenVertexDeclaration;
 
@@ -53,6 +54,24 @@ void FSsOffScreenMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITextu
 	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
 }
 void FSsOffScreenMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
+{
+	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
+}
+
+//
+FSsOffScreenInvMaskedPS::FSsOffScreenInvMaskedPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer)
+	: FGlobalShader(Initializer)
+{
+	CellTextureParameter.Bind(Initializer.ParameterMap, TEXT("CellTexture"));
+	CellTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("CellTextureSampler"));
+	MaskTextureParameter.Bind(Initializer.ParameterMap, TEXT("MaskTexture"));
+	MaskTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("MaskTextureSampler"));
+}
+void FSsOffScreenInvMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
+{
+	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), CellTextureParameter, CellTextureParameterSampler, SamplerState, InTexture );
+}
+void FSsOffScreenInvMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
 }

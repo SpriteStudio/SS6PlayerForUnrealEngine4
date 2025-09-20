@@ -623,6 +623,7 @@ namespace
 		TShaderMapRef<FSsOffScreenPS>       PixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 		TShaderMapRef<FSsOffScreenMaskedVS> MaskedVertexShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 		TShaderMapRef<FSsOffScreenMaskedPS> MaskedPixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
+		TShaderMapRef<FSsOffScreenInvMaskedPS> InvMaskedPixelShader(GetGlobalShaderMap(GMaxRHIFeatureLevel));
 
 		FGraphicsPipelineStateInitializer GraphicsPSOInit;
 		RHICmdList.ApplyCachedRenderTargets(GraphicsPSOInit);
@@ -664,7 +665,8 @@ namespace
 			if(    (i != (RenderParts.RenderParts.Num()-1))										// 最後の１つでない
 				&& (RenderPart.AlphaBlendType == RenderParts.RenderParts[i+1].AlphaBlendType)	// アルファブレンドタイプが一致
 				&& (RenderPart.Texture == RenderParts.RenderParts[i+1].Texture)					// テクスチャが一致
-				&& (RenderParts.RenderParts[i].bMaskInfluence == RenderParts.RenderParts[i+1].bMaskInfluence)	// マスク対象かどうかが一致
+				&& (RenderParts.RenderParts[i].bMaskInfluence == RenderParts.RenderParts[i+1].bMaskInfluence)			// マスク対象かどうかが一致
+				&& (RenderParts.RenderParts[i+1].bVisibleInsideMask == RenderParts.RenderParts[i].bVisibleInsideMask)	// 「マスクの内側に描画」が一致
 				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::Mask)			// 次がマスクパーツでない
 				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::MaskByWriteMask)
 				)
@@ -702,7 +704,14 @@ namespace
 			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))
 			{
 				GraphicsPSOInit.BoundShaderState.VertexShaderRHI = MaskedVertexShader.GetVertexShader();
-				GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = MaskedPixelShader.GetPixelShader();
+				if(RenderPart.bVisibleInsideMask)
+				{
+					GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = InvMaskedPixelShader.GetPixelShader();
+				}
+				else
+				{
+					GraphicsPSOInit.BoundShaderState.PixelShaderRHI  = MaskedPixelShader.GetPixelShader();
+				}
 			}
 			else
 			{
@@ -787,8 +796,16 @@ namespace
 			// テクスチャをセット 
 			if(RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))
 			{
-				MaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
-				MaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->GetResource()->TextureRHI : nullptr, SampleState);
+				if(RenderPart.bVisibleInsideMask)
+				{
+					InvMaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
+					InvMaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->GetResource()->TextureRHI : nullptr, SampleState);
+				}
+				else
+				{
+					MaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
+					MaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->GetResource()->TextureRHI : nullptr, SampleState);
+				}
 			}
 			else
 			{
