@@ -315,13 +315,13 @@ namespace
 					{
 						if(CheckNeedCenterVertex(AnimePack, *ItPart))
 						{
-							OutVertexNum += 5;
-							OutIndexNum  += 12;
+							OutVertexNum += (ItPart->WriteMask ? 2 : 1) * 5;
+							OutIndexNum  += (ItPart->WriteMask ? 2 : 1) * 12;
 						}
 						else
 						{
-							OutVertexNum += 4;
-							OutIndexNum  += 6;
+							OutVertexNum += (ItPart->WriteMask ? 2 : 1) * 4;
+							OutIndexNum  += (ItPart->WriteMask ? 2 : 1) * 6;
 						}
 					} break;
 				case SsPartType::Instance:
@@ -428,8 +428,8 @@ namespace
 						// メッシュセルから頂点数とインデックス数を取得 
 						if(Cell && Cell->IsMesh)
 						{
-							OutVertexNum += (uint32)Cell->MeshPointList.Num();
-							OutIndexNum  += (uint32)Cell->MeshTriList.Num() * 3;
+							OutVertexNum += (ItPart->WriteMask ? 2 : 1) * (uint32)Cell->MeshPointList.Num();
+							OutIndexNum  += (ItPart->WriteMask ? 2 : 1) * (uint32)Cell->MeshTriList.Num() * 3;
 						}
 					} break;
 				default:
@@ -463,7 +463,7 @@ bool USs6Project::ContainsMaskParts() const
 	{
 		for(auto ItPart = ItAnimePack->Model.PartList.CreateConstIterator(); ItPart; ++ItPart)
 		{
-			if(SsPartType::Mask == ItPart->Type)
+			if((SsPartType::Mask == ItPart->Type) || ItPart->WriteMask)
 			{
 				return true;
 			}

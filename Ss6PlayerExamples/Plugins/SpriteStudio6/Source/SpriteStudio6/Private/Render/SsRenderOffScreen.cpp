@@ -237,6 +237,7 @@ namespace
 					OutColorBlend.X = 5.01f;
 				} break;
 			case SsBlendType::Mask:
+			case SsBlendType::MaskByWriteMask:
 				{
 					OutColorBlend.X = 0.01f;
 				} break;
@@ -301,7 +302,7 @@ namespace
 			}
 
 			// マスクバッファに書き込み 
-			if(SsBlendType::Mask == RenderPart.ColorBlendType)
+			if(SsBlendType::Mask == RenderPart.ColorBlendType)	// ココではMaskのみ. MaskByWriteMaskは含まない. 
 			{
 				WriteCnt++;
 				float MaskValue;
@@ -357,7 +358,9 @@ namespace
 			}
 
 			// マスクバッファに書き込み 
-			if(SsBlendType::Mask == RenderPart.ColorBlendType)
+			if(	   (SsBlendType::Mask            == RenderPart.ColorBlendType)
+				|| (SsBlendType::MaskByWriteMask == RenderPart.ColorBlendType)	// ココではMaskByWriteMaskも含む 
+				)
 			{
 				if(i < CurrentPartIndex)
 				{
@@ -649,7 +652,9 @@ namespace
 			}
 
 			// マスクパーツ 
-			if(SsBlendType::Mask == RenderPart.ColorBlendType)
+			if(	   (SsBlendType::Mask            == RenderPart.ColorBlendType)
+				|| (SsBlendType::MaskByWriteMask == RenderPart.ColorBlendType)
+				)
 			{
 				bNeedUpdateMask = true;
 				continue;
@@ -661,6 +666,7 @@ namespace
 				&& (RenderPart.Texture == RenderParts.RenderParts[i+1].Texture)					// テクスチャが一致
 				&& (RenderParts.RenderParts[i].bMaskInfluence == RenderParts.RenderParts[i+1].bMaskInfluence)	// マスク対象かどうかが一致
 				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::Mask)			// 次がマスクパーツでない
+				&& (RenderParts.RenderParts[i+1].ColorBlendType != SsBlendType::MaskByWriteMask)
 				)
 			{
 				bBulkDraw = true;

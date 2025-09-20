@@ -316,6 +316,7 @@ namespace SsBlendType
 		// 以下、Playerでの処理分岐用 
 		Effect,			///    エフェクト用カラーブレンドタイプ
 		Mask,			///    マスクパーツ用
+		MaskByWriteMask,///    「マスク書き込み」によるマスク
 
 		Num,
 
@@ -855,6 +856,7 @@ struct FSsRenderPart
 	SsBlendType::Type AlphaBlendType;
 	SsBlendType::Type ColorBlendType;
 	bool bMaskInfluence;
+	bool bVisibleInsideMask;
 
 	int32 GetNumVertices() const
 	{

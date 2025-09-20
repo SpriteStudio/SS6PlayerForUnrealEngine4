@@ -34,6 +34,7 @@ public:
 	void Render(const TArray<FSsRenderPart>& InRenderParts);
 
 	UTextureRenderTarget2D* GetRenderTarget() { return RenderTarget.Get(); }
+	UTextureRenderTarget2D* GetMaskRenderTarget() { return MaskRenderTarget.Get(); }
 
 public:
 	FColor ClearColor;

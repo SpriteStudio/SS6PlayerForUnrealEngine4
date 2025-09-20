@@ -481,6 +481,22 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2f
 			{
 				RenderParts.RemoveAt(RenderParts.Num()-1, 1, EAllowShrinking::No);
 			}
+			else if(State->writeMask)
+			{
+				// マスク書き込みONの場合は、RenderPartを複製したうえで、MaskByWriteMaskとしてRenderPartsに追加する 
+				// マスク強度として扱われる Color.A はマスクと同じルールで上書きしておく 
+				FSsRenderPart& RenderPartMask = RenderParts.AddZeroed_GetRef();
+				RenderPartMask = RenderPart;
+				RenderPartMask.ColorBlendType = SsBlendType::MaskByWriteMask;
+				for(int32 i = 0; i < RenderPartMask.Vertices.Num(); ++i)
+				{
+					RenderPartMask.Vertices[i].Color.A = State->masklimen;
+				}
+				for(int32 i = 0; i < RenderPartMask.Mesh.Num(); ++i)
+				{
+					RenderPartMask.Mesh[i].Color.A = State->masklimen;
+				}
+			}
 		}
 	}
 }
@@ -536,6 +552,7 @@ bool FSsPlayer::CreateRenderPart(FSsRenderPart& OutRenderPart, const SsPartState
 	OutRenderPart.ColorBlendType = State->partsColorValue.blendType;
 	OutRenderPart.AlphaBlendType = State->alphaBlendType;
 	OutRenderPart.bMaskInfluence = State->maskInfluence;
+	OutRenderPart.bVisibleInsideMask = State->visibleInsideMask;
 	if(bHideParts)
 	{
 		// 座標計算だけを行う非表示パーツはテクスチャをNULLにしておき、これを基準に描画をスキップする. 

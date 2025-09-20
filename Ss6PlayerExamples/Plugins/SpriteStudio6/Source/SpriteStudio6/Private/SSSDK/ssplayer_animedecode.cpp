@@ -210,6 +210,8 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 		partState[i].index = i;
 		partState[i].partType = p->Type;
 		partState[i].maskInfluence = p->MaskInfluence && getMaskParentSetting();
+		partState[i].writeMask = p->WriteMask;
+		partState[i].visibleInsideMask = p->VisibleInsideMask;
 
 
 		if (sspj)

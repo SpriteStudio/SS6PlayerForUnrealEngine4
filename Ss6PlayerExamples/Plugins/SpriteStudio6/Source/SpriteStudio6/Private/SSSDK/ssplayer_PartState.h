@@ -82,6 +82,8 @@ struct SsPartState
 
 	int				masklimen;
 	bool			maskInfluence;
+	bool			writeMask;
+	bool			visibleInsideMask;
 
 	SsMeshPart*		meshPart;
 

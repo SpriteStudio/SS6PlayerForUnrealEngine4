@@ -508,6 +508,8 @@ void SerializeStruct(FSsPart& Value, SsXmlIArchiver* ar)
 //	SSAR_DECLARE("locked", Value.Locked);
 	SSAR_DECLARE("colorLabel", Value.ColorLabel);
 	SSAR_DECLARE("maskInfluence", Value.MaskInfluence);
+	SSAR_DECLARE("writeMask", Value.WriteMask);
+	SSAR_DECLARE("visibleInsideMask", Value.VisibleInsideMask);
 
 	SSAR_DECLARE("refAnimePack", Value.RefAnimePack);
 	SSAR_DECLARE("refAnime", Value.RefAnime);

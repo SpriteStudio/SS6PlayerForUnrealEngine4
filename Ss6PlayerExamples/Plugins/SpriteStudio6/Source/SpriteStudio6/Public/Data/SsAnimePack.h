@@ -78,6 +78,12 @@ public:
 	bool	MaskInfluence = false;	//!< マスクの影響を受けるかどうか
 
 	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	bool	WriteMask = false;	//!< マスクに書き込むか
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
+	bool	VisibleInsideMask = false;	//!< マスクの内側に描画
+
+	UPROPERTY(VisibleAnywhere, Category=SsPart)
 	float InheritRates[(int32)SsAttributeKind::Num];	///< 親の値の継承率。SS4との互換性のため残されているが0 or 1
 
 
