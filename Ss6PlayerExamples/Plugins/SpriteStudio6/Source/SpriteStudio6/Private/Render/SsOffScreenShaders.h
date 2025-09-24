@@ -86,12 +86,14 @@ public:
 
 	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
 	void SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
+	void SetMaskedColor(FRHICommandList& RHICmdList, const FVector4f& InMaskedColor);
 
 private:
 	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameter);
 	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameterSampler);
 	LAYOUT_FIELD(FShaderResourceParameter, MaskTextureParameter);
 	LAYOUT_FIELD(FShaderResourceParameter, MaskTextureParameterSampler);
+	LAYOUT_FIELD(FShaderParameter, MaskedColorParameter);
 };
 
 // 
@@ -107,12 +109,14 @@ public:
 
 	void SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
 	void SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState);
+	void SetMaskedColor(FRHICommandList& RHICmdList, const FVector4f& InMaskedColor);
 
 private:
 	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameter);
 	LAYOUT_FIELD(FShaderResourceParameter, CellTextureParameterSampler);
 	LAYOUT_FIELD(FShaderResourceParameter, MaskTextureParameter);
 	LAYOUT_FIELD(FShaderResourceParameter, MaskTextureParameterSampler);
+	LAYOUT_FIELD(FShaderParameter, MaskedColorParameter);
 };
 
 extern TGlobalResource<FSsOffScreenVertexDeclaration> GSs6OffScreenVertexDeclaration;

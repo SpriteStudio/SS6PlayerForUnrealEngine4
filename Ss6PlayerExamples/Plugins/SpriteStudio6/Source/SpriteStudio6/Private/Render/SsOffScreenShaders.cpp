@@ -48,6 +48,7 @@ FSsOffScreenMaskedPS::FSsOffScreenMaskedPS(const ShaderMetaType::CompiledShaderI
 	CellTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("CellTextureSampler"));
 	MaskTextureParameter.Bind(Initializer.ParameterMap, TEXT("MaskTexture"));
 	MaskTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("MaskTextureSampler"));
+	MaskedColorParameter.Bind(Initializer.ParameterMap, TEXT("MaskedColor"));
 }
 void FSsOffScreenMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
@@ -56,6 +57,12 @@ void FSsOffScreenMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITextu
 void FSsOffScreenMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
+}
+void FSsOffScreenMaskedPS::SetMaskedColor(FRHICommandList& RHICmdList, const FVector4f& InMaskedColor)
+{
+	FRHIBatchedShaderParameters& BatchedParameters = RHICmdList.GetScratchShaderParameters();
+	SetShaderValue(BatchedParameters, MaskedColorParameter, InMaskedColor);
+	RHICmdList.SetBatchedShaderParameters(RHICmdList.GetBoundPixelShader(), BatchedParameters);
 }
 
 //
@@ -66,6 +73,7 @@ FSsOffScreenInvMaskedPS::FSsOffScreenInvMaskedPS(const ShaderMetaType::CompiledS
 	CellTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("CellTextureSampler"));
 	MaskTextureParameter.Bind(Initializer.ParameterMap, TEXT("MaskTexture"));
 	MaskTextureParameterSampler.Bind(Initializer.ParameterMap, TEXT("MaskTextureSampler"));
+	MaskedColorParameter.Bind(Initializer.ParameterMap, TEXT("MaskedColor"));
 }
 void FSsOffScreenInvMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
@@ -74,4 +82,10 @@ void FSsOffScreenInvMaskedPS::SetCellTexture(FRHICommandList& RHICmdList, FRHITe
 void FSsOffScreenInvMaskedPS::SetMaskTexture(FRHICommandList& RHICmdList, FRHITexture* InTexture, const FSamplerStateRHIRef SamplerState )
 {
 	SetTextureParameter(RHICmdList, RHICmdList.GetBoundPixelShader(), MaskTextureParameter, MaskTextureParameterSampler, SamplerState, InTexture );
+}
+void FSsOffScreenInvMaskedPS::SetMaskedColor(FRHICommandList& RHICmdList, const FVector4f& InMaskedColor)
+{
+	FRHIBatchedShaderParameters& BatchedParameters = RHICmdList.GetScratchShaderParameters();
+	SetShaderValue(BatchedParameters, MaskedColorParameter, InMaskedColor);
+	RHICmdList.SetBatchedShaderParameters(RHICmdList.GetBoundPixelShader(), BatchedParameters);
 }

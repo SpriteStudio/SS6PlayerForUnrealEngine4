@@ -720,6 +720,7 @@ namespace
 			}
 
 
+			FVector4f MaskedColor(0.f, 0.f, 0.f, 0.f);
 			switch(RenderPart.AlphaBlendType)
 			{
 			case SsBlendType::Mix:
@@ -737,6 +738,7 @@ namespace
 						BO_Add, BF_Zero, BF_SourceColor,
 						BO_Add, BF_InverseSourceAlpha, BF_One
 						>::GetRHI();
+					MaskedColor = FVector4f(1.f, 1.f, 1.f, 1.f);
 				} break;
 			case SsBlendType::Add:
 				{
@@ -785,6 +787,7 @@ namespace
 						BO_Add, BF_InverseDestColor, BF_Zero,
 						BO_Add, BF_SourceAlpha, BF_One
 						>::GetRHI();
+					// コレだけ MaskedColor では対処不可のため、マスク未対応 
 				} break;
 			default:
 				{
@@ -800,11 +803,13 @@ namespace
 				{
 					InvMaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
 					InvMaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->GetResource()->TextureRHI : nullptr, SampleState);
+					InvMaskedPixelShader->SetMaskedColor(RHICmdList, MaskedColor);
 				}
 				else
 				{
 					MaskedPixelShader->SetCellTexture(RHICmdList, RenderPart.Texture ? RenderPart.Texture->GetResource()->TextureRHI : nullptr, SampleState);
 					MaskedPixelShader->SetMaskTexture(RHICmdList, RenderParts.MaskRenderTarget ? RenderParts.MaskRenderTarget->GetResource()->TextureRHI : nullptr, SampleState);
+					MaskedPixelShader->SetMaskedColor(RHICmdList, MaskedColor);
 				}
 			}
 			else

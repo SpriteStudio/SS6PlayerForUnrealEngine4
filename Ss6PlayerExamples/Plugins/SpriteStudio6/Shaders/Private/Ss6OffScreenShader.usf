@@ -12,6 +12,7 @@ Texture2D CellTexture;
 SamplerState CellTextureSampler;
 Texture2D MaskTexture;
 SamplerState MaskTextureSampler;
+float4 MaskedColor;
 
 struct VertexOut
 {
@@ -91,12 +92,19 @@ float4 MainMaskedPS(VertexOutMasked In) : SV_Target0
 	// 0～255の整数値に直して奇数値であればマスク対象 
 #if COMPILER_METAL
 	float MaskCheck = Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255.0 / 2.0;
-	int Mask = 1 - round((MaskCheck - floor(MaskCheck) + 0.1));
+	int Masked = round((MaskCheck - floor(MaskCheck) + 0.1));
 #else
-	int Mask = (1 + int(Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255)) & 0x01;
+	int Masked = int(Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255) & 0x01;
 #endif
 
-	return float4(Color.rgb, Color.a * (float)Mask);
+	if(Masked)
+	{
+		return MaskedColor;
+	}
+	else
+	{
+		return Color;
+	}
 }
 float4 MainInvMaskedPS(VertexOutMasked In) : SV_Target0
 {
@@ -105,11 +113,18 @@ float4 MainInvMaskedPS(VertexOutMasked In) : SV_Target0
 	// 0～255の整数値に直して偶数値であればマスク対象 
 #if COMPILER_METAL
 	float MaskCheck = Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255.0 / 2.0;
-	int Mask = round((MaskCheck - floor(MaskCheck) + 0.1));
+	int Masked = 1 - round((MaskCheck - floor(MaskCheck) + 0.1));
 #else
-	int Mask = (int(Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255)) & 0x01;
+	int Masked = (1 + int(Texture2DSample(MaskTexture, MaskTextureSampler, In.MaskCoord).r * 255)) & 0x01;
 #endif
 
-	return float4(Color.rgb, Color.a * (float)Mask);
+	if(Masked)
+	{
+		return MaskedColor;
+	}
+	else
+	{
+		return Color;
+	}
 }
 
