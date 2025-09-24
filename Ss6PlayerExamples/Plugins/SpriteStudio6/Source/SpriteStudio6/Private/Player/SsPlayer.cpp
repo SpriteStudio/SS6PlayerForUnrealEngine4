@@ -464,7 +464,15 @@ void FSsPlayer::CreateRenderParts(SsAnimeDecoder* RenderDecoder, const FVector2f
 		{
 			if(!State->hide)
 			{
+				int32 OldNumParts = RenderParts.Num();
 				CreateRenderParts(State->refAnime, CanvasSize, Pivot, true);
+
+				// インスタンスパーツ内の「マスク対象」「マスクの内側に描画」は、インスタンスパーツ自体の設定値で上書き 
+				for(int32 i = OldNumParts; i < RenderParts.Num(); ++i)
+				{
+					RenderParts[i].bMaskInfluence = State->maskInfluence;
+					RenderParts[i].bVisibleInsideMask = State->visibleInsideMask;
+				}
 			}
 		}
 		else if(nullptr != State->refEffect)
