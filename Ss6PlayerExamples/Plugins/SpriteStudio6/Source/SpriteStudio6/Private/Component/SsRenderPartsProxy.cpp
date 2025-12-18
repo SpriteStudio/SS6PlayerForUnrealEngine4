@@ -147,7 +147,7 @@ FPrimitiveViewRelevance FSsRenderPartsProxy::GetViewRelevance(const FSceneView* 
 	{
 		if(nullptr != (*ItMid))
 		{
-			MaterialRelevance |= (*ItMid)->GetRelevance_Concurrent(GetScene().GetFeatureLevel());
+			MaterialRelevance |= (*ItMid)->GetRelevance_Concurrent(GetScene().GetShaderPlatform());
 		}
 	}
 	MaterialRelevance.SetPrimitiveViewRelevance(Result);
