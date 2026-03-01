@@ -66,7 +66,7 @@ void	SsCellMapList::set(USs6Project* proj , FSsAnimePack* animepack )
 void	SsCellMapList::addMap(FSsCellMap* cellmap)
 {
 	SsCelMapLinker* linker = new SsCelMapLinker(cellmap , this->CellMapPath );
-	CellMapDic.Add(cellmap->CellMapNameEx, linker);
+	CellMapDic.Add(cellmap->FileName, linker);
 
 }
 

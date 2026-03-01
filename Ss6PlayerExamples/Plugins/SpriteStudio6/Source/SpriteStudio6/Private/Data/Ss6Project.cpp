@@ -47,11 +47,6 @@ void USs6Project::GetAssetRegistryTags(TArray<FAssetRegistryTag>& OutTags) const
 
 void USs6Project::PostLoadInternal()
 {
-	for(auto ItCellMap = CellmapList.CreateIterator(); ItCellMap; ++ItCellMap)
-	{
-		ItCellMap->CellMapNameEx = FName(*(ItCellMap->CellMapName.ToString() + TEXT(".ssce")));
-	}
-
 	if((UINT_MAX == MaxVertexNum) || (UINT_MAX == MaxIndexNum))
 	{
 		CalcMaxVertexAndIndexNum(MaxVertexNum, MaxIndexNum);
