@@ -63,6 +63,7 @@ void FSsPlayer::SetSsProject(TWeakObjectPtr<USs6Project> InSsProject)
 	Decoder = new SsAnimeDecoder();
 	CellMapList = new SsCellMapList();
 
+	bPlaying = false;
 	PlayingAnimPackIndex = -1;
 	PlayingAnimationIndex = -1;
 
