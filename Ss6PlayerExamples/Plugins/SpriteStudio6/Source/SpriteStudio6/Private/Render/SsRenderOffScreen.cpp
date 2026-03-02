@@ -412,6 +412,7 @@ namespace
 
 		RHICmdList.EndRenderPass();
 		RHICmdList.ImmediateFlush(EImmediateFlushType::FlushRHIThread);
+		RHICmdList.SubmitAndBlockUntilGPUIdle();
 	}
 
 	// 描画 
@@ -854,6 +855,8 @@ namespace
 		}
 
 		RHICmdList.EndRenderPass();
+		RHICmdList.ImmediateFlush(EImmediateFlushType::FlushRHIThread);
+		RHICmdList.SubmitAndBlockUntilGPUIdle();
 	}
 }
 
