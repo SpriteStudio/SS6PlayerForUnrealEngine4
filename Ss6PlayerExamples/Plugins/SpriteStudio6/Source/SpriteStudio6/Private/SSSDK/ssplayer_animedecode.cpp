@@ -138,6 +138,8 @@ bool	SsAnimeDecoder::getFirstCell(FSsPart* part , SsCellValue& out)
 //void	SsAnimeDecoder::setAnimation(SsModel*	model, SsAnimation* anime, SsAnimePack *animepack, SsCellMapList* cellmap, SsProject* sspj )
 void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCellMapList* cellmap , USs6Project* sspj )
 {
+	bool bSameAnimPack = (sspj == project) && (model == myModel);
+
 	//プロジェクト情報の保存
 	project = sspj;
 
@@ -172,7 +174,7 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 	//パーツとパーツアニメを関連付ける
 	size_t partNum = model->PartList.Num();
 
-	if ( partState ) delete [] partState;
+	SsPartState* oldState = partState;
 	partState = new SsPartState[partNum]();
 	sortList.Empty();
 	partAnime.Empty();
@@ -219,24 +221,35 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 			//インスタンスパーツの場合の初期設定
 			if ( p->Type == SsPartType::Instance )
 			{
+				// 独立動作インスタンスの場合は状態を引き継ぐ
+				if(bSameAnimPack && oldState && oldState[i].refAnime && oldState[i].instanceValue.independent)
+				{
+					partState[i] = oldState[i];
+					if(partState[i].parent){ partState[i].parent = &partState[p->ParentIndex]; }
+					partState[i].refAnime->partState[0].parent = &partState[i];
+					oldState[i].refAnime = nullptr;
+					oldState[i].refCellMapList = nullptr;
+				}
+				else
+				{
+					//参照アニメーションを取得
+					FSsAnimePack* refpack = const_cast<FSsAnimePack*>(sspj->FindAnimationPack( p->RefAnimePack ));
+					FSsAnimation* refanime = const_cast<FSsAnimation*>(refpack->FindAnimation( p->RefAnime ));
 
-				//参照アニメーションを取得
-				FSsAnimePack* refpack = const_cast<FSsAnimePack*>(sspj->FindAnimationPack( p->RefAnimePack ));
-				FSsAnimation* refanime = const_cast<FSsAnimation*>(refpack->FindAnimation( p->RefAnime ));
+					SsCellMapList* __cellmap = new SsCellMapList();
+					__cellmap->set( sspj , refpack );
+					SsAnimeDecoder* animedecoder = new SsAnimeDecoder();
 
-				SsCellMapList* __cellmap = new SsCellMapList();
-				__cellmap->set( sspj , refpack );
-				SsAnimeDecoder* animedecoder = new SsAnimeDecoder();
+					//インスタンスパーツの設定setAnimationでソースアニメになるパーツに適用するので先に設定を行う
+					animedecoder->setMaskFuncFlag(false);					//マスク機能を無効にする
+					animedecoder->setMaskParentSetting(p->MaskInfluence);	//親のマスク対象を設定する 
 
-				//インスタンスパーツの設定setAnimationでソースアニメになるパーツに適用するので先に設定を行う
-				animedecoder->setMaskFuncFlag(false);					//マスク機能を無効にする
-				animedecoder->setMaskParentSetting(p->MaskInfluence);	//親のマスク対象を設定する 
-
-				animedecoder->setAnimation( &refpack->Model , refanime, __cellmap , sspj );
-				partState[i].refAnime = animedecoder;
-				partState[i].refCellMapList = __cellmap;
-				//親子関係を付ける
-				animedecoder->partState[0].parent = &partState[i];
+					animedecoder->setAnimation( &refpack->Model , refanime, __cellmap , sspj );
+					partState[i].refAnime = animedecoder;
+					partState[i].refCellMapList = __cellmap;
+					//親子関係を付ける
+					animedecoder->partState[0].parent = &partState[i];
+				}
 			}
 
 			//エフェクトデータの初期設定
@@ -290,6 +303,7 @@ void	SsAnimeDecoder::setAnimation( FSsModel*	model , FSsAnimation* anime , SsCel
 
 	}
 
+	if(oldState){ delete[] oldState; }
 
 	//アニメの最大フレーム数を取得
 	curAnimeStartFrame = anime->Settings.StartFrame;	//Ver6.0.0開始終了フレーム対応
