@@ -1527,11 +1527,6 @@ void	SsAnimeDecoder::setMaskParentSetting(bool flg)
 void	SsAnimeDecoder::update(float frameDeltaLocal)
 {
 	int	time = (int)nowPlatTime;
-	if(time == lastUpdatedTimeInt)
-	{
-		return;
-	}
-
 	this->frameDelta = frameDeltaLocal;
 
 	int cnt = 0;

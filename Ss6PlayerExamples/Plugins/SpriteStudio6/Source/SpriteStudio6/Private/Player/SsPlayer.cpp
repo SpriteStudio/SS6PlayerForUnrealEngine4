@@ -125,6 +125,11 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 			BkAnimeFrame -= (.0f <= PlayRate) ? .1f : -.1f;
 		}
 
+		// アニメ更新するか
+		// ループや往復を考慮しない整数フレーム数が変化した時に更新する
+		// (ループ等を考慮したフレーム数で同一判定すると、独立動作インスタンスが更新されないため)
+		bool bNeedUpdate = bFirstTick || ((int32)BkAnimeFrame != (int32)AnimeFrame);
+
 		// ループ/往復処理 
 		{
 			// 最終フレーム以降で順方向再生
@@ -223,10 +228,12 @@ void FSsPlayer::TickAnimation(float DeltaSeconds, FSsPlayerTickResult& Result)
 
 		// Decoder更新 
 		{
-			QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_Tick_UpdateDecoder);
-
 			Decoder->setPlayFrame( AnimeFrame );
-			Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
+			if(bNeedUpdate)
+			{
+				QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayer_Tick_UpdateDecoder);
+				Decoder->update(DeltaSeconds * Decoder->getAnimeFPS());
+			}
 		}
 	}
 	// シーケンス再生 
