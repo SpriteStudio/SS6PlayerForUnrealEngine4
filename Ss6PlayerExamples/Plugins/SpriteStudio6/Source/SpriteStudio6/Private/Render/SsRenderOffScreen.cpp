@@ -893,6 +893,10 @@ void FSsRenderOffScreen::Render(const TArray<FSsRenderPart>& InRenderParts)
 			const FSsRenderPart& RenderPart = RenderParts.RenderParts[i];
 			if(nullptr == RenderPart.Texture)
 			{
+				RenderParts.BaseVertexIndex.Add(0);
+				RenderParts.NumRenderVertices.Add(0);
+				RenderParts.BaseIndexIndex.Add(0);
+				RenderParts.NumRenderIndices.Add(0);
 				continue;
 			}
 
