@@ -77,6 +77,7 @@ namespace UnrealBuildTool.Rules
 				);
 
 			bUseUnity = false;
+			bAllowConfidentialPlatformDefines = true;
 		}
 	}
 }

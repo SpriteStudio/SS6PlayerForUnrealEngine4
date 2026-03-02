@@ -492,7 +492,7 @@ namespace
 							Vert.Position.X = Position.X;
 							Vert.Position.Y = Position.Y;
 					
-#if PLATFORM_SWITCH || PLATFORM_IOS
+#if PLATFORM_SWITCH || PLATFORM_IOS || (defined(PLATFORM_SWITCH2) && PLATFORM_SWITCH2) || (defined(PLATFORM_PS5) && PLATFORM_PS5)
 							Vert.Color = FColor(ItPart->Vertices[v].Color.B, ItPart->Vertices[v].Color.G, ItPart->Vertices[v].Color.R, ItPart->Vertices[v].Color.A);
 #else
 							Vert.Color = ItPart->Vertices[v].Color;
