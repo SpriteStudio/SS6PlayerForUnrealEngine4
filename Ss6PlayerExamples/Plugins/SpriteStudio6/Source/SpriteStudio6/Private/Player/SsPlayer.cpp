@@ -1378,6 +1378,8 @@ void FSsPlayer::SetPlayFrame(float Frame)
 	{
 		Decoder->setPlayFrame(Decoder->getAnimeStartFrame() + Frame);
 	}
+
+	bFirstTick = true;
 }
 
 // 現在フレーム取得
