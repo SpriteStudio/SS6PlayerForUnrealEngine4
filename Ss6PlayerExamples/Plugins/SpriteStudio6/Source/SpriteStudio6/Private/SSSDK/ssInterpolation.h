@@ -16,8 +16,16 @@ inline bool SsNeedsCurveParams(SsInterpolationType::Type type)
 	return false;
 }
 
+inline bool SsNeedsEasingParams(SsInterpolationType::Type type)
+{
+	if (type >= SsInterpolationType::EaseIn &&
+		type <= SsInterpolationType::EaseBackInOut)
+		return true;
+	return false;
+}
+
 ///カーブパラメータ、補完方法により保管された値を生成する
-FVector2f	SsInterpolate(SsInterpolationType::Type ipType, float time, FVector2f start, FVector2f end, const FSsCurve * curve);
-float	SsInterpolate(SsInterpolationType::Type type, float time, float start, float end, const FSsCurve * curve);
+FVector2f	SsInterpolate(SsInterpolationType::Type ipType, float easingRate, float time, FVector2f start, FVector2f end, const FSsCurve * curve);
+float	SsInterpolate(SsInterpolationType::Type type, float easingRate, float time, float start, float end, const FSsCurve * curve);
 
 #endif

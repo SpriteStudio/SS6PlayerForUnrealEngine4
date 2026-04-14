@@ -68,6 +68,16 @@ bool SsXmlIArchiver::dc_attr(const char* name, int& member)
 
 	return true;
 }
+bool SsXmlIArchiver::dc_attr(const char* name, float& member)
+{
+	AR_SELF_CHECK();
+
+	const char* v = getxml()->Attribute(name);
+
+	member = atof(v);
+
+	return true;
+}
 
 bool SsXmlIArchiver::dc(const char* name, int& member)
 {
@@ -319,6 +329,13 @@ bool SsNeedsCurveParams(SsInterpolationType::Type type)
 	return false;
 }
 
+bool SsNeedsEasingParams(SsInterpolationType::Type type)
+{
+	if (type >= SsInterpolationType::EaseIn &&
+		type <= SsInterpolationType::EaseBackInOut)
+		return true;
+	return false;
+}
 
 FSsValue SsValueSeriarizer__MakeValue(const char* v, FName HashKey = NAME_None)
 {
@@ -459,6 +476,10 @@ void SerializeStruct(FSsKeyframe& Value, SsXmlIArchiver* ar)
 	if(SsNeedsCurveParams(Value.IpType))
 	{
 		SSAR_DECLARE("curve", Value.Curve);
+	}
+	if(SsNeedsEasingParams(Value.IpType))
+	{
+		SSAR_DECLARE_ATTRIBUTE("easingRate", Value.EasingRate);
 	}
 	SsValueSeriarizer(ar , Value.Value);
 }

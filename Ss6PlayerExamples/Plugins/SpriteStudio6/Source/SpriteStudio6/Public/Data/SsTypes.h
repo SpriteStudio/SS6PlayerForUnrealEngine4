@@ -384,6 +384,31 @@ namespace SsInterpolationType
 		Bezier,			///< ベジェ
 		Acceleration,	///< 加速度
 		Deceleration,	///< 減速度
+
+		EaseIn,					// イーズイン
+		EaseOut,				// イーズアウト
+		EaseInOut,				// イーズインアウト
+
+		EaseExponentialIn,		// 指数関数的イン
+		EaseExponentialOut,		// 指数関数的アウト
+		EaseExponentialInOut,	// 指数関数的インアウト
+
+		EaseSineIn,				// 正弦イン
+		EaseSineOut,			// 正弦アウト
+		EaseSineInOut,			// 正弦インアウト
+
+		EaseElasticIn,			// 弾性イン
+		EaseElasticOut,			// 弾性アウト
+		EaseElasticInOut,		// 弾性インアウト
+
+		EaseBounceIn,			// バウンスイン
+		EaseBounceOut,			// バウンスアウト
+		EaseBounceInOut,		// バウンスインアウト
+
+		EaseBackIn,				// イーズバックイン
+		EaseBackOut,			// イーズバックアウト
+		EaseBackInOut,			// イーズバックインアウト
+
 		Num,
 
 		Invalid = 254

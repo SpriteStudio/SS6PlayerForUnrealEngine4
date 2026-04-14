@@ -24,11 +24,15 @@ public:
 	FSsCurve	Curve;	///< 曲線補間計算用パラメータ
 
 	UPROPERTY(VisibleAnywhere, Category=SsKeyframe)
+	float EasingRate;
+
+	UPROPERTY(VisibleAnywhere, Category=SsKeyframe)
 	FSsValue	Value;	///< 値
 public:
 	FSsKeyframe()
 		: Time(0)
 		, IpType(SsInterpolationType::Invalid)
+		, EasingRate(0.f)
 	{}
 };
 

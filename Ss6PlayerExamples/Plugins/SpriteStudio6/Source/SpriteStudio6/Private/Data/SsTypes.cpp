@@ -140,13 +140,32 @@ void	__StringToEnum_( FString n , TEnumAsByte<SsBlendType::Type> &out )
 //相互変換 SsInterpolationType
 FString	__EnumToString_( TEnumAsByte<SsInterpolationType::Type> n )
 {
-	if ( n == SsInterpolationType::Invalid )		return "invalid";
-	if ( n == SsInterpolationType::None )		return "none";
-	if ( n == SsInterpolationType::Linear )		return "linear";
-	if ( n == SsInterpolationType::Hermite )		return "hermite";
-	if ( n == SsInterpolationType::Bezier )		return "bezier";
-	if ( n == SsInterpolationType::Acceleration ) return "acceleration";
-	if ( n == SsInterpolationType::Deceleration ) return "deceleration";
+	if(n == SsInterpolationType::Invalid)				return "invalid";
+	if(n == SsInterpolationType::None)					return "none";
+	if(n == SsInterpolationType::Linear)				return "linear";
+	if(n == SsInterpolationType::Hermite)				return "hermite";
+	if(n == SsInterpolationType::Bezier)				return "bezier";
+	if(n == SsInterpolationType::Acceleration)			return "acceleration";
+	if(n == SsInterpolationType::Deceleration)			return "deceleration";
+
+	if(n == SsInterpolationType::EaseIn)				return "easeIn";
+	if(n == SsInterpolationType::EaseOut)				return "easeOut";
+	if(n == SsInterpolationType::EaseInOut)				return "easeInOut";
+	if(n == SsInterpolationType::EaseExponentialIn)		return "easeExponentialIn";
+	if(n == SsInterpolationType::EaseExponentialOut)	return "easeExponentialOut";
+	if(n == SsInterpolationType::EaseExponentialInOut)	return "easeExponentialInOut";
+	if(n == SsInterpolationType::EaseSineIn)			return "easeSineIn";
+	if(n == SsInterpolationType::EaseSineOut)			return "easeSineOut";
+	if(n == SsInterpolationType::EaseSineInOut)			return "easeSineInOut";
+	if(n == SsInterpolationType::EaseElasticIn)			return "easeElasticIn";
+	if(n == SsInterpolationType::EaseElasticOut)		return "easeElasticOut";
+	if(n == SsInterpolationType::EaseElasticInOut)		return "easeElasticInOut";
+	if(n == SsInterpolationType::EaseBounceIn)			return "easeBounceIn";
+	if(n == SsInterpolationType::EaseBounceOut)			return "easeBounceOut";
+	if(n == SsInterpolationType::EaseBounceInOut)		return "easeBounceInOut";
+	if(n == SsInterpolationType::EaseBackIn)			return "easeBackIn";
+	if(n == SsInterpolationType::EaseBackOut)			return "easeBackOut";
+	if(n == SsInterpolationType::EaseBackInOut)			return "easeBackInOut";
 
 	return "none";	
 }
@@ -154,13 +173,33 @@ FString	__EnumToString_( TEnumAsByte<SsInterpolationType::Type> n )
 void	__StringToEnum_( FString n , TEnumAsByte<SsInterpolationType::Type> &out )
 {
 	out = SsInterpolationType::None;
-	if ( n == "invalid") out = SsInterpolationType::Invalid;
-	if ( n == "none") out = SsInterpolationType::None;
-	if ( n == "linear") out = SsInterpolationType::Linear;
-	if ( n == "hermite") out = SsInterpolationType::Hermite;
-	if ( n == "bezier") out = SsInterpolationType::Bezier;
-	if ( n == "acceleration") out = SsInterpolationType::Acceleration;
-	if ( n == "deceleration") out = SsInterpolationType::Deceleration;
+
+	if(n == "invalid")				out = SsInterpolationType::Invalid;
+	if(n == "none")					out = SsInterpolationType::None;
+	if(n == "linear")				out = SsInterpolationType::Linear;
+	if(n == "hermite")				out = SsInterpolationType::Hermite;
+	if(n == "bezier")				out = SsInterpolationType::Bezier;
+	if(n == "acceleration")			out = SsInterpolationType::Acceleration;
+	if(n == "deceleration")			out = SsInterpolationType::Deceleration;
+
+	if(n == "easeIn")				out = SsInterpolationType::EaseIn;
+	if(n == "easeOut")				out = SsInterpolationType::EaseOut;
+	if(n == "easeInOut")			out = SsInterpolationType::EaseInOut;
+	if(n == "easeExponentialIn")	out = SsInterpolationType::EaseExponentialIn;
+	if(n == "easeExponentialOut")	out = SsInterpolationType::EaseExponentialOut;
+	if(n == "easeExponentialInOut")	out = SsInterpolationType::EaseExponentialInOut;
+	if(n == "easeSineIn")			out = SsInterpolationType::EaseSineIn;
+	if(n == "easeSineOut")			out = SsInterpolationType::EaseSineOut;
+	if(n == "easeSineInOut")		out = SsInterpolationType::EaseSineInOut;
+	if(n == "easeElasticIn")		out = SsInterpolationType::EaseElasticIn;
+	if(n == "easeElasticOut")		out = SsInterpolationType::EaseElasticOut;
+	if(n == "easeElasticInOut")		out = SsInterpolationType::EaseElasticInOut;
+	if(n == "easeBounceIn")			out = SsInterpolationType::EaseBounceIn;
+	if(n == "easeBounceOut")		out = SsInterpolationType::EaseBounceOut;
+	if(n == "easeBounceInOut")		out = SsInterpolationType::EaseBounceInOut;
+	if(n == "easeBackIn")			out = SsInterpolationType::EaseBackIn;
+	if(n == "easeBackOut")			out = SsInterpolationType::EaseBackOut;
+	if(n == "easeBackInOut")		out = SsInterpolationType::EaseBackInOut;
 }
 
 //---------------------------------------------------------------

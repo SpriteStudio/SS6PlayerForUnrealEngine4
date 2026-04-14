@@ -70,6 +70,7 @@ public:
 
 	virtual bool	dc_attr( const char* name , FString& member ) = 0;
 	virtual bool	dc_attr( const char* name , int& member ) = 0;
+	virtual bool	dc_attr( const char* name , float& member ) = 0;
 
 };
 
@@ -127,6 +128,7 @@ public:
 
 	virtual bool dc_attr(const char* name, FString& member);
 	virtual bool dc_attr(const char* name, int& member);
+	virtual bool dc_attr(const char* name, float& member);
 
 
 	template<class myclass> bool dc(const char* name, TArray<myclass>& list, const FString key = FString(TEXT("value")))
