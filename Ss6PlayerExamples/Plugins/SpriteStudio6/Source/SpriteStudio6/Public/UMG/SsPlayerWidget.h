@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "UMG.h"
+#include "Tickable.h"
 
 #include "SsTypes.h"
 #include "SsPlayerTickResult.h"
@@ -44,7 +45,7 @@ namespace ESsPlayerWidgetRenderMode
 // sspjデータを再生/UMG上で描画する 
 //
 UCLASS(ClassGroup=SpriteStudio, meta=(DisplayName="Ss Player Widget"))
-class SPRITESTUDIO6_API USsPlayerWidget : public UPanelWidget, public FSsPlayPropertySync 
+class SPRITESTUDIO6_API USsPlayerWidget : public UPanelWidget, public FTickableGameObject, public FSsPlayPropertySync 
 {
 	GENERATED_UCLASS_BODY()
 
@@ -65,9 +66,14 @@ public:
 	virtual const FText GetPaletteCategory() override { return FText::FromString(TEXT("Sprite Studio")); }
 #endif
 
-public:
-	void OnSlateTick(float DeltaTime);
-
+	// FTickableGameObject interface
+	virtual TStatId GetStatId() const override { RETURN_QUICK_DECLARE_CYCLE_STAT(USsPlayerWidget, STATGROUP_Tickables); }
+	virtual UWorld* GetTickableGameObjectWorld() const override { return GetWorld(); }
+	virtual ETickableTickType GetTickableTickType() const override { return IsTemplate() ? ETickableTickType::Never : ETickableTickType::Conditional; }
+	virtual bool IsTickable() const override;
+	virtual bool IsTickableWhenPaused() const { return bTickableWhenPaused; }
+	virtual bool IsTickableInEditor() const { return true; }
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	// UWidget interface
@@ -462,15 +468,20 @@ public:
 	float GetMulAlpha() const;
 
 
-	// SlateのTickを有効/無効化 
+	// Tickを有効/無効化 
 	// 無効化するとアニメーションは一切更新されませんが、TickによるCPU負荷を削減出来ます 
 	// 非表示状態や全く動きの無いアニメーション再生中のCPU負荷を削減したい場合に使用して下さい 
+	// （以前はSWidgetのTickを使用していたためSlateTickという関数名になっていますが、現在の実装ではFTickableGameObjectを使用しています） 
 	UFUNCTION(Category="SpriteStudio|Optimize", BlueprintCallable)
-	void SetCanSlateTick(bool bInCanTick=true);
+	void SetCanSlateTick(bool bInCanTick=true) { bCanTick = bInCanTick; }
 
-	// SlateのTickが有効かを取得 
+	// Tickが有効かを取得 
+	// （以前はSWidgetのTickを使用していたためSlateTickという関数名になっていますが、現在の実装ではFTickableGameObjectを使用しています） 
 	UFUNCTION(Category="SpriteStudio|Optimize", BlueprintCallable)
-	bool GetCanSlateTick() const;
+	bool GetCanSlateTick() const { return bCanTick; }
+
+private:
+	bool bCanTick = true;
 
 #if WITH_EDITOR
 private:

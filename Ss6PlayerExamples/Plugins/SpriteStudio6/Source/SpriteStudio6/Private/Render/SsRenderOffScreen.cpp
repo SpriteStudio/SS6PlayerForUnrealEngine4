@@ -411,8 +411,6 @@ namespace
 		}
 
 		RHICmdList.EndRenderPass();
-		RHICmdList.ImmediateFlush(EImmediateFlushType::FlushRHIThread);
-		RHICmdList.SubmitAndBlockUntilGPUIdle();
 	}
 
 	// 描画 
@@ -426,6 +424,10 @@ namespace
 
 		float SurfaceWidth  = RenderParts.RenderTarget->GetSurfaceWidth();
 		float SurfaceHeight = RenderParts.RenderTarget->GetSurfaceHeight();
+
+		RHICmdList.Transition(FRHITransitionInfo(
+			static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
+			ERHIAccess::SRVMask, ERHIAccess::RTV));
 
 		FRHIRenderPassInfo RPInfo(
 			static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
@@ -681,10 +683,19 @@ namespace
 			}
 
 			// マスクバッファの描画
-			if(bNeedUpdateMask && RenderPart.bMaskInfluence)
+			if(bNeedUpdateMask && RenderPart.bMaskInfluence && (nullptr != RenderParts.MaskRenderTarget))
 			{
 				RHICmdList.EndRenderPass();
+
+				RHICmdList.Transition(FRHITransitionInfo(
+					static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
+					ERHIAccess::SRVMask, ERHIAccess::RTV));
+
 				RenderMaskBuffer(RHICmdList, RenderParts, i);
+
+				RHICmdList.Transition(FRHITransitionInfo(
+					static_cast<FTextureRenderTarget2DResource*>(RenderParts.MaskRenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
+					ERHIAccess::RTV, ERHIAccess::SRVMask));
 
 				FRHIRenderPassInfo RPInfo2(
 					static_cast<FTextureRenderTarget2DResource*>(RenderParts.RenderTarget->GetRenderTargetResource())->GetRenderTargetTexture(),
@@ -855,8 +866,6 @@ namespace
 		}
 
 		RHICmdList.EndRenderPass();
-		RHICmdList.ImmediateFlush(EImmediateFlushType::FlushRHIThread);
-		RHICmdList.SubmitAndBlockUntilGPUIdle();
 	}
 }
 

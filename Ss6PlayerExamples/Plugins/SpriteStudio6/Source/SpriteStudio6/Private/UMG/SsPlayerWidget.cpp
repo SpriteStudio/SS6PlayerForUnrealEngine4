@@ -74,6 +74,7 @@ namespace
 // コンストラクタ 
 USsPlayerWidget::USsPlayerWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
+	, FTickableGameObject(ETickableTickType::Never)
 	, FSsPlayPropertySync(&SsProject, &AutoPlayAnimPackName, &AutoPlayAnimationName, &AutoPlayAnimPackIndex, &AutoPlayAnimationIndex)
 	, OffScreenMID(nullptr)
 #if WITH_EDITOR
@@ -213,7 +214,15 @@ void USsPlayerWidget::SynchronizeProperties()
 }
 
 // 更新 
-void USsPlayerWidget::OnSlateTick(float DeltaTime)
+bool USsPlayerWidget::IsTickable() const
+{
+	if(!bCanTick || IsTemplate() || HasAnyFlags(RF_BeginDestroyed))
+	{
+		return false;
+	}
+	return PlayerWidget.IsValid();
+}
+void USsPlayerWidget::Tick(float DeltaTime)
 {
 	QUICK_SCOPE_CYCLE_COUNTER(STAT_SsPlayerWidget_Tick);
 
@@ -251,7 +260,6 @@ TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 {
 	PlayerWidget = SNew(SSsPlayerWidget);
 	PlayerWidget->bReflectParentAlpha = bReflectParentAlpha;
-	PlayerWidget->OnSlateTick.BindUObject(this, &USsPlayerWidget::OnSlateTick);
 
 	for(auto It = Slots.CreateConstIterator(); It; ++It)
 	{
@@ -275,6 +283,7 @@ TSharedRef<SWidget> USsPlayerWidget::RebuildWidget()
 	}
 #endif
 
+	SetTickableTickType(GetTickableTickType());
 	return PlayerWidget.ToSharedRef();
 }
 
@@ -923,23 +932,6 @@ void USsPlayerWidget::SetMulAlpha(float Alpha)
 float USsPlayerWidget::GetMulAlpha() const
 {
 	return Player.MulAlpha;
-}
-
-
-void USsPlayerWidget::SetCanSlateTick(bool bInCanTick)
-{
-	if(PlayerWidget.IsValid())
-	{
-		PlayerWidget->SetCanTick(bInCanTick);
-	}
-}
-bool USsPlayerWidget::GetCanSlateTick() const
-{
-	if(PlayerWidget.IsValid())
-	{
-		return PlayerWidget->GetCanTick();
-	}
-	return true; // 未初期化タイミングではデフォルトのtrue扱いとして返す 
 }
 
 #if WITH_EDITOR
