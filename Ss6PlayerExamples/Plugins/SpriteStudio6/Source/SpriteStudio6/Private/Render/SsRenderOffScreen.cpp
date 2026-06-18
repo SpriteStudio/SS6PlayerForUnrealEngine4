@@ -418,7 +418,7 @@ namespace
 	{
 		QUICK_SCOPE_CYCLE_COUNTER(STAT_SsRenderOffScreen_RenderPartsToRenderTarget);
 		SCOPED_DRAW_EVENT(RHICmdList, StatName_Ss6RenderOffScreen);
-		SCOPED_GPU_STAT(RHICmdList, StatName_Ss6RenderOffScreen);
+		RHI_BREADCRUMB_EVENT_STAT(RHICmdList, StatName_Ss6RenderOffScreen, "Ss6RenderOffScreen");
 
 		check(IsInRenderingThread());
 

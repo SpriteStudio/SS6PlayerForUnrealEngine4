@@ -37,7 +37,8 @@ void SSsProjectViewerViewport::Construct(const FArguments& InArgs)
 
 	ViewportClient = MakeShareable(new FSsProjectViewerViewportClient());
 
-	Viewport = MakeShareable(new FSceneViewport(ViewportClient.Get(), ViewportWidget));
+	Viewport = MakeShareable(new FSceneViewport(ViewportWidget));
+	Viewport->SetViewportClient(ViewportClient);
 
 	ViewportWidget->SetViewportInterface( Viewport.ToSharedRef() );
 }
