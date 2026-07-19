@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include "Framework/Commands/Commands.h"
+#include "Styling/AppStyle.h"
+
 class FSsProjectViewerCommands
 	: public TCommands<FSsProjectViewerCommands>
 {

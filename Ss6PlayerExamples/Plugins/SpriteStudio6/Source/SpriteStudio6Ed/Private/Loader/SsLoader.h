@@ -1,6 +1,16 @@
 ﻿#pragma once
 
-#include "SsLoader.h"
+#include "UObject/NameTypes.h"
+#include "UObject/ObjectMacros.h"
+#include "Containers/Array.h"
+#include "Containers/UnrealString.h"
+
+class UObject;
+class USs6Project;
+struct FSsAnimePack;
+struct FSsCellMap;
+struct FSsEffectFile;
+struct FSsSequencePack;
 
 
 class FSsLoader

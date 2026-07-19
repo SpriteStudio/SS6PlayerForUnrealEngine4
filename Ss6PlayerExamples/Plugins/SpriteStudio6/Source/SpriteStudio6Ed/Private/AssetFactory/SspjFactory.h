@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Factories.h"
+#include "Factories/Factory.h"
 
 #include "SspjFactory.generated.h"
 

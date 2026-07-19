@@ -7,6 +7,14 @@
 #include "SsRenderOffScreen.h"
 #include "SsRenderPlaneProxy.h"
 #include "SsRenderPartsProxy.h"
+#include "SpriteStudio6Private.h"
+#include "Components/ShapeComponent.h"
+#include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "Materials/MaterialInterface.h"
+#include "Engine/TextureRenderTarget2D.h"
+#include "UObject/Package.h"
 
 #if WITH_EDITOR
 #include "Editor.h"

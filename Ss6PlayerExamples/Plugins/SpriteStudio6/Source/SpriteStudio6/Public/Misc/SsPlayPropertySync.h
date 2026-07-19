@@ -1,7 +1,10 @@
 ﻿#pragma once
 
+#include "UObject/NameTypes.h"
 
+class FArchive;
 class USs6Project;
+struct FPropertyChangedEvent;
 
 
 //

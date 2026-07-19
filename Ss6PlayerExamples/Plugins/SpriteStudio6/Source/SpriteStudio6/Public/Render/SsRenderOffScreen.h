@@ -1,5 +1,11 @@
 ﻿#pragma once
 
+#include "RenderResource.h"
+#include "RenderCommandFence.h"
+#include "SsTypes.h"
+
+class FRHICommandListBase;
+class UTextureRenderTarget2D;
 
 // 頂点バッファ
 class FSsOffScreenVertexBuffer : public FVertexBuffer

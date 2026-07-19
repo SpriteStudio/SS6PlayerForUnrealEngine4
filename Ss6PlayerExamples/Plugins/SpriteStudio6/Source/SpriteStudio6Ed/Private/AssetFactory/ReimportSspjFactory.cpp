@@ -1,6 +1,10 @@
 ﻿#include "ReimportSspjFactory.h"
 
 #include "Subsystems/AssetEditorSubsystem.h"
+#include "EditorFramework/AssetImportData.h"
+#include "Editor.h"
+#include "Subsystems/ImportSubsystem.h"
+#include "HAL/FileManager.h"
 
 #include "Ss6Project.h"
 

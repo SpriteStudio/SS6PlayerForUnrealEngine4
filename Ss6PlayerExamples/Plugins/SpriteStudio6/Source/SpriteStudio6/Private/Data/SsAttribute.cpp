@@ -1,5 +1,6 @@
 ﻿#include "SsAttribute.h"
 #include "SsString_uty.h"
+#include "SpriteStudio6Private.h"
 
 
 namespace

@@ -2,6 +2,9 @@
 #ifndef __SSPLAYER_MESH__
 #define __SSPLAYER_MESH__
 
+#include "Math/Vector.h"
+#include "Containers/Array.h"
+#include "Containers/Map.h"
 
 class UTexture;
 class ISSTexture;

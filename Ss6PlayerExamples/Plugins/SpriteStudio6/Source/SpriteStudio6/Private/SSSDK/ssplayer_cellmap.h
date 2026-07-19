@@ -2,6 +2,7 @@
 #define __SSPLAYER_CELLMAP__
 
 #include "Ss6Project.h"
+#include "Engine/Texture.h"
 
 
 class SsAnimeDecoder;

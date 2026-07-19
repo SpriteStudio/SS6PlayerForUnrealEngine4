@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "SsTypes.h"
 #include "SsValue.generated.h"
 
 struct FSsValue;

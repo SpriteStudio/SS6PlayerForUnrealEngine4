@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "Engine/TextureDefines.h"
 #include "SsImportSettings.generated.h"
 
 UCLASS(config=Editor, defaultconfig)

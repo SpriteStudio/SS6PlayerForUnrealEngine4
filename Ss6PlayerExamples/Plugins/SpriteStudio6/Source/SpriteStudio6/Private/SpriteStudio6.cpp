@@ -2,9 +2,12 @@
 
 #include "Interfaces/IPluginManager.h"
 #include "Misc/AssertionMacros.h"
+#include "Misc/Paths.h"
+#include "ShaderCore.h"
 
 #include "SsGameSettings.h"
 #include "Render/SsRenderOffScreen.h"
+#include "SpriteStudio6Private.h"
 
 
 DEFINE_LOG_CATEGORY(LogSpriteStudio);

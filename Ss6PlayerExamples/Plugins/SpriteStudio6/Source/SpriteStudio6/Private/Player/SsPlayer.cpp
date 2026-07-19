@@ -3,6 +3,7 @@
 #include "Ss6Project.h"
 #include "SsAnimePack.h"
 #include "SsString_uty.h"
+#include "SpriteStudio6Private.h"
 
 #include "ssplayer_animedecode.h"
 #include "ssplayer_PartState.h"

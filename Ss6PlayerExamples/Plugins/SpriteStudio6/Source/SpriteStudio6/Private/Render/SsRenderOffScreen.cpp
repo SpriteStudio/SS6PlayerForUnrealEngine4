@@ -1,5 +1,11 @@
 ﻿#include "SsRenderOffScreen.h"
 
+#include "Tickable.h"
+#include "ProfilingDebugging/RealtimeGPUProfiler.h"
+#include "Engine/TextureRenderTarget2D.h"
+#include "TextureResource.h"
+#include "RHI.h"
+#include "RHIFwd.h"
 #include "PipelineStateCache.h"
 #include "MaterialShader.h"
 #include "ClearQuad.h"
