@@ -1,8 +1,12 @@
 #pragma once
 
+#include "Engine.h"
 #include "Logging/LogMacros.h"
 #include "Misc/Guid.h"
 #include "HAL/Platform.h"
+
+#include "Data/SsTypes.h"
+
 
 DECLARE_LOG_CATEGORY_EXTERN(LogSpriteStudio, Verbose, All);
 

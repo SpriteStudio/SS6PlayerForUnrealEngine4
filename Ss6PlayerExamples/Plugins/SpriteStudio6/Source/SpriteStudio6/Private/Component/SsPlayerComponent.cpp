@@ -1,13 +1,5 @@
 ﻿#include "SsPlayerComponent.h"
 
-#include "SsGameSettings.h"
-#include "Ss6Project.h"
-#include "SsAnimePack.h"
-#include "SsPlayer.h"
-#include "SsRenderOffScreen.h"
-#include "SsRenderPlaneProxy.h"
-#include "SsRenderPartsProxy.h"
-#include "SpriteStudio6Private.h"
 #include "Components/ShapeComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
@@ -15,6 +7,15 @@
 #include "Materials/MaterialInterface.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "UObject/Package.h"
+
+#include "SpriteStudio6Private.h"
+#include "SsGameSettings.h"
+#include "Ss6Project.h"
+#include "SsAnimePack.h"
+#include "SsPlayer.h"
+#include "SsRenderOffScreen.h"
+#include "SsRenderPlaneProxy.h"
+#include "SsRenderPartsProxy.h"
 
 #if WITH_EDITOR
 #include "Editor.h"

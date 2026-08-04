@@ -6,6 +6,7 @@
 #include "Containers/UnrealString.h"
 
 class UObject;
+
 class USs6Project;
 struct FSsAnimePack;
 struct FSsCellMap;

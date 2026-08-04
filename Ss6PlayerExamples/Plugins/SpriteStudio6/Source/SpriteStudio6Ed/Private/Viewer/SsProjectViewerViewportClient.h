@@ -3,10 +3,11 @@
 #include "ViewportClient.h"
 #include "UObject/GCObject.h"
 
-class FSsPlayer;
-class FSsRenderOffScreen;
 class UMaterialInstanceDynamic;
 class UMaterialInterface;
+
+class FSsPlayer;
+class FSsRenderOffScreen;
 
 
 class FSsProjectViewerViewportClient

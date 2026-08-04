@@ -3,6 +3,7 @@
 #include "MessageLogModule.h"
 #include "ISettingsModule.h"
 
+#include "ISpriteStudio6Ed.h"
 #include "AssetTypeActions_SsProject.h"
 #include "SsGameSettings.h"
 #include "SsImportSettings.h"

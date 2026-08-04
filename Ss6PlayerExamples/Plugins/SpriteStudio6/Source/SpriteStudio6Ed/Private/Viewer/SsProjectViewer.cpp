@@ -11,9 +11,8 @@
 #include "Widgets/Input/SNumericEntryBox.h"
 #include "Widgets/Colors/SColorPicker.h"
 
-#include "ISpriteStudio6Ed.h"
-#include "SpriteStudio6EdStyle.h"
 #include "SpriteStudio6EdPrivate.h"
+#include "ISpriteStudio6Ed.h"
 #include "SsProjectViewerCommands.h"
 #include "Ss6Project.h"
 #include "SsAnimePack.h"

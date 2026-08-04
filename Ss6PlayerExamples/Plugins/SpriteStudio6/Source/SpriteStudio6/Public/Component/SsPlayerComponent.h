@@ -7,10 +7,11 @@
 #include "SsPlayer.h"
 #include "SsPlayPropertySync.h"
 
+class UShapeComponent;
+
 class USs6Project;
 class FSsRenderPlaneProxy;
 class FSsRenderOffScreen;
-class UShapeComponent;
 
 #include "SsPlayerComponent.generated.h"
 

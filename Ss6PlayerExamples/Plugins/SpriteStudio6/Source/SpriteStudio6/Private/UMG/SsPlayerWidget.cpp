@@ -2,12 +2,12 @@
 
 #include "SlateMaterialBrush.h"
 
+#include "SpriteStudio6Private.h"
 #include "SsGameSettings.h"
 #include "SSsPlayerWidget.h"
 #include "SsPlayerSlot.h"
 #include "Ss6Project.h"
 #include "SsRenderOffScreen.h"
-#include "SpriteStudio6Private.h"
 
 #if WITH_EDITOR
 #include "Editor.h"

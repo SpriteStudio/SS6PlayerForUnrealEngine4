@@ -1,4 +1,5 @@
 ﻿#include "SsGameSettings.h"
+
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialInterface.h"
 

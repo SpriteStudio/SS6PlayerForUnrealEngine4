@@ -2,6 +2,7 @@
 
 #include "RenderResource.h"
 #include "RenderCommandFence.h"
+
 #include "SsTypes.h"
 
 class FRHICommandListBase;
