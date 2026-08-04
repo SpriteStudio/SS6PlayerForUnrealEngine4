@@ -1,5 +1,6 @@
 ﻿#include "SsPlayerActorFactory.h"
 
+#include "Editor/EditorEngine.h"
 #include "Ss6Project.h"
 #include "SsPlayerActor.h"
 #include "SsPlayerComponent.h"

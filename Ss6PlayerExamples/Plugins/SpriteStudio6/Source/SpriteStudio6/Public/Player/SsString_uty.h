@@ -1,5 +1,9 @@
 ﻿#pragma once
 
+#include "Containers/UnrealString.h"
+#include "Containers/Array.h"
+#include "HAL/Platform.h"
+
 
 /*
  * @brief     文字列を指定のkeyで分割して返します。

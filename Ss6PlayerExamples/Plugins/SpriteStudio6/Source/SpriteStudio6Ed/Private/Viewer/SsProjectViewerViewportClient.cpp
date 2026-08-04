@@ -1,7 +1,13 @@
 ﻿#include "SsProjectViewerViewportClient.h"
 
+#include "UnrealClient.h"
 #include "Engine/Canvas.h"
+#include "CanvasItem.h"
 #include "AssetRegistry/AssetRegistryModule.h"
+#include "AssetRegistry/AssetData.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "Materials/MaterialInterface.h"
+#include "Engine/TextureRenderTarget2D.h"
 
 #include "SsPlayer.h"
 #include "SsRenderOffScreen.h"

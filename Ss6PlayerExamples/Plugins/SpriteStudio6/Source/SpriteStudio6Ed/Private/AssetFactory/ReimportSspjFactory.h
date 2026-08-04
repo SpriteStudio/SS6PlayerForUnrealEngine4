@@ -5,6 +5,8 @@
 
 #include "ReimportSspjFactory.generated.h"
 
+class UTexture;
+
 
 UCLASS()
 class UReimportSspjFactory : public USspjFactory, public FReimportHandler

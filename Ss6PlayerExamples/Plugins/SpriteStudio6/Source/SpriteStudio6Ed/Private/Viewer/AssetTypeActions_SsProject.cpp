@@ -1,4 +1,5 @@
 ﻿#include "AssetTypeActions_SsProject.h"
+#include "EditorFramework/AssetImportData.h"
 #include "Ss6Project.h"
 #include "SsProjectViewer.h"
 

@@ -1,6 +1,7 @@
 ﻿#ifndef __SSINTERPOLATION__
 #define __SSINTERPOLATION__
 
+#include "SsTypes.h"
 
 struct FSsCurve;
 

@@ -10,6 +10,7 @@
 class USs6Project;
 class FSsRenderPlaneProxy;
 class FSsRenderOffScreen;
+class UShapeComponent;
 
 #include "SsPlayerComponent.generated.h"
 

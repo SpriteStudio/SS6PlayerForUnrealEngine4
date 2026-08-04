@@ -1,4 +1,5 @@
 ﻿#include "ssplayer_cellmap.h"
+#include "SpriteStudio6Private.h"
 
 
 #include <stdio.h>

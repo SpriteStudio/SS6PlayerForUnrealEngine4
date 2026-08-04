@@ -1,4 +1,5 @@
 ﻿#include "ssplayer_effect2.h"
+#include "SpriteStudio6Private.h"
 
 #include <stdio.h>
 #include <cstdlib>

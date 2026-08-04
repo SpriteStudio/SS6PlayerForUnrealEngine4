@@ -1,4 +1,5 @@
 ﻿#include "ssplayer_mesh.h"
+#include "Engine/Texture.h"
 
 #include <stdio.h>
 #include <cstdlib>

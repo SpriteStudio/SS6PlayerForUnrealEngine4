@@ -1,5 +1,11 @@
 ﻿#pragma once
 
+#include "Widgets/SPanel.h"
+#include "Widgets/DeclarativeSyntaxSupport.h"
+#include "SlotBase.h"
+#include "Layout/Children.h"
+#include "SsTypes.h"
+
 class FSsPlayer;
 class FSsRenderOffScreen;
 struct FSlateMaterialBrush;

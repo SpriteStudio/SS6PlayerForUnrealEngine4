@@ -4,6 +4,8 @@
 #include "SsCellMap.h"
 #include "SsString_uty.h"
 #include "SsAttribute.h"
+#include "SpriteStudio6Private.h"
+#include "EditorFramework/AssetImportData.h"
 
 
 USs6Project::USs6Project(const FObjectInitializer& ObjectInitializer)

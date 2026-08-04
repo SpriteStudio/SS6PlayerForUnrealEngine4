@@ -4,6 +4,7 @@
 #include "SsAnimePack.h"
 #include "SsCellMap.h"
 #include "SsArchiver.h"
+#include "SpriteStudio6EdPrivate.h"
 
 
 

@@ -3,6 +3,12 @@
 #include "RHIStaticStates.h"
 #include "DynamicMeshBuilder.h"
 #include "Materials/MaterialRenderProxy.h"
+#include "Materials/MaterialInterface.h"
+#include "Materials/Material.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "SceneView.h"
+#include "SceneInterface.h"
+#include "Engine/Engine.h"
 
 #include "SsPlayerComponent.h"
 

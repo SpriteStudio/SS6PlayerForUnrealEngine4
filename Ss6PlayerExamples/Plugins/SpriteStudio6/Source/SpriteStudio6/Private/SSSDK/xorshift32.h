@@ -2,6 +2,8 @@
 #ifndef __XORSHIFT32__
 #define __XORSHIFT32__
 
+#include "HAL/Platform.h"
+
 
 
 class xorshift32

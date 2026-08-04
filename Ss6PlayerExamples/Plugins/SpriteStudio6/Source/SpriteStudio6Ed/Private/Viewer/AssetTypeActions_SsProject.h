@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "AssetTypeActions_Base.h"
+#include "SpriteStudio6EdPrivate.h"
 
 class FAssetTypeActions_SsProject : public FAssetTypeActions_Base
 {
