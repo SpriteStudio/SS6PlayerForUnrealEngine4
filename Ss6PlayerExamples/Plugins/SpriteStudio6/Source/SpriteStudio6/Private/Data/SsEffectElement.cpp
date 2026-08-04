@@ -5,23 +5,23 @@
 //相互変換 SsEffectFunctionType
 FString	__EnumToString_( TEnumAsByte<SsEffectFunctionType::Type> n )
 {
-	if(SsEffectFunctionType::Base) return "Base";
-	if(SsEffectFunctionType::Basic) return "Basic";
-	if(SsEffectFunctionType::RndSeedChange) return "RndSeedChange";
-	if(SsEffectFunctionType::Delay) return "Delay";
-	if(SsEffectFunctionType::Gravity) return "Gravity";
-	if(SsEffectFunctionType::Position) return "Position";
-	if(SsEffectFunctionType::Rotation) return "Rotation";
-	if(SsEffectFunctionType::TransRotation) return "TransRotation";
-	if(SsEffectFunctionType::TransSpeed) return "TransSpeed";
-	if(SsEffectFunctionType::TangentialAcceleration) return "TangentialAcceleration";
-	if(SsEffectFunctionType::InitColor) return "InitColor";
-	if(SsEffectFunctionType::TransColor) return "TransColor";
-	if(SsEffectFunctionType::AlphaFade) return "AlphaFade";
-	if(SsEffectFunctionType::Size) return "Size";
-	if(SsEffectFunctionType::TransSize) return "TransSize";
-	if(SsEffectFunctionType::PointGravity) return "PointGravity";
-	if(SsEffectFunctionType::TurnToDirectionEnabled) return "TurnToDirectionEnabled";
+	if(n == SsEffectFunctionType::Base) return "Base";
+	if(n == SsEffectFunctionType::Basic) return "Basic";
+	if(n == SsEffectFunctionType::RndSeedChange) return "RndSeedChange";
+	if(n == SsEffectFunctionType::Delay) return "Delay";
+	if(n == SsEffectFunctionType::Gravity) return "Gravity";
+	if(n == SsEffectFunctionType::Position) return "Position";
+	if(n == SsEffectFunctionType::Rotation) return "Rotation";
+	if(n == SsEffectFunctionType::TransRotation) return "TransRotation";
+	if(n == SsEffectFunctionType::TransSpeed) return "TransSpeed";
+	if(n == SsEffectFunctionType::TangentialAcceleration) return "TangentialAcceleration";
+	if(n == SsEffectFunctionType::InitColor) return "InitColor";
+	if(n == SsEffectFunctionType::TransColor) return "TransColor";
+	if(n == SsEffectFunctionType::AlphaFade) return "AlphaFade";
+	if(n == SsEffectFunctionType::Size) return "Size";
+	if(n == SsEffectFunctionType::TransSize) return "TransSize";
+	if(n == SsEffectFunctionType::PointGravity) return "PointGravity";
+	if(n == SsEffectFunctionType::TurnToDirectionEnabled) return "TurnToDirectionEnabled";
 
 	return "Base";
 }

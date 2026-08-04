@@ -247,16 +247,16 @@ FTransform USsPlayerComponent::GetSocketTransform(FName InSocketName, ERelativeT
 				case ERelativeTransformSpace::RTS_World:
 					{
 						return Trans * GetComponentTransform();
-					} break;
+					}
 				case ERelativeTransformSpace::RTS_Actor:
 					{
 						AActor* Actor = GetOwner();
 						return (NULL == Actor) ? Trans : (GetComponentTransform() *  Trans).GetRelativeTransform(Actor->GetTransform());
-					} break;
+					}
 				case ERelativeTransformSpace::RTS_Component:
 					{
 						return Trans;
-					} break;
+					}
 				}
 			}
 		}
@@ -328,16 +328,16 @@ FTransform USsPlayerComponent::GetSocketTransform(FName InSocketName, ERelativeT
 							case ERelativeTransformSpace::RTS_World:
 								{
 									return Trans * GetComponentTransform();
-								} break;
+								}
 							case ERelativeTransformSpace::RTS_Actor:
 								{
 									AActor* Actor = GetOwner();
 									return (NULL == Actor) ? Trans : (GetComponentTransform() *  Trans).GetRelativeTransform(Actor->GetTransform());
-								} break;
+								}
 							case ERelativeTransformSpace::RTS_Component:
 								{
 									return Trans;
-								} break;
+								}
 							}
 							break;
 						}
@@ -757,14 +757,14 @@ FPrimitiveSceneProxy* USsPlayerComponent::CreateSceneProxy()
 					uint32 MaxIndexNum  = SsProject->MaxIndexNum;
 					FSsRenderPartsProxy* NewProxy = new FSsRenderPartsProxy(this, MaxVertexNum, MaxIndexNum);
 					return NewProxy;
-				} break;
+				}
 			case ESsPlayerComponentRenderMode::OffScreenPlane:
 				{
 					FSsRenderPlaneProxy* NewProxy = new FSsRenderPlaneProxy(this, OffScreenPlaneMID);
 					NewProxy->CanvasSizeUU = (Player.GetAnimCanvasSize() * UUPerPixel);
 					NewProxy->SetPivot(Player.GetAnimPivot());
 					return NewProxy;
-				} break;
+				}
 		}
 	}
 	return NULL;
@@ -796,7 +796,7 @@ FBoxSphereBounds USsPlayerComponent::CalcBounds(const FTransform& LocalToWorld) 
 				BoundsBox.Max *= LocalBoundsScale;
 
 				return FBoxSphereBounds(BoundsBox).TransformBy(LocalToWorld);
-			} break;
+			}
 	}
 	return FBoxSphereBounds(EForceInit::ForceInitToZero);
 }

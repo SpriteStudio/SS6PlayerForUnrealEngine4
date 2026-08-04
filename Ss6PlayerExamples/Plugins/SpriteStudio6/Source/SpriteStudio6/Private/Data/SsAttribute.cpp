@@ -429,5 +429,4 @@ bool StringToTriangle(const FString& str, FSsTriangle& tri)
 
 		return true;
 	}
-	return true;
 }
