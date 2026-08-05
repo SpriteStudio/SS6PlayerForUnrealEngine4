@@ -2990,7 +2990,10 @@ class binary_engine_type_object {
 	typedef engine	target_engine;
 };
 
-template<class T> inline T & get_null_object() { return *((T*)NULL); }
+template<class T> inline T & get_null_object() {
+	static T obj{};
+	return obj;
+}
 
 template<
 	class first_engine,
