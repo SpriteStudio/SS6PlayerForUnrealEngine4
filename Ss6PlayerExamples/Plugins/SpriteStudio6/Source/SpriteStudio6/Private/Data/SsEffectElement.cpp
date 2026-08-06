@@ -52,9 +52,8 @@ void	__StringToEnum_( FString n , TEnumAsByte<SsEffectFunctionType::Type> &out )
 //相互変換 SsVarianceValueRangeType
 FString	__EnumToString_( TEnumAsByte<SsVarianceValueRangeType::Type> n )
 {
-	if(SsVarianceValueRangeType::None) return "None";
-	if(SsVarianceValueRangeType::MinMax) return "MinMax";
-	if(SsVarianceValueRangeType::PlusMinus) return "PlusMinus";
+	if(n == SsVarianceValueRangeType::MinMax) return "MinMax";
+	if(n == SsVarianceValueRangeType::PlusMinus) return "PlusMinus";
 
 	return "None";
 }
